@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+solution: Okex.Net.sln
+dotnet: 3.0
+script:
+ - dotnet build Okex.Net/Okex.Net.csproj --framework "netstandard2.1"
+ - dotnet test Okex.Net.UnitTests/Okex.Net.UnitTests.csproj
