@@ -33,22 +33,22 @@ namespace Okex.Net.RestObjects.Spot
         [JsonProperty("balance")]
         public decimal Balance { get; set; }
 
-        /// <summary>
-        /// Available frozen
-        /// </summary>
-        [JsonProperty("frozen")]
-        public decimal Frozen { get; set; }
+        //<summary>
+        //Available frozen
+        //</summary>
+        //[JsonProperty("frozen")]
+        //public decimal Frozen { get; set; }
 
         /// <summary>
-        /// Amount on hold (not available)
+        /// Websockets uses "hold" name for Frozen amount
         /// </summary>
         [JsonProperty("hold")]
-        public decimal Hold { get; set; }
+        public decimal Frozen { get; set; }
 
-        /// <summary>
-        /// Amount on hold (not available)
-        /// </summary>
-        [JsonProperty("holds")]
-        public decimal Holds { get; set; }
+        // <summary>
+        // Amount on hold (not available)
+        // </summary>
+        //[JsonProperty("holds")]
+        //public decimal Holds { get; set; }
     }
 }

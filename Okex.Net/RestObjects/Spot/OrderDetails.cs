@@ -105,10 +105,34 @@ namespace Okex.Net.RestObjects.Spot
         /// <summary>
         /// Average filled price
         /// </summary>
-        [JsonProperty("price_avg")]
+        [ JsonProperty("price_avg"), JsonOptionalProperty]
         public decimal? PriceAverage { get; set; }
 
-        [JsonProperty("funds")]
+        [JsonProperty("funds"), JsonOptionalProperty]
         public decimal? Funds { get; set; }
+
+        /// <summary>
+        /// Latest Filled Price. '0' will be returned if the data is empty
+        /// </summary>
+        [JsonProperty("last_fill_px"), JsonOptionalProperty]
+        public decimal LastFillPrice { get; set; }
+
+        /// <summary>
+        /// Latest Filled Volume. '0' will be returned if the data is empty.
+        /// </summary>
+        [JsonProperty("last_fill_qty"), JsonOptionalProperty]
+        public decimal LastFillQuantity { get; set; }
+
+        /// <summary>
+        /// 1 spot order. 2 margin order
+        /// </summary>
+        [JsonProperty("margin_trading"), JsonOptionalProperty, JsonConverter(typeof(SpotMarginOrderSourceTypeConverter))]
+        public SpotMarginOrderSourceType OrderSource { get; set; } = SpotMarginOrderSourceType.Spot;
+
+        /// <summary>
+        /// Latest Filled Time. The '1970-01-01T00:00:00.000Z' will be returned if the data is empty.
+        /// </summary>
+        [JsonProperty("last_fill_time"), JsonOptionalProperty]
+        public DateTime LastFillTime { get; set; } = new DateTime(1970, 01, 01, 0, 0, 0);
     }
 }

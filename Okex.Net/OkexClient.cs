@@ -48,12 +48,10 @@ namespace Okex.Net
 		private const string Endpoints_Funding_Transfer = "api/account/v3/transfer";
 		private const string Endpoints_Funding_Bills = "api/account/v3/ledger";
 		private const string Endpoints_Funding_GetCurrencies = "api/account/v3/currencies";
-		// TODO: Withdrawal
 		private const string Endpoints_Funding_Withdrawal = "api/account/v3/withdrawal";
 		private const string Endpoints_Funding_WithdrawalFees = "api/account/v3/withdrawal/fee";
 		private const string Endpoints_Funding_WithdrawalHistory = "api/account/v3/withdrawal/history";
 		private const string Endpoints_Funding_WithdrawalHistoryCurrency = "api/account/v3/withdrawal/history/<currency>";
-		// TODO: Deposit
 		private const string Endpoints_Funding_DepositAddress = "api/account/v3/deposit/address";
 		private const string Endpoints_Funding_DepositHistory = "api/account/v3/deposit/history";
 		private const string Endpoints_Funding_DepositHistoryCurrency = "api/account/v3/deposit/history/<currency>";
@@ -507,6 +505,179 @@ namespace Okex.Net
 		}
 
 
+		/// <summary>
+		/// This endpoint supports the withdrawal of tokens
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">Withdrawal amount</param>
+		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
+		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
+		/// <param name="fundPassword">Fund password</param>
+		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalRequest>> Funding_Withdrawal(string currency, decimal amount, FundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee,  CancellationToken ct = default) => Funding_Withdrawal_Async( currency,  amount,  destination, toAddress, fundPassword,  fee, ct).Result;
+		/// <summary>
+		/// This endpoint supports the withdrawal of tokens
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">Withdrawal amount</param>
+		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
+		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
+		/// <param name="fundPassword">Fund password</param>
+		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalRequest>>> Funding_Withdrawal_Async(string currency, decimal amount, FundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+
+			var parameters = new Dictionary<string, object>
+			{
+				{ "currency", currency },
+				{ "amount", amount },
+				{ "destination", JsonConvert.SerializeObject(destination, new FundinWithdrawalDestinationConverter(false)) },
+				{ "to_address", toAddress },
+				{ "trade_pwd", fundPassword },
+				{ "fee", fee },
+			};
+
+			return await SendRequest<IEnumerable<RestObjects.Funding.WithdrawalRequest>>(GetUrl(Endpoints_Funding_Withdrawal), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves the information about the recommended network transaction fee for withdrawals to digital currency addresses. The higher the fees are set, the faster the confirmations.
+		/// <param name="currency">Token symbol, e.g. 'BTC', if left blank, information for all tokens will be returned</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalFee>> Funding_GetWithdrawalFees(string? currency=null, CancellationToken ct = default) => Funding_GetWithdrawalFees_Async(currency, ct).Result;
+		/// <summary>
+		/// This retrieves the information about the recommended network transaction fee for withdrawals to digital currency addresses. The higher the fees are set, the faster the confirmations.
+		/// <param name="currency">Token symbol, e.g. 'BTC', if left blank, information for all tokens will be returned</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalFee>>> Funding_GetWithdrawalFees_Async(string? currency = null, CancellationToken ct = default)
+		{
+			if (!string.IsNullOrEmpty(currency)) currency = currency?.ValidateCurrency();
+
+			var parameters = new Dictionary<string, object>();
+			parameters.AddOptionalParameter("currency", currency);
+
+			return await SendRequest<IEnumerable<RestObjects.Funding.WithdrawalFee>>(GetUrl(Endpoints_Funding_WithdrawalFees), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves up to 100 recent withdrawal records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalDetails>> Funding_GetWithdrawalHistory(CancellationToken ct = default) => Funding_GetWithdrawalHistory_Async(ct).Result;
+		/// <summary>
+		/// This retrieves up to 100 recent withdrawal records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalDetails>>> Funding_GetWithdrawalHistory_Async(CancellationToken ct = default)
+		{
+			return await SendRequest<IEnumerable<RestObjects.Funding.WithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves the withdrawal records of a specific currency.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalDetails>> Funding_GetWithdrawalHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetWithdrawalHistoryByCurrency_Async(currency,ct).Result;
+		/// <summary>
+		/// This retrieves the withdrawal records of a specific currency.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.WithdrawalDetails>>> Funding_GetWithdrawalHistoryByCurrency_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+			return await SendRequest<IEnumerable<RestObjects.Funding.WithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves the deposit addresses of currencies, including previously used addresses.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.DepositAddress>> Funding_GetDepositAddress(string currency, CancellationToken ct = default) => Funding_GetDepositAddress_Async(currency , ct).Result;
+		/// <summary>
+		/// This retrieves the deposit addresses of currencies, including previously used addresses.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.DepositAddress>>> Funding_GetDepositAddress_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+
+			var parameters = new Dictionary<string, object>
+			{
+				{ "currency", currency },
+			};
+
+			return await SendRequest<IEnumerable<RestObjects.Funding.DepositAddress>>(GetUrl(Endpoints_Funding_DepositAddress), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves the deposit history of all currencies, up to 100 recent records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.DepositDetails>> Funding_GetDepositHistory(CancellationToken ct = default) => Funding_GetDepositHistory_Async(ct).Result;
+		/// <summary>
+		/// This retrieves the deposit history of all currencies, up to 100 recent records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.DepositDetails>>> Funding_GetDepositHistory_Async(CancellationToken ct = default)
+		{
+			return await SendRequest<IEnumerable<RestObjects.Funding.DepositDetails>>(GetUrl(Endpoints_Funding_DepositHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+
+
+		/// <summary>
+		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token Symbol</param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<RestObjects.Funding.DepositDetails>> Funding_GetDepositHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetDepositHistoryByCurrency_Async( currency, ct).Result;
+		/// <summary>
+		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token Symbol</param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<RestObjects.Funding.DepositDetails>>> Funding_GetDepositHistoryByCurrency_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+			return await SendRequest<IEnumerable<RestObjects.Funding.DepositDetails>>(GetUrl(Endpoints_Funding_DepositHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
 		#endregion
 
 		#region Spot Tradimg API

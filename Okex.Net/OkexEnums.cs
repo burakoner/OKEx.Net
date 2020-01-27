@@ -222,6 +222,12 @@
         DepthUpdate,
     }
 
+    public enum SpotMarginOrderSourceType
+    {
+        Spot,
+        Margin,
+    }
+
     public enum FundingAccountType
     {
         TotalAccountAssets,
@@ -267,6 +273,33 @@
         TransferFromMargin,
         TransferIntoSpotAccount,
         TransferFromSpotAccount,
+    }
+
+    public enum FundingDepositStatus
+    {
+        WaitingForConfirmation,
+        DepositCredited,
+        DepositSuccessful,
+    }
+
+    public enum FundingWithdrawalStatus
+    {
+        PendingCancel,
+        Cancelled,
+        Failed,
+        Pending,
+        Sending,
+        Sent,
+        AwaitingEmailVerification,
+        AwaitingManualVerification,
+        AwaitingIdentityVerification
+    }
+
+    public enum FundinWithdrawalDestination
+    {
+        OKEx,
+        CoinAll,
+        Others,
     }
 
 }

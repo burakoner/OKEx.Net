@@ -16,6 +16,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Okex.Net.Interfaces;
 using Okex.Net.SocketObjects.Spot;
+using System.Diagnostics;
+using System.Text;
+using System.Globalization;
+using CryptoExchange.Net.Authentication;
+using System.Security;
+using System.Security.Cryptography;
 
 namespace Okex.Net
 {
@@ -28,6 +34,13 @@ namespace Okex.Net
         private static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
         private static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
+
+        private SecureString? Key;
+        private SecureString? Secret;
+        private SecureString? PassPhrase;
+        private HMACSHA256 hmacEncryptor;
+        private bool socketAuthendicated;
+
 
         #region Constructor/Destructor
         /// <summary>
@@ -59,21 +72,87 @@ namespace Okex.Net
         #endregion
 
         #region General
-        /*
         public CallResult<PingPongContainer> Ping() => PingAsync().Result;
         public async Task<CallResult<PingPongContainer>> PingAsync()
         {
+            var pit = DateTime.UtcNow;
+            var sw = Stopwatch.StartNew();
+            // byte[] buffer = Encoding.UTF8.GetBytes("ping");
+            // var result = await Query<string>("ping", false).ConfigureAwait(false);
             var result = await Query<string>("ping", false).ConfigureAwait(false);
-            return new CallResult<PingPongContainer>(new PingPongContainer {Timestamp=DateTime.UtcNow, Message=result.Data }, result.Error);
+            var pot = DateTime.UtcNow;
+            sw.Stop();
+
+            return new CallResult<PingPongContainer>(new PingPongContainer {PingTime=pit, PongTime=pot, Latency=sw.Elapsed, PongMessage=result.Data }, result.Error);
         }
-        */
+        #endregion
+
+        #region Private Methods & Subscriptions
+        public CallResult<bool> User_Login(string apiKey, string apiSecret, string passPhrase) => User_Login_Async(apiKey,  apiSecret,  passPhrase).Result;
+        public async Task<CallResult<bool>> User_Login_Async(string apiKey, string apiSecret, string passPhrase)
+        {
+            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret) || string.IsNullOrEmpty(passPhrase))
+                return new CallResult<bool>(false, new NoApiCredentialsError());
+
+            this.Key = apiKey.ToSecureString();
+            this.Secret = apiSecret.ToSecureString();
+            this.PassPhrase = passPhrase.ToSecureString();
+
+            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
+            var signtext = time + "GET" + "/users/self/verify";
+            hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(this.Secret.GetString()));
+            var signature = OkexAuthenticationProvider.Base64Encode(hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
+
+            var result = await Query<SocketLoginResponse>(new SocketRequest(SocketOperation.Login, this.Key.GetString(), this.PassPhrase.GetString(), time, signature), false).ConfigureAwait(false);
+            this.socketAuthendicated = result.Success;
+            return new CallResult<bool>(result.Success, result.Error);
+        }
+
+        public CallResult<UpdateSubscription> User_Spot_SubscribeToBalance(string currency, Action<RestObjects.Spot.Account> onData) => User_Spot_SubscribeToBalance_Async(currency, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToBalance_Async(string currency, Action<RestObjects.Spot.Account> onData)
+        {
+            currency = currency.ValidateCurrency();
+
+            var internalHandler = new Action<SocketUpdateResponse<IEnumerable<RestObjects.Spot.Account>>>(data =>
+            {
+                foreach (var d in data.Data)
+                {
+                    onData(d);
+                }
+            });
+
+            var request = new SocketRequest(SocketOperation.Subscribe, $"spot/account:{currency}");
+            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+        }
+
+        // TODO: User Margin Account
+
+        public CallResult<UpdateSubscription> User_Spot_SubscribeToOrders(string symbol, Action<RestObjects.Spot.OrderDetails> onData) => User_Spot_SubscribeToOrders_Async(symbol, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToOrders_Async(string symbol, Action<RestObjects.Spot.OrderDetails> onData)
+        {
+            symbol = symbol.ValidateSymbol();
+
+            var internalHandler = new Action<SocketUpdateResponse<IEnumerable<RestObjects.Spot.OrderDetails>>>(data =>
+            {
+                foreach (var d in data.Data)
+                {
+                    onData(d);
+                }
+            });
+
+            var request = new SocketRequest(SocketOperation.Subscribe, $"spot/order:{symbol}");
+            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+        }
+
+        // TODO: User Algo Orders
+
         #endregion
 
         #region Spot & Margin
         /// <summary>
         /// Retrieve the latest price, best bid & offer and 24-hours trading volume of a single contract.
         /// </summary>
-		/// <param name="symbol">Trading pair symbol</param>
+        /// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
         public CallResult<UpdateSubscription> Spot_SubscribeToTicker(string symbol, Action<RestObjects.Spot.Ticker> onData) => Spot_SubscribeToTicker_Async(symbol, onData).Result;
@@ -212,7 +291,7 @@ namespace Okex.Net
 
                 using (var streamReader = new StreamReader(decompressedStream))
                 {
-                    /** /
+                    /**/
                     var response = streamReader.ReadToEnd();
                     return response;
                     /**/
@@ -345,6 +424,32 @@ namespace Okex.Net
                         }
                     }
                 }
+
+                // User Spot Account (Private)
+                if (hRequest.Operation == SocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/account"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["currency"] != null)
+                    {
+                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["currency"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // User Orders (Private)
+                if (hRequest.Operation == SocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/order"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {
+                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
             }
 
             return false;
@@ -359,7 +464,7 @@ namespace Okex.Net
         {
             if (authProvider == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
-            /*
+            /** /
             var authParams = authProvider.AddAuthenticationToParameters(BaseAddress, HttpMethod.Get, new Dictionary<string, object>(), true);
             var authObjects = new OkexSocketRequest("auth", 
                 authProvider.Credentials.Key!.GetString(),
@@ -437,6 +542,7 @@ namespace Okex.Net
             });
             return result;
         }
+
         #endregion
 
     }
