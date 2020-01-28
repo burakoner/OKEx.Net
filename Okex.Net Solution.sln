@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Okex.Net.Examples", "Okex.Net.Examples\Okex.Net.Examples.csproj", "{41D835E7-266B-4913-8D7D-ED687E8B7AB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoExchange.Net", "..\..\Paratica\CryptoExchange.Net\CryptoExchange.Net.csproj", "{43472B03-E232-4E08-9FBC-0BC942E536FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{503792AF-E048-4F0A-8489-2D1F96BB4DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{503792AF-E048-4F0A-8489-2D1F96BB4DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{503792AF-E048-4F0A-8489-2D1F96BB4DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41D835E7-266B-4913-8D7D-ED687E8B7AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D835E7-266B-4913-8D7D-ED687E8B7AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D835E7-266B-4913-8D7D-ED687E8B7AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41D835E7-266B-4913-8D7D-ED687E8B7AB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43472B03-E232-4E08-9FBC-0BC942E536FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43472B03-E232-4E08-9FBC-0BC942E536FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43472B03-E232-4E08-9FBC-0BC942E536FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43472B03-E232-4E08-9FBC-0BC942E536FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

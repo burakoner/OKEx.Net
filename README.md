@@ -84,32 +84,32 @@ OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  
 ## Examples
 **Public Api Endpoints:**
 ```C#
-var client = new OkexClient();
-var ok00 = client.General_ServerTime();
-var ok01 = client.Spot_GetTradingPairs();
-var ok02 = client.Spot_GetOrderBook("BTC-USDT");
-var ok03 = client.Spot_GetAllTickers();
-var ok04 = client.Spot_GetSymbolTicker("BTC-USDT");
-var ok05 = client.Spot_GetTrades("BTC-USDT");
-var ok06 = client.Spot_GetCandles("BTC-USDT",  Okex.Net.SpotPeriod.OneHour);
+OkexClient oc = new OkexClient();
+var ok00 = oc.General_ServerTime();
+var ok01 = oc.Spot_GetTradingPairs();
+var ok02 = oc.Spot_GetOrderBook("BTC-USDT");
+var ok03 = oc.Spot_GetAllTickers();
+var ok04 = oc.Spot_GetSymbolTicker("BTC-USDT");
+var ok05 = oc.Spot_GetTrades("BTC-USDT");
+var ok06 = oc.Spot_GetCandles("BTC-USDT", SpotPeriod.OneHour);
 ```
 
 **Private Spot Api Endpoints:**
 ```C#
-var client = new OkexClient();
-client.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+var oc = new OkexClient();
+oc.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var ok11 = oc.Spot_GetAllBalances();
 var ok12 = oc.Spot_GetSymbolBalance("BTC");
 var ok13 = oc.Spot_GetSymbolBalance("ETH");
 var ok14 = oc.Spot_GetSymbolBalance("eth");
 var ok15 = oc.Spot_GetSymbolBills("ETH");
-var ok16 = oc.Spot_PlaceOrder("ETH-BTC", Okex.Net.SpotOrderSide.Sell, Okex.Net.SpotOrderType.Limit, Okex.Net.SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m);
-var ok17 = oc.Spot_PlaceOrder("ETH-BTC", Okex.Net.SpotOrderSide.Sell, Okex.Net.SpotOrderType.Limit, Okex.Net.SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m, clientOrderId: "ClientOrderId");
+var ok16 = oc.Spot_PlaceOrder("ETH-BTC", SpotOrderSide.Sell, SpotOrderType.Limit, Okex.Net.SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m);
+var ok17 = oc.Spot_PlaceOrder("ETH-BTC", SpotOrderSide.Sell, SpotOrderType.Limit, Okex.Net.SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m, clientOrderId: "ClientOrderId");
 var ok18 = oc.Spot_CancelOrder("ETH-BTC", 4275473321519104);
 var ok19 = oc.Spot_CancelOrder("ETH-BTC", clientOrderId: "clientorderid"); // It works: Case Insensitive
 var ok20 = oc.Spot_CancelOrder("ETH-BTC", clientOrderId: "CLIENTORDERID"); // It works: Case Insensitive 
-var ok21 = oc.Spot_GetAllOrders("ETH-BTC", Okex.Net.SpotOrderState.Canceled);
-var ok22 = oc.Spot_GetAllOrders("ETH-BTC", Okex.Net.SpotOrderState.Complete, 2, after: 1);
+var ok21 = oc.Spot_GetAllOrders("ETH-BTC", SpotOrderState.Canceled);
+var ok22 = oc.Spot_GetAllOrders("ETH-BTC", SpotOrderState.Complete, 2, after: 1);
 var ok23 = oc.Spot_GetOpenOrders("ETH-BTC");
 var ok24 = oc.Spot_GetOrderDetails("ETH-BTC", clientOrderId: "clientorderid");
 var ok25 = oc.Spot_TradeFeeRates();
@@ -117,14 +117,14 @@ var ok25 = oc.Spot_TradeFeeRates();
 
 **Private Funding Api Endpoints:**
 ```C#
-var client = new OkexClient();
-client.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+var oc = new OkexClient();
+oc.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var ok31 = oc.Funding_GetAllBalances();
 var ok32 = oc.Funding_GetCurrencyBalance("BTC");
-var ok33 = oc.Funding_GetAssetValuation(Okex.Net.FundingAccountType.TotalAccountAssets, "USD");
+var ok33 = oc.Funding_GetAssetValuation(FundingAccountType.TotalAccountAssets, "USD");
 var ok34 = oc.Funding_GetSubAccount("subaccountname");
-var ok35 = oc.Funding_Transfer("ETH", 0.12m, Okex.Net.FundingTransferAccountType.FundingAccount, Okex.Net.FundingTransferAccountType.Spot);
-var ok36 = oc.Funding_Transfer("ETH", 0.34m, Okex.Net.FundingTransferAccountType.Spot, Okex.Net.FundingTransferAccountType.FundingAccount);
+var ok35 = oc.Funding_Transfer("ETH", 0.12m, FundingTransferAccountType.FundingAccount, FundingTransferAccountType.Spot);
+var ok36 = oc.Funding_Transfer("ETH", 0.34m, FundingTransferAccountType.Spot, FundingTransferAccountType.FundingAccount);
 var ok37 = oc.Funding_GetAllCurrencies();
 var ok38 = oc.Funding_GetBills();
 ```
@@ -154,10 +154,18 @@ var subscriptionToOrderBook = client.Spot_SubscribeToOrderBook("BTC-USDT", SpotO
 {
 	// handle data
 	Console.WriteLine($"Depth >> {data.Symbol} >> Ask P:{data.Asks.First().Price} Q:{data.Asks.First().Quantity} C:{data.Asks.First().OrdersCount} Bid P:{data.Bids.First().Price} Q:{data.Bids.First().Quantity} C:{data.Bids.First().OrdersCount} ");
-
 });
 ```
 
 ## Release Notes
+* Version 1.0.2 - 28 Jan 2020
+    * Upgraded to CryptoExchange.Net v3.0.3
+    * Added Funding API Deposit Endpoints
+    * Added Funding API Withdrawal Endpoints
+    * Added Websockets Login Method
+    * Added Websockets User Stream Subscriptions
+    * Adapted some Spot Api endpoint models with websocket models
+    * Added Examples Project
+
 * Version 1.0.0 - 26 Jan 2020
     * First Release

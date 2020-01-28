@@ -10,7 +10,7 @@ namespace Okex.Net
     {
         public OkexSocketClientOptions(): base("wss://real.okex.com:8443/ws/v3")
         {
-            SocketSubscriptionsCombineTarget = 10;
+            SocketSubscriptionsCombineTarget = 100;
         }
 
         public OkexSocketClientOptions Copy()
