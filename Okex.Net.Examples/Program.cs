@@ -89,7 +89,7 @@ namespace Okex.Net.Examples
             pairs.Add("ZEC-USDT");
 
             /* OkexSocketClient Object */
-            var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug);
+            var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
 
             /* Public Socket Endpoints: */
             var subs = new List<UpdateSubscription>();

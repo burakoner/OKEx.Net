@@ -207,7 +207,7 @@ foreach (var pair in pairs)
 **Private Socket Endpoints:**
 ```C#
 /* OkexSocketClient Object */
-var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug);
+var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
 
 var sockLogin = wsClient.User_Login("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 wsClient.User_Spot_SubscribeToBalance("ETH", (data) =>
