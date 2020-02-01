@@ -7,7 +7,25 @@ A .Net wrapper for the OKEx API as described on [OKEx](https://www.okex.com/docs
 ## CryptoExchange.Net
 Implementation is build upon the CryptoExchange.Net library, make sure to also check out the documentation on that: [docs](https://github.com/JKorf/CryptoExchange.Net)
 
-Other CryptoExchange.Net implementations:
+My CryptoExchange.Net implementations:
+<table>
+<tr>
+<td><a href="https://github.com/burakoner/OKEx.Net"><img src="https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/OKEx.Net">OKEx</a>
+</td>
+<td><a href="https://github.com/burakoner/Chiliz.Net"><img src="https://github.com/burakoner/Chiliz.Net/blob/master/Chiliz.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/Chiliz.Net">Chiliz</a>
+</td>
+<td><a href="https://github.com/burakoner/BtcTurk.Net"><img src="https://github.com/burakoner/BtcTurk.Net/blob/master/BtcTurk.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/BtcTurk.Net">BtcTurk</a>
+</td>
+</tr>
+</table>
+
+JKorf CryptoExchange.Net implementations:
 <table>
 <tr>
 <td><a href="https://github.com/JKorf/Binance.Net"><img src="https://raw.githubusercontent.com/JKorf/Binance.Net/master/Binance.Net/Icon/icon.png?raw=true"></a>
