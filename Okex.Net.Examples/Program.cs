@@ -58,11 +58,8 @@ namespace Okex.Net.Examples
             var ok49 = apiClient.Funding_GetWithdrawalHistoryByCurrency("BTC");
             var ok50 = apiClient.Funding_GetWithdrawalHistoryByCurrency("ETH");
 
-
-
             //Console.ReadLine();
             //return;
-
 
             var pairs = new List<string>();
             pairs.Add("BTC-USDT");
@@ -91,11 +88,17 @@ namespace Okex.Net.Examples
             /* OkexSocketClient Object */
             var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
 
+            /* Pinging */
+            // There is no open websocket connection now. So a connection will be established between server and client now, then client sends ping command. This causes latency around 500ms.
+            // If you send ping command though an open socket connection, pong time is much more low.
+            var ping01 = wsClient.Ping(); 
+            var ping02 = wsClient.Ping();
+
             /* Public Socket Endpoints: */
             var subs = new List<UpdateSubscription>();
             foreach (var pair in pairs)
             {
-                var candleSubscription = wsClient.Spot_SubscribeToCandlesticks(pair, Okex.Net.SpotPeriod.FiveMinutes, (data) =>
+                var candleSubscription = wsClient.Spot_SubscribeToCandlesticks(pair, SpotPeriod.FiveMinutes, (data) =>
                 {
                     if (data != null)
                     {

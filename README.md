@@ -227,6 +227,12 @@ wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
 ```
 
 ## Release Notes
+* Version 1.0.4 - 31 Jan 2020
+    * Added Amount field to Funding-DepositHistory
+
+* Version 1.0.3 - 29 Jan 2020
+    * Added Ping-Pong Mechanism
+
 * Version 1.0.2 - 28 Jan 2020
     * Upgraded to CryptoExchange.Net v3.0.3
     * Added Funding API Deposit Endpoints

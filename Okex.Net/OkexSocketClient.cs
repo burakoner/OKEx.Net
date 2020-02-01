@@ -77,8 +77,6 @@ namespace Okex.Net
         {
             var pit = DateTime.UtcNow;
             var sw = Stopwatch.StartNew();
-            // byte[] buffer = Encoding.UTF8.GetBytes("ping");
-            // var result = await Query<string>("ping", false).ConfigureAwait(false);
             var result = await Query<string>("ping", false).ConfigureAwait(false);
             var pot = DateTime.UtcNow;
             sw.Stop();
@@ -305,13 +303,9 @@ namespace Okex.Net
         {
             callResult = new CallResult<T>(default, null);
 
-            var isV2Response = (string)data["op"] == "req";
-            if (isV2Response)
+            // Ping Request
+            if (data.ToString() == "pong")
             {
-                var hRequest = (SocketRequest)request;
-                if ((string)data["cid"] != "hRequest.Id")
-                    return false;
-
                 var desResult = Deserialize<T>(data, false);
                 if (!desResult)
                 {

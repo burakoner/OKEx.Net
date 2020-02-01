@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.4</PackageVersion>
     <Description>Okex.Net is a .Net wrapper for the Okex API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -15,12 +15,33 @@
     <PackageIcon>icon.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>1.0.0 - First Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 1.0.4 - 31 Jan 2020
+Added Amount field to Funding-DepositHistory
+
+Version 1.0.3 - 29 Jan 2020
+
+Added Ping-Pong Mechanism
+
+Version 1.0.2 - 28 Jan 2020
+Upgraded to CryptoExchange.Net v3.0.3
+Added Funding API Deposit Endpoints
+Added Funding API Withdrawal Endpoints
+Added Websockets Login Method
+Added Websockets User Stream Subscriptions
+Adapted some Spot Api endpoint models with websocket models
+Added Examples Project
+
+Version 1.0.0 - 26 Jan 2020
+First Release</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile></DocumentationFile>
     <PackageIconUrl />
-    <Version>1.1.0</Version>
+    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <PackageProjectUrl>https://github.com/burakoner/OKEx.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/burakoner/OKEx.Net</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
@@ -32,6 +53,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Paratica\CryptoExchange.Net\CryptoExchange.Net.csproj" />
+    <PackageReference Include="CryptoExchange.Net" Version="3.0.4" />
   </ItemGroup>
 </Project>

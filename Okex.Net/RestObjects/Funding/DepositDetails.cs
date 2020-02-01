@@ -9,6 +9,9 @@ namespace Okex.Net.RestObjects.Funding
 {
     public class DepositDetails
     {
+        [JsonProperty("amount")]
+        public decimal Amount { get; set; }
+
         /// <summary>
         /// Token symbol
         /// </summary>
