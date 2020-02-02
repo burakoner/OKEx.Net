@@ -245,6 +245,9 @@ wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
 ```
 
 ## Release Notes
+* Version 1.0.5 - 02 Feb 2020
+    * Added Support to Subscribe Tickers for Multiple Symbols
+
 * Version 1.0.4 - 31 Jan 2020
     * Added Amount field to Funding-DepositHistory
 

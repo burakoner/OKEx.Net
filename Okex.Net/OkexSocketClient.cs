@@ -176,6 +176,45 @@ namespace Okex.Net
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Subscribes tickers for multiple symbols
+        /// </summary>
+        /// <param name="symbols">Trading pair symbols Maximum Length: 100 symbols</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
+        public CallResult<UpdateSubscription> Spot_SubscribeToTickers(IEnumerable<string> symbols, Action<RestObjects.Spot.Ticker> onData) => Spot_SubscribeToTickers_Async(symbols, onData).Result;
+        /// <summary>
+        /// Subscribes tickers for multiple symbols
+        /// </summary>
+        /// <param name="symbols">Trading pair symbols. Maximum Length: 100 symbols</param>
+        /// <param name="onData">The handler for updates</param>
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTickers_Async(IEnumerable<string> symbols, Action<RestObjects.Spot.Ticker> onData)
+        {
+            // To List
+            var symbolList = symbols.ToList();
+
+            // Check Point
+            if (symbolList.Count > 100)
+                throw new ArgumentException("Symbols can contain maximum 100 elements");
+
+            for (int i=0; i< symbolList.Count;i++)
+                symbolList[i] = symbolList[i].ValidateSymbol();
+
+            var internalHandler = new Action<SocketUpdateResponse<IEnumerable<RestObjects.Spot.Ticker>>>(data =>
+            {
+                foreach (var d in data.Data)
+                {
+                    onData(d);
+                }
+            });
+
+            var tickerList = new List<string>();
+            for (int i = 0; i < symbolList.Count; i++)
+                tickerList.Add($"spot/ticker:{symbolList[i]}");
+
+            var request = new SocketRequest(SocketOperation.Subscribe, tickerList);
+            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Retrieve the candlestick data
