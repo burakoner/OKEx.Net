@@ -131,7 +131,7 @@ namespace Okex.Net.Examples
             }
             foreach (var pair in pairs)
             {
-                var depthSubscription = wsClient.Spot_SubscribeToOrderBook(pair, SpotOrderBookDepth.All, (data) =>
+                var depthSubscription = wsClient.Spot_SubscribeToOrderBook(pair, SpotOrderBookDepth.Depth400, (data) =>
                 {
                     if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
                     {

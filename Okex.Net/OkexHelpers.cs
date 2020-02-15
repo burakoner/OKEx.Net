@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Okex.Net
 {
-    public static class OkexHelpers
+    internal static class OkexHelpers
     {
         // Local Settings
         public static CultureInfo OkexCultureInfo = new CultureInfo("en-US");

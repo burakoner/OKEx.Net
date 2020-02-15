@@ -195,8 +195,9 @@
 
     public enum SpotOrderBookDepth
     {
-        All,
-        Five,
+        Depth5,
+        Depth400,
+        TickByTick,
     }
 
     public enum SpotOrderBookDataType

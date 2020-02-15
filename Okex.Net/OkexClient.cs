@@ -22,7 +22,7 @@ namespace Okex.Net
 	/// <summary>
 	/// Client for the Okex REST API
 	/// </summary>
-	public class OkexClient : RestClient, IOkexClient
+	public class OkexClient : RestClient, IOkexClient, IOkexClientGeneral, IOkexClientFunding, IOkexClientSpot
 	{
 		#region Fields
 

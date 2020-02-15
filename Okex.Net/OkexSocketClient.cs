@@ -306,12 +306,16 @@ namespace Okex.Net
                 foreach (var d in data.Data)
                 {
                     d.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
-                    d.DataType = depth == SpotOrderBookDepth.Five ? SpotOrderBookDataType.DepthTop5 : data.DataType;
+                    d.DataType = depth == SpotOrderBookDepth.Depth5 ? SpotOrderBookDataType.DepthTop5 : data.DataType;
                     onData(d);
                 }
             });
 
-            var request = new SocketRequest(SocketOperation.Subscribe, $"spot/depth{(depth == SpotOrderBookDepth.Five ? "5" : "")}:{symbol}");
+            var channel = "depth";
+            if(depth == SpotOrderBookDepth.Depth5) channel = "depth5";
+            else if(depth == SpotOrderBookDepth.Depth400) channel = "depth";
+            else if (depth == SpotOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
+            var request = new SocketRequest(SocketOperation.Subscribe, $"spot/{channel}:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
         #endregion
