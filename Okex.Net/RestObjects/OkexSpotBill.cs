@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Spot
+namespace Okex.Net.RestObjects
 {
-    public class Bill
+    public class OkexSpotBill
     {
         /// <summary>
         /// Creation time
@@ -55,10 +55,10 @@ namespace Okex.Net.RestObjects.Spot
         /// Order details when type is trade or fee
         /// </summary>
         [JsonProperty("details")]
-        public BillDetails? Details { get; set; }
+        public OkexSpotBillDetails? Details { get; set; }
     }
 
-    public class BillDetails
+    public class OkexSpotBillDetails
     {
         [JsonProperty("instrument_id")]
         public string Symbol { get; set; } = "";

@@ -5,18 +5,24 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Funding
+namespace Okex.Net.RestObjects
 {
-    public class AssetBalance
+    public class OkexSpotAccount
     {
         /// <summary>
-        /// Token symbol, e.g. 'BTC'
+        /// Account ID
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; } = "";
+
+        /// <summary>
+        /// Token symbol
         /// </summary>
         [JsonProperty("currency")]
         public string Currency { get; set; } = "";
 
         /// <summary>
-        /// Amount available
+        /// Available amount
         /// </summary>
         [JsonProperty("available")]
         public decimal Available { get; set; }
@@ -27,10 +33,22 @@ namespace Okex.Net.RestObjects.Funding
         [JsonProperty("balance")]
         public decimal Balance { get; set; }
 
+        //<summary>
+        //Available frozen
+        //</summary>
+        //[JsonProperty("frozen")]
+        //public decimal Frozen { get; set; }
+
         /// <summary>
-        /// Amount on hold (unavailable)
+        /// Websockets uses "hold" name for Frozen amount
         /// </summary>
         [JsonProperty("hold")]
-        public decimal Hold { get; set; }
+        public decimal Frozen { get; set; }
+
+        // <summary>
+        // Amount on hold (not available)
+        // </summary>
+        //[JsonProperty("holds")]
+        //public decimal Holds { get; set; }
     }
 }

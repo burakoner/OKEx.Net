@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Funding
+namespace Okex.Net.RestObjects
 {
-    public class DepositAddress
+    public class OkexFundingDepositAddress
     {
         /// <summary>
         /// Token symbol

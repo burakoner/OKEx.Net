@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Spot
+namespace Okex.Net.RestObjects
 {
-    public class Trade
+    public class OkexSpotTrade
     {
         [JsonProperty("instrument_id"), JsonOptionalProperty]
         public string Symbol { get; set; } = "";

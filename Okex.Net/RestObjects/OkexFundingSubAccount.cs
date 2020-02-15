@@ -5,15 +5,15 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Funding
+namespace Okex.Net.RestObjects
 {
-    public class SubAccount
+    public class OkexFundingSubAccount
     {
         [JsonProperty("data")]
-        public SubAccountData? Data { get; set; }
+        public OkexFundingSubAccountData? Data { get; set; }
     }
 
-    public class SubAccountData
+    public class OkexFundingSubAccountData
     {
         [JsonProperty("sub_account")]
         public string SubAccountName { get; set; } = "";
@@ -22,13 +22,13 @@ namespace Okex.Net.RestObjects.Funding
         public decimal AssetValuation { get; set; }
 
         [JsonProperty("account_type:funding")]
-        public IEnumerable<SubAccountFundingAsset> FundingAssets { get; set; } = new List<SubAccountFundingAsset>();
+        public IEnumerable<OkexFundingSubAccountFundingAsset> FundingAssets { get; set; } = new List<OkexFundingSubAccountFundingAsset>();
 
         [JsonProperty("account_type:spot")]
-        public IEnumerable<SubAccountSpotAsset> SpotAssets { get; set; } = new List<SubAccountSpotAsset>();
+        public IEnumerable<OkexFundingSubAccountSpotAsset> SpotAssets { get; set; } = new List<OkexFundingSubAccountSpotAsset>();
 
         [JsonProperty("account_type:futures")]
-        public IEnumerable<SubAccountFuturesAsset> FuturesAssets { get; set; } = new List<SubAccountFuturesAsset>();
+        public IEnumerable<OkexFundingSubAccountFuturesAsset> FuturesAssets { get; set; } = new List<OkexFundingSubAccountFuturesAsset>();
 
         // TODO: Margin
         // [JsonProperty("account_type:margin")]
@@ -37,7 +37,7 @@ namespace Okex.Net.RestObjects.Funding
         // [JsonProperty("account_type:swap")]
     }
 
-    public class SubAccountFundingAsset
+    public class OkexFundingSubAccountFundingAsset
     {
         [JsonProperty("currency")]
         public string Currency { get; set; } = "";
@@ -55,7 +55,7 @@ namespace Okex.Net.RestObjects.Funding
         public decimal Hold { get; set; }
     }
 
-    public class SubAccountSpotAsset
+    public class OkexFundingSubAccountSpotAsset
     {
         [JsonProperty("currency")]
         public string Currency { get; set; } = "";
@@ -73,7 +73,7 @@ namespace Okex.Net.RestObjects.Funding
         public decimal Hold { get; set; }
     }
 
-    public class SubAccountFuturesAsset
+    public class OkexFundingSubAccountFuturesAsset
     {
         [JsonProperty("currency")]
         public string Currency { get; set; } = "";
@@ -90,4 +90,5 @@ namespace Okex.Net.RestObjects.Funding
         [JsonProperty("equity")]
         public decimal Equity { get; set; }
     }
+
 }

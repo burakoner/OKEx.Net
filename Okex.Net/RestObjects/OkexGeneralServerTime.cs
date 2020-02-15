@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.General
+namespace Okex.Net.RestObjects
 {
-    public class ServerTime
+    public class OkexGeneralServerTime
     {
         [JsonProperty("iso")]
         public DateTime IsoTime { get; set; }

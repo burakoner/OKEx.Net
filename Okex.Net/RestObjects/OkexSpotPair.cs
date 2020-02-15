@@ -4,9 +4,9 @@ using Okex.Net.Converters;
 using Newtonsoft.Json;
 using System;
 
-namespace Okex.Net.RestObjects.Spot
+namespace Okex.Net.RestObjects
 {
-    public class TradingPair
+    public class OkexSpotPair
     {
         /// <summary>
         /// Trading pair symbol

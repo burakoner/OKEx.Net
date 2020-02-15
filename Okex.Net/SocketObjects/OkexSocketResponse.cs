@@ -2,25 +2,25 @@
 using CryptoExchange.Net.Converters;
 using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.RestObjects.Spot;
+using Okex.Net.RestObjects;
 using System;
 using System.Collections.Generic;
 
 namespace Okex.Net.SocketObjects
 {
-    internal class SocketResponse
+    internal class OkexSocketResponse
     {
         [JsonProperty("event")]
         internal string Event { get; set; } = "";
     }
 
-    internal class SocketSubscribeResponse : SocketResponse
+    internal class OkexSocketSubscribeResponse : OkexSocketResponse
     {
         [JsonProperty("channel")]
         internal string Channel { get; set; } = "";
     }
 
-    internal class SocketErrorResponse : SocketResponse
+    internal class OkexSocketErrorResponse : OkexSocketResponse
     {
         [JsonProperty("errorCode")]
         internal string ErrorCode { get; set; } = "";
@@ -29,13 +29,13 @@ namespace Okex.Net.SocketObjects
         internal string ErrorMessage { get; set; } = "";
     }
 
-    internal class SocketLoginResponse : SocketResponse
+    internal class OkexSocketLoginResponse : OkexSocketResponse
     {
         [JsonProperty("success")]
         internal bool Success { get; set; }
     }
 
-    internal class SocketUpdateResponse<T>
+    internal class OkexSocketUpdateResponse<T>
     {
         [JsonProperty("table")]
         internal string Table { get; set; } = "";
@@ -51,7 +51,7 @@ namespace Okex.Net.SocketObjects
         public T Data { get; set; } = default!;
     }
 
-    internal class SocketOrderBookUpdate
+    internal class OkexSocketOrderBookUpdate
     {
         [JsonProperty("table")]
         internal string Table { get; set; } = "";
@@ -60,6 +60,6 @@ namespace Okex.Net.SocketObjects
         internal SpotOrderBookDataType DataType { get; set; }
 
         [JsonProperty("data")]
-        public IEnumerable<OrderBook> Data { get; set; } = default!;
+        public IEnumerable<OkexSpotOrderBook> Data { get; set; } = default!;
     }
 }

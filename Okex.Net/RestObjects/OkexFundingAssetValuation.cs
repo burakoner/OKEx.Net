@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Funding
+namespace Okex.Net.RestObjects
 {
-    public class AssetValuation
+    public class OkexFundingAssetValuation
     {
         /// <summary>
         /// The valuation according to a certain fiat currency can only be one of the following "BTC USD CNY JPY KRW RUB" The default unit is BTC

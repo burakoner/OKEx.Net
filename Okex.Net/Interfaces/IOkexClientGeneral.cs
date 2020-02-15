@@ -14,12 +14,12 @@ namespace Okex.Net.Interfaces
 		/// </summary>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		WebCallResult<RestObjects.General.ServerTime> General_ServerTime(CancellationToken ct = default);
+		WebCallResult<OkexGeneralServerTime> General_ServerTime(CancellationToken ct = default);
 		/// <summary>
 		/// API server time. This is a public endpoint, no verification is required.
 		/// </summary>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		Task<WebCallResult<RestObjects.General.ServerTime>> General_ServerTime_Async(CancellationToken ct = default);
+		Task<WebCallResult<OkexGeneralServerTime>> General_ServerTime_Async(CancellationToken ct = default);
 	}
 }

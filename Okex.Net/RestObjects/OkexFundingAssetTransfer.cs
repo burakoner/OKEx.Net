@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Funding
+namespace Okex.Net.RestObjects
 {
-    public class AssetTransfer
+    public class OkexFundingAssetTransfer
     {
         /// <summary>
         /// Transfer result. An error code will be displayed if it failed.

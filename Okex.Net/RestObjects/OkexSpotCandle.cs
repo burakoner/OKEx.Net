@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Spot
+namespace Okex.Net.RestObjects
 {
     [JsonConverter(typeof(ArrayConverter))]
-    public class Candle
+    public class OkexSpotCandle
     {
         [JsonOptionalProperty]
         public string Symbol { get; set; } = "";

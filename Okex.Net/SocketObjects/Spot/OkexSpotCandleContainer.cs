@@ -4,11 +4,11 @@ using Okex.Net.Converters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Okex.Net.RestObjects.Spot;
+using Okex.Net.RestObjects;
 
 namespace Okex.Net.SocketObjects.Spot
 {
-    public class CandleContainer
+    public class OkexSpotCandleContainer
     {
         [JsonIgnore]
         public DateTime Timestamp { get; set; }
@@ -17,6 +17,6 @@ namespace Okex.Net.SocketObjects.Spot
         public string Symbol { get; set; } = "";
 
         [JsonProperty("candle")]
-        public Candle Candle { get; set; } = default!;
+        public OkexSpotCandle Candle { get; set; } = default!;
     }
 }

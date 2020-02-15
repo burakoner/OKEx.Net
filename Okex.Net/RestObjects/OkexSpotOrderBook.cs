@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.RestObjects.Spot
+namespace Okex.Net.RestObjects
 {
-    public class OrderBook
+    public class OkexSpotOrderBook
     {
         [JsonProperty("instrument_id"), JsonOptionalProperty]
         public string Symbol { get; set; } = "";
@@ -22,13 +22,13 @@ namespace Okex.Net.RestObjects.Spot
         /// Selling side
         /// </summary>
         [JsonProperty("asks")]
-        public IEnumerable<OrderBookEntry> Asks { get; set; } = new List<OrderBookEntry>();
+        public IEnumerable<OkexSpotOrderBookEntry> Asks { get; set; } = new List<OkexSpotOrderBookEntry>();
 
         /// <summary>
         /// Buying side
         /// </summary>
         [JsonProperty("bids")]
-        public IEnumerable<OrderBookEntry> Bids { get; set; } = new List<OrderBookEntry>();
+        public IEnumerable<OkexSpotOrderBookEntry> Bids { get; set; } = new List<OkexSpotOrderBookEntry>();
 
         /// <summary>
         /// Timestamp
@@ -38,7 +38,7 @@ namespace Okex.Net.RestObjects.Spot
     }
 
     [JsonConverter(typeof(ArrayConverter))]
-    public class OrderBookEntry
+    public class OkexSpotOrderBookEntry
     {
         /// <summary>
         /// The price for this entry
