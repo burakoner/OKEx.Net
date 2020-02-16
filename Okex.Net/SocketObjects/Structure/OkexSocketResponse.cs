@@ -6,7 +6,7 @@ using Okex.Net.RestObjects;
 using System;
 using System.Collections.Generic;
 
-namespace Okex.Net.SocketObjects
+namespace Okex.Net.SocketObjects.Structure
 {
     internal class OkexSocketResponse
     {
@@ -57,7 +57,7 @@ namespace Okex.Net.SocketObjects
         internal string Table { get; set; } = "";
 
         [JsonProperty("action"), JsonOptionalProperty, JsonConverter(typeof(SpotOrderBookDataTypeConverter))]
-        internal SpotOrderBookDataType DataType { get; set; }
+        internal OkexSpotOrderBookDataType DataType { get; set; }
 
         [JsonProperty("data")]
         public IEnumerable<OkexSpotOrderBook> Data { get; set; } = default!;

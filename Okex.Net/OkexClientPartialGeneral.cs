@@ -1,21 +1,8 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using Okex.Net.Converters;
+﻿using CryptoExchange.Net.Objects;
 using Okex.Net.RestObjects;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Okex.Net.Interfaces;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
 
 namespace Okex.Net
 {

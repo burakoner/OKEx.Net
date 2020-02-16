@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using Newtonsoft.Json;
+using Okex.Net.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

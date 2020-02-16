@@ -42,6 +42,6 @@ namespace Okex.Net.RestObjects
         /// Query total assets by default
         /// </summary>
         [JsonProperty("account_type"), JsonConverter(typeof(FundingAccountTypeConverter))]
-        public FundingAccountType AccountType { get; set; }
+        public OkexFundingAccountType AccountType { get; set; }
     }
 }

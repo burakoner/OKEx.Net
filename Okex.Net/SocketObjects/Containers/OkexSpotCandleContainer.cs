@@ -1,12 +1,8 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using Okex.Net.RestObjects;
 
-namespace Okex.Net.SocketObjects.Spot
+namespace Okex.Net.SocketObjects.Containers
 {
     public class OkexSpotCandleContainer
     {

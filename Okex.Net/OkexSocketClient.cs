@@ -2,26 +2,23 @@
 using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
-using Okex.Net.Converters;
 using Okex.Net.RestObjects;
-using Okex.Net.SocketObjects;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Okex.Net.Interfaces;
-using Okex.Net.SocketObjects.Spot;
 using System.Diagnostics;
 using System.Text;
 using System.Globalization;
-using CryptoExchange.Net.Authentication;
 using System.Security;
 using System.Security.Cryptography;
+using Okex.Net.SocketObjects.Structure;
+using Okex.Net.SocketObjects.Containers;
+using Okex.Net.Helpers;
 
 namespace Okex.Net
 {

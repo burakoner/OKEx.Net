@@ -25,7 +25,7 @@ namespace Okex.Net.RestObjects
         /// The beneficiary account
         /// </summary>
         [JsonProperty("to"), JsonConverter(typeof(FundingTransferAccountTypeConverter))]
-        public FundingTransferAccountType BeneficiaryAccount { get; set; }
+        public OkexFundingTransferAccountType BeneficiaryAccount { get; set; }
 
         /// <summary>
         /// Deposit memo (This will not be returned if the token does not require a payment_id for deposit)

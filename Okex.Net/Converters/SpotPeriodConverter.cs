@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotPeriodConverter : BaseConverter<SpotPeriod>
+    internal class SpotPeriodConverter : BaseConverter<OkexSpotPeriod>
     {
         public SpotPeriodConverter() : this(true) { }
         public SpotPeriodConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<SpotPeriod, string>> Mapping => new List<KeyValuePair<SpotPeriod, string>>
+        protected override List<KeyValuePair<OkexSpotPeriod, string>> Mapping => new List<KeyValuePair<OkexSpotPeriod, string>>
         {
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.OneMinute, "60"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.ThreeMinutes, "180"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.FiveMinutes, "300"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.FifteenMinutes, "900"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.ThirtyMinutes, "1800"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.OneHour, "3600"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.TwoHours, "7200"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.FourHours, "14400"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.SixHours, "21600"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.TwelveHours, "43200"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.OneDay, "86400"),
-            new KeyValuePair<SpotPeriod, string>(SpotPeriod.OneWeek, "604800"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.OneMinute, "60"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.ThreeMinutes, "180"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.FiveMinutes, "300"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.FifteenMinutes, "900"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.ThirtyMinutes, "1800"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.OneHour, "3600"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.TwoHours, "7200"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.FourHours, "14400"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.SixHours, "21600"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.TwelveHours, "43200"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.OneDay, "86400"),
+            new KeyValuePair<OkexSpotPeriod, string>(OkexSpotPeriod.OneWeek, "604800"),
         };
     }
 }

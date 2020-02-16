@@ -1,21 +1,14 @@
 ﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Okex.Net.Converters;
 using Okex.Net.RestObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Okex.Net.Interfaces;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
+using Okex.Net.Helpers;
 
 namespace Okex.Net
 {
@@ -69,7 +62,7 @@ namespace Okex.Net
 		/// <param name="valuationCurrency">The valuation according to a certain fiat currency can only be one of the following "BTC USD CNY JPY KRW RUB" The default unit is BTC</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<OkexFundingAssetValuation> Funding_GetAssetValuation(FundingAccountType accountType = FundingAccountType.TotalAccountAssets, string valuationCurrency = "BTC", CancellationToken ct = default) => Funding_GetAssetValuation_Async(accountType, valuationCurrency, ct).Result;
+		public WebCallResult<OkexFundingAssetValuation> Funding_GetAssetValuation(OkexFundingAccountType accountType = OkexFundingAccountType.TotalAccountAssets, string valuationCurrency = "BTC", CancellationToken ct = default) => Funding_GetAssetValuation_Async(accountType, valuationCurrency, ct).Result;
 		/// <summary>
 		/// Get the valuation of the total assets of the account in btc or fiat currency.
 		/// Limit: 1 requests per 20 seconds
@@ -77,7 +70,7 @@ namespace Okex.Net
 		/// <param name="accountType">Line of Business Type。0.Total account assets 1.spot 3.futures 4.C2C 5.margin 6.Funding Account 8. PiggyBank 9.swap 12：option 14.mining account Query total assets by default</param>
 		/// <param name="valuationCurrency">The valuation according to a certain fiat currency can only be one of the following "BTC USD CNY JPY KRW RUB" The default unit is BTC</param>
 		/// <param name="ct">Cancellation Token</param>
-		public async Task<WebCallResult<OkexFundingAssetValuation>> Funding_GetAssetValuation_Async(FundingAccountType accountType = FundingAccountType.TotalAccountAssets, string valuationCurrency = "BTC", CancellationToken ct = default)
+		public async Task<WebCallResult<OkexFundingAssetValuation>> Funding_GetAssetValuation_Async(OkexFundingAccountType accountType = OkexFundingAccountType.TotalAccountAssets, string valuationCurrency = "BTC", CancellationToken ct = default)
 		{
 			valuationCurrency = valuationCurrency.ValidateCurrency();
 
@@ -136,8 +129,8 @@ namespace Okex.Net
 		public WebCallResult<OkexFundingAssetTransfer> Funding_Transfer(
 			string currency,
 			decimal amount,
-			FundingTransferAccountType fromAccount,
-			FundingTransferAccountType toAccount,
+			OkexFundingTransferAccountType fromAccount,
+			OkexFundingTransferAccountType toAccount,
 			string? subAccountName = null,
 			string? fromSymbol = null,
 			string? toSymbol = null,
@@ -159,8 +152,8 @@ namespace Okex.Net
 		public async Task<WebCallResult<OkexFundingAssetTransfer>> Funding_Transfer_Async(
 			string currency,
 			decimal amount,
-			FundingTransferAccountType fromAccount,
-			FundingTransferAccountType toAccount,
+			OkexFundingTransferAccountType fromAccount,
+			OkexFundingTransferAccountType toAccount,
 			string? subAccountName = null,
 			string? fromSymbol = null,
 			string? toSymbol = null,
@@ -171,13 +164,13 @@ namespace Okex.Net
 			if (fromAccount == toAccount)
 				throw new ArgumentException("'fromAccount' and 'toAccount' must be different.");
 
-			if ((fromAccount == FundingTransferAccountType.SubAccount || toAccount == FundingTransferAccountType.SubAccount) && string.IsNullOrEmpty(subAccountName))
+			if ((fromAccount == OkexFundingTransferAccountType.SubAccount || toAccount == OkexFundingTransferAccountType.SubAccount) && string.IsNullOrEmpty(subAccountName))
 				throw new ArgumentException("When 'fromAccount' or 'toAccount' is SubAccount, subAccountName parameter is required.");
 
-			if (fromAccount == FundingTransferAccountType.SubAccount && toAccount != FundingTransferAccountType.FundingAccount)
+			if (fromAccount == OkexFundingTransferAccountType.SubAccount && toAccount != OkexFundingTransferAccountType.FundingAccount)
 				throw new ArgumentException("When 'fromAccount' is SubAccount, 'toAccount' can only be FundingAccount as the sub account can only be transferred to the main account.");
 
-			if ((fromAccount == FundingTransferAccountType.Margin || toAccount == FundingTransferAccountType.Margin) && string.IsNullOrEmpty(fromSymbol))
+			if ((fromAccount == OkexFundingTransferAccountType.Margin || toAccount == OkexFundingTransferAccountType.Margin) && string.IsNullOrEmpty(fromSymbol))
 				throw new ArgumentException("When 'fromAccount' or 'toAccount' is Margin, fromSymbol parameter is required.");
 
 			var parameters = new Dictionary<string, object>
@@ -206,7 +199,7 @@ namespace Okex.Net
 		/// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingBill>> Funding_GetBills(string? currency = null, FundingBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Funding_GetBills_Async(currency, type, limit, before, after, ct).Result;
+		public WebCallResult<IEnumerable<OkexFundingBill>> Funding_GetBills(string? currency = null, OkexFundingBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Funding_GetBills_Async(currency, type, limit, before, after, ct).Result;
 		/// <summary>
 		/// This retrieves the account bills dating back the past month. Pagination is supported and the response is sorted with most recent first in reverse chronological order. Latest 1 month records will be returned at maximum.
 		/// Rate Limit: 20 requests per 2 seconds
@@ -218,7 +211,7 @@ namespace Okex.Net
 		/// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingBill>>> Funding_GetBills_Async(string? currency = null, FundingBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexFundingBill>>> Funding_GetBills_Async(string? currency = null, OkexFundingBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
 		{
 			if (!string.IsNullOrEmpty(currency)) currency = currency?.ValidateCurrency();
 			limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -267,7 +260,7 @@ namespace Okex.Net
 		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>> Funding_Withdrawal(string currency, decimal amount, FundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee,  CancellationToken ct = default) => Funding_Withdrawal_Async( currency,  amount,  destination, toAddress, fundPassword,  fee, ct).Result;
+		public WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>> Funding_Withdrawal(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee,  CancellationToken ct = default) => Funding_Withdrawal_Async( currency,  amount,  destination, toAddress, fundPassword,  fee, ct).Result;
 		/// <summary>
 		/// This endpoint supports the withdrawal of tokens
 		/// Limit: 20 requests per 2 seconds
@@ -280,7 +273,7 @@ namespace Okex.Net
 		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>>> Funding_Withdrawal_Async(string currency, decimal amount, FundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>>> Funding_Withdrawal_Async(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default)
 		{
 			currency = currency.ValidateCurrency();
 

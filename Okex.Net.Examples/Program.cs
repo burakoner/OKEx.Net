@@ -19,7 +19,7 @@ namespace Okex.Net.Examples
             var ok03 = apiClient.Spot_GetAllTickers();
             var ok04 = apiClient.Spot_GetSymbolTicker("BTC-USDT");
             var ok05 = apiClient.Spot_GetTrades("BTC-USDT");
-            var ok06 = apiClient.Spot_GetCandles("BTC-USDT", SpotPeriod.OneHour);
+            var ok06 = apiClient.Spot_GetCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 
             /* Private Spot Api Endpoints */
             var ok11 = apiClient.Spot_GetAllBalances();
@@ -27,13 +27,13 @@ namespace Okex.Net.Examples
             var ok13 = apiClient.Spot_GetSymbolBalance("ETH");
             var ok14 = apiClient.Spot_GetSymbolBalance("eth");
             var ok15 = apiClient.Spot_GetSymbolBills("ETH");
-            var ok16 = apiClient.Spot_PlaceOrder("ETH-BTC", SpotOrderSide.Sell, SpotOrderType.Limit, SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m);
-            var ok17 = apiClient.Spot_PlaceOrder("ETH-BTC", SpotOrderSide.Sell, SpotOrderType.Limit, SpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m, clientOrderId: "ClientOrderId");
+            var ok16 = apiClient.Spot_PlaceOrder("ETH-BTC", OkexSpotOrderSide.Sell, OkexSpotOrderType.Limit, OkexSpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m);
+            var ok17 = apiClient.Spot_PlaceOrder("ETH-BTC", OkexSpotOrderSide.Sell, OkexSpotOrderType.Limit, OkexSpotTimeInForce.NormalOrder, price: 0.1m, size: 0.11m, clientOrderId: "ClientOrderId");
             var ok18 = apiClient.Spot_CancelOrder("ETH-BTC", 4275473321519104);
             var ok19 = apiClient.Spot_CancelOrder("ETH-BTC", clientOrderId: "clientorderid"); // It works: Case Insensitive
             var ok20 = apiClient.Spot_CancelOrder("ETH-BTC", clientOrderId: "CLIENTORDERID"); // It works: Case Insensitive 
-            var ok21 = apiClient.Spot_GetAllOrders("ETH-BTC", SpotOrderState.Canceled);
-            var ok22 = apiClient.Spot_GetAllOrders("ETH-BTC", SpotOrderState.Complete, 2, after: 1);
+            var ok21 = apiClient.Spot_GetAllOrders("ETH-BTC", OkexSpotOrderState.Canceled);
+            var ok22 = apiClient.Spot_GetAllOrders("ETH-BTC", OkexSpotOrderState.Complete, 2, after: 1);
             var ok23 = apiClient.Spot_GetOpenOrders("ETH-BTC");
             var ok24 = apiClient.Spot_GetOrderDetails("ETH-BTC", clientOrderId: "clientorderid");
             var ok25 = apiClient.Spot_TradeFeeRates();
@@ -41,10 +41,10 @@ namespace Okex.Net.Examples
             /* Private Funding Api Endpoints */
             var ok31 = apiClient.Funding_GetAllBalances();
             var ok32 = apiClient.Funding_GetCurrencyBalance("BTC");
-            var ok33 = apiClient.Funding_GetAssetValuation(FundingAccountType.TotalAccountAssets, "USD");
+            var ok33 = apiClient.Funding_GetAssetValuation(OkexFundingAccountType.TotalAccountAssets, "USD");
             var ok34 = apiClient.Funding_GetSubAccount("subaccountname");
-            var ok35 = apiClient.Funding_Transfer("ETH", 0.1m, FundingTransferAccountType.FundingAccount, FundingTransferAccountType.Spot);
-            var ok36 = apiClient.Funding_Transfer("ETH", 0.3m, FundingTransferAccountType.Spot, FundingTransferAccountType.FundingAccount);
+            var ok35 = apiClient.Funding_Transfer("ETH", 0.1m, OkexFundingTransferAccountType.FundingAccount, OkexFundingTransferAccountType.Spot);
+            var ok36 = apiClient.Funding_Transfer("ETH", 0.3m, OkexFundingTransferAccountType.Spot, OkexFundingTransferAccountType.FundingAccount);
             var ok37 = apiClient.Funding_GetAllCurrencies();
             var ok38 = apiClient.Funding_GetBills();
             var ok41 = apiClient.Funding_GetDepositAddress("ETH");
@@ -53,7 +53,7 @@ namespace Okex.Net.Examples
             var ok44 = apiClient.Funding_GetDepositHistoryByCurrency("ETH");
             var ok45 = apiClient.Funding_GetWithdrawalFees();
             var ok46 = apiClient.Funding_GetWithdrawalFees("ETH");
-            var ok47 = apiClient.Funding_Withdrawal("ETH", 1.1m, FundinWithdrawalDestination.Others, "0x65b02db9b67b73f5f1e983ae10796f91ded57b64", "--fundpassword--", 0.01m);
+            var ok47 = apiClient.Funding_Withdrawal("ETH", 1.1m, OkexFundinWithdrawalDestination.Others, "0x65b02db9b67b73f5f1e983ae10796f91ded57b64", "--fundpassword--", 0.01m);
             var ok48 = apiClient.Funding_GetWithdrawalHistory();
             var ok49 = apiClient.Funding_GetWithdrawalHistoryByCurrency("BTC");
             var ok50 = apiClient.Funding_GetWithdrawalHistoryByCurrency("ETH");
@@ -98,7 +98,7 @@ namespace Okex.Net.Examples
             var subs = new List<UpdateSubscription>();
             foreach (var pair in pairs)
             {
-                var candleSubscription = wsClient.Spot_SubscribeToCandlesticks(pair, SpotPeriod.FiveMinutes, (data) =>
+                var candleSubscription = wsClient.Spot_SubscribeToCandlesticks(pair, OkexSpotPeriod.FiveMinutes, (data) =>
                 {
                     if (data != null)
                     {
@@ -131,7 +131,7 @@ namespace Okex.Net.Examples
             }
             foreach (var pair in pairs)
             {
-                var depthSubscription = wsClient.Spot_SubscribeToOrderBook(pair, SpotOrderBookDepth.Depth400, (data) =>
+                var depthSubscription = wsClient.Spot_SubscribeToOrderBook(pair, OkexSpotOrderBookDepth.Depth400, (data) =>
                 {
                     if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
                     {

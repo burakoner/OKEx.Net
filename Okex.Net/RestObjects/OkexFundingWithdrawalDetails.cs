@@ -79,6 +79,6 @@ namespace Okex.Net.RestObjects
         /// Status of Withdrawal
         /// </summary>
         [JsonProperty("status"), JsonConverter(typeof(FundingWithdrawalStatusConverter))]
-        public FundingWithdrawalStatus Status { get; set; }
+        public OkexFundingWithdrawalStatus Status { get; set; }
     }
 }

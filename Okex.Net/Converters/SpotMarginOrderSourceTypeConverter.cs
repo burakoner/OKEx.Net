@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotMarginOrderSourceTypeConverter : BaseConverter<SpotMarginOrderSourceType>
+    internal class SpotMarginOrderSourceTypeConverter : BaseConverter<OkexSpotMarginOrderSourceType>
     {
         public SpotMarginOrderSourceTypeConverter() : this(true) { }
         public SpotMarginOrderSourceTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<SpotMarginOrderSourceType, string>> Mapping => new List<KeyValuePair<SpotMarginOrderSourceType, string>>
+        protected override List<KeyValuePair<OkexSpotMarginOrderSourceType, string>> Mapping => new List<KeyValuePair<OkexSpotMarginOrderSourceType, string>>
         {
-            new KeyValuePair<SpotMarginOrderSourceType, string>(SpotMarginOrderSourceType.Spot, "1"),
-            new KeyValuePair<SpotMarginOrderSourceType, string>(SpotMarginOrderSourceType.Margin, "2"),
+            new KeyValuePair<OkexSpotMarginOrderSourceType, string>(OkexSpotMarginOrderSourceType.Spot, "1"),
+            new KeyValuePair<OkexSpotMarginOrderSourceType, string>(OkexSpotMarginOrderSourceType.Margin, "2"),
         };
     }
 }

@@ -49,7 +49,7 @@ namespace Okex.Net.RestObjects
         /// Type of bills
         /// </summary>
         [JsonProperty("type"), JsonConverter(typeof(SpotBillTypeConverter))]
-        public SpotBillType Type { get; set; }
+        public OkexSpotBillType Type { get; set; }
 
         /// <summary>
         /// Order details when type is trade or fee

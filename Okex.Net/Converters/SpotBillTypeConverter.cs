@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotBillTypeConverter : BaseConverter<SpotBillType>
+    internal class SpotBillTypeConverter : BaseConverter<OkexSpotBillType>
     {
         public SpotBillTypeConverter() : this(true) { }
         public SpotBillTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<SpotBillType, string>> Mapping => new List<KeyValuePair<SpotBillType, string>>
+        protected override List<KeyValuePair<OkexSpotBillType, string>> Mapping => new List<KeyValuePair<OkexSpotBillType, string>>
         {
-            new KeyValuePair<SpotBillType, string>(SpotBillType.Transfer, "transfer"),
-            new KeyValuePair<SpotBillType, string>(SpotBillType.Trade, "trade"),
-            new KeyValuePair<SpotBillType, string>(SpotBillType.Rebate, "rebate"),
-            new KeyValuePair<SpotBillType, string>(SpotBillType.Fee, "fee"),
+            new KeyValuePair<OkexSpotBillType, string>(OkexSpotBillType.Transfer, "transfer"),
+            new KeyValuePair<OkexSpotBillType, string>(OkexSpotBillType.Trade, "trade"),
+            new KeyValuePair<OkexSpotBillType, string>(OkexSpotBillType.Rebate, "rebate"),
+            new KeyValuePair<OkexSpotBillType, string>(OkexSpotBillType.Fee, "fee"),
             /*
             new KeyValuePair<OkexBillType, string>(OkexBillType.Deposit, "1"),
             new KeyValuePair<OkexBillType, string>(OkexBillType.Withdraw, "2"),

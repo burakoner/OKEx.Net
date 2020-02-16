@@ -64,13 +64,13 @@ namespace Okex.Net.RestObjects
         /// Order type: limit or market (default: limit)
         /// </summary>
         [JsonProperty("type"), JsonConverter(typeof(SpotOrderTypeConverter))]
-        public SpotOrderType Type { get; set; }
+        public OkexSpotOrderType Type { get; set; }
 
         /// <summary>
         /// Buy or sell
         /// </summary>
         [JsonProperty("side"), JsonConverter(typeof(SpotOrderSideConverter))]
-        public SpotOrderSide Side { get; set; }
+        public OkexSpotOrderSide Side { get; set; }
 
         /// <summary>
         /// Quantity filled
@@ -88,13 +88,13 @@ namespace Okex.Net.RestObjects
         /// Specify 0: Normal order (Unfilled and 0 imply normal limit order) 1: Post only 2: Fill or Kill 3: Immediate Or Cancel
         /// </summary>
         [JsonProperty("order_type"), JsonConverter(typeof(SpotTimeInForceConverter))]
-        public SpotTimeInForce TimeInForce { get; set; }
+        public OkexSpotTimeInForce TimeInForce { get; set; }
 
         /// <summary>
         /// Order Status: -2 = Failed -1 = Canceled 0 = Open 1 = Partially Filled 2 = Fully Filled 3 = Submitting 4 = Canceling
         /// </summary>
         [JsonProperty("state"), JsonConverter(typeof(SpotOrderStateConverter))]
-        public SpotOrderState State { get; set; }
+        public OkexSpotOrderState State { get; set; }
 
         /// <summary>
         /// status is the older version of state and both can be used interchangeably in the short term. It is recommended to switch to state.
@@ -127,7 +127,7 @@ namespace Okex.Net.RestObjects
         /// 1 spot order. 2 margin order
         /// </summary>
         [JsonProperty("margin_trading"), JsonOptionalProperty, JsonConverter(typeof(SpotMarginOrderSourceTypeConverter))]
-        public SpotMarginOrderSourceType OrderSource { get; set; } = SpotMarginOrderSourceType.Spot;
+        public OkexSpotMarginOrderSourceType OrderSource { get; set; } = OkexSpotMarginOrderSourceType.Spot;
 
         /// <summary>
         /// Latest Filled Time. The '1970-01-01T00:00:00.000Z' will be returned if the data is empty.

@@ -1,21 +1,15 @@
 ﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Converters;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using Okex.Net.Converters;
 using Okex.Net.RestObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Okex.Net.Interfaces;
-using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using Okex.Net.Helpers;
 
 namespace Okex.Net
 {
@@ -85,7 +79,7 @@ namespace Okex.Net
 			if (result.Error != null)
 				return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(result.Error.Code, result.Error.Message));
 
-			result.Data.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
+			result.Data.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
 			return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, result.Data, null);
 			#endregion
 		}
@@ -173,7 +167,7 @@ namespace Okex.Net
 
 			foreach (var data in result.Data)
 			{
-				data.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
+				data.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
 			}
 
 			return new WebCallResult<IEnumerable<OkexSpotTrade>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data, null);
@@ -191,7 +185,7 @@ namespace Okex.Net
             /// <param name="end">Bar size in seconds, default 60, must be one of [60/180/300/900/1800/3600/7200/14400/21600/43200/86400/604800] or returns error</param>
             /// <param name="ct">Cancellation Token</param>
             /// <returns></returns>
-            public WebCallResult<IEnumerable<OkexSpotCandle>> Spot_GetCandles(string symbol, SpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Spot_GetCandles_Async(symbol, period, start, end, ct).Result;
+            public WebCallResult<IEnumerable<OkexSpotCandle>> Spot_GetCandles(string symbol, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Spot_GetCandles_Async(symbol, period, start, end, ct).Result;
 		/// <summary>
 		/// Retrieve the candlestick charts of the trading pairs. This API can retrieve the latest 2000 entries of data. Candlesticks are returned in groups based on requested granularity. Maximum of 2,000 entries can be retrieved.
 		/// Rate limit: 20 requests per 2 seconds
@@ -202,7 +196,7 @@ namespace Okex.Net
 		/// <param name="end">Bar size in seconds, default 60, must be one of [60/180/300/900/1800/3600/7200/14400/21600/43200/86400/604800] or returns error</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexSpotCandle>>> Spot_GetCandles_Async(string symbol, SpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexSpotCandle>>> Spot_GetCandles_Async(string symbol, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
 		{
 			symbol = symbol.ValidateSymbol();
 
@@ -227,7 +221,7 @@ namespace Okex.Net
 
 			foreach (var data in result.Data)
 			{
-				data.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
+				data.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
 			}
 
 			return new WebCallResult<IEnumerable<OkexSpotCandle>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data, null);
@@ -287,7 +281,7 @@ namespace Okex.Net
 		/// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexSpotBill>> Spot_GetSymbolBills(string currency, SpotBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Spot_GetSymbolBills_Async(currency, type, limit, before, after, ct).Result;
+		public WebCallResult<IEnumerable<OkexSpotBill>> Spot_GetSymbolBills(string currency, OkexSpotBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Spot_GetSymbolBills_Async(currency, type, limit, before, after, ct).Result;
 		/// <summary>
 		/// This retrieves the spot account bills dating back the past 3 months. Pagination is supported and the response is sorted with most recent first in reverse chronological order.
 		/// Rate Limit: 20 requests per 2 seconds
@@ -297,7 +291,7 @@ namespace Okex.Net
 		/// <param name="before">Pagination of data to return records newer than the requested ledger_id</param>
 		/// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
 		/// <param name="ct">Cancellation Token</param>
-		public async Task<WebCallResult<IEnumerable<OkexSpotBill>>> Spot_GetSymbolBills_Async(string currency, SpotBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexSpotBill>>> Spot_GetSymbolBills_Async(string currency, OkexSpotBillType? type = null, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
 		{
 			currency = currency.ValidateCurrency();
 			limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -356,9 +350,9 @@ namespace Okex.Net
 		/// <returns></returns>
 		public WebCallResult<OkexSpotPlacedOrder> Spot_PlaceOrder(
 			string symbol,
-			SpotOrderSide side,
-			SpotOrderType type,
-			SpotTimeInForce timeInForce = SpotTimeInForce.NormalOrder,
+			OkexSpotOrderSide side,
+			OkexSpotOrderType type,
+			OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder,
 			decimal? price = null,
 			decimal? size = null,
 			decimal? notional = null,
@@ -407,9 +401,9 @@ namespace Okex.Net
 		/// <returns></returns>
 		public async Task<WebCallResult<OkexSpotPlacedOrder>> Spot_PlaceOrder_Async(
 			string symbol,
-			SpotOrderSide side,
-			SpotOrderType type,
-			SpotTimeInForce timeInForce = SpotTimeInForce.NormalOrder,
+			OkexSpotOrderSide side,
+			OkexSpotOrderType type,
+			OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder,
 			decimal? price = null,
 			decimal? size = null,
 			decimal? notional = null,
@@ -419,13 +413,13 @@ namespace Okex.Net
 			symbol = symbol.ValidateSymbol();
 			clientOrderId?.ValidateStringLength("clientOrderId", 0, 32);
 
-			if (type == SpotOrderType.Limit && (price == null || size == null))
+			if (type == OkexSpotOrderType.Limit && (price == null || size == null))
 				throw new ArgumentException("Both price and size must be provided for Limit Orders");
 
-			if (type == SpotOrderType.Market && (size == null || notional == null))
+			if (type == OkexSpotOrderType.Market && (size == null || notional == null))
 				throw new ArgumentException("Both price and notional must be provided for Market Orders");
 
-			if (type == SpotOrderType.Market && timeInForce != SpotTimeInForce.NormalOrder)
+			if (type == OkexSpotOrderType.Market && timeInForce != OkexSpotTimeInForce.NormalOrder)
 				throw new ArgumentException("When placing market orders, TimeInForce must be Normal Order");
 
 			if (clientOrderId != null && !Regex.IsMatch(clientOrderId, "^(([a-z]|[A-Z]|[0-9]){0,32})$"))
@@ -496,7 +490,7 @@ namespace Okex.Net
 		/// <param name="after">Pagination of data to return records earlier than the requested order_id</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexSpotOrderDetails>> Spot_GetAllOrders(string symbol, SpotOrderState state, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Spot_GetAllOrders_Async(symbol, state, limit, before, after, ct).Result;
+		public WebCallResult<IEnumerable<OkexSpotOrderDetails>> Spot_GetAllOrders(string symbol, OkexSpotOrderState state, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default) => Spot_GetAllOrders_Async(symbol, state, limit, before, after, ct).Result;
 		/// <summary>
 		/// This retrieves the list of your orders from the most recent 3 months. This request supports paging and is stored according to the order time in chronological order from latest to earliest.
 		/// Rate limit: 20 requests per 2 seconds
@@ -508,7 +502,7 @@ namespace Okex.Net
 		/// <param name="after">Pagination of data to return records earlier than the requested order_id</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexSpotOrderDetails>>> Spot_GetAllOrders_Async(string symbol, SpotOrderState state, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexSpotOrderDetails>>> Spot_GetAllOrders_Async(string symbol, OkexSpotOrderState state, int limit = 100, int? before = null, int? after = null, CancellationToken ct = default)
 		{
 			symbol = symbol.ValidateSymbol();
 			limit.ValidateIntBetween(nameof(limit), 1, 100);

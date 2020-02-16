@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Okex.Net.SocketObjects
+namespace Okex.Net.SocketObjects.Structure
 {
     internal class OkexSocketRequest
     {

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FundingDepositStatusConverter : BaseConverter<FundingDepositStatus>
+    internal class FundingDepositStatusConverter : BaseConverter<OkexFundingDepositStatus>
     {
         public FundingDepositStatusConverter() : this(true) { }
         public FundingDepositStatusConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<FundingDepositStatus, string>> Mapping => new List<KeyValuePair<FundingDepositStatus, string>>
+        protected override List<KeyValuePair<OkexFundingDepositStatus, string>> Mapping => new List<KeyValuePair<OkexFundingDepositStatus, string>>
         {
-            new KeyValuePair<FundingDepositStatus, string>(FundingDepositStatus.WaitingForConfirmation, "0"),
-            new KeyValuePair<FundingDepositStatus, string>(FundingDepositStatus.DepositCredited, "1"),
-            new KeyValuePair<FundingDepositStatus, string>(FundingDepositStatus.DepositSuccessful, "2"),
+            new KeyValuePair<OkexFundingDepositStatus, string>(OkexFundingDepositStatus.WaitingForConfirmation, "0"),
+            new KeyValuePair<OkexFundingDepositStatus, string>(OkexFundingDepositStatus.DepositCredited, "1"),
+            new KeyValuePair<OkexFundingDepositStatus, string>(OkexFundingDepositStatus.DepositSuccessful, "2"),
         };
     }
 }

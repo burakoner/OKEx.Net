@@ -1,6 +1,6 @@
 ﻿namespace Okex.Net
 {
-    public enum SpotPeriod
+    public enum OkexSpotPeriod
     {
         /// <summary>
         /// 1m
@@ -63,7 +63,7 @@
         OneWeek
     }
 
-    public enum SpotOrderType
+    public enum OkexSpotOrderType
     {
         /// <summary>
         /// Limit Order
@@ -76,7 +76,7 @@
         Market,
     }
 
-    public enum SpotOrderSide
+    public enum OkexSpotOrderSide
     {
         /// <summary>
         /// Buy
@@ -89,7 +89,7 @@
         Sell
     }
 
-    public enum SpotBillType
+    public enum OkexSpotBillType
     {
         /// <summary>
         /// Funds transferred in/out
@@ -164,7 +164,7 @@
         */
     }
 
-    public enum SpotTimeInForce
+    public enum OkexSpotTimeInForce
     {
         NormalOrder,
         PostOnly,
@@ -172,7 +172,7 @@
         ImmediateOrCancel
     }
 
-    public enum SpotOrderState
+    public enum OkexSpotOrderState
     {
         Failed,
         Canceled,
@@ -193,14 +193,14 @@
         Complete
     }
 
-    public enum SpotOrderBookDepth
+    public enum OkexSpotOrderBookDepth
     {
         Depth5,
         Depth400,
         TickByTick,
     }
 
-    public enum SpotOrderBookDataType
+    public enum OkexSpotOrderBookDataType
     {
         /// <summary>
         /// This does not exists normally. Used for Rest Api response
@@ -223,13 +223,13 @@
         DepthUpdate,
     }
 
-    public enum SpotMarginOrderSourceType
+    public enum OkexSpotMarginOrderSourceType
     {
         Spot,
         Margin,
     }
 
-    public enum FundingAccountType
+    public enum OkexFundingAccountType
     {
         TotalAccountAssets,
         Spot,
@@ -243,7 +243,7 @@
         MiningAccount
     }
 
-    public enum FundingTransferAccountType
+    public enum OkexFundingTransferAccountType
     {
         SubAccount,
         Spot,
@@ -256,7 +256,7 @@
         Option,
     }
 
-    public enum FundingBillType
+    public enum OkexFundingBillType
     {
         Deposit,
         Withdrawal,
@@ -276,14 +276,14 @@
         TransferFromSpotAccount,
     }
 
-    public enum FundingDepositStatus
+    public enum OkexFundingDepositStatus
     {
         WaitingForConfirmation,
         DepositCredited,
         DepositSuccessful,
     }
 
-    public enum FundingWithdrawalStatus
+    public enum OkexFundingWithdrawalStatus
     {
         PendingCancel,
         Cancelled,
@@ -296,7 +296,7 @@
         AwaitingIdentityVerification
     }
 
-    public enum FundinWithdrawalDestination
+    public enum OkexFundinWithdrawalDestination
     {
         OKEx,
         CoinAll,

@@ -2,14 +2,10 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Okex.Net
+namespace Okex.Net.Helpers
 {
-    internal static class OkexHelpers
+    internal static class OkexExtensions
     {
-        // Local Settings
-        public static CultureInfo OkexCultureInfo = new CultureInfo("en-US");
-        public static string OkexDatetimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
-
         /// <summary>
         /// Validate the string is a valid spot symbol.
         /// </summary>
@@ -168,12 +164,12 @@ namespace Okex.Net
         #region ISO 8601 DateTime
         public static string DateTimeToIso8601String(this DateTime @this)
         {
-            return @this.ToString(OkexHelpers.OkexDatetimeFormat);
+            return @this.ToString(OkexGlobals.OkexDatetimeFormat);
         }
 
         public static DateTime Iso8601StringToDateTime(this string @this)
         {
-            return DateTime.ParseExact(@this, OkexHelpers.OkexDatetimeFormat, CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(@this, OkexGlobals.OkexDatetimeFormat, CultureInfo.InvariantCulture);
         }
         #endregion
 
@@ -226,4 +222,5 @@ namespace Okex.Net
         #endregion
 
     }
+
 }

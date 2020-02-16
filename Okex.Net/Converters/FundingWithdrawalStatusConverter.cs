@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FundingWithdrawalStatusConverter : BaseConverter<FundingWithdrawalStatus>
+    internal class FundingWithdrawalStatusConverter : BaseConverter<OkexFundingWithdrawalStatus>
     {
         public FundingWithdrawalStatusConverter() : this(true) { }
         public FundingWithdrawalStatusConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<FundingWithdrawalStatus, string>> Mapping => new List<KeyValuePair<FundingWithdrawalStatus, string>>
+        protected override List<KeyValuePair<OkexFundingWithdrawalStatus, string>> Mapping => new List<KeyValuePair<OkexFundingWithdrawalStatus, string>>
         {
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.PendingCancel, "-3"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.Cancelled, "-2"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.Failed, "-1"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.Pending, "0"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.Sending, "1"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.Sent, "2"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.AwaitingEmailVerification, "3"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.AwaitingManualVerification, "4"),
-            new KeyValuePair<FundingWithdrawalStatus, string>(FundingWithdrawalStatus.AwaitingIdentityVerification, "5"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.PendingCancel, "-3"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.Cancelled, "-2"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.Failed, "-1"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.Pending, "0"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.Sending, "1"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.Sent, "2"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.AwaitingEmailVerification, "3"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.AwaitingManualVerification, "4"),
+            new KeyValuePair<OkexFundingWithdrawalStatus, string>(OkexFundingWithdrawalStatus.AwaitingIdentityVerification, "5"),
         };
     }
 }

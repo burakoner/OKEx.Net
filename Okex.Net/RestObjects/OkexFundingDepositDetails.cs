@@ -46,6 +46,6 @@ namespace Okex.Net.RestObjects
         /// Status of deposit
         /// </summary>
         [JsonProperty("status"), JsonConverter(typeof(FundingDepositStatusConverter))]
-        public FundingDepositStatus Status { get; set; }
+        public OkexFundingDepositStatus Status { get; set; }
     }
 }

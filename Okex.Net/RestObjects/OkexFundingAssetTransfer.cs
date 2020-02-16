@@ -31,13 +31,13 @@ namespace Okex.Net.RestObjects
         /// The remitting account
         /// </summary>
         [JsonProperty("from"), JsonConverter(typeof(FundingTransferAccountTypeConverter))]
-        public FundingTransferAccountType FromAccount { get; set; }
+        public OkexFundingTransferAccountType FromAccount { get; set; }
 
         /// <summary>
         /// The beneficiary account
         /// </summary>
         [JsonProperty("to"), JsonConverter(typeof(FundingTransferAccountTypeConverter))]
-        public FundingTransferAccountType ToAccount { get; set; }
+        public OkexFundingTransferAccountType ToAccount { get; set; }
 
         /// <summary>
         /// Transfer ID

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotTimeInForceConverter : BaseConverter<SpotTimeInForce>
+    internal class SpotTimeInForceConverter : BaseConverter<OkexSpotTimeInForce>
     {
         public SpotTimeInForceConverter() : this(true) { }
         public SpotTimeInForceConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<SpotTimeInForce, string>> Mapping => new List<KeyValuePair<SpotTimeInForce, string>>
+        protected override List<KeyValuePair<OkexSpotTimeInForce, string>> Mapping => new List<KeyValuePair<OkexSpotTimeInForce, string>>
         {
-            new KeyValuePair<SpotTimeInForce, string>(SpotTimeInForce.NormalOrder, "0"),
-            new KeyValuePair<SpotTimeInForce, string>(SpotTimeInForce.PostOnly, "1"),
-            new KeyValuePair<SpotTimeInForce, string>(SpotTimeInForce.FillOrKil, "2"),
-            new KeyValuePair<SpotTimeInForce, string>(SpotTimeInForce.ImmediateOrCancel, "3"),
+            new KeyValuePair<OkexSpotTimeInForce, string>(OkexSpotTimeInForce.NormalOrder, "0"),
+            new KeyValuePair<OkexSpotTimeInForce, string>(OkexSpotTimeInForce.PostOnly, "1"),
+            new KeyValuePair<OkexSpotTimeInForce, string>(OkexSpotTimeInForce.FillOrKil, "2"),
+            new KeyValuePair<OkexSpotTimeInForce, string>(OkexSpotTimeInForce.ImmediateOrCancel, "3"),
         };
     }
 }

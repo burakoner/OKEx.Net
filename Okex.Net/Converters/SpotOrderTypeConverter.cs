@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotOrderTypeConverter : BaseConverter<SpotOrderType>
+    internal class SpotOrderTypeConverter : BaseConverter<OkexSpotOrderType>
     {
         public SpotOrderTypeConverter() : this(true) { }
         public SpotOrderTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<SpotOrderType, string>> Mapping => new List<KeyValuePair<SpotOrderType, string>>
+        protected override List<KeyValuePair<OkexSpotOrderType, string>> Mapping => new List<KeyValuePair<OkexSpotOrderType, string>>
         {
-            new KeyValuePair<SpotOrderType, string>(SpotOrderType.Limit, "limit"),
-            new KeyValuePair<SpotOrderType, string>(SpotOrderType.Market, "market"),
+            new KeyValuePair<OkexSpotOrderType, string>(OkexSpotOrderType.Limit, "limit"),
+            new KeyValuePair<OkexSpotOrderType, string>(OkexSpotOrderType.Market, "market"),
         };
     }
 }

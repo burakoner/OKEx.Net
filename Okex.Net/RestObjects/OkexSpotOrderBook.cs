@@ -16,7 +16,7 @@ namespace Okex.Net.RestObjects
         public long Checksum { get; set; }
 
         [JsonOptionalProperty, JsonConverter(typeof(SpotOrderBookDataTypeConverter))]
-        public SpotOrderBookDataType DataType { get; set; } = SpotOrderBookDataType.Api;
+        public OkexSpotOrderBookDataType DataType { get; set; } = OkexSpotOrderBookDataType.Api;
 
         /// <summary>
         /// Selling side

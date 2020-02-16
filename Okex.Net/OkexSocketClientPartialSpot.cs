@@ -1,27 +1,15 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Logging;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Okex.Net.Converters;
 using Okex.Net.RestObjects;
-using Okex.Net.SocketObjects;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Okex.Net.Interfaces;
-using Okex.Net.SocketObjects.Spot;
-using System.Diagnostics;
-using System.Text;
-using System.Globalization;
-using CryptoExchange.Net.Authentication;
-using System.Security;
-using System.Security.Cryptography;
+using Okex.Net.SocketObjects.Structure;
+using Okex.Net.SocketObjects.Containers;
+using Okex.Net.Helpers;
 
 namespace Okex.Net
 {
@@ -107,7 +95,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToCandlesticks(string symbol, SpotPeriod period, Action<OkexSpotCandle> onData) => Spot_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
+        public CallResult<UpdateSubscription> Spot_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData) => Spot_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
         /// <summary>
         /// Retrieve the candlestick data
         /// </summary>
@@ -115,7 +103,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToCandlesticks_Async(string symbol, SpotPeriod period, Action<OkexSpotCandle> onData)
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -124,7 +112,7 @@ namespace Okex.Net
                 foreach (var d in data.Data)
                 {
                     d.Timestamp = DateTime.UtcNow;
-                    d.Candle.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
+                    d.Candle.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
                     onData(d.Candle);
                 }
             });
@@ -172,7 +160,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, SpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
+        public CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, OkexSpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
         /// <summary>
         /// Depth-Five: Back to the previous five entries of depth data,This data is snapshot data per 100 milliseconds.For every 100 milliseconds, we will snapshot and push 5 entries of market depth data of the current order book.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
@@ -181,7 +169,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, SpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexSpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -189,16 +177,16 @@ namespace Okex.Net
             {
                 foreach (var d in data.Data)
                 {
-                    d.Symbol = symbol.ToUpper(OkexHelpers.OkexCultureInfo);
-                    d.DataType = depth == SpotOrderBookDepth.Depth5 ? SpotOrderBookDataType.DepthTop5 : data.DataType;
+                    d.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
+                    d.DataType = depth == OkexSpotOrderBookDepth.Depth5 ? OkexSpotOrderBookDataType.DepthTop5 : data.DataType;
                     onData(d);
                 }
             });
 
             var channel = "depth";
-            if(depth == SpotOrderBookDepth.Depth5) channel = "depth5";
-            else if(depth == SpotOrderBookDepth.Depth400) channel = "depth";
-            else if (depth == SpotOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
+            if(depth == OkexSpotOrderBookDepth.Depth5) channel = "depth5";
+            else if(depth == OkexSpotOrderBookDepth.Depth400) channel = "depth";
+            else if (depth == OkexSpotOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/{channel}:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
