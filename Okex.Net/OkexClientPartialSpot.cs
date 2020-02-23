@@ -416,8 +416,11 @@ namespace Okex.Net
 			if (type == OkexSpotOrderType.Limit && (price == null || size == null))
 				throw new ArgumentException("Both price and size must be provided for Limit Orders");
 
-			if (type == OkexSpotOrderType.Market && (size == null || notional == null))
-				throw new ArgumentException("Both price and notional must be provided for Market Orders");
+			if (type == OkexSpotOrderType.Market && side == OkexSpotOrderSide.Buy && notional == null)
+				throw new ArgumentException("Notional must be provided for Market Buy Orders");
+
+			if (type == OkexSpotOrderType.Market && side == OkexSpotOrderSide.Sell && size == null)
+				throw new ArgumentException("Size must be provided for Market Sell Orders");
 
 			if (type == OkexSpotOrderType.Market && timeInForce != OkexSpotTimeInForce.NormalOrder)
 				throw new ArgumentException("When placing market orders, TimeInForce must be Normal Order");
