@@ -244,17 +244,18 @@ namespace Okex.Net
 		{
 			SetAuthenticationProvider(new OkexAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), passPhrase, SignPublicRequests, ArrayParametersSerialization.Array));
 		}
-		#endregion
+        #endregion
 
-		#region Protected & Private Methods
-		protected override IRequest ConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed)
+        #region Protected & Private Methods
+
+        protected override IRequest ConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed, PostParameters postPosition, ArrayParametersSerialization arraySerialization, int requestId)
 		{
 			if (parameters == null)
 				parameters = new Dictionary<string, object>();
 
 			var uriString = uri.ToString();
 			if (authProvider != null)
-				parameters = authProvider.AddAuthenticationToParameters(uriString, method, parameters, signed);
+				parameters = authProvider.AddAuthenticationToParameters(uriString, method, parameters, signed, postPosition, arraySerialization);
 
 			if ((method == HttpMethod.Get || method == HttpMethod.Delete || postParametersPosition == PostParameters.InUri) && parameters?.Any() == true)
 				uriString += "?" + parameters.CreateParamString(true, arraySerialization);
@@ -268,12 +269,12 @@ namespace Okex.Net
 			}
 
 			var contentType = requestBodyFormat == RequestBodyFormat.Json ? Constants.JsonContentHeader : Constants.FormContentHeader;
-			var request = RequestFactory.Create(method, uriString);
+			var request = RequestFactory.Create(method, uriString, requestId);
 			request.Accept = Constants.JsonContentHeader;
 
 			var headers = new Dictionary<string, string>();
 			if (authProvider != null)
-				headers = authProvider.AddAuthenticationToHeaders(uriString, method, parameters!, signed);
+				headers = authProvider.AddAuthenticationToHeaders(uriString, method, parameters!, signed, postPosition, arraySerialization);
 
 			foreach (var header in headers)
 				request.AddHeader(header.Key, header.Value);

@@ -35,7 +35,7 @@ namespace Okex.Net
             this.arraySerialization = arraySerialization;
         }
 
-        public override Dictionary<string, string> AddAuthenticationToHeaders(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed)
+        public override Dictionary<string, string> AddAuthenticationToHeaders(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, PostParameters postParameterPosition, ArrayParametersSerialization arraySerialization)
         {
             if (!signed && !signPublicRequests)
                 return new Dictionary<string, string>();
