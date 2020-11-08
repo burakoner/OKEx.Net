@@ -304,7 +304,7 @@ namespace Okex.Net
 			var y = endpoint.IndexOf('>');
 			if (x > -1 && y > -1) endpoint = endpoint.Replace(endpoint.Substring(x, y - x + 1), param);
 
-			return new Uri($"{BaseAddress}/{endpoint}");
+			return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
 		}
 
 		private static long ToUnixTimestamp(DateTime time)

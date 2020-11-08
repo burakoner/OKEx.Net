@@ -245,6 +245,9 @@ wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
 ```
 
 ## Release Notes
+* Version 1.2.3 - 08 Nov 2020
+    * Fixed duplicate slashes on BaseAddress caused by CryptoExchange
+
 * Version 1.2.1 - 08 Nov 2020
     * CryptoExchange Version Updated to 3.1.0
 
