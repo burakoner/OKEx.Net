@@ -245,6 +245,9 @@ wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
 ```
 
 ## Release Notes
+* Version 1.2.1 - 08 Nov 2020
+    * CryptoExchange Version Updated to 3.1.0
+
 * Version 1.2.0 - 21 Sep 2020
     * CryptoExchange Version Updated to 3.0.14
 
