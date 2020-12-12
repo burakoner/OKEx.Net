@@ -77,7 +77,7 @@ namespace Okex.Net
 				return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
 
 			if (result.Error != null)
-				return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(result.Error.Code, result.Error.Message));
+				return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(/*result.Error.Code,*/ result.Error.Message));
 
 			result.Data.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
 			return new WebCallResult<OkexSpotOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, result.Data, null);
@@ -163,7 +163,7 @@ namespace Okex.Net
 				return new WebCallResult<IEnumerable<OkexSpotTrade>>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
 
 			if (result.Error != null)
-				return new WebCallResult<IEnumerable<OkexSpotTrade>>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(result.Error.Code, result.Error.Message));
+				return new WebCallResult<IEnumerable<OkexSpotTrade>>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(/*result.Error.Code,*/ result.Error.Message));
 
 			foreach (var data in result.Data)
 			{
@@ -217,7 +217,7 @@ namespace Okex.Net
 				return new WebCallResult<IEnumerable<OkexSpotCandle>>(result.ResponseStatusCode, result.ResponseHeaders, default, result.Error);
 
 			if (result.Error != null)
-				return new WebCallResult<IEnumerable<OkexSpotCandle>>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(result.Error.Code, result.Error.Message));
+				return new WebCallResult<IEnumerable<OkexSpotCandle>>(result.ResponseStatusCode, result.ResponseHeaders, default, new ServerError(/*result.Error.Code,*/ result.Error.Message));
 
 			foreach (var data in result.Data)
 			{

@@ -51,7 +51,7 @@ namespace Okex.Net
         /// Create a new instance of OkexSocketClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public OkexSocketClient(OkexSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
+        public OkexSocketClient(OkexSocketClientOptions options) : base("OKEx", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
         {
             SetDataInterpreter(DecompressData, null);
         }
