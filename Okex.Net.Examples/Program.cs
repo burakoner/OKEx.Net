@@ -1,4 +1,6 @@
 ﻿using CryptoExchange.Net.Sockets;
+using Okex.Net.Enums;
+using Okex.Net.RestObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Okex.Net.Examples
             var ok04 = apiClient.Spot_GetSymbolTicker("BTC-USDT");
             var ok05 = apiClient.Spot_GetTrades("BTC-USDT");
             var ok06 = apiClient.Spot_GetCandles("BTC-USDT", OkexSpotPeriod.OneHour);
+            var ok07 = apiClient.Spot_GetHistoricalCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 
             /* Private Spot Api Endpoints */
             var ok11 = apiClient.Spot_GetAllBalances();
@@ -37,6 +40,30 @@ namespace Okex.Net.Examples
             var ok23 = apiClient.Spot_GetOpenOrders("ETH-BTC");
             var ok24 = apiClient.Spot_GetOrderDetails("ETH-BTC", clientOrderId: "clientorderid");
             var ok25 = apiClient.Spot_TradeFeeRates();
+
+            var orders = new List<OkexSpotPlaceOrder>();
+            orders.Add(new OkexSpotPlaceOrder
+            {
+                Symbol = "ETH-BTC",
+                ClientOrderId = "ClientOrderId",
+                Type = OkexSpotOrderType.Limit,
+                Side = OkexSpotOrderSide.Sell,
+                TimeInForce = OkexSpotTimeInForce.NormalOrder,
+                Price = 0.1m,
+                Size = 0.1m,
+            });
+            orders.Add(new OkexSpotPlaceOrder
+            {
+                Symbol = "ETH-BTC",
+                ClientOrderId = "ClientOrderIx",
+                Type = OkexSpotOrderType.Limit,
+                Side = OkexSpotOrderSide.Sell,
+                TimeInForce = OkexSpotTimeInForce.NormalOrder,
+                Price = 0.2m,
+                Size = 0.2m,
+            });
+            var ok26 = apiClient.Spot_PlaceOrder(orders.First());
+            var ok27 = apiClient.Spot_BatchPlaceOrders(orders);
 
             /* Private Funding Api Endpoints */
             var ok31 = apiClient.Funding_GetAllBalances();
@@ -57,6 +84,9 @@ namespace Okex.Net.Examples
             var ok48 = apiClient.Funding_GetWithdrawalHistory();
             var ok49 = apiClient.Funding_GetWithdrawalHistoryByCurrency("BTC");
             var ok50 = apiClient.Funding_GetWithdrawalHistoryByCurrency("ETH");
+
+            /* Private Margin Api Endpoints */
+            var ok61 = apiClient.Margin_GetAllBalances();
 
             //Console.ReadLine();
             //return;

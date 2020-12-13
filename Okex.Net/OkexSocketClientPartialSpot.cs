@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Okex.Net.SocketObjects.Structure;
 using Okex.Net.SocketObjects.Containers;
 using Okex.Net.Helpers;
+using Okex.Net.Enums;
 
 namespace Okex.Net
 {

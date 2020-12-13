@@ -1,4 +1,4 @@
-﻿namespace Okex.Net
+﻿namespace Okex.Net.Enums
 {
     public enum OkexSpotPeriod
     {
@@ -75,7 +75,7 @@
         /// </summary>
         Market,
     }
-
+    
     public enum OkexSpotOrderSide
     {
         /// <summary>
@@ -223,12 +223,6 @@
         DepthUpdate,
     }
 
-    public enum OkexSpotMarginOrderSourceType
-    {
-        Spot,
-        Margin,
-    }
-
     public enum OkexFundingAccountType
     {
         TotalAccountAssets,
@@ -254,6 +248,12 @@
         PiggyBank,
         Swap,
         Option,
+    }
+    
+    public enum OkexFundingPiggyBankActionSide
+    {
+        Purchase,
+        Redempt,
     }
 
     public enum OkexFundingBillType

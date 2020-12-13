@@ -10,13 +10,13 @@ namespace Okex.Net.Helpers
         /// Validate the string is a valid spot symbol.
         /// </summary>
         /// <param name="symbol">string to validate</param>
-        public static string ValidateSymbol(this string symbol)
+        public static string ValidateSymbol(this string symbol, string messagePrefix="", string messageSuffix="")
         {
             if (string.IsNullOrEmpty(symbol))
-                throw new ArgumentException("Symbol is not provided");
+                throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}Symbol is not provided{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             if (!Regex.IsMatch(symbol, "^(([a-z]|[A-Z]|-|[0-9]){5,15})$"))
-                throw new ArgumentException($"{symbol} is not a valid Okex Symbol. Should be [QuoteCurrency]-[BaseCurrency], e.g. ETH-BTC");
+                throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}{symbol} is not a valid Okex Symbol. Should be [QuoteCurrency]-[BaseCurrency], e.g. ETH-BTC{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             return symbol;
         }
@@ -26,22 +26,22 @@ namespace Okex.Net.Helpers
         /// </summary>
         /// <param name="currency"></param>
         /// <returns></returns>
-        public static string ValidateCurrency(this string currency)
+        public static string ValidateCurrency(this string currency, string messagePrefix = "", string messageSuffix = "")
         {
             if (string.IsNullOrEmpty(currency))
-                throw new ArgumentException("Symbol is not provided");
+                throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}Symbol is not provided{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             if (!Regex.IsMatch(currency, "^(([a-z]|[A-Z]){2,5})$"))
-                throw new ArgumentException($"{currency} is not a valid Okex Currency. Should be [Currency] only, e.g. BTC");
+                throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}{currency} is not a valid Okex Currency. Should be [Currency] only, e.g. BTC{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             return currency;
         }
 
-        public static void ValidateStringLength(this string @this, string argumentName, int minLength, int maxLength)
+        public static void ValidateStringLength(this string @this, string argumentName, int minLength, int maxLength, string messagePrefix = "", string messageSuffix = "")
         {
             if (@this.Length < minLength || @this.Length > maxLength)
                 throw new ArgumentException(
-                    $"{@this} not allowed for parameter {argumentName}, Min Length: {minLength}, Max Length: {maxLength}");
+                    $"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}{@this} not allowed for parameter {argumentName}, Min Length: {minLength}, Max Length: {maxLength}{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
         }
 
         #region Null

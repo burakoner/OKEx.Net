@@ -46,10 +46,18 @@ namespace Okex.Net
             var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds()/ 1000.0m).ToString(CultureInfo.InvariantCulture);
             var signtext = time + method.Method.ToUpper() + uri.Replace("https://www.okex.com", "").Trim('?');
 
-            if(method == HttpMethod.Post)
+            if (method == HttpMethod.Post)
             {
-                var bodyString = JsonConvert.SerializeObject(parameters.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
-                signtext = signtext + bodyString;
+                if (parameters.Count == 1 && parameters.Keys.First() == OkexClient.BodyParameterKey)
+                {
+                    var bodyString = JsonConvert.SerializeObject(parameters[OkexClient.BodyParameterKey]);
+                    signtext = signtext + bodyString;
+                }
+                else
+                {
+                    var bodyString = JsonConvert.SerializeObject(parameters.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
+                    signtext = signtext + bodyString;
+                }
             }
 
             var signature = OkexAuthenticationProvider.Base64Encode(encryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));

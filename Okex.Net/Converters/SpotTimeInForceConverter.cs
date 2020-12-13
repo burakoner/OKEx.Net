@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Converters;
+using Okex.Net.Enums;
 using System.Collections.Generic;
 
 namespace Okex.Net.Converters

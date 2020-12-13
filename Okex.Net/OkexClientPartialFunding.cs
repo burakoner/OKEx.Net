@@ -9,12 +9,14 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Okex.Net.Helpers;
+using Okex.Net.Enums;
 
 namespace Okex.Net
 {
 	public partial class OkexClient
 	{
 		#region Funding Account API
+
 		/// <summary>
 		/// This retrieves information on the balances of all the assets, and the amount that is available or on hold.
 		/// Limit: 20 requests per 2 seconds
@@ -33,26 +35,30 @@ namespace Okex.Net
 			return await SendRequest<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetAllBalances), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
 		}
 
-
 		/// <summary>
-		/// This retrieves information for a single token in your account, including the remaining balance, and the amount available or on hold.
+		/// The account obtains the fund balance information in each account of the sub account
+		/// Limit: 1 requests per 20 seconds
 		/// </summary>
-		/// <param name="currency">Token symbol, e.g. 'BTC'</param>
+		/// <param name="subAccountName">Sub Account Name</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingAssetBalance>> Funding_GetCurrencyBalance(string currency, CancellationToken ct = default) => Funding_GetBalance_Async(currency, ct).Result;
+		public WebCallResult<OkexFundingSubAccount> Funding_GetSubAccount(string subAccountName, CancellationToken ct = default) => Funding_GetSubAccount_Async(subAccountName, ct).Result;
 		/// <summary>
-		/// This retrieves information for a single token in your account, including the remaining balance, and the amount available or on hold.
+		/// The account obtains the fund balance information in each account of the sub account
+		/// Limit: 1 requests per 20 seconds
 		/// </summary>
-		/// <param name="currency">Token symbol, e.g. 'BTC'</param>
+		/// <param name="subAccountName">Sub Account Name</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingAssetBalance>>> Funding_GetBalance_Async(string currency, CancellationToken ct = default)
+		public async Task<WebCallResult<OkexFundingSubAccount>> Funding_GetSubAccount_Async(string subAccountName, CancellationToken ct = default)
 		{
-			currency = currency.ValidateCurrency();
-			return await SendRequest<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetCurrencyBalance, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
-		}
+			var parameters = new Dictionary<string, object>
+			{
+				{ "sub-account", subAccountName },
+			};
 
+			return await SendRequest<OkexFundingSubAccount>(GetUrl(Endpoints_Funding_GetSubAccount), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+		}
 
 		/// <summary>
 		/// Get the valuation of the total assets of the account in btc or fiat currency.
@@ -86,33 +92,25 @@ namespace Okex.Net
 			return await SendRequest<OkexFundingAssetValuation>(GetUrl(Endpoints_Funding_GetAssetValuation), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
 		}
 
-
 		/// <summary>
-		/// The account obtains the fund balance information in each account of the sub account
-		/// Limit: 1 requests per 20 seconds
+		/// This retrieves information for a single token in your account, including the remaining balance, and the amount available or on hold.
 		/// </summary>
-		/// <param name="subAccountName">Sub Account Name</param>
+		/// <param name="currency">Token symbol, e.g. 'BTC'</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<OkexFundingSubAccount> Funding_GetSubAccount(string subAccountName, CancellationToken ct = default) => Funding_GetSubAccount_Async(subAccountName, ct).Result;
+		public WebCallResult<IEnumerable<OkexFundingAssetBalance>> Funding_GetCurrencyBalance(string currency, CancellationToken ct = default) => Funding_GetBalance_Async(currency, ct).Result;
 		/// <summary>
-		/// The account obtains the fund balance information in each account of the sub account
-		/// Limit: 1 requests per 20 seconds
+		/// This retrieves information for a single token in your account, including the remaining balance, and the amount available or on hold.
 		/// </summary>
-		/// <param name="subAccountName">Sub Account Name</param>
+		/// <param name="currency">Token symbol, e.g. 'BTC'</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<OkexFundingSubAccount>> Funding_GetSubAccount_Async(string subAccountName, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexFundingAssetBalance>>> Funding_GetBalance_Async(string currency, CancellationToken ct = default)
 		{
-			var parameters = new Dictionary<string, object>
-			{
-				{ "sub-account", subAccountName },
-			};
-
-			return await SendRequest<OkexFundingSubAccount>(GetUrl(Endpoints_Funding_GetSubAccount), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+			currency = currency.ValidateCurrency();
+			return await SendRequest<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetCurrencyBalance, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
 		}
 
-
 		/// <summary>
 		/// This endpoint supports the transfer of funds among your funding account, trading accounts, main account, and sub accounts.
 		/// Limit: 1 request per 2 seconds (per currency)
@@ -126,16 +124,7 @@ namespace Okex.Net
 		/// <param name="toSymbol">Margin trading pair of token or underlying of USDT-margined futures transferred in, such as: btc-usdt. Limited to trading pairs available for margin trading or underlying of enabled futures trading.</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<OkexFundingAssetTransfer> Funding_Transfer(
-			string currency,
-			decimal amount,
-			OkexFundingTransferAccountType fromAccount,
-			OkexFundingTransferAccountType toAccount,
-			string? subAccountName = null,
-			string? fromSymbol = null,
-			string? toSymbol = null,
-			CancellationToken ct = default)
-			=> Funding_Transfer_Async(currency, amount, fromAccount, toAccount, subAccountName, fromSymbol, toSymbol, ct).Result;
+		public WebCallResult<OkexFundingAssetTransfer> Funding_Transfer(string currency, decimal amount, OkexFundingTransferAccountType fromAccount, OkexFundingTransferAccountType toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, CancellationToken ct = default) => Funding_Transfer_Async(currency, amount, fromAccount, toAccount, subAccountName, fromSymbol, toSymbol, ct).Result;
 		/// <summary>
 		/// This endpoint supports the transfer of funds among your funding account, trading accounts, main account, and sub accounts.
 		/// Limit: 1 request per 2 seconds (per currency)
@@ -149,15 +138,7 @@ namespace Okex.Net
 		/// <param name="toSymbol">Margin trading pair of token or underlying of USDT-margined futures transferred in, such as: btc-usdt. Limited to trading pairs available for margin trading or underlying of enabled futures trading.</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<OkexFundingAssetTransfer>> Funding_Transfer_Async(
-			string currency,
-			decimal amount,
-			OkexFundingTransferAccountType fromAccount,
-			OkexFundingTransferAccountType toAccount,
-			string? subAccountName = null,
-			string? fromSymbol = null,
-			string? toSymbol = null,
-			CancellationToken ct = default)
+		public async Task<WebCallResult<OkexFundingAssetTransfer>> Funding_Transfer_Async(string currency, decimal amount, OkexFundingTransferAccountType fromAccount, OkexFundingTransferAccountType toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, CancellationToken ct = default)
 		{
 			currency = currency.ValidateCurrency();
 
@@ -187,6 +168,86 @@ namespace Okex.Net
 			return await SendRequest<OkexFundingAssetTransfer>(GetUrl(Endpoints_Funding_Transfer, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
 		}
 
+		/// <summary>
+		/// This endpoint supports the withdrawal of tokens
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">Withdrawal amount</param>
+		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
+		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
+		/// <param name="fundPassword">Fund password</param>
+		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>> Funding_Withdrawal(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default) => Funding_Withdrawal_Async(currency, amount, destination, toAddress, fundPassword, fee, ct).Result;
+		/// <summary>
+		/// This endpoint supports the withdrawal of tokens
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">Withdrawal amount</param>
+		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
+		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
+		/// <param name="fundPassword">Fund password</param>
+		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>>> Funding_Withdrawal_Async(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+
+			var parameters = new Dictionary<string, object>
+			{
+				{ "currency", currency },
+				{ "amount", amount },
+				{ "destination", JsonConvert.SerializeObject(destination, new FundinWithdrawalDestinationConverter(false)) },
+				{ "to_address", toAddress },
+				{ "trade_pwd", fundPassword },
+				{ "fee", fee },
+			};
+
+			return await SendRequest<IEnumerable<OkexFundingWithdrawalRequest>>(GetUrl(Endpoints_Funding_Withdrawal), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// This retrieves up to 100 recent withdrawal records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>> Funding_GetWithdrawalHistory(CancellationToken ct = default) => Funding_GetWithdrawalHistory_Async(ct).Result;
+		/// <summary>
+		/// This retrieves up to 100 recent withdrawal records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistory_Async(CancellationToken ct = default)
+		{
+			return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// This retrieves the withdrawal records of a specific currency.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>> Funding_GetWithdrawalHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetWithdrawalHistoryByCurrency_Async(currency, ct).Result;
+		/// <summary>
+		/// This retrieves the withdrawal records of a specific currency.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistoryByCurrency_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+			return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
 
 		/// <summary>
 		/// This retrieves the account bills dating back the past month. Pagination is supported and the response is sorted with most recent first in reverse chronological order. Latest 1 month records will be returned at maximum.
@@ -228,7 +289,72 @@ namespace Okex.Net
 			return await SendRequest<IEnumerable<OkexFundingBill>>(GetUrl(Endpoints_Funding_Bills), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
 		}
 
+		/// <summary>
+		/// This retrieves the deposit addresses of currencies, including previously used addresses.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingDepositAddress>> Funding_GetDepositAddress(string currency, CancellationToken ct = default) => Funding_GetDepositAddress_Async(currency, ct).Result;
+		/// <summary>
+		/// This retrieves the deposit addresses of currencies, including previously used addresses.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token symbol</param>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingDepositAddress>>> Funding_GetDepositAddress_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
 
+			var parameters = new Dictionary<string, object>
+			{
+				{ "currency", currency },
+			};
+
+			return await SendRequest<IEnumerable<OkexFundingDepositAddress>>(GetUrl(Endpoints_Funding_DepositAddress), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+		}
+		
+		/// <summary>
+		/// This retrieves the deposit history of all currencies, up to 100 recent records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingDepositDetails>> Funding_GetDepositHistory(CancellationToken ct = default) => Funding_GetDepositHistory_Async(ct).Result;
+		/// <summary>
+		/// This retrieves the deposit history of all currencies, up to 100 recent records.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="ct">Cancellation Token</param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistory_Async(CancellationToken ct = default)
+		{
+			return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+		
+		/// <summary>
+		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token Symbol</param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public WebCallResult<IEnumerable<OkexFundingDepositDetails>> Funding_GetDepositHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetDepositHistoryByCurrency_Async(currency, ct).Result;
+		/// <summary>
+		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
+		/// Limit: 20 requests per 2 seconds
+		/// </summary>
+		/// <param name="currency">Token Symbol</param>
+		/// <param name="ct"></param>
+		/// <returns></returns>
+		public async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistoryByCurrency_Async(string currency, CancellationToken ct = default)
+		{
+			currency = currency.ValidateCurrency();
+			return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+		}
+		
 		/// <summary>
 		/// This retrieves a list of all currencies. Not all currencies can be traded. Currencies that have not been defined in ISO 4217 may use a custom symbol.
 		/// Rate Limit: 20 requests per 2 seconds
@@ -247,49 +373,23 @@ namespace Okex.Net
 			return await SendRequest<IEnumerable<OkexFundingAssetInformation>>(GetUrl(Endpoints_Funding_GetCurrencies), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
 		}
 
-
 		/// <summary>
-		/// This endpoint supports the withdrawal of tokens
-		/// Limit: 20 requests per 2 seconds
+		/// Get the unique UID of the account。
+		/// Rate Limit: 1 requests per second
 		/// </summary>
-		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
-		/// <param name="amount">Withdrawal amount</param>
-		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
-		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
-		/// <param name="fundPassword">Fund password</param>
-		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>> Funding_Withdrawal(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee,  CancellationToken ct = default) => Funding_Withdrawal_Async( currency,  amount,  destination, toAddress, fundPassword,  fee, ct).Result;
+		public WebCallResult<IEnumerable<OkexFundingUserId>> Funding_GetUserID(CancellationToken ct = default) => Funding_GetUserID_Async(ct).Result;
 		/// <summary>
-		/// This endpoint supports the withdrawal of tokens
-		/// Limit: 20 requests per 2 seconds
+		/// Get the unique UID of the account。
+		/// Rate Limit: 1 requests per second
 		/// </summary>
-		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
-		/// <param name="amount">Withdrawal amount</param>
-		/// <param name="destination">withdrawal address(3:OKEx 4:others 68.CoinAll )</param>
-		/// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F：123456'</param>
-		/// <param name="fundPassword">Fund password</param>
-		/// <param name="fee">Network transaction fee. Please refer to the withdrawal fees section below for recommended fee amount</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalRequest>>> Funding_Withdrawal_Async(string currency, decimal amount, OkexFundinWithdrawalDestination destination, string toAddress, string fundPassword, decimal fee, CancellationToken ct = default)
+		public async Task<WebCallResult<IEnumerable<OkexFundingUserId>>> Funding_GetUserID_Async(CancellationToken ct = default)
 		{
-			currency = currency.ValidateCurrency();
-
-			var parameters = new Dictionary<string, object>
-			{
-				{ "currency", currency },
-				{ "amount", amount },
-				{ "destination", JsonConvert.SerializeObject(destination, new FundinWithdrawalDestinationConverter(false)) },
-				{ "to_address", toAddress },
-				{ "trade_pwd", fundPassword },
-				{ "fee", fee },
-			};
-
-			return await SendRequest<IEnumerable<OkexFundingWithdrawalRequest>>(GetUrl(Endpoints_Funding_Withdrawal), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+			return await SendRequest<IEnumerable<OkexFundingUserId>>(GetUrl(Endpoints_Funding_GetUserID), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
 		}
-
 
 		/// <summary>
 		/// This retrieves the information about the recommended network transaction fee for withdrawals to digital currency addresses. The higher the fees are set, the faster the confirmations.
@@ -312,115 +412,37 @@ namespace Okex.Net
 			return await SendRequest<IEnumerable<OkexFundingWithdrawalFee>>(GetUrl(Endpoints_Funding_WithdrawalFees), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
 		}
 
-
 		/// <summary>
-		/// This retrieves up to 100 recent withdrawal records.
-		/// Limit: 20 requests per 2 seconds
+		/// This endpoint supports the purchase and redemption of PiggyBank.
+		/// Limit: 6 requests per second
 		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">purchase/redempt amount</param>
+		/// <param name="side">action type. Purchase: purchase shares of PiggyBank, Redempt: redempt shares of PiggyBank</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>> Funding_GetWithdrawalHistory(CancellationToken ct = default) => Funding_GetWithdrawalHistory_Async(ct).Result;
+		public WebCallResult<OkexFundingPiggyBank> Funding_PiggyBank(string currency, decimal amount, OkexFundingPiggyBankActionSide side, CancellationToken ct = default) => Funding_PiggyBank_Async(currency, amount, side, ct).Result;
 		/// <summary>
-		/// This retrieves up to 100 recent withdrawal records.
-		/// Limit: 20 requests per 2 seconds
+		/// This endpoint supports the purchase and redemption of PiggyBank.
 		/// </summary>
+		/// <param name="currency">Token symbol, e.g., 'BTC'</param>
+		/// <param name="amount">purchase/redempt amount</param>
+		/// <param name="side">action type. Purchase: purchase shares of PiggyBank, Redempt: redempt shares of PiggyBank</param>
 		/// <param name="ct">Cancellation Token</param>
 		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistory_Async(CancellationToken ct = default)
-		{
-			return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
-		}
-
-
-		/// <summary>
-		/// This retrieves the withdrawal records of a specific currency.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token symbol</param>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>> Funding_GetWithdrawalHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetWithdrawalHistoryByCurrency_Async(currency,ct).Result;
-		/// <summary>
-		/// This retrieves the withdrawal records of a specific currency.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token symbol</param>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistoryByCurrency_Async(string currency, CancellationToken ct = default)
+		public async Task<WebCallResult<OkexFundingPiggyBank>> Funding_PiggyBank_Async(string currency, decimal amount, OkexFundingPiggyBankActionSide side, CancellationToken ct = default)
 		{
 			currency = currency.ValidateCurrency();
-			return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
-		}
-
-
-		/// <summary>
-		/// This retrieves the deposit addresses of currencies, including previously used addresses.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token symbol</param>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingDepositAddress>> Funding_GetDepositAddress(string currency, CancellationToken ct = default) => Funding_GetDepositAddress_Async(currency , ct).Result;
-		/// <summary>
-		/// This retrieves the deposit addresses of currencies, including previously used addresses.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token symbol</param>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingDepositAddress>>> Funding_GetDepositAddress_Async(string currency, CancellationToken ct = default)
-		{
-			currency = currency.ValidateCurrency();
-
 			var parameters = new Dictionary<string, object>
 			{
 				{ "currency", currency },
+				{ "amount", amount },
+				{ "side", JsonConvert.SerializeObject(side, new FundingPiggyBankActionSideConverter(false)) },
 			};
 
-			return await SendRequest<IEnumerable<OkexFundingDepositAddress>>(GetUrl(Endpoints_Funding_DepositAddress), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+			return await SendRequest<OkexFundingPiggyBank>(GetUrl(Endpoints_Funding_PiggyBank, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
 		}
 
-
-		/// <summary>
-		/// This retrieves the deposit history of all currencies, up to 100 recent records.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingDepositDetails>> Funding_GetDepositHistory(CancellationToken ct = default) => Funding_GetDepositHistory_Async(ct).Result;
-		/// <summary>
-		/// This retrieves the deposit history of all currencies, up to 100 recent records.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="ct">Cancellation Token</param>
-		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistory_Async(CancellationToken ct = default)
-		{
-			return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
-		}
-
-
-		/// <summary>
-		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token Symbol</param>
-		/// <param name="ct"></param>
-		/// <returns></returns>
-		public WebCallResult<IEnumerable<OkexFundingDepositDetails>> Funding_GetDepositHistoryByCurrency(string currency, CancellationToken ct = default) => Funding_GetDepositHistoryByCurrency_Async( currency, ct).Result;
-		/// <summary>
-		/// This retrieves the deposit history of a currency, up to 100 recent records returned.
-		/// Limit: 20 requests per 2 seconds
-		/// </summary>
-		/// <param name="currency">Token Symbol</param>
-		/// <param name="ct"></param>
-		/// <returns></returns>
-		public async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistoryByCurrency_Async(string currency, CancellationToken ct = default)
-		{
-			currency = currency.ValidateCurrency();
-			return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistoryCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
-		}
 		#endregion
 	}
 }

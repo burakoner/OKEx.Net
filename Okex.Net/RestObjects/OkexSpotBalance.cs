@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects
 {
-    public class OkexSpotAccount
+    public class OkexSpotBalance
     {
         /// <summary>
         /// Account ID

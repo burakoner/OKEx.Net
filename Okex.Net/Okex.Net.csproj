@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <PackageVersion>1.2.4</PackageVersion>
+    <PackageVersion>1.3.0</PackageVersion>
     <Description>Okex.Net is a .Net wrapper for the Okex API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -15,7 +15,27 @@
     <PackageIcon>icon.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Version 1.2.4 - 12 Dec 2020
+    <PackageReleaseNotes>
+Version 1.3.0 - 13 Dec 2020
+* Core Features
+    * Overrided to CryptoExchange.Net.RestClient.WriteParamBody
+    * Changed signature algorithm
+* Added Funding Methods below. Check readme on github.
+* Added Spot Trading Methods below. Check readme on github.
+* Added Algo Trading Methods below. Check readme on github.
+* Added Margin Trading Methods below. Check readme on github.
+* Added many enums, models and converters
+* Changed Namespaces below
+    * Okex.Net -> Okex.Net.Enums (for enums only)
+* Changed Method names below
+    * Okex.Net.Converters: SpotMarginOrderSourceTypeConverter -> MarketConverter
+* Changed Enum names below
+    * OkexSpotMarginOrderSourceType -> OkexMarket
+* Changed Class names below
+    * Okex.Net.RestObjects: OkexSpotAccount -> OkexSpotBalance
+* Fixed minor bugs
+
+Version 1.2.4 - 12 Dec 2020
 CryptoExchange version updated to 3.3.0
 
 Version 1.2.3 08 Nov 2020
@@ -66,9 +86,9 @@ First Release</PackageReleaseNotes>
   <PropertyGroup>
     <DocumentationFile></DocumentationFile>
     <PackageIconUrl />
-    <Version>1.2.4</Version>
-    <AssemblyVersion>1.2.4.0</AssemblyVersion>
-    <FileVersion>1.2.4.0</FileVersion>
+    <Version>1.3.0</Version>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
     <PackageProjectUrl>https://github.com/burakoner/OKEx.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/burakoner/OKEx.Net</RepositoryUrl>
   </PropertyGroup>

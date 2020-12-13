@@ -51,7 +51,7 @@ namespace Okex.Net
         /// Create a new instance of OkexSocketClient using provided options
         /// </summary>
         /// <param name="options">The options to use for this client</param>
-        public OkexSocketClient(OkexSocketClientOptions options) : base("OKEx", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
+        public OkexSocketClient(OkexSocketClientOptions options) : base("Okex", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
         {
             SetDataInterpreter(DecompressData, null);
         }
@@ -103,12 +103,12 @@ namespace Okex.Net
             return new CallResult<bool>(result.Success, result.Error);
         }
 
-        public CallResult<UpdateSubscription> User_Spot_SubscribeToBalance(string currency, Action<OkexSpotAccount> onData) => User_Spot_SubscribeToBalance_Async(currency, onData).Result;
-        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotAccount> onData)
+        public CallResult<UpdateSubscription> User_Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => User_Spot_SubscribeToBalance_Async(currency, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
         {
             currency = currency.ValidateCurrency();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotAccount>>>(data =>
+            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotBalance>>>(data =>
             {
                 foreach (var d in data.Data)
                 {
@@ -155,7 +155,7 @@ namespace Okex.Net
 
                 using (var streamReader = new StreamReader(decompressedStream))
                 {
-                    /**/
+                    /** /
                     var response = streamReader.ReadToEnd();
                     return response;
                     /**/
@@ -192,19 +192,19 @@ namespace Okex.Net
 
             // Check for Error
             // 30040: {0} Channel : {1} doesn't exist
-            if (message["event"] != null && (string)message["event"] == "error" && message["errorCode"] != null && (string)message["errorCode"] == "30040")
+            if (message["event"] != null && (string)message["event"]! == "error" && message["errorCode"] != null && (string)message["errorCode"]! == "30040")
             {
-                log.Write(LogVerbosity.Warning, "Subscription failed: " + (string)message["message"]);
-                callResult = new CallResult<object>(null, new ServerError($"{(string)message["errorCode"]}, {(string)message["message"]}"));
+                log.Write(LogVerbosity.Warning, "Subscription failed: " + (string)message["message"]!);
+                callResult = new CallResult<object>(null, new ServerError($"{(string)message["errorCode"]!}, {(string)message["message"]!}"));
                 return true;
             }
 
             // Check for Success
-            if (message["event"] != null && (string)message["event"] == "subscribe" && message["channel"] != null)
+            if (message["event"] != null && (string)message["event"]! == "subscribe" && message["channel"] != null)
             {
                 if (request is OkexSocketRequest socRequest)
                 {
-                    if (socRequest.Arguments.Contains((string)message["channel"]))
+                    if (socRequest.Arguments.Contains((string)message["channel"]!))
                     {
                         log.Write(LogVerbosity.Debug, "Subscription completed");
                         callResult = new CallResult<object>(true, null);
@@ -218,10 +218,13 @@ namespace Okex.Net
 
         protected override bool MessageMatchesHandler(JToken message, object request)
         {
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             if (request is OkexSocketRequest hRequest)
             {
                 // Tickers Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/ticker"))
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("spot/ticker"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
                     {
@@ -238,7 +241,7 @@ namespace Okex.Net
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
                     {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
+                        var channel = (string)message["table"]! + ":" + (string)message["data"][0]["instrument_id"];
                         if (hRequest.Arguments.Contains(channel))
                         {
                             return true;
@@ -313,6 +316,8 @@ namespace Okex.Net
             }
 
             return false;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
@@ -320,7 +325,9 @@ namespace Okex.Net
             return true;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (authProvider == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
@@ -365,7 +372,7 @@ namespace Okex.Net
 
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
         {
-            string topic;
+            // string topic;
             object? unsub = null;
             string? unsubId = null;
             var idField = "id";
@@ -391,12 +398,14 @@ namespace Okex.Net
                 if (data.Type != JTokenType.Object)
                     return false;
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 var id = (string)data[idField];
                 if (id == unsubId)
                 {
                     result = (string)data["status"] == "ok";
                     return true;
                 }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
                 return false;
             });

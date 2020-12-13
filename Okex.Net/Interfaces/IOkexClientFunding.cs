@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
+using Okex.Net.Enums;
 using Okex.Net.RestObjects;
 
 namespace Okex.Net.Interfaces

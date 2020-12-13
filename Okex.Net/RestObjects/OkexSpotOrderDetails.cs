@@ -4,6 +4,7 @@ using Okex.Net.Converters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
@@ -126,8 +127,8 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// 1 spot order. 2 margin order
         /// </summary>
-        [JsonProperty("margin_trading"), JsonOptionalProperty, JsonConverter(typeof(SpotMarginOrderSourceTypeConverter))]
-        public OkexSpotMarginOrderSourceType OrderSource { get; set; } = OkexSpotMarginOrderSourceType.Spot;
+        [JsonProperty("margin_trading"), JsonOptionalProperty, JsonConverter(typeof(MarketConverter))]
+        public OkexMarket OrderSource { get; set; } = OkexMarket.Spot;
 
         /// <summary>
         /// Latest Filled Time. The '1970-01-01T00:00:00.000Z' will be returned if the data is empty.

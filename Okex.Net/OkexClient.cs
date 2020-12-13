@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net.Http;
 using Okex.Net.Interfaces;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace Okex.Net
 {
@@ -34,73 +36,94 @@ namespace Okex.Net
 
 		#region Funding Account API Endpoints
 		private const string Endpoints_Funding_GetAllBalances = "api/account/v3/wallet";
-		private const string Endpoints_Funding_GetCurrencyBalance = "api/account/v3/wallet/<currency>";
-		private const string Endpoints_Funding_GetAssetValuation = "api/account/v3/asset-valuation";
 		private const string Endpoints_Funding_GetSubAccount = "api/account/v3/sub-account";
+		private const string Endpoints_Funding_GetAssetValuation = "api/account/v3/asset-valuation";
+		private const string Endpoints_Funding_GetCurrencyBalance = "api/account/v3/wallet/<currency>";
 		private const string Endpoints_Funding_Transfer = "api/account/v3/transfer";
-		private const string Endpoints_Funding_Bills = "api/account/v3/ledger";
-		private const string Endpoints_Funding_GetCurrencies = "api/account/v3/currencies";
 		private const string Endpoints_Funding_Withdrawal = "api/account/v3/withdrawal";
-		private const string Endpoints_Funding_WithdrawalFees = "api/account/v3/withdrawal/fee";
 		private const string Endpoints_Funding_WithdrawalHistory = "api/account/v3/withdrawal/history";
 		private const string Endpoints_Funding_WithdrawalHistoryCurrency = "api/account/v3/withdrawal/history/<currency>";
+		private const string Endpoints_Funding_Bills = "api/account/v3/ledger";
 		private const string Endpoints_Funding_DepositAddress = "api/account/v3/deposit/address";
 		private const string Endpoints_Funding_DepositHistory = "api/account/v3/deposit/history";
 		private const string Endpoints_Funding_DepositHistoryCurrency = "api/account/v3/deposit/history/<currency>";
+		private const string Endpoints_Funding_GetCurrencies = "api/account/v3/currencies";
+		private const string Endpoints_Funding_GetUserID = "api/account/v3/uid";
+		private const string Endpoints_Funding_WithdrawalFees = "api/account/v3/withdrawal/fee";
+		private const string Endpoints_Funding_PiggyBank = "api/account/v3/purchase_redempt";
 		#endregion
 
 		#region Spot Trading API Endpoints
-		private const string Endpoints_Spot_TradingPairs = "api/spot/v3/instruments"; // Public
-		private const string Endpoints_Spot_OrderBook = "api/spot/v3/instruments/<instrument_id>/book"; // Public
-		private const string Endpoints_Spot_TradingPairsTicker = "api/spot/v3/instruments/ticker"; // Public
-		private const string Endpoints_Spot_TradingPairTicker = "api/spot/v3/instruments/<instrument_id>/ticker"; // Public
-		private const string Endpoints_Spot_Trades = "api/spot/v3/instruments/<instrument_id>/trades"; // Public
-		private const string Endpoints_Spot_Candles = "api/spot/v3/instruments/<instrument_id>/candles"; // Public
-		private const string Endpoints_Spot_Accounts = "api/spot/v3/accounts";
+
+        #region Private Signed Endpoints
+        private const string Endpoints_Spot_Accounts = "api/spot/v3/accounts";
 		private const string Endpoints_Spot_Account = "api/spot/v3/accounts/<currency>";
 		private const string Endpoints_Spot_Bills = "api/spot/v3/accounts/<currency>/ledger";
 		private const string Endpoints_Spot_PlaceOrder = "api/spot/v3/orders";
-		// TODO: Spot Batch Orders
 		private const string Endpoints_Spot_PlaceBatchOrders = "api/spot/v3/batch_orders";
 		private const string Endpoints_Spot_CancelOrder = "api/spot/v3/cancel_orders/<order_id>";
-		// TODO: Cancel Batch Orders
 		private const string Endpoints_Spot_CancelBatchOrders = "api/spot/v3/cancel_batch_orders";
+		private const string Endpoints_Spot_ModifyOrder = "api/spot/v3/amend_order/<instrument_id>";
+		private const string Endpoints_Spot_BatchModifyOrders = "api/spot/v3/amend_batch_orders/<instrument_id>";
 		private const string Endpoints_Spot_OrderList = "api/spot/v3/orders";
 		private const string Endpoints_Spot_OpenOrders = "api/spot/v3/orders_pending";
 		private const string Endpoints_Spot_OrderDetails = "api/spot/v3/orders/<order_id>";
 		private const string Endpoints_Spot_TradeFee = "api/spot/v3/trade_fee";
-		// TODO: Transaction Details
 		private const string Endpoints_Spot_TransactionDetails = "api/spot/v3/fills";
-		// TODO: Place Algo Order
-		private const string Endpoints_Spot_PlaceAlgoOrder = "api/spot/v3/order_algo";
-		// TODO: Cancel Algo Order
-		private const string Endpoints_Spot_CancelBatchAlgoOrders = "api/spot/v3/cancel_batch_algos";
-		// TODO: Get Algo Order List
-		private const string Endpoints_Spot_AlgoOrderList = "api/spot/v3/algo";
+		#endregion
+
+		#region Public Unsigned Endpoints
+		private const string Endpoints_Spot_TradingPairs = "api/spot/v3/instruments";
+		private const string Endpoints_Spot_OrderBook = "api/spot/v3/instruments/<instrument_id>/book";
+		private const string Endpoints_Spot_TradingPairsTicker = "api/spot/v3/instruments/ticker";
+		private const string Endpoints_Spot_TradingPairTicker = "api/spot/v3/instruments/<instrument_id>/ticker";
+		private const string Endpoints_Spot_Trades = "api/spot/v3/instruments/<instrument_id>/trades";
+		private const string Endpoints_Spot_Candles = "api/spot/v3/instruments/<instrument_id>/candles";
+		private const string Endpoints_Spot_HistoricalCandles = "api/spot/v3/instruments/<instrument_id>/history/candles";
+		#endregion
+
+		#endregion
+		
+		#region Algo Trading API Endpoints
+
+        #region Private Signed Endpoints
+		private const string Endpoints_Algo_PlaceOrder = "api/spot/v3/order_algo";
+		private const string Endpoints_Algo_CancelOrder = "api/spot/v3/cancel_batch_algos";
+		private const string Endpoints_Algo_OrderList = "api/spot/v3/algo";
+		#endregion
+
+		#region Public Unsigned Endpoints
+		#endregion
+
 		#endregion
 
 		#region Margin Trading API Endpoints
-		private const string Endpoints_Margin_TradingPairs = "api/margin/v3/instruments"; // Public
-		private const string Endpoints_Margin_OrderBook = "api/margin/v3/instruments/<instrument_id>/book"; // Public
-		private const string Endpoints_Margin_TradingPairsTicker = "api/margin/v3/instruments/ticker"; // Public
-		private const string Endpoints_Margin_TradingPairTicker = "api/margin/v3/instruments/<instrument_id>/ticker"; // Public
-		private const string Endpoints_Margin_Trades = "api/margin/v3/instruments/<instrument_id>/trades"; // Public
-		private const string Endpoints_Margin_Candles = "api/margin/v3/instruments/<instrument_id>/candles"; // Public
+
+        #region Private Signed Endpoints
 		private const string Endpoints_Margin_Accounts = "api/margin/v3/accounts";
 		private const string Endpoints_Margin_Account = "api/margin/v3/accounts/<instrument_id>";
 		private const string Endpoints_Margin_Bills = "api/margin/v3/accounts/<currency>/ledger";
+		private const string Endpoints_Margin_AccountSettings = "api/margin/v3/accounts/availability";
+		private const string Endpoints_Margin_AccountSettingsOfCurrency = "api/margin/v3/accounts/<instrument_id>/availability";
+		private const string Endpoints_Margin_LoanHistory = "api/margin/v3/accounts/borrowed";
+		private const string Endpoints_Margin_LoanHistoryOfCurrency = "api/margin/v3/accounts/<instrument_id>/borrowed";
+		private const string Endpoints_Margin_Loan = "api/margin/v3/accounts/borrow";
+		private const string Endpoints_Margin_Repayment = "api/margin/v3/accounts/repayment";
 		private const string Endpoints_Margin_PlaceOrder = "api/margin/v3/orders";
 		private const string Endpoints_Margin_PlaceBatchOrders = "api/margin/v3/batch_orders";
 		private const string Endpoints_Margin_CancelOrder = "api/margin/v3/cancel_orders/<order_id>";
 		private const string Endpoints_Margin_CancelBatchOrders = "api/margin/v3/cancel_batch_orders";
 		private const string Endpoints_Margin_OrderList = "api/margin/v3/orders";
-		private const string Endpoints_Margin_OpenOrders = "api/margin/v3/orders_pending";
+		private const string Endpoints_Margin_Leverage = "api/margin/v3/accounts/<instrument_id>/leverage"; // Get & Set
 		private const string Endpoints_Margin_OrderDetails = "api/margin/v3/orders/<order_id>";
-		private const string Endpoints_Margin_TradeFee = "api/margin/v3/trade_fee";
+		private const string Endpoints_Margin_OpenOrders = "api/margin/v3/orders_pending";
 		private const string Endpoints_Margin_TransactionDetails = "api/margin/v3/fills";
-		private const string Endpoints_Margin_PlaceAlgoOrder = "api/margin/v3/order_algo";
-		private const string Endpoints_Margin_CancelBatchAlgoOrders = "api/margin/v3/cancel_batch_algos";
-		private const string Endpoints_Margin_AlgoOrderList = "api/margin/v3/algo";
+		#endregion
+
+		#region Public Unsigned Endpoints
+		private const string Endpoints_Margin_MarkPrice = "api/margin/v3/instruments/<instrument_id>/mark_price";
+		#endregion
+
 		#endregion
 
 		#region Futures Trading API Endpoints
@@ -141,7 +164,7 @@ namespace Okex.Net
 		private const string Endpoints_Futures_AlgoOrderList = "api/futures/v3/order_algo/<instrument_id>";
 		#endregion
 
-		#region Swap API Endpoints
+		#region Perpetual Swap API Endpoints
 		private const string Endpoints_Swap_TradingContracts = "api/swap/v3/instruments"; // Public
 		private const string Endpoints_Swap_OrderBook = "api/swap/v3/instruments/<instrument_id>/depth"; // Public
 		private const string Endpoints_Swap_TradingContractsTicker = "api/swap/v3/instruments/ticker"; // Public
@@ -201,8 +224,21 @@ namespace Okex.Net
 		private const string Endpoints_Options_TradeFee = "api/option/v3/trade_fee";
 		#endregion
 
+		#region Contract Trading API Endpoints
+		#endregion
+
 		#region Index API Endpoints
 		private const string Endpoints_Index_Constituents = "api/index/v3/<instrument_id>/constituents";
+		#endregion
+
+		#region Public-Status API Endpoints
+		#endregion
+
+		#region Public-Oracle API Endpoints
+		#endregion
+
+		#region Client Enum Strings
+		public static readonly string BodyParameterKey = "<BODY>";
 		#endregion
 
 		#endregion
@@ -218,7 +254,7 @@ namespace Okex.Net
 		/// <summary>
 		/// Create a new instance of the OkexClient with the provided options
 		/// </summary>
-		public OkexClient(OkexClientOptions options) : base("OKEx", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
+		public OkexClient(OkexClientOptions options) : base("Okex", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
 		{
 			this.SignPublicRequests = options.SignPublicRequests;
 		}
@@ -256,7 +292,6 @@ namespace Okex.Net
 			if (authProvider != null)
 				parameters = authProvider.AddAuthenticationToParameters(uriString, method, parameters, signed, postPosition, arraySerialization);
 
-
 			if ((method == HttpMethod.Get || method == HttpMethod.Delete || postParametersPosition == PostParameters.InUri) && parameters?.Any() == true)
 				uriString += "?" + parameters.CreateParamString(true, arraySerialization);
 
@@ -284,10 +319,43 @@ namespace Okex.Net
 				if (parameters?.Any() == true)
 					WriteParamBody(request, parameters, contentType);
 				else
-					request.SetContent("{}", contentType);
+					request.SetContent(requestBodyEmptyContent, contentType);
 			}
 
 			return request;
+		}
+
+		protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
+		{
+			if (requestBodyFormat == RequestBodyFormat.Json)
+			{
+				if(parameters.Count==1 && parameters.Keys.First() == BodyParameterKey)
+                {
+					var stringData = JsonConvert.SerializeObject(parameters[BodyParameterKey]);
+					request.SetContent(stringData, contentType);
+				} else
+                {
+					var stringData = JsonConvert.SerializeObject(parameters.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
+					request.SetContent(stringData, contentType);
+				}
+			}
+			else if (requestBodyFormat == RequestBodyFormat.FormData)
+			{
+				var formData = HttpUtility.ParseQueryString(string.Empty);
+				foreach (var kvp in parameters.OrderBy(p => p.Key))
+				{
+					if (kvp.Value.GetType().IsArray)
+					{
+						var array = (Array)kvp.Value;
+						foreach (var value in array)
+							formData.Add(kvp.Key, value.ToString());
+					}
+					else
+						formData.Add(kvp.Key, kvp.Value.ToString());
+				}
+				var stringData = formData.ToString();
+				request.SetContent(stringData, contentType);
+			}
 		}
 
 		protected override Error ParseErrorResponse(JToken error)
@@ -295,7 +363,7 @@ namespace Okex.Net
 			if (error["code"] == null || error["message"] == null)
 				return new ServerError(error.ToString());
 
-			return new ServerError((int)error["code"], (string)error["message"]);
+			return new ServerError((int)error["code"]!, (string)error["message"]!);
 		}
 
 		protected Uri GetUrl(string endpoint, string param = "")
