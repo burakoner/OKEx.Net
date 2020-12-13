@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Sockets;
+using Newtonsoft.Json;
 using Okex.Net.Enums;
 using Okex.Net.RestObjects;
 using System;

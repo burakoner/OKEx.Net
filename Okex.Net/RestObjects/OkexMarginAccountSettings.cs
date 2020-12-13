@@ -10,17 +10,11 @@ using System.Linq;
 
 namespace Okex.Net.RestObjects
 {
+    [JsonConverter(typeof(TypedDataConverter<OkexMarginAccountSettings>))]
     public class OkexMarginAccountSettings
     {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        // TODO
-        [JsonIgnore]
-        public OkexMarginAccountSettingsCurrencyDetails BaseCurrency { get; set; }
-
-        // TODO
-        [JsonIgnore]
-        public OkexMarginAccountSettingsCurrencyDetails QuoteCurrency { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        [TypedData]
+        public Dictionary<string, OkexMarginAccountSettingsCurrencyDetails> Currencies { get; set; }
 
         /// <summary>
         /// Trading pair
@@ -30,6 +24,11 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("product_id")]
         public string ProductId { get; set; } = "";
+
+        public OkexMarginAccountSettings()
+        {
+            this.Currencies = new Dictionary<string, OkexMarginAccountSettingsCurrencyDetails>();
+        }
     }
 
     public class OkexMarginAccountSettingsCurrencyDetails

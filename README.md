@@ -282,6 +282,11 @@ wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
 ```
 
 ## Release Notes
+* Version 1.3.1 - 13 Dec 2020
+    * Added TypedDataConverter
+    * Completed OkexMarginBalance Model
+    * Completed OkexMarginAccountSettings Model
+
 * Version 1.3.0 - 13 Dec 2020
     * Core Features
         * Overrided to CryptoExchange.Net.RestClient.WriteParamBody
