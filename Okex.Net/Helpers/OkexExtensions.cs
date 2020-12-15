@@ -15,7 +15,8 @@ namespace Okex.Net.Helpers
             if (string.IsNullOrEmpty(symbol))
                 throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}Symbol is not provided{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
-            if (!Regex.IsMatch(symbol, "^(([a-z]|[A-Z]|-|[0-9]){5,15})$"))
+            symbol = symbol.ToLower(CultureInfo.InvariantCulture);
+            if (!Regex.IsMatch(symbol, "^(([a-z]|[A-Z]|-|[0-9]){4,})$"))
                 throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}{symbol} is not a valid Okex Symbol. Should be [QuoteCurrency]-[BaseCurrency], e.g. ETH-BTC{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             return symbol;
@@ -31,7 +32,7 @@ namespace Okex.Net.Helpers
             if (string.IsNullOrEmpty(currency))
                 throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}Symbol is not provided{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
-            if (!Regex.IsMatch(currency, "^(([a-z]|[A-Z]){2,5})$"))
+            if (!Regex.IsMatch(currency, "^(([a-z]|[A-Z]){2,})$"))
                 throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}{currency} is not a valid Okex Currency. Should be [Currency] only, e.g. BTC{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");
 
             return currency;
