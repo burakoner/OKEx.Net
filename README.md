@@ -227,7 +227,7 @@ var spot_private_24 = api.Spot_AlgoCancelOrder("ETH-BTC", OkexAlgoOrderType.Trig
 var spot_private_25 = api.Spot_AlgoGetOrders("ETH-BTC", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Margin: Public Endpoints**
+**Margin » Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var margin_public_01 = api.Margin_GetMarkPrice("BTC-USDT");
