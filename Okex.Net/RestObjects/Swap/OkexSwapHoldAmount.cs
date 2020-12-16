@@ -5,22 +5,23 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using Okex.Net.Enums;
+using Okex.Net.Attributes;
 
 namespace Okex.Net.RestObjects
 {
-    public class OkexFuturesMarkPrice
+    public class OkexSwapHoldAmount
     {
         /// <summary>
-        /// Contract ID, e.g. BTC-USD-180213,BTC-USDT-191227
+        /// Contract ID, e.g. BTC-USD-SWAP,BTC-USDT-SWAP
         /// </summary>
         [JsonProperty("instrument_id")]
         public string Symbol { get; set; } = "";
 
         /// <summary>
-        /// Specify the contract price
+        /// Hold amount
         /// </summary>
-        [JsonProperty("mark_price")]
-        public decimal MarkPrice { get; set; }
+        [JsonProperty("amount")]
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Timestamp

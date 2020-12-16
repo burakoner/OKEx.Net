@@ -135,9 +135,9 @@
 		private const string Endpoints_Futures_EstimatedDeliveryPrice = "api/futures/v3/instruments/<instrument_id>/estimated_price";
 		private const string Endpoints_Futures_OpenInterest = "api/futures/v3/instruments/<instrument_id>/open_interest";
 		private const string Endpoints_Futures_PriceLimit = "api/futures/v3/instruments/<instrument_id>/price_limit";
-		private const string Endpoints_Futures_MarkPrice = "api/futures/v3/instruments/<instrument_id>/mark_price";
 		private const string Endpoints_Futures_LiquidatedOrders = "api/futures/v3/instruments/<instrument_id>/liquidation";
 		private const string Endpoints_Futures_SettlementHistory = "api/futures/v3/settlement/history";
+		private const string Endpoints_Futures_MarkPrice = "api/futures/v3/instruments/<instrument_id>/mark_price";
 		private const string Endpoints_Futures_HistoricalMarketData = "api/futures/v3/instruments/<instrument_id>/history/candles";
 		#endregion
 
@@ -147,31 +147,35 @@
 
 		#region Private Signed Endpoints
 		private const string Endpoints_Swap_Positions = "api/swap/v3/position";
-		private const string Endpoints_Swap_ContractPositions = "api/swap/v3/<instrument_id>/position";
+		private const string Endpoints_Swap_PositionsOfContract = "api/swap/v3/<instrument_id>/position";
 		private const string Endpoints_Swap_Accounts = "api/swap/v3/accounts";
-		private const string Endpoints_Swap_Account = "api/swap/v3/<instrument_id>/accounts";
-		private const string Endpoints_Swap_GetSwapLeverage = "api/swap/v3/accounts/<instrument_id>/leverage";
+		private const string Endpoints_Swap_AccountsOfCurrency = "api/swap/v3/<instrument_id>/accounts";
+		private const string Endpoints_Swap_GetSwapLeverage = "api/swap/v3/accounts/<instrument_id>/settings";
 		private const string Endpoints_Swap_SetSwapLeverage = "api/swap/v3/accounts/<instrument_id>/leverage";
 		private const string Endpoints_Swap_Bills = "api/swap/v3/accounts/<instrument_id>/ledger";
 		private const string Endpoints_Swap_PlaceOrder = "api/swap/v3/order";
-		private const string Endpoints_Swap_PlaceBatchOrders = "api/swap/v3/orders";
+		private const string Endpoints_Swap_BatchPlaceOrders = "api/swap/v3/orders";
 		private const string Endpoints_Swap_CancelOrder = "api/swap/v3/cancel_order/<instrument_id>/<order_id>";
-		private const string Endpoints_Swap_CancelBatchOrders = "api/swap/v3/cancel_batch_orders/<instrument_id>";
+		private const string Endpoints_Swap_BatchCancelOrders = "api/swap/v3/cancel_batch_orders/<instrument_id>";
+		private const string Endpoints_Swap_ModifyOrder = "api/swap/v3/amend_order/<instrument_id>";
+		private const string Endpoints_Swap_BatchModifyOrder = "api/swap/v3/amend_batch_orders/<instrument_id>";
 		private const string Endpoints_Swap_OrderList = "api/swap/v3/orders/<instrument_id>";
 		private const string Endpoints_Swap_OrderDetails = "api/swap/v3/orders/<instrument_id>/<order_id>";
 		private const string Endpoints_Swap_TransactionDetails = "api/swap/v3/fills";
 		private const string Endpoints_Swap_HoldAmount = "api/swap/v3/accounts/<instrument_id>/holds";
-		private const string Endpoints_Swap_TradeFee = "api/swap/v3/trade_fee";
-		private const string Endpoints_Swap_PlaceAlgoOrder = "api/swap/v3/order_algo";
-		private const string Endpoints_Swap_CancelBatchAlgoOrders = "api/swap/v3/cancel_algos";
+		private const string Endpoints_Swap_AccountTierRate = "api/swap/v3/trade_fee";
+		private const string Endpoints_Swap_CloseAll = "api/swap/v3/close_position";
+		private const string Endpoints_Swap_CancelAll = "api/swap/v3/cancel_all";
+		private const string Endpoints_Swap_AlgoPlaceOrder = "api/swap/v3/order_algo";
+		private const string Endpoints_Swap_AlgoCancelOrders = "api/swap/v3/cancel_algos";
 		private const string Endpoints_Swap_AlgoOrderList = "api/swap/v3/order_algo/<instrument_id>";
 		#endregion
 
 		#region Public Unsigned Endpoints
 		private const string Endpoints_Swap_TradingContracts = "api/swap/v3/instruments";
 		private const string Endpoints_Swap_OrderBook = "api/swap/v3/instruments/<instrument_id>/depth";
-		private const string Endpoints_Swap_TradingContractsTicker = "api/swap/v3/instruments/ticker";
-		private const string Endpoints_Swap_TradingContractTicker = "api/swap/v3/instruments/<instrument_id>/ticker";
+		private const string Endpoints_Swap_Ticker = "api/swap/v3/instruments/ticker";
+		private const string Endpoints_Swap_TickerOfSymbol = "api/swap/v3/instruments/<instrument_id>/ticker";
 		private const string Endpoints_Swap_Trades = "api/swap/v3/instruments/<instrument_id>/trades";
 		private const string Endpoints_Swap_Candles = "api/swap/v3/instruments/<instrument_id>/candles";
 		private const string Endpoints_Swap_Indices = "api/swap/v3/instruments/<instrument_id>/index";
@@ -182,6 +186,7 @@
 		private const string Endpoints_Swap_NextSettlementTime = "api/swap/v3/instruments/<instrument_id>/funding_time";
 		private const string Endpoints_Swap_MarkPrice = "api/swap/v3/instruments/<instrument_id>/mark_price";
 		private const string Endpoints_Swap_FundingRateHistory = "api/swap/v3/instruments/<instrument_id>/historical_funding_rate";
+		private const string Endpoints_Swap_HistoricalMarketData = "api/swap/v3/instruments/<instrument_id>/history/candles";
 		#endregion
 
 		#endregion

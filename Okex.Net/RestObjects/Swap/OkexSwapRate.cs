@@ -8,19 +8,19 @@ using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
-    public class OkexFuturesMarkPrice
+    public class OkexSwapRate
     {
         /// <summary>
-        /// Contract ID, e.g. BTC-USD-180213,BTC-USDT-191227
+        /// e.g. USD_CNY
         /// </summary>
         [JsonProperty("instrument_id")]
         public string Symbol { get; set; } = "";
 
         /// <summary>
-        /// Specify the contract price
+        /// Exchange rates
         /// </summary>
-        [JsonProperty("mark_price")]
-        public decimal MarkPrice { get; set; }
+        [JsonProperty("rate")]
+        public decimal Rate { get; set; }
 
         /// <summary>
         /// Timestamp

@@ -68,7 +68,7 @@ namespace Okex.Net.RestObjects
         /// Order ID
         /// </summary>
         [JsonProperty("order_id")]
-        public long OrderId { get; set; }
+        public long? OrderId { get; set; }
 
         /// <summary>
         /// Contract ID, e.g. BTC-USD-180213

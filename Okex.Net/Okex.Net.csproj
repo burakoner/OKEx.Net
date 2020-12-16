@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <PackageVersion>1.4.0</PackageVersion>
+    <PackageVersion>1.4.1</PackageVersion>
     <Description>Okex.Net is a .Net wrapper for the Okex API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -16,6 +16,9 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
+Version 1.4.1 - 17 Dec 2020
+- Added Perpetual Swap Rest Api Support
+      
 Version 1.4.0 - 15 Dec 2020
 - Added Futures Rest Api Support
 - Added Algo Trade Endpoints
@@ -95,9 +98,9 @@ First Release</PackageReleaseNotes>
   <PropertyGroup>
     <DocumentationFile></DocumentationFile>
     <PackageIconUrl />
-    <Version>1.4.0</Version>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
+    <Version>1.4.1</Version>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/burakoner/OKEx.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/burakoner/OKEx.Net</RepositoryUrl>
   </PropertyGroup>

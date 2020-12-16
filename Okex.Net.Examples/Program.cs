@@ -16,7 +16,7 @@ namespace Okex.Net.Examples
             // Okex Rest Api Client
             OkexClient api = new OkexClient(new OkexClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
-
+            
             /* System: Public Endpoints */
             var system_public_01 = api.SystemTime();
             var system_public_02 = api.SystemStatus();
@@ -186,6 +186,48 @@ namespace Okex.Net.Examples
             var futures_private_22 = api.Futures_AlgoPlaceOrder("BTC-USDT", OkexFuturesOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
             var futures_private_23 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
             var futures_private_24 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
+
+            /* Perpetual Swap: Public Endpoints */
+            var swap_public_01 = api.Swap_GetTradingContracts();
+            var swap_public_02 = api.Swap_GetOrderBook("BTC-USDT-SWAP");
+            var swap_public_03 = api.Swap_GetAllTickers();
+            var swap_public_04 = api.Swap_GetSymbolTicker("BTC-USDT-SWAP");
+            var swap_public_05 = api.Swap_GetTrades("BTC-USDT-SWAP");
+            var swap_public_06 = api.Swap_GetCandles("BTC-USDT-SWAP", OkexSpotPeriod.OneHour);
+            var swap_public_07 = api.Swap_GetIndices("BTC-USDT-SWAP");
+            var swap_public_08 = api.Swap_GetFiatExchangeRates();
+            var swap_public_09 = api.Swap_GetOpenInterests("BTC-USDT-SWAP");
+            var swap_public_10 = api.Swap_GetPriceLimit("BTC-USDT-SWAP");
+            var swap_public_11 = api.Swap_GetLiquidatedOrders("BTC-USDT-SWAP", OkexSwapLiquidationStatus.FilledOrdersInTheRecent7Days);
+            var swap_public_12 = api.Swap_GetNextSettlementTime("BTC-USDT-SWAP");
+            var swap_public_13 = api.Swap_GetMarkPrice("BTC-USDT-SWAP");
+            var swap_public_14 = api.Swap_GetFundingRateHistory("BTC-USDT-SWAP");
+            var swap_public_15 = api.Swap_GetHistoricalMarketData("BTC-USDT-SWAP", OkexSpotPeriod.OneHour);
+
+            /* Perpetual Swap: Private Endpoints */
+            var swap_private_01 = api.Swap_GetPositions();
+            var swap_private_02 = api.Swap_GetPositions("BTC-USDT-SWAP");
+            var swap_private_03 = api.Swap_GetBalances();
+            var swap_private_04 = api.Swap_GetBalances("BTC-USDT-SWAP");
+            var swap_private_05 = api.Swap_GetLeverage("BTC-USDT-SWAP");
+            var swap_private_06 = api.Swap_SetLeverage("BTC-USDT-SWAP", OkexSwapLeverageSide.CrossedMargin, 17);
+            var swap_private_07 = api.Swap_GetBills("BTC-USDT-SWAP");
+            var swap_private_08 = api.Swap_PlaceOrder("BTC-USDT-SWAP", OkexSwapOrderType.OpenLong, 0.1m);
+            var swap_private_09 = api.Swap_BatchPlaceOrders("BTC-USDT-SWAP", new List<OkexSwapPlaceOrder> { });
+            var swap_private_10 = api.Swap_CancelOrder("BTC-USDT-SWAP", orderId:1001);
+            var swap_private_11 = api.Swap_BatchCancelOrders("BTC-USDT-SWAP", new List<long> { }, new List<string> { });
+            var swap_private_12 = api.Swap_ModifyOrder("BTC-USDT-SWAP", orderId: 1001, newSize: 0.1m);
+            var swap_private_13 = api.Swap_BatchModifyOrders("BTC-USDT-SWAP", new List<OkexSwapModifyOrder> { });
+            var swap_private_14 = api.Swap_GetAllOrders("BTC-USDT-SWAP", OkexSwapOrderState.Complete);
+            var swap_private_15 = api.Swap_GetOrderDetails("BTC-USDT-SWAP", clientOrderId: "clientorderid");
+            var swap_private_16 = api.Swap_GetTransactionDetails("BTC-USDT-SWAP", orderId: 1001);
+            var swap_private_17 = api.Swap_GetHoldAmount("BTC-USDT-SWAP");
+            var swap_private_18 = api.Swap_GetTradeFeeRates("BTC-USDT-SWAP");
+            var swap_private_19 = api.Swap_MarketCloseAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
+            var swap_private_20 = api.Swap_CancelAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
+            var swap_private_21 = api.Swap_AlgoPlaceOrder("BTC-USDT", OkexSwapOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
+            var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+            var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 
             Console.ReadLine();
             // return;

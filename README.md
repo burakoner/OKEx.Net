@@ -96,7 +96,7 @@ Donations are greatly appreciated and a motivation to keep improving.
 ![Nuget version](https://img.shields.io/nuget/v/OKEx.Net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/OKEx.Net.svg)
 Available on [Nuget](https://www.nuget.org/packages/OKEx.Net).
 ```
-pm> Install-Package OKEx.Net
+PM> Install-Package OKEx.Net
 ```
 To get started with OKEx.Net first you will need to get the library itself. The easiest way to do this is to install the package into your project using  [NuGet](https://www.nuget.org/packages/OKEx.Net). Using Visual Studio this can be done in two ways.
 
@@ -113,14 +113,14 @@ After installing it's time to actually use it. To get started we have to add the
 OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  provides all rest API calls. The  `OkexSocketClient`  provides functions to interact with the websocket provided by the OKEx API. Both clients are disposable and as such can be used in a  `using`statement.
 
 ## Examples
-**System: Public Endpoints:**
+**System » Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var system_public_01 = api.SystemTime();
 var system_public_02 = api.SystemStatus();
 ```
 
-**Funding: Private Endpoints:**
+**Funding » Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -144,7 +144,7 @@ var funding_public_17 = api.Funding_PiggyBank("ETH", 0.1m, OkexFundingPiggyBankA
 var funding_public_18 = api.Funding_PiggyBank("ETH", 0.1m, OkexFundingPiggyBankActionSide.Redempt);
 ```
 
-**Spot: Public Endpoints:**
+**Spot » Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var spot_public_01 = api.Spot_GetTradingPairs();
@@ -156,7 +156,7 @@ var spot_public_06 = api.Spot_GetCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 var spot_public_07 = api.Spot_GetHistoricalCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 ```
 
-**System: Private Endpoints:**
+**System » Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -227,13 +227,13 @@ var spot_private_24 = api.Spot_AlgoCancelOrder("ETH-BTC", OkexAlgoOrderType.Trig
 var spot_private_25 = api.Spot_AlgoGetOrders("ETH-BTC", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Margin: Public Endpoints:**
+**Margin: Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var margin_public_01 = api.Margin_GetMarkPrice("BTC-USDT");
 ```
 
-**Margin: Private Endpoints:**
+**Margin » Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -261,7 +261,7 @@ var margin_private_21 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType
 var margin_private_22 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Futures: Public Endpoints:**
+**Futures » Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var futures_public_01 = api.Futures_GetTradingContracts();
@@ -281,7 +281,7 @@ var futures_public_14 = api.Futures_GetSettlementHistory("BTC-USDT-201225");
 var futures_public_15 = api.Futures_GetHistoricalMarketData("BTC-USDT-201225", OkexSpotPeriod.OneHour);
 ```
 
-**Futures: Private Endpoints:**
+**Futures » Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -311,11 +311,60 @@ var futures_private_23 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderTyp
 var futures_private_24 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
+**Swap » Public Endpoints**
+```C#
+OkexClient api = new OkexClient();
+var swap_public_01 = api.Swap_GetTradingContracts();
+var swap_public_02 = api.Swap_GetOrderBook("BTC-USDT-SWAP");
+var swap_public_03 = api.Swap_GetAllTickers();
+var swap_public_04 = api.Swap_GetSymbolTicker("BTC-USDT-SWAP");
+var swap_public_05 = api.Swap_GetTrades("BTC-USDT-SWAP");
+var swap_public_06 = api.Swap_GetCandles("BTC-USDT-SWAP", OkexSpotPeriod.OneHour);
+var swap_public_07 = api.Swap_GetIndices("BTC-USDT-SWAP");
+var swap_public_08 = api.Swap_GetFiatExchangeRates();
+var swap_public_09 = api.Swap_GetOpenInterests("BTC-USDT-SWAP");
+var swap_public_10 = api.Swap_GetPriceLimit("BTC-USDT-SWAP");
+var swap_public_11 = api.Swap_GetLiquidatedOrders("BTC-USDT-SWAP", OkexSwapLiquidationStatus.FilledOrdersInTheRecent7Days);
+var swap_public_12 = api.Swap_GetNextSettlementTime("BTC-USDT-SWAP");
+var swap_public_13 = api.Swap_GetMarkPrice("BTC-USDT-SWAP");
+var swap_public_14 = api.Swap_GetFundingRateHistory("BTC-USDT-SWAP");
+var swap_public_15 = api.Swap_GetHistoricalMarketData("BTC-USDT-SWAP", OkexSpotPeriod.OneHour);
+```
+
+**Swap » Private Endpoints**
+```C#
+OkexClient api = new OkexClient();
+api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+var swap_private_01 = api.Swap_GetPositions();
+var swap_private_02 = api.Swap_GetPositions("BTC-USDT-SWAP");
+var swap_private_03 = api.Swap_GetBalances();
+var swap_private_04 = api.Swap_GetBalances("BTC-USDT-SWAP");
+var swap_private_05 = api.Swap_GetLeverage("BTC-USDT-SWAP");
+var swap_private_06 = api.Swap_SetLeverage("BTC-USDT-SWAP", OkexSwapLeverageSide.CrossedMargin, 17);
+var swap_private_07 = api.Swap_GetBills("BTC-USDT-SWAP");
+var swap_private_08 = api.Swap_PlaceOrder("BTC-USDT-SWAP", OkexSwapOrderType.OpenLong, 0.1m);
+var swap_private_09 = api.Swap_BatchPlaceOrders("BTC-USDT-SWAP", new List<OkexSwapPlaceOrder> { });
+var swap_private_10 = api.Swap_CancelOrder("BTC-USDT-SWAP", orderId:1001);
+var swap_private_11 = api.Swap_BatchCancelOrders("BTC-USDT-SWAP", new List<long> { }, new List<string> { });
+var swap_private_12 = api.Swap_ModifyOrder("BTC-USDT-SWAP", orderId: 1001, newSize: 0.1m);
+var swap_private_13 = api.Swap_BatchModifyOrders("BTC-USDT-SWAP", new List<OkexSwapModifyOrder> { });
+var swap_private_14 = api.Swap_GetAllOrders("BTC-USDT-SWAP", OkexSwapOrderState.Complete);
+var swap_private_15 = api.Swap_GetOrderDetails("BTC-USDT-SWAP", clientOrderId: "clientorderid");
+var swap_private_16 = api.Swap_GetTransactionDetails("BTC-USDT-SWAP", orderId: 1001);
+var swap_private_17 = api.Swap_GetHoldAmount("BTC-USDT-SWAP");
+var swap_private_18 = api.Swap_GetTradeFeeRates("BTC-USDT-SWAP");
+var swap_private_19 = api.Swap_MarketCloseAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
+var swap_private_20 = api.Swap_CancelAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
+var swap_private_21 = api.Swap_AlgoPlaceOrder("BTC-USDT", OkexSwapOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
+var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
+
+```
 
 ## Websockets
 The OKEx.Net socket client provides several socket endpoint to which can be subscribed.
 
-**Public Socket Endpoints:**
+**Public Socket Endpoints**
 ```C#
 var pairs = new List<string>();
 pairs.Add("BTC-USDT");
@@ -377,7 +426,7 @@ foreach (var pair in pairs)
 }
 ```
 
-**Private Socket Endpoints:**
+**Private Socket Endpoints**
 ```C#
 /* OkexSocketClient Object */
 var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
