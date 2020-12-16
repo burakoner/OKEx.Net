@@ -156,7 +156,7 @@ var spot_public_06 = api.Spot_GetCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 var spot_public_07 = api.Spot_GetHistoricalCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 ```
 
-**System » Private Endpoints**
+**Spot » Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
