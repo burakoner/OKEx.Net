@@ -230,6 +230,13 @@ namespace Okex.Net.Examples
             var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 
             /* Contract: Public Endpoints */
+            var contract_public_01 = api.Contract_GetLongShortRatio("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_02 = api.Contract_GetVolume("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_03 = api.Contract_GetTakerVolume("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_04 = api.Contract_GetSentiment("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_05 = api.Contract_GetMargin("BTC", OkexContractPeriod.FiveMinutes);
+
+            /* Options: Public Endpoints */
             var options_public_01 = api.Options_GetUnderlyingList();
             var options_public_02 = api.Options_GetInstruments("BTC-USD");
             var options_public_03 = api.Options_GetMarketData("BTC-USD");
@@ -240,7 +247,7 @@ namespace Okex.Net.Examples
             var options_public_08 = api.Options_GetCandles("BTC-USD-201218-16250-P", OkexSpotPeriod.OneHour);
             var options_public_09 = api.Options_GetSettlementHistory("BTC-USD");
 
-            /* Contract: Private Endpoints */
+            /* Options: Private Endpoints */
             var options_private_01 = api.Options_GetPositions("BTC-USD");
             var options_private_02 = api.Options_GetBalances("BTC-USD");
             var options_private_03 = api.Options_PlaceOrder("BTC-USD-201218-16250-C", OkexOptionsOrderSide.Buy, 20000m, 0.1m, OkexOptionsTimeInForce.NormalOrder);
@@ -255,13 +262,6 @@ namespace Okex.Net.Examples
             var options_private_12 = api.Options_GetTransactionDetails("BTC-USD");
             var options_private_13 = api.Options_GetBills("BTC-USD");
             var options_private_14 = api.Options_GetTradeFeeRates("BTC-USD");
-
-            /* Contract: Public Endpoints */
-            var contract_public_01 = api.Contract_GetLongShortRatio("BTC", OkexContractPeriod.FiveMinutes);
-            var contract_public_02 = api.Contract_GetVolume("BTC", OkexContractPeriod.FiveMinutes);
-            var contract_public_03 = api.Contract_GetTakerVolume("BTC", OkexContractPeriod.FiveMinutes);
-            var contract_public_04 = api.Contract_GetSentiment("BTC", OkexContractPeriod.FiveMinutes);
-            var contract_public_05 = api.Contract_GetMargin("BTC", OkexContractPeriod.FiveMinutes);
 
             Console.ReadLine();
             // return;
