@@ -569,12 +569,7 @@ namespace Okex.Net
             if (orderId != null && !string.IsNullOrEmpty(clientOrderId))
                 throw new ArgumentException("Either orderId or clientOrderId must be present.");
 
-            var parameters = new Dictionary<string, object>
-            {
-                { "instrument_id", symbol },
-            };
-
-            return await SendRequest<OkexFuturesPlacedOrder>(GetUrl(Endpoints_Futures_CancelOrder.Replace("<instrument_id>",symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequest<OkexFuturesPlacedOrder>(GetUrl(Endpoints_Futures_CancelOrder.Replace("<instrument_id>",symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>

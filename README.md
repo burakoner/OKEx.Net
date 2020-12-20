@@ -358,7 +358,16 @@ var swap_private_20 = api.Swap_CancelAll("BTC-USDT-SWAP", OkexSwapDirection.Long
 var swap_private_21 = api.Swap_AlgoPlaceOrder("BTC-USDT", OkexSwapOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
 var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
 var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
+```
 
+**Contract » Public Endpoints**
+```C#
+OkexClient api = new OkexClient();
+var options_public_01 = api.Contract_GetLongShortRatio("BTC", OkexContractPeriod.FiveMinutes);
+var options_public_02 = api.Contract_GetVolume("BTC", OkexContractPeriod.FiveMinutes);
+var options_public_03 = api.Contract_GetTakerVolume("BTC", OkexContractPeriod.FiveMinutes);
+var options_public_04 = api.Contract_GetSentiment("BTC", OkexContractPeriod.FiveMinutes);
+var options_public_05 = api.Contract_GetMargin("BTC", OkexContractPeriod.FiveMinutes);
 ```
 
 ## Websockets

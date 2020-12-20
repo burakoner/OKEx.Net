@@ -16,7 +16,7 @@ namespace Okex.Net.Examples
             // Okex Rest Api Client
             OkexClient api = new OkexClient(new OkexClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
-            
+
             /* System: Public Endpoints */
             var system_public_01 = api.SystemTime();
             var system_public_02 = api.SystemStatus();
@@ -228,6 +228,40 @@ namespace Okex.Net.Examples
             var swap_private_21 = api.Swap_AlgoPlaceOrder("BTC-USDT", OkexSwapOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
             var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
             var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
+
+            /* Contract: Public Endpoints */
+            var options_public_01 = api.Options_GetUnderlyingList();
+            var options_public_02 = api.Options_GetInstruments("BTC-USD");
+            var options_public_03 = api.Options_GetMarketData("BTC-USD");
+            var options_public_04 = api.Options_GetMarketData("BTC-USD", "BTC-USD-201218-16250-C");
+            var options_public_05 = api.Options_GetOrderBook("BTC-USD-201218-16250-C");
+            var options_public_06 = api.Options_GetTrades("BTC-USD-201218-16250-C");
+            var options_public_07 = api.Options_GetTicker("BTC-USD-201218-16250-P");
+            var options_public_08 = api.Options_GetCandles("BTC-USD-201218-16250-P", OkexSpotPeriod.OneHour);
+            var options_public_09 = api.Options_GetSettlementHistory("BTC-USD");
+
+            /* Contract: Private Endpoints */
+            var options_private_01 = api.Options_GetPositions("BTC-USD");
+            var options_private_02 = api.Options_GetBalances("BTC-USD");
+            var options_private_03 = api.Options_PlaceOrder("BTC-USD-201218-16250-C", OkexOptionsOrderSide.Buy, 20000m, 0.1m, OkexOptionsTimeInForce.NormalOrder);
+            var options_private_04 = api.Options_BatchPlaceOrders("BTC-USD", new List<OkexOptionsPlaceOrder> { });
+            var options_private_05 = api.Options_CancelOrder("BTC-USD", 1001);
+            var options_private_06 = api.Options_BatchCancelOrders("BTC-USD", new List<long> { }, new List<string> { });
+            var options_private_07 = api.Options_CancelAllOrders("BTC-USD");
+            var options_private_08 = api.Options_ModifyOrder("BTC-USD", orderId: 1001, newSize: 0.1m);
+            var options_private_09 = api.Options_BatchModifyOrders("BTC-USD", new List<OkexOptionsModifyOrder> { });
+            var options_private_10 = api.Options_GetOrderDetails("BTC-USD", 1001);
+            var options_private_11 = api.Options_GetAllOrders("BTC-USD", OkexOptionsOrderState.Complete);
+            var options_private_12 = api.Options_GetTransactionDetails("BTC-USD");
+            var options_private_13 = api.Options_GetBills("BTC-USD");
+            var options_private_14 = api.Options_GetTradeFeeRates("BTC-USD");
+
+            /* Contract: Public Endpoints */
+            var contract_public_01 = api.Contract_GetLongShortRatio("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_02 = api.Contract_GetVolume("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_03 = api.Contract_GetTakerVolume("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_04 = api.Contract_GetSentiment("BTC", OkexContractPeriod.FiveMinutes);
+            var contract_public_05 = api.Contract_GetMargin("BTC", OkexContractPeriod.FiveMinutes);
 
             Console.ReadLine();
             // return;

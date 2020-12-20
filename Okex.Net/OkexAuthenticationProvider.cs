@@ -22,7 +22,6 @@ namespace Okex.Net
         private readonly bool signPublicRequests;
         private readonly ArrayParametersSerialization arraySerialization;
 
-
         public OkexAuthenticationProvider(ApiCredentials credentials, string passPhrase, bool signPublicRequests, ArrayParametersSerialization arraySerialization) : base(credentials)
         {
 

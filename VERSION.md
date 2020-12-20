@@ -1,4 +1,66 @@
 ## Release Notes
+* Version 1.4.3 - 20 Dec 2020
+    * Added Options Rest Api Support
+        * Options_BatchCancelOrders(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
+        * Options_BatchCancelOrders_Async(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
+        * Options_BatchModifyOrders(string underlying, IEnumerable<OkexOptionsModifyOrder> orders, CancellationToken ct = default);
+        * Options_BatchModifyOrders_Async(string underlying, IEnumerable<OkexOptionsModifyOrder> orders, CancellationToken ct = default);
+        * Options_BatchPlaceOrders(string underlying, IEnumerable<OkexOptionsPlaceOrder> orders, CancellationToken ct = default);
+        * Options_BatchPlaceOrders_Async(string underlying, IEnumerable<OkexOptionsPlaceOrder> orders, CancellationToken ct = default);
+        * Options_CancelAllOrders(string underlying, CancellationToken ct = default);
+        * Options_CancelAllOrders_Async(string underlying, CancellationToken ct = default);
+        * Options_CancelOrder(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_CancelOrder_Async(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_GetAllOrders(string underlying, OkexOptionsOrderState state, string? instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetAllOrders_Async(string underlying, OkexOptionsOrderState state, string? instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetBalances(string underlying, CancellationToken ct = default);
+        * Options_GetBalances_Async(string underlying, CancellationToken ct = default);
+        * Options_GetBills(string underlying, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetBills_Async(string underlying, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetCandles(string instrument, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Options_GetCandles_Async(string instrument, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Options_GetInstruments(string underlying, string? instrument = null, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetInstruments_Async(string underlying, string? instrument = null, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetMarketData(string underlying, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetMarketData(string underlying, string instrument, CancellationToken ct = default);
+        * Options_GetMarketData_Async(string underlying, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetMarketData_Async(string underlying, string instrument, CancellationToken ct = default);
+        * Options_GetOrderBook(string instrument, int size = 200, CancellationToken ct = default);
+        * Options_GetOrderBook_Async(string instrument, int size, CancellationToken ct = default);
+        * Options_GetOrderDetails(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_GetOrderDetails_Async(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_GetPositions(string underlying, string? instrument = null, CancellationToken ct = default);
+        * Options_GetPositions_Async(string underlying, string? instrument = null, CancellationToken ct = default);
+        * Options_GetSettlementHistory(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
+        * Options_GetSettlementHistory_Async(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
+        * Options_GetTicker(string instrument, CancellationToken ct = default);
+        * Options_GetTicker_Async(string instrument, CancellationToken ct = default);
+        * Options_GetTradeFeeRates(string? underlying = null, int? category = null, CancellationToken ct = default);
+        * Options_GetTradeFeeRates_Async(string? underlying = null, int? category = null, CancellationToken ct = default);
+        * Options_GetTrades(string instrument, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetTrades_Async(string instrument, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetTransactionDetails(string underlying, string? instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetTransactionDetails_Async(string underlying, string? instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetUnderlyingList(CancellationToken ct = default);
+        * Options_GetUnderlyingList_Async(CancellationToken ct = default);
+        * Options_ModifyOrder(string underlying, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
+        * Options_ModifyOrder_Async(string underlying, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
+        * Options_PlaceOrder(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_PlaceOrder_Async(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default);
+
+* Version 1.4.2 - 17 Dec 2020
+    * Added Contract Rest Api Support
+        * Contract_GetLongShortRatio(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetLongShortRatio_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetMargin(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetMargin_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetSentiment(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetSentiment_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetTakerVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetTakerVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+        * Contract_GetVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
+
 * Version 1.4.1 - 17 Dec 2020
     * Added Perpetual Swap Rest Api Support
         * Swap_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default)

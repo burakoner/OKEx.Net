@@ -200,6 +200,7 @@
 		private const string Endpoints_Options_PlaceBatchOrders = "api/option/v3/orders";
 		private const string Endpoints_Options_CancelOrder = "api/option/v3/cancel_order/<underlying>/<order_id>";
 		private const string Endpoints_Options_CancelBatchOrders = "api/option/v3/cancel_batch_orders/<underlying>";
+		private const string Endpoints_Options_CancelAll = "api/option/v3/cancel_all/<underlying>";
 		private const string Endpoints_Options_MofiyOrder = "api/option/v3/amend_order/<underlying>";
 		private const string Endpoints_Options_BatchModifyOrders = "api/option/v3/amend_batch_orders/<underlying>";
 		private const string Endpoints_Options_OrderDetails = "api/option/v3/orders/<underlying>/<order_id>";
@@ -210,19 +211,29 @@
 		#endregion
 
 		#region Public Unsigned Endpoints
-		private const string Endpoints_Options_UnderlyingIndex = "api/option/v3/underlying";
-		private const string Endpoints_Options_OptionInstruments = "api/option/v3/instruments/<underlying>";
-		private const string Endpoints_Options_OptionMarketData = "api/option/v3/instruments/<underlying>/summary";
-		private const string Endpoints_Options_OptionInstrumentMarketData = "api/option/v3/instruments/<underlying>/summary/<instrument_id>";
+		private const string Endpoints_Options_Underlying = "api/option/v3/underlying";
+		private const string Endpoints_Options_Instruments = "api/option/v3/instruments/<underlying>";
+		private const string Endpoints_Options_MarketData = "api/option/v3/instruments/<underlying>/summary";
+		private const string Endpoints_Options_MarketDataOfInstrument = "api/option/v3/instruments/<underlying>/summary/<instrument_id>";
 		private const string Endpoints_Options_OrderBook = "api/option/v3/instruments/<instrument_id>/book";
 		private const string Endpoints_Options_Trades = "api/option/v3/instruments/<instrument_id>/trades";
-		private const string Endpoints_Options_OptionInstrumentTicker = "api/option/v3/instruments/<instrument_id>/ticker";
+		private const string Endpoints_Options_Ticker = "api/option/v3/instruments/<instrument_id>/ticker";
 		private const string Endpoints_Options_Candles = "api/option/v3/instruments/<instrument_id>/candles";
+		private const string Endpoints_Options_SettlementHistory = "api/option/v3/settlement/history/<underlying>";
 		#endregion
 
 		#endregion
 
 		#region 08 - Contract Trading API Endpoints
+
+		#region Public Unsigned Endpoints
+		private const string Endpoints_Contract_LongShortRatio = "api/information/v3/<currency>/long_short_ratio";
+		private const string Endpoints_Contract_Volume = "api/information/v3/<currency>/volume";
+		private const string Endpoints_Contract_Taker = "api/information/v3/<currency>/taker";
+		private const string Endpoints_Contract_Sentiment = "api/information/v3/<currency>/sentiment";
+		private const string Endpoints_Contract_Margin = "api/information/v3/<currency>/margin";
+		#endregion
+
 		#endregion
 
 		#region 09 - Index API Endpoints

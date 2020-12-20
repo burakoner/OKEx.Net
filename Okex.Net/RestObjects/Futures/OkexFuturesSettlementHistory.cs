@@ -10,25 +10,25 @@ namespace Okex.Net.RestObjects
 {
     public class OkexFuturesSettlementHistory
     {
-        [JsonProperty("type"), JsonConverter(typeof(FuturesDeliverySettlementConverter))]
-        public OkexFuturesDeliverySettlement Type { get; set; }
+        [JsonProperty("type"), JsonConverter(typeof(OptionsDeliverySettlementConverter))]
+        public OkexOptionsDeliverySettlement Type { get; set; }
 
         [JsonProperty("instrument_id")]
-        public string instrument_id { get; set; } = "";
+        public string InstrumentId { get; set; } = "";
 
         [JsonProperty("settlement_price")]
-        public decimal settlement_price { get; set; }
+        public decimal SettlementPrice { get; set; }
 
         [JsonProperty("clawback_loss")]
-        public decimal clawback_loss { get; set; }
+        public decimal ClawbackLoss { get; set; }
 
         [JsonProperty("clawback_rate")]
-        public decimal clawback_rate { get; set; }
+        public decimal ClawbackRate { get; set; }
 
         [JsonProperty("reserve")]
-        public decimal reserve { get; set; }
+        public decimal Reserve { get; set; }
 
         [JsonProperty("timestamp")]
-        public DateTime timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }
