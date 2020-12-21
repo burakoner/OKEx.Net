@@ -173,12 +173,12 @@ namespace Okex.Net
         public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexSpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
         {
             symbol = symbol.ValidateSymbol();
-
+            symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
             var internalHandler = new Action<OkexSocketOrderBookUpdate>(data =>
             {
                 foreach (var d in data.Data)
                 {
-                    d.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
+                    d.Symbol = symbol;
                     d.DataType = depth == OkexSpotOrderBookDepth.Depth5 ? OkexSpotOrderBookDataType.DepthTop5 : data.DataType;
                     onData(d);
                 }
