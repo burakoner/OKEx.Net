@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.SocketObjects.Structure
 {
-    internal class OkexSocketResponse
+    public class OkexSocketResponse
     {
         [JsonProperty("event")]
         internal string Event { get; set; } = "";
@@ -30,7 +30,7 @@ namespace Okex.Net.SocketObjects.Structure
         internal string ErrorMessage { get; set; } = "";
     }
 
-    internal class OkexSocketLoginResponse : OkexSocketResponse
+    public class OkexSocketLoginResponse : OkexSocketResponse
     {
         [JsonProperty("success")]
         internal bool Success { get; set; }

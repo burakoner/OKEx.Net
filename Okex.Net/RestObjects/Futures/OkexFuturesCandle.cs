@@ -10,6 +10,9 @@ namespace Okex.Net.RestObjects
     [JsonConverter(typeof(ArrayConverter))]
     public class OkexFuturesCandle
     {
+        [JsonOptionalProperty]
+        public string Symbol { get; set; } = "";
+
         /// <summary>
         /// Start time
         /// </summary>

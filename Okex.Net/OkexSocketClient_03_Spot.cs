@@ -14,12 +14,11 @@ using Okex.Net.Enums;
 
 namespace Okex.Net
 {
-    /// <summary>
-    /// Client for the Okex socket API
-    /// </summary>
     public partial class OkexSocketClient
     {
-        #region Spot & Margin
+        #region Spot Trading WS-API
+
+        #region Public Unsigned Feeds
         /// <summary>
         /// Retrieve the latest price, best bid & offer and 24-hours trading volume of a single contract.
         /// </summary>
@@ -40,9 +39,7 @@ namespace Okex.Net
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>(data =>
             {
                 foreach (var d in data.Data)
-                {
                     onData(d);
-                }
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/ticker:{symbol}");
@@ -55,30 +52,31 @@ namespace Okex.Net
         /// <param name="symbols">Trading pair symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToTickers(IEnumerable<string> symbols, Action<OkexSpotTicker> onData) => Spot_SubscribeToTickers_Async(symbols, onData).Result;
+        public CallResult<UpdateSubscription> Spot_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexSpotTicker> onData) => Spot_SubscribeToTicker_Async(symbols, onData).Result;
         /// <summary>
         /// Subscribes tickers for multiple symbols
         /// </summary>
         /// <param name="symbols">Trading pair symbols. Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTickers_Async(IEnumerable<string> symbols, Action<OkexSpotTicker> onData)
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexSpotTicker> onData)
         {
             // To List
             var symbolList = symbols.ToList();
 
             // Check Point
+            if (symbolList.Count == 0)
+                throw new ArgumentException("Symbols must contain 1 element at least");
+
             if (symbolList.Count > 100)
                 throw new ArgumentException("Symbols can contain maximum 100 elements");
 
-            for (int i=0; i< symbolList.Count;i++)
+            for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>(data =>
             {
                 foreach (var d in data.Data)
-                {
                     onData(d);
-                }
             });
 
             var tickerList = new List<string>();
@@ -118,10 +116,10 @@ namespace Okex.Net
                 }
             });
 
-            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/candle{JsonConvert.SerializeObject(period, new SpotPeriodConverter(false))}s:{symbol}");
+            var period_s = JsonConvert.SerializeObject(period, new SpotPeriodConverter(false));
+            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/candle{period_s}s:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
-
 
         /// <summary>
         /// Get the filled orders data
@@ -143,15 +141,12 @@ namespace Okex.Net
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTrade>>>(data =>
             {
                 foreach (var d in data.Data)
-                {
                     onData(d);
-                }
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/trade:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
-
 
         /// <summary>
         /// Depth-Five: Back to the previous five entries of depth data,This data is snapshot data per 100 milliseconds.For every 100 milliseconds, we will snapshot and push 5 entries of market depth data of the current order book.
@@ -185,12 +180,63 @@ namespace Okex.Net
             });
 
             var channel = "depth";
-            if(depth == OkexSpotOrderBookDepth.Depth5) channel = "depth5";
-            else if(depth == OkexSpotOrderBookDepth.Depth400) channel = "depth";
+            if (depth == OkexSpotOrderBookDepth.Depth5) channel = "depth5";
+            else if (depth == OkexSpotOrderBookDepth.Depth400) channel = "depth";
             else if (depth == OkexSpotOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/{channel}:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
+        #endregion
+
+        #region Private Signed Feeds
+
+        public CallResult<UpdateSubscription> Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => Spot_SubscribeToBalance_Async(currency, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
+        {
+            currency = currency.ValidateCurrency();
+
+            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotBalance>>>(data =>
+            {
+                foreach (var d in data.Data)
+                    onData(d);
+            });
+
+            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/account:{currency}");
+            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+        }
+
+        public CallResult<UpdateSubscription> Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData) => Spot_SubscribeToOrders_Async(symbol, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData)
+        {
+            symbol = symbol.ValidateSymbol();
+
+            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotOrderDetails>>>(data =>
+            {
+                foreach (var d in data.Data)
+                    onData(d);
+            });
+
+            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/order:{symbol}");
+            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+        }
+
+        public CallResult<UpdateSubscription> Spot_SubscribeToAlgoOrders(string symbol, Action<OkexSpotAlgoOrder> onData) => Spot_SubscribeToAlgoOrders_Async(symbol, onData).Result;
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSpotAlgoOrder> onData)
+        {
+            symbol = symbol.ValidateSymbol();
+
+            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotAlgoOrder>>>(data =>
+            {
+                foreach (var d in data.Data)
+                    onData(d);
+            });
+
+            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/order_algo:{symbol}");
+            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+        }
+
+        #endregion
+
         #endregion
     }
 }

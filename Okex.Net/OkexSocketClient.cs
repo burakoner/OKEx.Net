@@ -19,6 +19,7 @@ using System.Security.Cryptography;
 using Okex.Net.SocketObjects.Structure;
 using Okex.Net.SocketObjects.Containers;
 using Okex.Net.Helpers;
+using CryptoExchange.Net.Authentication;
 
 namespace Okex.Net
 {
@@ -35,9 +36,8 @@ namespace Okex.Net
         private SecureString? Key;
         private SecureString? Secret;
         private SecureString? PassPhrase;
-        private HMACSHA256? hmacEncryptor;
-        private bool socketAuthendicated;
-
+        private HMACSHA256? _hmacEncryptor;
+        public bool Authendicated { get; private set; }
 
         #region Constructor/Destructor
         /// <summary>
@@ -66,6 +66,19 @@ namespace Okex.Net
         {
             defaultOptions = options;
         }
+
+        /// <summary>
+        /// Set the API key and secret
+        /// </summary>
+        /// <param name="apiKey">The api key</param>
+        /// <param name="apiSecret">The api secret</param>
+        /// <param name="passPhrase">The api pass phrase</param>
+        public void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
+        {
+            this.Key = apiKey.ToSecureString();
+            this.Secret = apiSecret.ToSecureString();
+            this.PassPhrase = passPhrase.ToSecureString();
+        }
         #endregion
 
         #region General
@@ -80,67 +93,6 @@ namespace Okex.Net
 
             return new CallResult<OkexGeneralPingPongContainer>(new OkexGeneralPingPongContainer {PingTime=pit, PongTime=pot, Latency=sw.Elapsed, PongMessage=result.Data }, result.Error);
         }
-        #endregion
-
-        #region Private Methods & Subscriptions
-        public CallResult<bool> User_Login(string apiKey, string apiSecret, string passPhrase) => User_Login_Async(apiKey,  apiSecret,  passPhrase).Result;
-        public async Task<CallResult<bool>> User_Login_Async(string apiKey, string apiSecret, string passPhrase)
-        {
-            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret) || string.IsNullOrEmpty(passPhrase))
-                return new CallResult<bool>(false, new NoApiCredentialsError());
-
-            this.Key = apiKey.ToSecureString();
-            this.Secret = apiSecret.ToSecureString();
-            this.PassPhrase = passPhrase.ToSecureString();
-
-            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
-            var signtext = time + "GET" + "/users/self/verify";
-            hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(this.Secret.GetString()));
-            var signature = OkexAuthenticationProvider.Base64Encode(hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
-
-            var result = await Query<OkexSocketLoginResponse>(new OkexSocketRequest(OkexSocketOperation.Login, this.Key.GetString(), this.PassPhrase.GetString(), time, signature), false).ConfigureAwait(false);
-            this.socketAuthendicated = result.Success;
-            return new CallResult<bool>(result.Success, result.Error);
-        }
-
-        public CallResult<UpdateSubscription> User_Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => User_Spot_SubscribeToBalance_Async(currency, onData).Result;
-        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
-        {
-            currency = currency.ValidateCurrency();
-
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotBalance>>>(data =>
-            {
-                foreach (var d in data.Data)
-                {
-                    onData(d);
-                }
-            });
-
-            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/account:{currency}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
-        }
-
-        // TODO: User Margin Account
-
-        public CallResult<UpdateSubscription> User_Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData) => User_Spot_SubscribeToOrders_Async(symbol, onData).Result;
-        public async Task<CallResult<UpdateSubscription>> User_Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData)
-        {
-            symbol = symbol.ValidateSymbol();
-
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotOrderDetails>>>(data =>
-            {
-                foreach (var d in data.Data)
-                {
-                    onData(d);
-                }
-            });
-
-            var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/order:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
-        }
-
-        // TODO: User Algo Orders
-
         #endregion
 
         #region Private & Protected Methods
@@ -169,8 +121,31 @@ namespace Okex.Net
         {
             callResult = new CallResult<T>(default, null);
 
+            // Check for Error
+            // 30040: {0} Channel : {1} doesn't exist
+            if (data["event"] != null && (string)data["event"]! == "error" && data["errorCode"] != null)
+            {
+                log.Write(LogVerbosity.Warning, "Query failed: " + (string)data["message"]!);
+                callResult = new CallResult<T>(default, new ServerError($"{(string)data["errorCode"]!}, {(string)data["message"]!}"));
+                return true;
+            }
+
             // Ping Request
             if (data.ToString() == "pong")
+            {
+                var desResult = Deserialize<T>(data, false);
+                if (!desResult)
+                {
+                    log.Write(LogVerbosity.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
+                    return false;
+                }
+
+                callResult = new CallResult<T>(desResult.Data, null);
+                return true;
+            }
+
+            // Login Request
+            if (data["event"] != null && (string)data["event"]! == "login")
             {
                 var desResult = Deserialize<T>(data, false);
                 if (!desResult)
@@ -223,7 +198,7 @@ namespace Okex.Net
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             if (request is OkexSocketRequest hRequest)
             {
-                // Tickers Update
+                // Spot Tickers Update
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("spot/ticker"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -236,7 +211,7 @@ namespace Okex.Net
                     }
                 }
 
-                // Candlesticks Update
+                // Spot Candlesticks Update
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/candle"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -249,7 +224,7 @@ namespace Okex.Net
                     }
                 }
 
-                // Trades Update
+                // Spot Trades Update
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/trade"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -262,7 +237,7 @@ namespace Okex.Net
                     }
                 }
 
-                // Depth5 Update
+                // Spot Depth5 Update
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/depth5"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -275,7 +250,7 @@ namespace Okex.Net
                     }
                 }
 
-                // Depth400 Update
+                // Spot Depth400 Update
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/depth"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -300,8 +275,21 @@ namespace Okex.Net
                         }
                     }
                 }
+                
+                // User Margin Account (Private)
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/margin_account"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {
+                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
 
-                // User Orders (Private)
+                // Spot Orders (Private)
                 if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/order"))
                 {
                     if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
@@ -313,6 +301,59 @@ namespace Okex.Net
                         }
                     }
                 }
+
+                // Spot Algo Orders (Private)
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/order_algo"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {
+                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // -->>
+
+                // Futures Contracts
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("futures/instruments"))
+                {
+                    var channel = (string)message["table"];
+                    if (hRequest.Arguments.Contains(channel))
+                    {
+                        return true;
+                    }
+                }
+
+                // Futures Tickers Update
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("futures/ticker"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {
+                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Futures Candlesticks Update
+                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("futures/candle"))
+                {
+                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {
+                        var channel = (string)message["table"]! + ":" + (string)message["data"][0]["instrument_id"];
+                        if (hRequest.Arguments.Contains(channel))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+
             }
 
             return false;
@@ -325,39 +366,40 @@ namespace Okex.Net
             return true;
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if (authProvider == null)
+            if (this.Key == null || this.Secret == null || this.PassPhrase == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
-            /** /
-            var authParams = authProvider.AddAuthenticationToParameters(BaseAddress, HttpMethod.Get, new Dictionary<string, object>(), true);
-            var authObjects = new OkexSocketRequest("auth", 
-                authProvider.Credentials.Key!.GetString(),
-                (string)authParams["SignatureMethod"],
-                authParams["SignatureVersion"].ToString(),
-                (string)authParams["Timestamp"],
-                (string)authParams["Signature"]);
-            */
+
+            var key = this.Key.GetString();
+            var secret = this.Secret.GetString();
+            var passphrase = this.PassPhrase.GetString();
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(passphrase))
+                return new CallResult<bool>(false, new NoApiCredentialsError());
+
+            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
+            var signtext = time + "GET" + "/users/self/verify";
+            this._hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(this.Secret.GetString()));
+            var signature = OkexAuthenticationProvider.Base64Encode(_hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
+            var request = new OkexSocketRequest(OkexSocketOperation.Login, this.Key.GetString(), this.PassPhrase.GetString(), time, signature);
+
             var result = new CallResult<bool>(false, new ServerError("No response from server"));
-            /*
-            await s.SendAndWait(authObjects, ResponseTimeout, data =>
+            await s.SendAndWait(request, ResponseTimeout, data =>
             {
-                if ((string)data["op"] != "auth")
+                if ((string)data["event"] != "login")
                     return false;
 
-                var authResponse = Deserialize<OkexSocketAuthDataResponse<object>>(data, false);
+                var authResponse = Deserialize<OkexSocketLoginResponse>(data, false);
                 if (!authResponse)
                 {
                     log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Error);
                     result = new CallResult<bool>(false, authResponse.Error);
                     return true;
                 }
-                if (!authResponse.Data.IsSuccessful)
+                if (!authResponse.Data.Success)
                 {
-                    log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Data.ErrorMessage);
-                    result = new CallResult<bool>(false, new ServerError(authResponse.Data.ErrorCode, authResponse.Data.ErrorMessage ?? "-"));
+                    log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Error.Message);
+                    result = new CallResult<bool>(false, new ServerError(authResponse.Error.Code.Value, authResponse.Error.Message));
                     return true;
                 }
 
@@ -365,51 +407,31 @@ namespace Okex.Net
                 result = new CallResult<bool>(true, null);
                 return true;
             });
-            */
 
             return result;
         }
 
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
         {
-            // string topic;
-            object? unsub = null;
-            string? unsubId = null;
-            var idField = "id";
-            /*
-            if (s.Request is OkexSocketRequest hRequest)
-            {
-                topic = hRequest.Topic;
-                unsub = new OkexSocketRequest(unsubId, topic);
-            }
+            if (s == null || s.Request == null)
+                return false;
 
-            if (s.Request is OkexSocketRequest haRequest)
-            {
-                topic = haRequest.Topic;
-                unsubId = NextId().ToString();
-                unsub = new OkexSocketRequest(unsubId, topic);
-                idField = "cid";
-            }
-            */
-
-            var result = false;
-            await connection.SendAndWait(unsub, ResponseTimeout, data =>
+            var request = new OkexSocketRequest(OkexSocketOperation.Unsubscribe, ((OkexSocketRequest)s.Request).Arguments);
+            await connection.SendAndWait(request, ResponseTimeout, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                var id = (string)data[idField];
-                if (id == unsubId)
+                if ((string)data["event"] == "unsubscribe")
                 {
-                    result = (string)data["status"] == "ok";
-                    return true;
+                    return (string)data["channel"] == request.Arguments.FirstOrDefault();
                 }
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
                 return false;
             });
-            return result;
+            return false;
         }
 
         #endregion

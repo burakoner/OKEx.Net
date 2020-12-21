@@ -80,7 +80,7 @@ namespace Okex.Net.RestObjects
         /// Borrowed tokens (unpaid)
         /// </summary>
         [JsonProperty("borrowed")]
-        public decimal borrowed { get; set; }
+        public decimal Borrowed { get; set; }
 
         /// <summary>
         /// Available transfer amount
