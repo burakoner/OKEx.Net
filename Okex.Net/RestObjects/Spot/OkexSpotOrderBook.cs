@@ -1,10 +1,10 @@
 ﻿using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
 using System;
 using System.Collections.Generic;
-using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
@@ -16,8 +16,8 @@ namespace Okex.Net.RestObjects
         [JsonProperty("checksum"), JsonOptionalProperty]
         public long Checksum { get; set; }
 
-        [JsonOptionalProperty, JsonConverter(typeof(SpotOrderBookDataTypeConverter))]
-        public OkexSpotOrderBookDataType DataType { get; set; } = OkexSpotOrderBookDataType.Api;
+        [JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
+        public OkexOrderBookDataType DataType { get; set; } = OkexOrderBookDataType.Api;
 
         /// <summary>
         /// Selling side

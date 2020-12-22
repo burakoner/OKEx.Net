@@ -1,7 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
-using Okex.Net.Interfaces;
 
-namespace Okex.Net
+namespace Okex.Net.CoreObjects
 {
     /// <summary>
     /// Client Options
@@ -27,7 +26,7 @@ namespace Okex.Net
         public OkexClientOptions Copy()
         {
             var copy = Copy<OkexClientOptions>();
-            copy.SignPublicRequests = this.SignPublicRequests;
+            copy.SignPublicRequests = SignPublicRequests;
             return copy;
         }
     }

@@ -1,11 +1,8 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Newtonsoft.Json;
+using Okex.Net.Enums;
 using System;
 using System.Collections.Generic;
-using Okex.Net.Enums;
-using Okex.Net.Attributes;
 
 namespace Okex.Net.RestObjects
 {
@@ -19,6 +16,27 @@ namespace Okex.Net.RestObjects
     {
         [JsonProperty("info")]
         public OkexSwapBalance Balance { get; set; } = new OkexSwapBalance();
+    }
+
+    public class OkexSwapBalanceExt: OkexSwapBalance
+    {
+        /// <summary>
+        /// Available quantity
+        /// </summary>
+        [JsonProperty("available_qty")]
+        public decimal AvailableSize { get; set; }
+
+        /// <summary>
+        /// Maximum Number of Long Positions Available
+        /// </summary>
+        [JsonProperty("long_open_max")]
+        public int LongOpenMax { get; set; }
+
+        /// <summary>
+        /// Maximum Number of Short Positions Available
+        /// </summary>
+        [JsonProperty("short_open_max")]
+        public int ShortOpenMax { get; set; }
     }
 
     public class OkexSwapBalance

@@ -1,14 +1,9 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
-    public class OkexFuturesPriceLimit
+    public class OkexFuturesPriceRange
     {
         /// <summary>
         /// Contract ID, e.g. BTC-USD-180213,BTC-USDT-191227

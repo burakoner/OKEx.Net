@@ -1,19 +1,13 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using Okex.Net.Helpers;
+﻿using CryptoExchange.Net.Objects;
 using Okex.Net.Interfaces;
 using Okex.Net.RestObjects;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-	public partial class OkexClient: IOkexClientOracle
+    public partial class OkexClient: IOkexClientOracle
 	{
 		#region 09 - Oracle
 

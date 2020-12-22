@@ -1,10 +1,10 @@
 ﻿using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
 using System;
 using System.Collections.Generic;
-using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
@@ -16,8 +16,17 @@ namespace Okex.Net.RestObjects
         [JsonProperty("bids")]
         public IEnumerable<OkexSwapOrderBookEntry> Bids { get; set; } = new List<OkexSwapOrderBookEntry>();
 
+        [JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
+        public OkexOrderBookDataType DataType { get; set; } = OkexOrderBookDataType.Api;
+
         [JsonProperty("time")]
         public DateTime Timestamp { get; set; }
+
+        [JsonProperty("instrument_id"), JsonOptionalProperty]
+        public string Symbol { get; set; } = "";
+
+        [JsonProperty("checksum"), JsonOptionalProperty]
+        public long Checksum { get; set; }
     }
 
     [JsonConverter(typeof(ArrayConverter))]

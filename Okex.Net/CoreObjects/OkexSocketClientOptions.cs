@@ -1,6 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
 
-namespace Okex.Net
+namespace Okex.Net.CoreObjects
 {
     /// <summary>
     /// Socket client options

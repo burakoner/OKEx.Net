@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-	public partial class OkexClient : IOkexClientSystem
+    public partial class OkexClient : IOkexClientSystem
 	{
 		#region 01 - General & System API Endpoints
 

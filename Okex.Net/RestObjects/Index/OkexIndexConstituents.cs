@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -31,7 +27,7 @@ namespace Okex.Net.RestObjects
 
     public class OkexIndexConstituentsData
     {
-        [JsonProperty("ast")]
+        [JsonProperty("last")]
         public decimal Last { get; set; }
 
         [JsonProperty("instrument_id")]

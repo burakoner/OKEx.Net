@@ -1,15 +1,16 @@
 ﻿using CryptoExchange.Net.Attributes;
 using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects
 {
     [JsonConverter(typeof(ArrayConverter))]
     public class OkexOptionsCandle
     {
+        [JsonOptionalProperty]
+        public string Symbol { get; set; } = "";
+
         /// <summary>
         /// Start time
         /// </summary>

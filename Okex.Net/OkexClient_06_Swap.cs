@@ -1,18 +1,18 @@
 ﻿using CryptoExchange.Net;
 using CryptoExchange.Net.Objects;
-using Okex.Net.Converters;
-using Okex.Net.RestObjects;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
+using Okex.Net.Helpers;
+using Okex.Net.Interfaces;
+using Okex.Net.RestObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Okex.Net.Helpers;
-using System.Linq;
-using Okex.Net.Enums;
-using Okex.Net.Interfaces;
 
 namespace Okex.Net
 {
@@ -28,16 +28,16 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexSwapPositions>> Swap_GetPositions(CancellationToken ct = default) => Swap_GetPositions_Async(ct).Result;
+        public WebCallResult<IEnumerable<OkexSwapPosition>> Swap_GetPositions(CancellationToken ct = default) => Swap_GetPositions_Async(ct).Result;
         /// <summary>
         /// Retrieve the information on all your positions in the swap account. You are recommended to get the information one token at a time to improve performance.
         /// Rate limit：5 requests per 2 seconds
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexSwapPositions>>> Swap_GetPositions_Async(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<OkexSwapPosition>>> Swap_GetPositions_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexSwapPositions>>(GetUrl(Endpoints_Swap_Positions), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequest<IEnumerable<OkexSwapPosition>>(GetUrl(Endpoints_Swap_Positions), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Okex.Net
         /// <param name="symbol">Contract ID, e.g. BTC-USD-SWAP,BTC-USDT-SWAP</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSwapPositions> Swap_GetPositions(string symbol, CancellationToken ct = default) => Swap_GetPositions_Async(symbol, ct).Result;
+        public WebCallResult<OkexSwapPosition> Swap_GetPositions(string symbol, CancellationToken ct = default) => Swap_GetPositions_Async(symbol, ct).Result;
         /// <summary>
         /// Retrieve information on your positions of a single contract.
         /// Rate limit: 20 requests per 2 seconds
@@ -55,9 +55,9 @@ namespace Okex.Net
         /// <param name="symbol">Contract ID, e.g. BTC-USD-SWAP,BTC-USDT-SWAP</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexSwapPositions>> Swap_GetPositions_Async(string symbol, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexSwapPosition>> Swap_GetPositions_Async(string symbol, CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapPositions>(GetUrl(Endpoints_Swap_PositionsOfContract, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequest<OkexSwapPosition>(GetUrl(Endpoints_Swap_PositionsOfContract, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1472,7 +1472,7 @@ namespace Okex.Net
         /// <param name="symbol">	Contract ID, e.g. BTC-USD-SWAP,BTC-USDT-SWAP</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSwapPriceLimit> Swap_GetPriceLimit(string symbol, CancellationToken ct = default) => Swap_GetPriceLimit_Async(symbol, ct).Result;
+        public WebCallResult<OkexSwapPriceRange> Swap_GetPriceLimit(string symbol, CancellationToken ct = default) => Swap_GetPriceLimit_Async(symbol, ct).Result;
         /// <summary>
         /// Retrieve the ceiling of the buy price and floor of sell price of the contract. This is publicly accessible without account authentication.
         /// Rate limit: 20 requests per 2 seconds
@@ -1480,11 +1480,11 @@ namespace Okex.Net
         /// <param name="symbol">	Contract ID, e.g. BTC-USD-SWAP,BTC-USDT-SWAP</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexSwapPriceLimit>> Swap_GetPriceLimit_Async(string symbol, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexSwapPriceRange>> Swap_GetPriceLimit_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapPriceLimit>(GetUrl(Endpoints_Swap_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequest<OkexSwapPriceRange>(GetUrl(Endpoints_Swap_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1586,7 +1586,7 @@ namespace Okex.Net
         /// <param name="limit">number of results per request in chronological order (latest at the front). Maximum 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexSwapFundingRateHistory>> Swap_GetFundingRateHistory(string symbol, int limit = 100, CancellationToken ct = default) => Swap_GetFundingRateHistory_Async(symbol, limit, ct).Result;
+        public WebCallResult<IEnumerable<OkexSwapFundingRate>> Swap_GetFundingRateHistory(string symbol, int limit = 100, CancellationToken ct = default) => Swap_GetFundingRateHistory_Async(symbol, limit, ct).Result;
         /// <summary>
         /// Get Funding Rate History,This API can retrieve data in the last 1 month.
         /// Rate limit：20 requests per 2 seconds
@@ -1595,12 +1595,12 @@ namespace Okex.Net
         /// <param name="limit">number of results per request in chronological order (latest at the front). Maximum 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexSwapFundingRateHistory>>> Swap_GetFundingRateHistory_Async(string symbol, int limit = 100, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<OkexSwapFundingRate>>> Swap_GetFundingRateHistory_Async(string symbol, int limit = 100, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
 
-            return await SendRequest<IEnumerable<OkexSwapFundingRateHistory>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequest<IEnumerable<OkexSwapFundingRate>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>

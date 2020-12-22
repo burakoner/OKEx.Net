@@ -1,11 +1,9 @@
 ﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using Okex.Net.Enums;
 using Okex.Net.Attributes;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
+using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects
 {
@@ -15,8 +13,8 @@ namespace Okex.Net.RestObjects
         [TypedData]
         [JsonProperty("info")]
         public Dictionary<string, OkexFuturesBalance> Balances { get; set; } = new Dictionary<string, OkexFuturesBalance>();
-    }
-
+    }   
+    
     public class OkexFuturesBalance
     {
         /// <summary>

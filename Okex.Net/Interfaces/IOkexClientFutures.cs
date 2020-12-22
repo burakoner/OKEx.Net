@@ -64,8 +64,8 @@ namespace Okex.Net.Interfaces
         WebCallResult<OkexFuturesPositionsOfContract> Futures_GetPositions(string contract, CancellationToken ct = default);
         Task<WebCallResult<OkexFuturesPositions>> Futures_GetPositions_Async(CancellationToken ct = default);
         Task<WebCallResult<OkexFuturesPositionsOfContract>> Futures_GetPositions_Async(string contract, CancellationToken ct = default);
-        WebCallResult<OkexFuturesPriceLimit> Futures_GetPriceLimit(string symbol, CancellationToken ct = default);
-        Task<WebCallResult<OkexFuturesPriceLimit>> Futures_GetPriceLimit_Async(string symbol, CancellationToken ct = default);
+        WebCallResult<OkexFuturesPriceRange> Futures_GetPriceLimit(string symbol, CancellationToken ct = default);
+        Task<WebCallResult<OkexFuturesPriceRange>> Futures_GetPriceLimit_Async(string symbol, CancellationToken ct = default);
         WebCallResult<IEnumerable<OkexFuturesSettlementHistory>> Futures_GetSettlementHistory(string? instrument = null, string? underlying = null, DateTime? start = null, DateTime? end = null, int limit = 100, CancellationToken ct = default);
         Task<WebCallResult<IEnumerable<OkexFuturesSettlementHistory>>> Futures_GetSettlementHistory_Async(string? instrument = null, string? underlying = null, DateTime? start = null, DateTime? end = null, int limit = 100, CancellationToken ct = default);
         WebCallResult<IEnumerable<OkexFuturesBill>> Futures_GetSymbolBills(string underlying, OkexFuturesBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);

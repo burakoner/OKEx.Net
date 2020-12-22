@@ -1,26 +1,34 @@
 ﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
-using Okex.Net.Converters;
+using Okex.Net.Helpers;
+using Okex.Net.Interfaces;
 using Okex.Net.RestObjects;
-using Newtonsoft.Json;
+using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Okex.Net.SocketObjects.Structure;
-using Okex.Net.SocketObjects.Containers;
-using Okex.Net.Helpers;
-using Okex.Net.Enums;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient
+    public partial class OkexSocketClient: IOkexSocketClientMargin
     {
         #region Margin Trading WS-API
 
         #region Private Signed Feeds
 
+        /// <summary>
+        /// Retrieve the user's margin account information (login authentication required).
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public CallResult<UpdateSubscription> Margin_SubscribeToBalance(string symbol, Action<OkexMarginBalance> onData) => Margin_SubscribeToBalance_Async(symbol, onData).Result;
+        /// <summary>
+        /// Retrieve the user's margin account information (login authentication required).
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public async Task<CallResult<UpdateSubscription>> Margin_SubscribeToBalance_Async(string symbol, Action<OkexMarginBalance> onData)
         {
             symbol = symbol.ValidateSymbol();

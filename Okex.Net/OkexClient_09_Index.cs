@@ -1,19 +1,14 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
+﻿using CryptoExchange.Net.Objects;
 using Okex.Net.Helpers;
 using Okex.Net.Interfaces;
 using Okex.Net.RestObjects;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-	public partial class OkexClient: IOkexClientIndex
+    public partial class OkexClient: IOkexClientIndex
 	{
 		#region 09 - Index API
 

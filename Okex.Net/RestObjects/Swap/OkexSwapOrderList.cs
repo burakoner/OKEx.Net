@@ -1,10 +1,9 @@
 ﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
 using System;
 using System.Collections.Generic;
-using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {

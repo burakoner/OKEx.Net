@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <PackageVersion>1.4.3</PackageVersion>
+    <PackageVersion>1.5.6</PackageVersion>
     <Description>Okex.Net is a .Net wrapper for the Okex API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -16,6 +16,28 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
+Version 1.5.6 - 22 Dec 2020
+- Added Index Api WebSocket Support
+    
+Version 1.5.5 - 22 Dec 2020
+- Added Options WebSocket Api Support
+
+Version 1.5.4 - 21 Dec 2020
+- Added Swap WebSocket Api Support
+    
+Version 1.5.3 - 21 Dec 2020
+- Added Futures WebSocket Api Support
+    
+Version 1.5.2 - 21 Dec 2020
+- Added Margin WebSocket Api Support
+    
+Version 1.5.1 - 21 Dec 2020
+- Added Spot WebSocket Api Support
+    
+Version 1.5.0 - 21 Dec 2020
+- Fixed WebSocket Service Api Bugs
+- Added Web Socket Auth Algorithm
+
 Version 1.4.3 - 20 Dec 2020
 - Added Options Rest Api Support
 
@@ -35,79 +57,70 @@ Version 1.3.1 - 13 Dec 2020
 - Completed OkexMarginAccountSettings Model
 
 Version 1.3.0 - 13 Dec 2020
-* Core Features
-    * Overrided to CryptoExchange.Net.RestClient.WriteParamBody
-    * Changed signature algorithm
-* Added Funding Methods below. Check readme on github.
-* Added Spot Trading Methods below. Check readme on github.
-* Added Algo Trading Methods below. Check readme on github.
-* Added Margin Trading Methods below. Check readme on github.
-* Added many enums, models and converters
-* Changed Namespaces below
-    * Okex.Net -&gt; Okex.Net.Enums (for enums only)
-* Changed Method names below
-    * Okex.Net.Converters: SpotMarginOrderSourceTypeConverter -&gt; MarketConverter
-* Changed Enum names below
-    * OkexSpotMarginOrderSourceType -&gt; OkexMarket
-* Changed Class names below
-    * Okex.Net.RestObjects: OkexSpotAccount -&gt; OkexSpotBalance
-* Fixed minor bugs
+- Overrided to CryptoExchange.Net.RestClient.WriteParamBody
+- Changed signature algorithm
+- Added Funding Methods below. Check readme on github.
+- Added Spot Trading Methods below. Check readme on github.
+- Added Algo Trading Methods below. Check readme on github.
+- Added Margin Trading Methods below. Check readme on github.
+- Added many enums, models and converters
+- Fixed minor bugs
 
 Version 1.2.4 - 12 Dec 2020
-CryptoExchange version updated to 3.3.0
+- CryptoExchange version updated to 3.3.0
 
 Version 1.2.3 08 Nov 2020
-Fixed duplicate slashes on BaseAddress caused by CryptoExchange
+- Fixed duplicate slashes on BaseAddress caused by CryptoExchange
 
 Version 1.2.1 - 08 Nov 2020
-CryptoExchange Version Updated to 3.1.0
+- CryptoExchange Version Updated to 3.1.0
 
 Version 1.2.0 - 21 Sep 2020
-CryptoExchange Version Updated to 3.0.14
+- CryptoExchange Version Updated to 3.0.14
 
 Version 1.1.3 - 4 Mar 2020
-CryptoExchange Fixes
+- CryptoExchange Fixes
 
 Version 1.1.2 - 21 Feb 2020
-Fixed bug when placing Market buy Order
+- Fixed bug when placing Market buy Order
 
 Version 1.1.1 - 16 Feb 2020
-Refactor
+- Refactored
 
 Version 1.1.0 - 16 Feb 2020
-Renamed Objects
+- Renamed Objects
 
 Version 1.0.6 - 15 Feb 2020
-Added Realtime Depth Subscribe Tickers in WebSocket Client
+- Added Realtime Depth Subscribe Tickers in WebSocket Client
 
 Version 1.0.5 - 02 Feb 2020
-Added Support to Subscribe Tickers for Multiple Symbols
+- Added Support to Subscribe Tickers for Multiple Symbols
 
 Version 1.0.4 - 31 Jan 2020
-Added Amount field to Funding-DepositHistory
+- Added Amount field to Funding-DepositHistory
 
 Version 1.0.3 - 29 Jan 2020
-Added Ping-Pong Mechanism
+- Added Ping-Pong Mechanism
 
 Version 1.0.2 - 28 Jan 2020
-Upgraded to CryptoExchange.Net v3.0.3
-Added Funding API Deposit Endpoints
-Added Funding API Withdrawal Endpoints
-Added Websockets Login Method
-Added Websockets User Stream Subscriptions
-Adapted some Spot Api endpoint models with websocket models
-Added Examples Project
+- Upgraded to CryptoExchange.Net v3.0.3
+- Added Funding API Deposit Endpoints
+- Added Funding API Withdrawal Endpoints
+- Added Websockets Login Method
+- Added Websockets User Stream Subscriptions
+- Adapted some Spot Api endpoint models with websocket models
+- Added Examples Project
 
 Version 1.0.0 - 26 Jan 2020
-First Release
+- First Release
   </PackageReleaseNotes>
 </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile></DocumentationFile>
     <PackageIconUrl />
-    <Version>1.4.3</Version>
-    <AssemblyVersion>1.4.3.0</AssemblyVersion>
-    <FileVersion>1.4.3.0</FileVersion>
+    <Version>1.5.6</Version>
+    <AssemblyVersion>1.5.6.0</AssemblyVersion>
+    <FileVersion>1.5.6.0</FileVersion>
     <PackageProjectUrl>https://github.com/burakoner/OKEx.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/burakoner/OKEx.Net</RepositoryUrl>
   </PropertyGroup>
@@ -118,6 +131,6 @@ First Release
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="3.3.0" />
+    <PackageReference Include="CryptoExchange.Net" Version="3.4.0" />
   </ItemGroup>
 </Project>

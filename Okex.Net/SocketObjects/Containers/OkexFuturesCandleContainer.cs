@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using Okex.Net.RestObjects;
+using System;
 
 namespace Okex.Net.SocketObjects.Containers
 {

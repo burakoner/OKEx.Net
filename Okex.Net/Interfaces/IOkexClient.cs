@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using Okex.Net.RestObjects;
+﻿using CryptoExchange.Net.Interfaces;
 
 namespace Okex.Net.Interfaces
 {
-	public interface IOkexClient : IRestClient
+    public interface IOkexClient : IRestClient
 	{
 		/// <summary>
 		/// Whether public requests should be signed if OkexApiCredentials are provided. Needed for accurate rate limiting.

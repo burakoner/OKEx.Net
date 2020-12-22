@@ -4,7 +4,6 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Okex.Net.Attributes
 {
@@ -46,7 +45,7 @@ namespace Okex.Net.Attributes
             return typeof(TObject).IsAssignableFrom(objectType);
         }
 
-        JsonProperty GetExtensionJsonProperty(JsonObjectContract contract)
+        private JsonProperty GetExtensionJsonProperty(JsonObjectContract contract)
         {
             try
             {
@@ -112,10 +111,10 @@ namespace Okex.Net.Attributes
         }
 
         [ThreadStatic]
-        static bool disabled;
+        private static bool disabled;
 
         // Disables the converter in a thread-safe manner.
-        bool Disabled { get { return disabled; } set { disabled = value; } }
+        private bool Disabled { get { return disabled; } set { disabled = value; } }
 
         public override bool CanWrite { get { return !Disabled; } }
 
@@ -124,15 +123,15 @@ namespace Okex.Net.Attributes
 
     public struct PushValue<T> : IDisposable
     {
-        Action<T> setValue;
-        T oldValue;
+        private Action<T> setValue;
+        private T oldValue;
 
         public PushValue(T value, Func<T> getValue, Action<T> setValue)
         {
             if (getValue == null || setValue == null)
                 throw new ArgumentNullException();
             this.setValue = setValue;
-            this.oldValue = getValue();
+            oldValue = getValue();
             setValue(value);
         }
 

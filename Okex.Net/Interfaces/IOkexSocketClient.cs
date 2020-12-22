@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Interfaces;
+﻿using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Sockets;
-using Okex.Net.RestObjects;
-using Okex.Net.SocketObjects;
+using Okex.Net.SocketObjects.Structure;
+using System.Threading.Tasks;
 
 namespace Okex.Net.Interfaces
 {
@@ -14,5 +10,9 @@ namespace Okex.Net.Interfaces
     /// </summary>
     public interface IOkexSocketClient: ISocketClient
     {
+        bool Authendicated { get; }
+        void SetApiCredentials(string apiKey, string apiSecret, string passPhrase);
+        CallResult<OkexSocketLoginResponse> Auth_Login(string apiKey, string apiSecret, string passPhrase);
+        Task<CallResult<OkexSocketLoginResponse>> Auth_Login_Async(string apiKey, string apiSecret, string passPhrase);
     }
 }

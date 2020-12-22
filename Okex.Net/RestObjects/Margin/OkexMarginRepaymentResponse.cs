@@ -1,12 +1,4 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using System.Linq;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects
 {

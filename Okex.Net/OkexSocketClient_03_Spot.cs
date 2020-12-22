@@ -1,20 +1,21 @@
 ﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
-using Okex.Net.Converters;
-using Okex.Net.RestObjects;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
+using Okex.Net.Helpers;
+using Okex.Net.Interfaces;
+using Okex.Net.RestObjects;
+using Okex.Net.SocketObjects.Containers;
+using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Okex.Net.SocketObjects.Structure;
-using Okex.Net.SocketObjects.Containers;
-using Okex.Net.Helpers;
-using Okex.Net.Enums;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient
+    public partial class OkexSocketClient: IOkexSocketClientSpot
     {
         #region Spot Trading WS-API
 
@@ -151,38 +152,40 @@ namespace Okex.Net
         /// <summary>
         /// Depth-Five: Back to the previous five entries of depth data,This data is snapshot data per 100 milliseconds.For every 100 milliseconds, we will snapshot and push 5 entries of market depth data of the current order book.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
+        /// Depth-TickByTick: The 400 entries of market depth data of the order book that return for the first time after subscription will be pushed; subsequently as long as there's any change of market depth data of the order book, the changes will be pushed tick by tick. Subsequently as long as there's any change of market depth data of the order book, the changes will be pushed tick by tick.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, OkexSpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
+        public CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
         /// <summary>
         /// Depth-Five: Back to the previous five entries of depth data,This data is snapshot data per 100 milliseconds.For every 100 milliseconds, we will snapshot and push 5 entries of market depth data of the current order book.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
+        /// Depth-TickByTick: The 400 entries of market depth data of the order book that return for the first time after subscription will be pushed; subsequently as long as there's any change of market depth data of the order book, the changes will be pushed tick by tick. Subsequently as long as there's any change of market depth data of the order book, the changes will be pushed tick by tick.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexSpotOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
+        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketOrderBookUpdate>(data =>
+            var internalHandler = new Action<OkexSpotOrderBookUpdate>(data =>
             {
                 foreach (var d in data.Data)
                 {
                     d.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
-                    d.DataType = depth == OkexSpotOrderBookDepth.Depth5 ? OkexSpotOrderBookDataType.DepthTop5 : data.DataType;
+                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.DataType;
                     onData(d);
                 }
             });
 
             var channel = "depth";
-            if (depth == OkexSpotOrderBookDepth.Depth5) channel = "depth5";
-            else if (depth == OkexSpotOrderBookDepth.Depth400) channel = "depth";
-            else if (depth == OkexSpotOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
+            if (depth == OkexOrderBookDepth.Depth5) channel = "depth5";
+            else if (depth == OkexOrderBookDepth.Depth400) channel = "depth";
+            else if (depth == OkexOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/{channel}:{symbol}");
             return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
         }
@@ -190,7 +193,19 @@ namespace Okex.Net
 
         #region Private Signed Feeds
 
+        /// <summary>
+        /// Retrieve the user's spot account information (login authentication required).
+        /// </summary>
+        /// <param name="currency">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public CallResult<UpdateSubscription> Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => Spot_SubscribeToBalance_Async(currency, onData).Result;
+        /// <summary>
+        /// Retrieve the user's spot account information (login authentication required).
+        /// </summary>
+        /// <param name="currency">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
         {
             currency = currency.ValidateCurrency();
@@ -205,7 +220,19 @@ namespace Okex.Net
             return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Retrieve the user's transaction information (login authentication required).
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public CallResult<UpdateSubscription> Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData) => Spot_SubscribeToOrders_Async(symbol, onData).Result;
+        /// <summary>
+        /// Retrieve the user's transaction information (login authentication required).
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData)
         {
             symbol = symbol.ValidateSymbol();
@@ -220,7 +247,19 @@ namespace Okex.Net
             return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Users must login to obtain trading data.
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public CallResult<UpdateSubscription> Spot_SubscribeToAlgoOrders(string symbol, Action<OkexSpotAlgoOrder> onData) => Spot_SubscribeToAlgoOrders_Async(symbol, onData).Result;
+        /// <summary>
+        /// Users must login to obtain trading data.
+        /// </summary>
+        /// <param name="symbol">Instrument Id</param>
+        /// <param name="onData">The handler for updates</param>
+        /// <returns></returns>
         public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSpotAlgoOrder> onData)
         {
             symbol = symbol.ValidateSymbol();

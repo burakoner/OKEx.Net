@@ -7,13 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Okex.Net
+namespace Okex.Net.CoreObjects
 {
     internal class OkexAuthenticationProvider : AuthenticationProvider
     {
@@ -28,8 +27,8 @@ namespace Okex.Net
             if (credentials==null|| credentials.Secret == null)
                 throw new ArgumentException("No valid API credentials provided. Key/Secret needed.");
 
-            this.PassPhrase = passPhrase.ToSecureString();
-            this.encryptor = new HMACSHA256(Encoding.ASCII.GetBytes(credentials.Secret.GetString()));
+            PassPhrase = passPhrase.ToSecureString();
+            encryptor = new HMACSHA256(Encoding.ASCII.GetBytes(credentials.Secret.GetString()));
             this.signPublicRequests = signPublicRequests;
             this.arraySerialization = arraySerialization;
         }
@@ -39,7 +38,7 @@ namespace Okex.Net
             if (!signed && !signPublicRequests)
                 return new Dictionary<string, string>();
 
-            if (Credentials == null || Credentials.Key == null || this.PassPhrase == null)
+            if (Credentials == null || Credentials.Key == null || PassPhrase == null)
                 throw new ArgumentException("No valid API credentials provided. Key/Secret/PassPhrase needed.");
 
             var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds()/ 1000.0m).ToString(CultureInfo.InvariantCulture);
@@ -65,7 +64,7 @@ namespace Okex.Net
                 { "OK-ACCESS-KEY", Credentials.Key.GetString() },
                 { "OK-ACCESS-SIGN", signature },
                 { "OK-ACCESS-TIMESTAMP", time },
-                { "OK-ACCESS-PASSPHRASE", this.PassPhrase.GetString() },
+                { "OK-ACCESS-PASSPHRASE", PassPhrase.GetString() },
             };
         }
 

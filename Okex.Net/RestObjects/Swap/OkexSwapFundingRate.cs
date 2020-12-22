@@ -1,14 +1,9 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using Okex.Net.Enums;
 
 namespace Okex.Net.RestObjects
 {
-    public class OkexSwapFundingRateHistory
+    public class OkexSwapFundingRate
     {
         [JsonProperty("instrument_id")]
         public string Symbol { get; set; } = "";

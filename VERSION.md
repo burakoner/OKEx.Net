@@ -1,4 +1,122 @@
-## Release Notes
+﻿## Release Notes
+* Version 1.5.6 - 22 Dec 2020
+    * Added Index Api WebSocket Support
+        * Index_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData);
+        * Index_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData);
+        * Index_SubscribeToTicker(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData);
+        * Index_SubscribeToTicker(string symbol, Action<OkexIndexTicker> onData);
+        * Index_SubscribeToTicker_Async(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData);
+        * Index_SubscribeToTicker_Async(string symbol, Action<OkexIndexTicker> onData);
+        
+* Version 1.5.5 - 22 Dec 2020
+    * Added Options WebSocket Api Support
+        * Options_SubscribeToBalance(string underlying, Action<OkexOptionsBalance> onData);
+        * Options_SubscribeToBalance_Async(string underlying, Action<OkexOptionsBalance> onData);
+        * Options_SubscribeToCandlesticks(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData);
+        * Options_SubscribeToCandlesticks_Async(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData);
+        * Options_SubscribeToContracts(string underlying, Action<OkexOptionsInstrument> onData);
+        * Options_SubscribeToContracts_Async(string underlying, Action<OkexOptionsInstrument> onData);
+        * Options_SubscribeToMarketData(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData);
+        * Options_SubscribeToMarketData(string underlying, Action<OkexOptionsMarketData> onData);
+        * Options_SubscribeToMarketData_Async(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData);
+        * Options_SubscribeToMarketData_Async(string underlying, Action<OkexOptionsMarketData> onData);
+        * Options_SubscribeToOrderBook(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData);
+        * Options_SubscribeToOrderBook_Async(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData);
+        * Options_SubscribeToOrders(string underlying, Action<OkexOptionsOrder> onData);
+        * Options_SubscribeToOrders_Async(string underlying, Action<OkexOptionsOrder> onData);
+        * Options_SubscribeToPositions(string underlying, Action<OkexOptionsPosition> onData);
+        * Options_SubscribeToPositions_Async(string underlying, Action<OkexOptionsPosition> onData);
+        * Options_SubscribeToTicker(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData);
+        * Options_SubscribeToTicker(string instrument, Action<OkexOptionsTicker> onData);
+        * Options_SubscribeToTicker_Async(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData);
+        * Options_SubscribeToTicker_Async(string instrument, Action<OkexOptionsTicker> onData);
+        * Options_SubscribeToTrades(string instrument, Action<OkexOptionsTrade> onData);
+        * Options_SubscribeToTrades_Async(string instrument, Action<OkexOptionsTrade> onData);
+        
+* Version 1.5.4 - 21 Dec 2020
+    * Added Swap WebSocket Api Support
+        * Swap_SubscribeToAlgoOrders(string symbol, Action<OkexSwapAlgoOrder> onData);
+        * Swap_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSwapAlgoOrder> onData);
+        * Swap_SubscribeToBalance(string symbol, Action<OkexSwapBalance> onData);
+        * Swap_SubscribeToBalance_Async(string symbol, Action<OkexSwapBalance> onData);
+        * Swap_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexSwapCandle> onData);
+        * Swap_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexSwapCandle> onData);
+        * Swap_SubscribeToFundingRate(string symbol, Action<OkexSwapFundingRate> onData);
+        * Swap_SubscribeToFundingRate_Async(string symbol, Action<OkexSwapFundingRate> onData);
+        * Swap_SubscribeToMarkPrice(string symbol, Action<OkexSwapMarkPrice> onData);
+        * Swap_SubscribeToMarkPrice_Async(string symbol, Action<OkexSwapMarkPrice> onData);
+        * Swap_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexSwapOrderBook> onData);
+        * Swap_SubscribeToOrderBook_Async(string symbol, OkexOrderBookDepth depth, Action<OkexSwapOrderBook> onData);
+        * Swap_SubscribeToOrders(string symbol, Action<OkexSwapOrder> onData);
+        * Swap_SubscribeToOrders_Async(string symbol, Action<OkexSwapOrder> onData);
+        * Swap_SubscribeToPositions(string symbol, Action<OkexSwapPosition> onData);
+        * Swap_SubscribeToPositions_Async(string symbol, Action<OkexSwapPosition> onData);
+        * Swap_SubscribeToPriceRange(string symbol, Action<OkexSwapPriceRange> onData);
+        * Swap_SubscribeToPriceRange_Async(string symbol, Action<OkexSwapPriceRange> onData);
+        * Swap_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexSwapTicker> onData);
+        * Swap_SubscribeToTicker(string symbol, Action<OkexSwapTicker> onData);
+        * Swap_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexSwapTicker> onData);
+        * Swap_SubscribeToTicker_Async(string symbol, Action<OkexSwapTicker> onData);
+        * Swap_SubscribeToTrades(string symbol, Action<OkexSwapTrade> onData);
+        * Swap_SubscribeToTrades_Async(string symbol, Action<OkexSwapTrade> onData);
+        
+* Version 1.5.3 - 21 Dec 2020
+    * Added Futures WebSocket Api Support
+        * Futures_SubscribeToAlgoOrders(string symbol, Action<OkexFuturesAlgoOrder> onData);
+        * Futures_SubscribeToAlgoOrders_Async(string symbol, Action<OkexFuturesAlgoOrder> onData);
+        * Futures_SubscribeToBalance(string symbol, Action<OkexFuturesBalance> onData);
+        * Futures_SubscribeToBalance_Async(string symbol, Action<OkexFuturesBalance> onData);
+        * Futures_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData);
+        * Futures_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData);
+        * Futures_SubscribeToContracts(Action<OkexFuturesContract> onData);
+        * Futures_SubscribeToContracts_Async(Action<OkexFuturesContract> onData);
+        * Futures_SubscribeToEstimatedPrice(string symbol, Action<OkexFuturesEstimatedPrice> onData);
+        * Futures_SubscribeToEstimatedPrice_Async(string symbol, Action<OkexFuturesEstimatedPrice> onData);
+        * Futures_SubscribeToMarkPrice(string symbol, Action<OkexFuturesMarkPrice> onData);
+        * Futures_SubscribeToMarkPrice_Async(string symbol, Action<OkexFuturesMarkPrice> onData);
+        * Futures_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData);
+        * Futures_SubscribeToOrderBook_Async(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData);
+        * Futures_SubscribeToOrders(string symbol, Action<OkexFuturesOrder> onData);
+        * Futures_SubscribeToOrders_Async(string symbol, Action<OkexFuturesOrder> onData);
+        * Futures_SubscribeToPositions(string symbol, Action<OkexFuturesPosition> onData);
+        * Futures_SubscribeToPositions_Async(string symbol, Action<OkexFuturesPosition> onData);
+        * Futures_SubscribeToPriceRange(string symbol, Action<OkexFuturesPriceRange> onData);
+        * Futures_SubscribeToPriceRange_Async(string symbol, Action<OkexFuturesPriceRange> onData);
+        * Futures_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData);
+        * Futures_SubscribeToTicker(string symbol, Action<OkexFuturesTicker> onData);
+        * Futures_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData);
+        * Futures_SubscribeToTicker_Async(string symbol, Action<OkexFuturesTicker> onData);
+        * Futures_SubscribeToTrades(string symbol, Action<OkexFuturesTrade> onData);
+        * Futures_SubscribeToTrades_Async(string symbol, Action<OkexFuturesTrade> onData);
+        
+* Version 1.5.2 - 21 Dec 2020
+    * Added Margin WebSocket Api Support
+        * Margin_SubscribeToBalance(string symbol, Action<OkexMarginBalance> onData);
+        * Margin_SubscribeToBalance_Async(string symbol, Action<OkexMarginBalance> onData);
+        
+* Version 1.5.1 - 21 Dec 2020
+    * Added Spot WebSocket Api Support
+        * Spot_SubscribeToAlgoOrders(string symbol, Action<OkexSpotAlgoOrder> onData);
+        * Spot_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSpotAlgoOrder> onData);
+        * Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData);
+        * Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData);
+        * Spot_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData);
+        * Spot_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData);
+        * Spot_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData);
+        * Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData);
+        * Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData);
+        * Spot_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexSpotTicker> onData);
+        * Spot_SubscribeToTicker(string symbol, Action<OkexSpotTicker> onData);
+        * Spot_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexSpotTicker> onData);
+        * Spot_SubscribeToTicker_Async(string symbol, Action<OkexSpotTicker> onData);
+        * Spot_SubscribeToTrades(string symbol, Action<OkexSpotTrade> onData);
+        * Spot_SubscribeToTrades_Async(string symbol, Action<OkexSpotTrade> onData);
+        * Spot_SubscribeToTrades_Async(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData);
+
+* Version 1.5.0 - 21 Dec 2020
+    * Fixed WebSocket Service Api Bugs
+    * Added Web Socket Auth Algorithm
+
 * Version 1.4.3 - 20 Dec 2020
     * Added Options Rest Api Support
         * Options_BatchCancelOrders(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);

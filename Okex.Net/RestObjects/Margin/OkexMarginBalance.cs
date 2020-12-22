@@ -1,13 +1,6 @@
-﻿using CryptoExchange.Net.Attributes;
-using CryptoExchange.Net.Converters;
-using Okex.Net.Converters;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using System.Linq;
+﻿using Newtonsoft.Json;
 using Okex.Net.Attributes;
+using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects
 {
@@ -58,7 +51,7 @@ namespace Okex.Net.RestObjects
 
         public OkexMarginBalance()
         {
-            this.Currencies = new Dictionary<string, OkexMarginBalanceCurrencyDetails>();
+            Currencies = new Dictionary<string, OkexMarginBalanceCurrencyDetails>();
         }
     }
 

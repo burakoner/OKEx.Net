@@ -2,13 +2,14 @@
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Okex.Net.CoreObjects;
+using Okex.Net.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using Okex.Net.Interfaces;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Web;
 
 namespace Okex.Net
@@ -48,7 +49,7 @@ namespace Okex.Net
         /// </summary>
         public OkexClient(OkexClientOptions options) : base("Okex", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
         {
-            this.SignPublicRequests = options.SignPublicRequests;
+            SignPublicRequests = options.SignPublicRequests;
         }
         #endregion
 

@@ -1,7 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
 using Okex.Net.Enums;
 using Okex.Net.RestObjects;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

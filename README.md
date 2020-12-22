@@ -1,4 +1,4 @@
-# ![Icon](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true) OKEx.Net 
+ï»¿# ![Icon](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true) OKEx.Net 
 
 A .Net wrapper for the OKEx API as described on [OKEx](https://www.okex.com/docs/en/), including all features the API provides using clear and readable objects.
 
@@ -112,15 +112,15 @@ After installing it's time to actually use it. To get started we have to add the
 
 OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  provides all rest API calls. The  `OkexSocketClient`  provides functions to interact with the websocket provided by the OKEx API. Both clients are disposable and as such can be used in a  `using`statement.
 
-## Examples
-**System » Public Endpoints**
+## Rest Api Examples
+**System Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var system_public_01 = api.SystemTime();
 var system_public_02 = api.SystemStatus();
 ```
 
-**Funding » Private Endpoints**
+**Funding Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -144,7 +144,7 @@ var funding_public_17 = api.Funding_PiggyBank("ETH", 0.1m, OkexFundingPiggyBankA
 var funding_public_18 = api.Funding_PiggyBank("ETH", 0.1m, OkexFundingPiggyBankActionSide.Redempt);
 ```
 
-**Spot » Public Endpoints**
+**Spot Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var spot_public_01 = api.Spot_GetTradingPairs();
@@ -156,7 +156,7 @@ var spot_public_06 = api.Spot_GetCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 var spot_public_07 = api.Spot_GetHistoricalCandles("BTC-USDT", OkexSpotPeriod.OneHour);
 ```
 
-**Spot » Private Endpoints**
+**Spot Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -227,13 +227,13 @@ var spot_private_24 = api.Spot_AlgoCancelOrder("ETH-BTC", OkexAlgoOrderType.Trig
 var spot_private_25 = api.Spot_AlgoGetOrders("ETH-BTC", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Margin » Public Endpoints**
+**Margin Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var margin_public_01 = api.Margin_GetMarkPrice("BTC-USDT");
 ```
 
-**Margin » Private Endpoints**
+**Margin Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -261,7 +261,7 @@ var margin_private_21 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType
 var margin_private_22 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Futures » Public Endpoints**
+**Futures Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var futures_public_01 = api.Futures_GetTradingContracts();
@@ -281,7 +281,7 @@ var futures_public_14 = api.Futures_GetSettlementHistory("BTC-USDT-201225");
 var futures_public_15 = api.Futures_GetHistoricalMarketData("BTC-USDT-201225", OkexSpotPeriod.OneHour);
 ```
 
-**Futures » Private Endpoints**
+**Futures Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -311,7 +311,7 @@ var futures_private_23 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderTyp
 var futures_private_24 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Swap » Public Endpoints**
+**Swap Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var swap_public_01 = api.Swap_GetTradingContracts();
@@ -331,7 +331,7 @@ var swap_public_14 = api.Swap_GetFundingRateHistory("BTC-USDT-SWAP");
 var swap_public_15 = api.Swap_GetHistoricalMarketData("BTC-USDT-SWAP", OkexSpotPeriod.OneHour);
 ```
 
-**Swap » Private Endpoints**
+**Swap Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -360,7 +360,7 @@ var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.Tri
 var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
-**Contract » Public Endpoints**
+**Contract Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var options_public_01 = api.Contract_GetLongShortRatio("BTC", OkexContractPeriod.FiveMinutes);
@@ -370,7 +370,7 @@ var options_public_04 = api.Contract_GetSentiment("BTC", OkexContractPeriod.Five
 var options_public_05 = api.Contract_GetMargin("BTC", OkexContractPeriod.FiveMinutes);
 ```
 
-**Options » Public Endpoints**
+**Options Â» Public Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 var options_public_01 = api.Options_GetUnderlyingList();
@@ -384,7 +384,7 @@ var options_public_08 = api.Options_GetCandles("BTC-USD-201218-16250-P", OkexSpo
 var options_public_09 = api.Options_GetSettlementHistory("BTC-USD");
 ```
 
-**Options » Private Endpoints**
+**Options Â» Private Endpoints**
 ```C#
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -404,89 +404,543 @@ var options_private_13 = api.Options_GetBills("BTC-USD");
 var options_private_14 = api.Options_GetTradeFeeRates("BTC-USD");
 ```
 
-## Websockets
+## Websocket Api Examples
 The OKEx.Net socket client provides several socket endpoint to which can be subscribed.
 
-**Public Socket Endpoints**
+**Core Â» Public Feeds**
 ```C#
-var pairs = new List<string>();
-pairs.Add("BTC-USDT");
-pairs.Add("LTC-USDT");
-pairs.Add("ETH-USDT");
-pairs.Add("XRP-USDT");
-pairs.Add("BCH-USDT");
-pairs.Add("EOS-USDT");
-pairs.Add("OKB-USDT");
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+var ws_core_public_01 = ws.Auth_Login("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+var ws_system_public_01 = ws.Ping();
+```
 
-/* OkexSocketClient Object */
-var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug);
+**Spot Â» Public Feeds**
+```C#
+var spot_pairs = new List<string> { "BTC-USDT", "LTC-USDT", "ETH-USDT", "XRP-USDT", "BCH-USDT", "EOS-USDT", "OKB-USDT", "ETC-USDT", "TRX-USDT", "BSV-USDT", "DASH-USDT", "NEO-USDT", "QTUM-USDT", "XLM-USDT", "ADA-USDT", "AE-USDT", "BLOC-USDT", "EGT-USDT", "IOTA-USDT", "SC-USDT", "WXT-USDT", "ZEC-USDT", };
 
-/* Public Socket Endpoints: */
+// WS Subscriptions
 var subs = new List<UpdateSubscription>();
-foreach (var pair in pairs)
+
+// WS Api Client
+var ws = new OkexSocketClient();
+
+// Ticker
+foreach (var pair in spot_pairs)
 {
-    var candleSubscription = wsClient.Spot_SubscribeToCandlesticks(pair, Okex.Net.SpotPeriod.FiveMinutes, (data) =>
-    {
-        if (data != null)
-        {
-            Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.Volume}");
-        }
-    });
-    subs.Add(candleSubscription.Data);
-}
-foreach (var pair in pairs)
-{
-    var tickerSubscription = wsClient.Spot_SubscribeToTicker(pair, (data) =>
+    var subscription = ws.Spot_SubscribeToTicker(pair, (data) =>
     {
         if (data != null)
         {
             Console.WriteLine($"Ticker >> {data.Symbol} >> LP:{data.LastPrice} LQ:{data.LastQuantity} Bid:{data.BestBidPrice} BS:{data.BestBidSize} Ask:{data.BestAskPrice} AS:{data.BestAskSize} 24O:{data.Open24H} 24H:{data.High24H} 24L:{data.Low24H} 24BV:{data.BaseVolume24H} 24QV:{data.QuoteVolume24H} ");
         }
     });
-    subs.Add(tickerSubscription.Data);
+    subs.Add(subscription.Data);
 }
-foreach (var pair in pairs)
+
+// Candlesticks
+foreach (var pair in spot_pairs)
 {
-    var tradeSubscription = wsClient.Spot_SubscribeToTrades(pair, (data) =>
+    var subscription = ws.Spot_SubscribeToCandlesticks(pair, OkexSpotPeriod.FiveMinutes, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.Volume}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Trades
+foreach (var pair in spot_pairs)
+{
+    var subscription = ws.Spot_SubscribeToTrades(pair, (data) =>
     {
         if (data != null)
         {
             Console.WriteLine($"Trades >> {data.Symbol} >> ID:{data.TradeId} P:{data.Price} A:{data.Size} S:{data.Side} T:{data.Timestamp}");
         }
     });
-    // subs.Add(tradeSubscription.Data);
+    subs.Add(subscription.Data);
 }
-foreach (var pair in pairs)
+
+// Order Book
+foreach (var pair in spot_pairs)
 {
-    var depthSubscription = wsClient.Spot_SubscribeToOrderBook(pair, SpotOrderBookDepth.All, (data) =>
+    var subscription = ws.Spot_SubscribeToOrderBook(pair, OkexOrderBookDepth.Depth400, (data) =>
     {
         if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
         {
             Console.WriteLine($"Depth >> {data.Symbol} >> Ask P:{data.Asks.First().Price} Q:{data.Asks.First().Quantity} C:{data.Asks.First().OrdersCount} Bid P:{data.Bids.First().Price} Q:{data.Bids.First().Quantity} C:{data.Bids.First().OrdersCount} ");
         }
     });
-    subs.Add(depthSubscription.Data);
+    subs.Add(subscription.Data);
+}
+
+// Unsubscribe
+foreach (var sub in subs)
+{
+    _ = ws.Unsubscribe(sub);
 }
 ```
 
-**Private Socket Endpoints**
+**Spot Â» Private Feeds**
 ```C#
-/* OkexSocketClient Object */
-var wsClient = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = CryptoExchange.Net.Logging.LogVerbosity.Debug });
+// WS Api Client
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 
-var sockLogin = wsClient.User_Login("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
-wsClient.User_Spot_SubscribeToBalance("ETH", (data) =>
+// Balance
+ws.Spot_SubscribeToBalance("ETH", (data) =>
 {
     if (data != null)
     {
         Console.WriteLine($"Balance Update >> {data.Currency} >> Balance:{data.Balance} Available:{data.Available} Frozen:{data.Frozen}");
     }
 });
-wsClient.User_Spot_SubscribeToOrders("ETH-USDT", (data) =>
+
+// Orders
+ws.Spot_SubscribeToOrders("ETH-USDT", (data) =>
 {
     if (data != null)
     {
         Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.State}");
+    }
+});
+
+// Algo Orders
+ws.Spot_SubscribeToAlgoOrders("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.Status}");
+    }
+});
+```
+
+**Margin Â» Private Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+
+// Balance
+ws.Margin_SubscribeToBalance("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Balance Update >> {data.ProductId} >> MarginRatio:{data.MarginRatio} Liq:{data.LiquidationPrice}");
+    }
+});
+```
+
+**Futures Â» Public Feeds**
+```C#
+var futures_pairs = new List<string> { "BTC-USD-210625", "BTC-USD-210326", "BTC-USD-210101", "BTC-USD-201225", "LTC-USD-210625", "LTC-USD-210326", "LTC-USD-210101", "LTC-USD-201225", "ETH-USD-210326", "ETH-USD-210101", "ETH-USD-210625", "ETH-USD-201225", };
+
+// WS Api Client
+var ws = new OkexSocketClient();
+
+// Contracts
+ws.Futures_SubscribeToInstruments((data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Contract >> {data.Symbol} >> BC:{data.BaseCurrency} QC:{data.QuoteCurrency}");
+    }
+});
+
+// Ticker
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToTicker(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Ticker >> {data.Symbol} >> LP:{data.LastPrice} LQ:{data.LastQuantity} Bid:{data.BestBidPrice} BS:{data.BestBidSize} Ask:{data.BestAskPrice} AS:{data.BestAskSize} 24H:{data.High24H} 24L:{data.Low24H} 24BV:{data.BaseVolume24H} 24QV:{data.QuoteVolume24H} ");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Candlesticks
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToCandlesticks(pair, OkexSpotPeriod.FiveMinutes, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.BaseVolume}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Trades
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToTrades(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Trades >> {pair} >> ID:{data.TradeId} P:{data.Price} Q:{data.Quantity} S:{data.Side} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Price Range
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToPriceRange(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Price Range >> {pair} >> H:{data.Highest} L:{data.Lowest} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Estimated Price
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToEstimatedPrice(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Estimated Price >> {pair} >> R:{data.Rate} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Order Book
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToOrderBook(pair, OkexOrderBookDepth.Depth400, (data) =>
+    {
+        if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
+        {
+            Console.WriteLine($"Depth >> {data.Symbol} >> Ask P:{data.Asks.First().Price} Q:{data.Asks.First().Quantity} C:{data.Asks.First().OrdersCount} Bid P:{data.Bids.First().Price} Q:{data.Bids.First().Quantity} C:{data.Bids.First().OrdersCount} ");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Mark Price
+foreach (var pair in futures_pairs)
+{
+    var subscription = ws.Futures_SubscribeToMarkPrice(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Trades >> {pair} >> P:{data.MarkPrice} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+```
+
+**Futures Â» Private Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+
+// Positions
+ws.Futures_SubscribeToPositions("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Positions Update >> {data.Symbol} >> RPNL:{data.RealisedPnl} LUPNL:{data.LongUnrealisedPnl} SUPNL:{data.ShortUnrealisedPnl}");
+    }
+});
+
+// Balance
+ws.Futures_SubscribeToBalance("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Balance Update >> {data.Currency} >> Balance:{data.TotalAvailableBalance} Available:{data.MarginMode} Frozen:{data.MarginFrozen}");
+    }
+});
+
+// Orders
+ws.Futures_SubscribeToOrders("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.State}");
+    }
+});
+
+// Algo Orders
+ws.Futures_SubscribeToAlgoOrders("ETH-USDT", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.Status}");
+    }
+});
+```
+
+**Swap Â» Public Feeds**
+```C#
+var swap_pairs = new List<string> { "BTC-USD-SWAP", "LTC-USD-SWAP", "ETH-USD-SWAP", };
+
+// WS Api Client
+var ws = new OkexSocketClient();
+
+// Ticker
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToTicker(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Ticker >> {data.Symbol} >> LP:{data.LastPrice} LQ:{data.LastQuantity} Bid:{data.BestBidPrice} BS:{data.BestBidSize} Ask:{data.BestAskPrice} AS:{data.BestAskSize} 24H:{data.High24H} 24L:{data.Low24H} 24BV:{data.BaseVolume24H} 24QV:{data.QuoteVolume24H} ");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Candlesticks
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToCandlesticks(pair, OkexSpotPeriod.FiveMinutes, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.BaseVolume}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Trades
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToTrades(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Trades >> {pair} >> ID:{data.TradeId} P:{data.Price} Q:{data.Quantity} S:{data.Side} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Funding Rate
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToFundingRate(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Price Range >> {pair} >> RR:{data.RealizedRate} FR:{data.FundingRate} IR:{data.InterestRate}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Price Range
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToPriceRange(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Price Range >> {pair} >> H:{data.Highest} L:{data.Lowest} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Order Book
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToOrderBook(pair, OkexOrderBookDepth.Depth400, (data) =>
+    {
+        if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
+        {
+            Console.WriteLine($"Depth >> {data.Symbol} >> Ask P:{data.Asks.First().Price} Q:{data.Asks.First().Quantity} C:{data.Asks.First().OrdersCount} Bid P:{data.Bids.First().Price} Q:{data.Bids.First().Quantity} C:{data.Bids.First().OrdersCount} ");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+
+// Mark Price
+foreach (var pair in swap_pairs)
+{
+    var subscription = ws.Swap_SubscribeToMarkPrice(pair, (data) =>
+    {
+        if (data != null)
+        {
+            Console.WriteLine($"Trades >> {pair} >> P:{data.MarkPrice} T:{data.Timestamp}");
+        }
+    });
+    subs.Add(subscription.Data);
+}
+```
+
+**Swap Â» Private Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+
+// Positions
+ws.Swap_SubscribeToPositions("BTC-USD-SWAP", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Positions Update >> BTC-USD-SWAP >> MM:{data.MarginMode} T:{data.Timestamp}");
+    }
+});
+
+// Balance
+ws.Swap_SubscribeToBalance("BTC-USD-SWAP", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Balance Update >> BTC-USD-SWAP >> Balance:{data.TotalAvailableBalance} Available:{data.MarginMode} Frozen:{data.MarginFrozen}");
+    }
+});
+
+// Orders
+ws.Swap_SubscribeToOrders("BTC-USD-SWAP", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.State}");
+    }
+});
+
+// Algo Orders
+ws.Swap_SubscribeToAlgoOrders("BTC-USD-SWAP", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Symbol} >> Id:{data.OrderId} State:{data.Status}");
+    }
+});
+```
+
+**Options Â» Public Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+
+// Contracts
+ws.Options_SubscribeToContracts("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Contract >> {data.Instrument} >> C:{data.Category} U:{data.Underlying}");
+    }
+});
+
+// MarketData
+ws.Options_SubscribeToMarketData("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Ticker >> {data.Instrument} >> LP:{data.Last} Bid:{data.BestBid} BS:{data.BidVolume} Ask:{data.BestAsk} AS:{data.AskVolume} 24H:{data.High24H} 24L:{data.Low24H}");
+    }
+});
+
+// Candlesticks
+ws.Options_SubscribeToCandlesticks("BTC-USD-201218-16250-C", OkexSpotPeriod.FiveMinutes, (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.BaseVolume}");
+    }
+});
+
+// Trades
+ws.Options_SubscribeToTrades("BTC-USD-201218-16250-C", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Trades >> ID:{data.TradeId} P:{data.Price} Q:{data.Quantity} S:{data.Side} T:{data.Timestamp}");
+    }
+});
+
+// Ticker
+ws.Options_SubscribeToTicker("BTC-USD-201218-16250-C", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Ticker >> {data.Symbol} >> LP:{data.LastPrice} LQ:{data.LastQuantity} Bid:{data.BestBidPrice} BS:{data.BestBidSize} Ask:{data.BestAskPrice} AS:{data.BestAskSize} 24H:{data.High24H} 24L:{data.Low24H}");
+    }
+});
+
+// Order Book
+ws.Options_SubscribeToOrderBook("BTC-USD-201218-16250-C", OkexOrderBookDepth.Depth400, (data) =>
+{
+    if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
+    {
+        Console.WriteLine($"Depth >> {data.Symbol} >> Ask P:{data.Asks.First().Price} Q:{data.Asks.First().Quantity} C:{data.Asks.First().OrdersCount} Bid P:{data.Bids.First().Price} Q:{data.Bids.First().Quantity} C:{data.Bids.First().OrdersCount} ");
+    }
+});
+```
+
+**Options Â» Private Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+
+// Positions
+ws.Options_SubscribeToPositions("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Positions Update >> {data.Instrument} >> RPNL:{data.RealizedPnl} UPNL:{data.UnrealizedPnl}");
+    }
+});
+
+// Balance
+ws.Options_SubscribeToBalance("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Balance Update >> {data.Currency} >> Balance:{data.TotalAvailableBalance} Status:{data.AccountStatus}");
+    }
+});
+
+// Orders
+ws.Options_SubscribeToOrders("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Order Update >> {data.Instrument} >> Id:{data.OrderId} State:{data.State}");
+    }
+});
+```
+
+**Index Â» Public Feeds**
+```C#
+// WS Api Client
+var ws = new OkexSocketClient();
+
+// Ticker
+ws.Index_SubscribeToTicker("BTC-USD", (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Ticker >> {data.Symbol} >> 24O:{data.Open24H} 24H:{data.High24H} 24L:{data.Low24H}");
+    }
+});
+
+// Candlesticks
+ws.Index_SubscribeToCandlesticks("BTC-USD", OkexSpotPeriod.FiveMinutes, (data) =>
+{
+    if (data != null)
+    {
+        Console.WriteLine($"Candle >> {data.Symbol} >> ST:{data.StartTime} O:{data.Open} H:{data.High} L:{data.Low} C:{data.Close} V:{data.BaseVolume}");
     }
 });
 ```

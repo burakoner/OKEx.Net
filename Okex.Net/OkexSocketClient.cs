@@ -2,29 +2,25 @@
 using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
-using Okex.Net.RestObjects;
 using Newtonsoft.Json.Linq;
+using Okex.Net.CoreObjects;
+using Okex.Net.Helpers;
+using Okex.Net.Interfaces;
+using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
-using Okex.Net.Interfaces;
-using System.Diagnostics;
-using System.Text;
-using System.Globalization;
-using System.Security;
 using System.Security.Cryptography;
-using Okex.Net.SocketObjects.Structure;
-using Okex.Net.SocketObjects.Containers;
-using Okex.Net.Helpers;
-using CryptoExchange.Net.Authentication;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Okex.Net
 {
     /// <summary>
-    /// Client for the Okex socket API
+    /// Client for the Okex Websocket API
     /// </summary>
     public partial class OkexSocketClient : SocketClient, IOkexSocketClient
     {
@@ -32,12 +28,6 @@ namespace Okex.Net
         private static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
         private static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
-
-        private SecureString? Key;
-        private SecureString? Secret;
-        private SecureString? PassPhrase;
-        private HMACSHA256? _hmacEncryptor;
-        public bool Authendicated { get; private set; }
 
         #region Constructor/Destructor
         /// <summary>
@@ -66,36 +56,8 @@ namespace Okex.Net
         {
             defaultOptions = options;
         }
-
-        /// <summary>
-        /// Set the API key and secret
-        /// </summary>
-        /// <param name="apiKey">The api key</param>
-        /// <param name="apiSecret">The api secret</param>
-        /// <param name="passPhrase">The api pass phrase</param>
-        public void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
-        {
-            this.Key = apiKey.ToSecureString();
-            this.Secret = apiSecret.ToSecureString();
-            this.PassPhrase = passPhrase.ToSecureString();
-        }
         #endregion
 
-        #region General
-        public CallResult<OkexGeneralPingPongContainer> Ping() => PingAsync().Result;
-        public async Task<CallResult<OkexGeneralPingPongContainer>> PingAsync()
-        {
-            var pit = DateTime.UtcNow;
-            var sw = Stopwatch.StartNew();
-            var result = await Query<string>("ping", false).ConfigureAwait(false);
-            var pot = DateTime.UtcNow;
-            sw.Stop();
-
-            return new CallResult<OkexGeneralPingPongContainer>(new OkexGeneralPingPongContainer {PingTime=pit, PongTime=pot, Latency=sw.Elapsed, PongMessage=result.Data }, result.Error);
-        }
-        #endregion
-
-        #region Private & Protected Methods
         private static string DecompressData(byte[] byteData)
         {
             using (var decompressedStream = new MemoryStream())
@@ -117,6 +79,9 @@ namespace Okex.Net
             }
         }
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8629 // Nullable value type may be null.
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
             callResult = new CallResult<T>(default, null);
@@ -193,172 +158,130 @@ namespace Okex.Net
 
         protected override bool MessageMatchesHandler(JToken message, object request)
         {
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             if (request is OkexSocketRequest hRequest)
             {
-                // Spot Tickers Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("spot/ticker"))
+                if (hRequest.Operation != OkexSocketOperation.Subscribe || message["table"] == null)
+                    return false;
+
+                // Table Name
+                var table = (string)message["table"]!;
+
+                // Match Lists
+                var m_dict = new Dictionary<string, List<string>>
                 {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    {"instrument_id", new List<string>{
+                        "spot/ticker", // Spot Tickers Update
+                        "spot/candle", // Spot Candlesticks Update
+                        "spot/trade", // Spot Trades Update
+                        "spot/depth_l2_tbt", // Spot Depth-TBT Update
+                        "spot/depth5", // Spot Depth-5 Update
+                        "spot/depth", // Spot Depth-400 Update
+                        "spot/order", // Spot Orders Update (Private)
+                        "spot/order_algo", // Spot Algo Orders Update (Private)
+
+                        "spot/margin_account", // Margin Balance Update (Private)
+
+                        "futures/ticker", // Futures Tickers Update
+                        "futures/candle", // Futures Candlesticks Update
+                        "futures/trade", // Futures Trades Update
+                        "futures/price_range", // Futures Price Range Update
+                        "futures/estimated_price", // Futures Estimated Price Update
+                        "futures/depth_l2_tbt", // Futures Depth-TBT Update
+                        "futures/depth5", // Futures Depth-5 Update
+                        "futures/depth", // Futures Depth-400 Update
+                        "futures/mark_price", // Futures Mark Price Update
+                        "futures/position", // Futures Positions Update (Private)
+                        "futures/order", // Futures Orders Update (Private)
+                        "futures/order_algo", // Futures Algo Orders Update (Private)
+
+                        "swap/ticker", // Perpetual Swap Tickers Update
+                        "swap/candle", // Perpetual Swap Candlesticks Update
+                        "swap/trade", // Perpetual Swap Trades Update
+                        "swap/funding_rate", // Perpetual Swap Funding Rate Update
+                        "swap/price_range", // Perpetual Swap Price Range Update
+                        "swap/depth_l2_tbt", // Perpetual Swap Depth-TBT Update
+                        "swap/depth5", // Perpetual Swap Depth-5 Update
+                        "swap/depth", // Perpetual Swap Depth-400 Update
+                        "swap/mark_price", // Perpetual Swap Mark Price Update
+                        "swap/position", // Perpetual Swap Positions Update (Private)
+                        "swap/order", // Perpetual Swap Orders Update (Private)
+                        "swap/order_algo", // Perpetual Swap Algo Orders Update (Private)
+
+                        "option/candle", // Options Candlesticks Update
+                        "option/trade", // Options Trades Update
+                        "option/ticker", // Options Tickers Update
+                        "option/depth_l2_tbt", // Options Depth-TBT Update
+                        "option/depth5", // Options Depth-5 Update
+                        "option/depth", // Options Depth-400 Update
+                        "option/position", // Options Positions Update (Private)
+                        "option/order", // Options Orders Update (Private)
+
+                        "index/ticker", // Index Tickers Update
+                        "index/candle", // Index Candlesticks Update
+                    } },
+                    {"currency", new List<string>{
+                        "spot/account", // Spot Balance Update (Private)
+                    } },
+                    {"underlying", new List<string>{
+                        "option/instruments", // Options Contracts Update
+                        "option/summary", // Options Market Data Update
+                        "option/account", // Options Balance Update (Private)
+                    } },
+                };
+
+                foreach (var kvp in m_dict)
+                {
+                    foreach (var m_url in kvp.Value)
                     {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
+                        if (table.StartsWith(m_url))
                         {
-                            return true;
+                            if (message["data"] != null && message["data"].HasValues && message["data"][0][kvp.Key] != null)
+                            {
+                                var channel = (string)message["table"]! + ":" + (string)message["data"][0][kvp.Key];
+                                if (hRequest.Arguments.Contains(channel))
+                                {
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
 
-                // Spot Candlesticks Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/candle"))
+                #region Exceptional Matchings
+                // Futures Contracts Update
+                if (table.StartsWith("futures/instruments"))
                 {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    foreach (var arg in hRequest.Arguments)
                     {
-                        var channel = (string)message["table"]! + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
+                        if (arg == table)
                             return true;
-                        }
                     }
                 }
 
-                // Spot Trades Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/trade"))
+                // Futures Balance (Private)
+                if (table.StartsWith("futures/account"))
                 {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    foreach (var arg in hRequest.Arguments)
                     {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
+                        if (arg.StartsWith("futures/account"))
                             return true;
-                        }
-                    }
-                }
-
-                // Spot Depth5 Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/depth5"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // Spot Depth400 Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/depth"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // User Spot Account (Private)
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/account"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["currency"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["currency"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
                     }
                 }
                 
-                // User Margin Account (Private)
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/margin_account"))
+                // Swap Balance (Private)
+                if (table.StartsWith("swap/account"))
                 {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
+                    foreach (var arg in hRequest.Arguments)
                     {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
+                        if (arg.StartsWith("swap/account"))
                             return true;
-                        }
                     }
                 }
-
-                // Spot Orders (Private)
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/order"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // Spot Algo Orders (Private)
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("spot/order_algo"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // -->>
-
-                // Futures Contracts
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("futures/instruments"))
-                {
-                    var channel = (string)message["table"];
-                    if (hRequest.Arguments.Contains(channel))
-                    {
-                        return true;
-                    }
-                }
-
-                // Futures Tickers Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]!).StartsWith("futures/ticker"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"] + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // Futures Candlesticks Update
-                if (hRequest.Operation == OkexSocketOperation.Subscribe && message["table"] != null && ((string)message["table"]).StartsWith("futures/candle"))
-                {
-                    if (message["data"] != null && message["data"].HasValues && message["data"][0]["instrument_id"] != null)
-                    {
-                        var channel = (string)message["table"]! + ":" + (string)message["data"][0]["instrument_id"];
-                        if (hRequest.Arguments.Contains(channel))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
+                #endregion
 
             }
 
             return false;
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
@@ -368,20 +291,20 @@ namespace Okex.Net
 
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
         {
-            if (this.Key == null || this.Secret == null || this.PassPhrase == null)
+            if (Key == null || Secret == null || PassPhrase == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
 
-            var key = this.Key.GetString();
-            var secret = this.Secret.GetString();
-            var passphrase = this.PassPhrase.GetString();
+            var key = Key.GetString();
+            var secret = Secret.GetString();
+            var passphrase = PassPhrase.GetString();
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(passphrase))
                 return new CallResult<bool>(false, new NoApiCredentialsError());
 
             var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
             var signtext = time + "GET" + "/users/self/verify";
-            this._hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(this.Secret.GetString()));
+            _hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(Secret.GetString()));
             var signature = OkexAuthenticationProvider.Base64Encode(_hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
-            var request = new OkexSocketRequest(OkexSocketOperation.Login, this.Key.GetString(), this.PassPhrase.GetString(), time, signature);
+            var request = new OkexSocketRequest(OkexSocketOperation.Login, Key.GetString(), PassPhrase.GetString(), time, signature);
 
             var result = new CallResult<bool>(false, new ServerError("No response from server"));
             await s.SendAndWait(request, ResponseTimeout, data =>
@@ -422,19 +345,17 @@ namespace Okex.Net
                 if (data.Type != JTokenType.Object)
                     return false;
 
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 if ((string)data["event"] == "unsubscribe")
                 {
                     return (string)data["channel"] == request.Arguments.FirstOrDefault();
                 }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
                 return false;
             });
             return false;
         }
-
-        #endregion
-
+#pragma warning restore CS8629 // Nullable value type may be null.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
     }
 }

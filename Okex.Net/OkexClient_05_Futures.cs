@@ -1,18 +1,18 @@
 ﻿using CryptoExchange.Net;
 using CryptoExchange.Net.Objects;
-using Okex.Net.Converters;
-using Okex.Net.RestObjects;
 using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
+using Okex.Net.Helpers;
+using Okex.Net.Interfaces;
+using Okex.Net.RestObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Okex.Net.Helpers;
-using System.Linq;
-using Okex.Net.Enums;
-using Okex.Net.Interfaces;
 
 namespace Okex.Net
 {
@@ -1605,7 +1605,7 @@ namespace Okex.Net
         /// <param name="symbol">Contract ID,e.g. BTC-USD-180309 ,BTC-USDT-191227</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexFuturesPriceLimit> Futures_GetPriceLimit(string symbol, CancellationToken ct = default) => Futures_GetPriceLimit_Async(symbol, ct).Result;
+        public WebCallResult<OkexFuturesPriceRange> Futures_GetPriceLimit(string symbol, CancellationToken ct = default) => Futures_GetPriceLimit_Async(symbol, ct).Result;
         /// <summary>
         /// Retrieve the ceiling of the buy price and floor of sell price of the contract. This is publicly accessible without account authentication.
         /// Rate limit: 20 requests per 2 seconds (Depending on the underlying speed limit)
@@ -1613,11 +1613,11 @@ namespace Okex.Net
         /// <param name="symbol">Contract ID,e.g. BTC-USD-180309 ,BTC-USDT-191227</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexFuturesPriceLimit>> Futures_GetPriceLimit_Async(string symbol, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexFuturesPriceRange>> Futures_GetPriceLimit_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexFuturesPriceLimit>(GetUrl(Endpoints_Futures_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequest<OkexFuturesPriceRange>(GetUrl(Endpoints_Futures_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿namespace Okex.Net
 {
-	public partial class OkexClient
+    public partial class OkexClient
 	{
 		#region Endpoints
 
