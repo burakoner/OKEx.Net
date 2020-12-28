@@ -22,9 +22,13 @@ My CryptoExchange.Net implementations:
 <br />
 <a href="https://github.com/burakoner/BtcTurk.Net">BtcTurk</a>
 </td>
-<td><a href="https://github.com/burakoner/Thodex.Net"><img src="https://github.com/burakoner/Thodex.Net/blob/main/Thodex.Net/Icon/icon.png?raw=true"></a>
+<td><a href="https://github.com/burakoner/Thodex.Net"><img src="https://github.com/burakoner/Thodex.Net/blob/master/Thodex.Net/Icon/icon.png?raw=true"></a>
 <br />
 <a href="https://github.com/burakoner/Thodex.Net">Thodex</a>
+</td>
+<td><a href="https://github.com/burakoner/BitMax.Net"><img src="https://github.com/burakoner/BitMax.Net/blob/master/BitMax.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/BitMax.Net">BitMax</a>
 </td>
 </tr>
 </table>

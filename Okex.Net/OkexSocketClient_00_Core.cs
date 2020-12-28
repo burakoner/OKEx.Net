@@ -53,7 +53,7 @@ namespace Okex.Net
 
             var result = await Query<OkexSocketLoginResponse>(request, false).ConfigureAwait(true);
             Authendicated = result != null && result.Data != null && result.Data.Success;
-            return await Query<OkexSocketLoginResponse>(request, false).ConfigureAwait(true);
+            return result!;
         }
         #endregion
     }
