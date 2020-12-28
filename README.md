@@ -114,7 +114,7 @@ After doing either of above steps you should now be ready to actually start usin
 ## Getting started
 After installing it's time to actually use it. To get started we have to add the OKEx.Net namespace:  `using Okex.Net;`.
 
-OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  provides all rest API calls. The  `OkexSocketClient`  provides functions to interact with the websocket provided by the OKEx API. Both clients are disposable and as such can be used in a  `using`statement.
+OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  provides all rest API calls. The  `OkexSocketClient` provides functions to interact with the websocket provided by the OKEx API. Both clients are disposable and as such can be used in a  `using`statement.
 
 ## Rest Api Examples
 **System » Public Endpoints**

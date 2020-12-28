@@ -2,7 +2,7 @@
 
 namespace Okex.Net.Interfaces
 {
-    public interface IOkexClient : IRestClient
+    public interface IOkexClient
 	{
 		/// <summary>
 		/// Whether public requests should be signed if OkexApiCredentials are provided. Needed for accurate rate limiting.

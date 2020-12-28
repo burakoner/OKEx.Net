@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 1.5.7 - 28 Dec 2020
+    * Fixed minor bugs
+
 * Version 1.5.6 - 22 Dec 2020
     * Added Index Api WebSocket Support
         * Index_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData);

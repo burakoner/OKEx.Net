@@ -39,6 +39,6 @@ namespace Okex.Net.RestObjects
         /// Minimum withdrawal threshold
         /// </summary>
         [JsonProperty("min_withdrawal")]
-        public decimal MinWithdrawalAmount { get; set; }
+        public decimal? MinWithdrawalAmount { get; set; }
     }
 }

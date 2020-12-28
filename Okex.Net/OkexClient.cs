@@ -17,7 +17,7 @@ namespace Okex.Net
     /// <summary>
     /// Client for the Okex REST API
     /// </summary>
-    public partial class OkexClient : RestClient, IOkexClient
+    public partial class OkexClient : RestClient, IRestClient, IOkexClient
     {
         #region Public Fields
         /// <summary>

@@ -8,7 +8,7 @@ namespace Okex.Net.Interfaces
     /// <summary>
     /// Interface for the Okex socket client
     /// </summary>
-    public interface IOkexSocketClient: ISocketClient
+    public interface IOkexSocketClient
     {
         bool Authendicated { get; }
         void SetApiCredentials(string apiKey, string apiSecret, string passPhrase);
