@@ -26,6 +26,10 @@ My CryptoExchange.Net implementations:
 <br />
 <a href="https://github.com/burakoner/BtcTurk.Net">BtcTurk</a>
 </td>
+<td><a href="https://github.com/burakoner/Paribu.Net"><img src="https://github.com/burakoner/Paribu.Net/blob/master/Paribu.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/Paribu.Net">Paribu</a>
+</td>
 <td><a href="https://github.com/burakoner/Thodex.Net"><img src="https://github.com/burakoner/Thodex.Net/blob/master/Thodex.Net/Icon/icon.png?raw=true"></a>
 <br />
 <a href="https://github.com/burakoner/Thodex.Net">Thodex</a>
