@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 1.5.8 - 12 Jan 2021
+    * Updated CryptoExchange.Net to 3.5.0
+
 * Version 1.5.7 - 28 Dec 2020
     * Fixed minor bugs
 
