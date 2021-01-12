@@ -38,6 +38,10 @@ My CryptoExchange.Net implementations:
 <br />
 <a href="https://github.com/burakoner/Coinzo.Net">Coinzo</a>
 </td>
+<td><a href="https://github.com/burakoner/Tatum.Net"><img src="https://github.com/burakoner/Tatum.Net/blob/master/Tatum.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/burakoner/Tatum.Net">Tatum</a>
+</td>
 </tr>
 </table>
 
