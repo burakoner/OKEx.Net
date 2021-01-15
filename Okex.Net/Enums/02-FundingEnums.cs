@@ -26,7 +26,7 @@
         Swap,
         Option,
     }
-    
+
     public enum OkexFundingPiggyBankActionSide
     {
         Purchase,

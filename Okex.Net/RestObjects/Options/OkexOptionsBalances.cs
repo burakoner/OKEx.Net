@@ -95,7 +95,7 @@ namespace Okex.Net.RestObjects
         /// </summary>
         [JsonProperty("margin_multiplier")]
         public decimal MarginMultiplier { get; set; }
-        
+
         [JsonProperty("max_withdraw")]
         public decimal MaxWithdraw { get; set; }
 

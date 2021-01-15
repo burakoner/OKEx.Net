@@ -14,7 +14,6 @@ namespace Okex.Net.Examples
         static void Main(string[] args)
         {
             // Okex Rest Api Client
-            // OkexClient api = new OkexClient(new OkexClientOptions { LogVerbosity = LogVerbosity.Debug });
             OkexClient api = new OkexClient();
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 
@@ -59,8 +58,8 @@ namespace Okex.Net.Examples
                 Type = OkexSpotOrderType.Limit,
                 Side = OkexSpotOrderSide.Sell,
                 TimeInForce = OkexSpotTimeInForce.NormalOrder,
-                Price = 0.1m,
-                Size = 0.1m,
+                Price = "0.1",
+                Size = "0.1",
             };
             var spot_place_order_02 = new OkexSpotPlaceOrder
             {
@@ -69,8 +68,8 @@ namespace Okex.Net.Examples
                 Type = OkexSpotOrderType.Limit,
                 Side = OkexSpotOrderSide.Sell,
                 TimeInForce = OkexSpotTimeInForce.NormalOrder,
-                Price = 0.2m,
-                Size = 0.2m,
+                Price = "0.2",
+                Size = "0.2",
             };
             var spot_place_orders = new List<OkexSpotPlaceOrder>();
             spot_place_orders.Add(spot_place_order_01);
@@ -273,7 +272,6 @@ namespace Okex.Net.Examples
             var swap_pairs = new List<string> { "BTC-USD-SWAP", "LTC-USD-SWAP", "ETH-USD-SWAP", };
 
             /* Okex Socket Client Object */
-            // var ws = new OkexSocketClient(new OkexSocketClientOptions { LogVerbosity = LogVerbosity.Debug });
             var ws = new OkexSocketClient();
 
             /* WS Subscriptions */

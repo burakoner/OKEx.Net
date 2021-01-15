@@ -11,7 +11,7 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("msg")]
         public string Message { get; set; } = "";
-        
+
         [JsonProperty("detailMsg")]
         public string DetailMessage { get; set; } = "";
 
@@ -44,16 +44,16 @@ namespace Okex.Net.RestObjects
     {
         [JsonProperty("exchange")]
         public string Exchange { get; set; } = "";
-        
+
         [JsonProperty("symbol")]
         public string Symbol { get; set; } = "";
 
         [JsonProperty("original_price")]
         public decimal OriginalPrice { get; set; }
-        
+
         [JsonProperty("usd_price")]
         public decimal UsdPrice { get; set; }
-        
+
         [JsonProperty("weight")]
         public decimal Weight { get; set; }
     }

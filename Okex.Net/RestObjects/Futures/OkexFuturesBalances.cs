@@ -13,8 +13,8 @@ namespace Okex.Net.RestObjects
         [TypedData]
         [JsonProperty("info")]
         public Dictionary<string, OkexFuturesBalance> Balances { get; set; } = new Dictionary<string, OkexFuturesBalance>();
-    }   
-    
+    }
+
     public class OkexFuturesBalance
     {
         /// <summary>

@@ -18,7 +18,7 @@ namespace Okex.Net.RestObjects
         public OkexSwapBalance Balance { get; set; } = new OkexSwapBalance();
     }
 
-    public class OkexSwapBalanceExt: OkexSwapBalance
+    public class OkexSwapBalanceExt : OkexSwapBalance
     {
         /// <summary>
         /// Available quantity

@@ -92,6 +92,6 @@ namespace Okex.Net.RestObjects
         /// (true or false) ,inverse contract or not
         /// </summary>
         [JsonProperty("is_inverse")]
-        public bool IsInverse { get; set; } 
+        public bool IsInverse { get; set; }
     }
 }

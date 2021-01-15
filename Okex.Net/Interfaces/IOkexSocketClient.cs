@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Objects;
 using Okex.Net.SocketObjects.Structure;
 using System.Threading.Tasks;
 

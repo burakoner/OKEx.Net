@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientSystem
+    public partial class OkexSocketClient : IOkexSocketClientSystem
     {
         public CallResult<OkexGeneralPingPongContainer> Ping() => PingAsync().Result;
         public async Task<CallResult<OkexGeneralPingPongContainer>> PingAsync()

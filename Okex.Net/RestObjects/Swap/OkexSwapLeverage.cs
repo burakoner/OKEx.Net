@@ -14,7 +14,7 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("long_leverage")]
         public decimal LongLeverage { get; set; }
-        
+
         [JsonProperty("short_leverage")]
         public decimal ShortLeverage { get; set; }
 

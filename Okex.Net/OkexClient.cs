@@ -8,6 +8,7 @@ using Okex.Net.CoreObjects;
 using Okex.Net.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -34,6 +35,7 @@ namespace Okex.Net
         #region Private Fields
         private static OkexClientOptions defaultOptions = new OkexClientOptions();
         private static OkexClientOptions DefaultOptions => defaultOptions.Copy();
+        private readonly CultureInfo ci = CultureInfo.InvariantCulture;
         #endregion
 
         #region Constructor/Destructor

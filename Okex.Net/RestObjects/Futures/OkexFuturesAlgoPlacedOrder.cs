@@ -27,7 +27,7 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// 1. trigger order; 2. trail order; 3. iceberg order; 4. time-weighted average price (TWAP); 5. stop order
         /// </summary>
-        [JsonProperty("order_type"), JsonConverter(typeof(AlgoOrderTypeConverter))]        
+        [JsonProperty("order_type"), JsonConverter(typeof(AlgoOrderTypeConverter))]
         public OkexAlgoOrderType AlgoOrderType { get; set; }
 
         /// <summary>

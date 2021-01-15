@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Okex.Net.Interfaces
 {
     public interface IOkexClientMargin
-    {   
+    {
         WebCallResult<OkexSpotAlgoCancelledOrder> Margin_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default);
         Task<WebCallResult<OkexSpotAlgoCancelledOrder>> Margin_AlgoCancelOrder_Async(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default);
         WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>> Margin_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<long> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);

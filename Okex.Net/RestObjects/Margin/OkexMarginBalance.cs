@@ -20,20 +20,20 @@ namespace Okex.Net.RestObjects
         /// Liquidation price
         /// </summary>
         [JsonProperty("liquidation_price")]
-        public decimal LiquidationPrice { get; set; } 
+        public decimal LiquidationPrice { get; set; }
 
         /// <summary>
         /// Maintenance margin ratio
         /// </summary>
         [JsonProperty("maint_margin_ratio")]
-        public decimal MaintMarginRatio { get; set; } 
+        public decimal MaintMarginRatio { get; set; }
 
         /// <summary>
         /// Margin ratio
         /// </summary>
         [JsonProperty("margin_ratio")]
-        public decimal? MarginRatio { get; set; } 
-        
+        public decimal? MarginRatio { get; set; }
+
         [JsonProperty("product_id")]
         public string ProductId { get; set; } = "";
 
@@ -41,7 +41,7 @@ namespace Okex.Net.RestObjects
         /// Risk rate
         /// </summary>
         [JsonProperty("risk_rate")]
-        public decimal? RiskRate { get; set; } 
+        public decimal? RiskRate { get; set; }
 
         /// <summary>
         /// Margin borrowing Position Tiers

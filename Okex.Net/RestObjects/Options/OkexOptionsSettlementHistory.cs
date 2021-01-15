@@ -33,7 +33,7 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("underlying_fixing")]
         public decimal? UnderlyingPrice { get; set; }
-        
+
         [JsonProperty("settlement_price")]
         public decimal? SettlementPrice { get; set; }
 

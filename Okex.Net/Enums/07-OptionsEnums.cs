@@ -19,7 +19,7 @@
         Buy,
         Sell,
     }
-    
+
     public enum OkexOptionsOrderType
     {
         Buy,
@@ -35,7 +35,7 @@
         Delivery,
         Settlement,
     }
-    
+
     public enum OkexOptionsSettlementType
     {
         Settled,

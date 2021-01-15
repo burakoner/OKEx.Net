@@ -39,20 +39,20 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// Price. Required for limit orders
         /// </summary>
-        [JsonProperty("price",NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Price { get; set; }
+        [JsonProperty("price", NullValueHandling = NullValueHandling.Ignore)]
+        public string? Price { get; set; }
 
         /// <summary>
         /// Quantity to be sold. Required for limit-buy, limit-sell and market sells
         /// </summary>
         [JsonProperty("size", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Size { get; set; }
+        public string? Size { get; set; }
 
         /// <summary>
         /// Amount to spend. Required for market buys
         /// </summary>
         [JsonProperty("notional", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Notional { get; set; }
+        public string? Notional { get; set; }
 
         /// <summary>
         /// Flag for Margin Trading

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientSpot
+    public partial class OkexSocketClient : IOkexSocketClientSpot
     {
         #region Spot Trading WS-API
 

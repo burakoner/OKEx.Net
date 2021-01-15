@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientMargin
+    public partial class OkexSocketClient : IOkexSocketClientMargin
     {
         #region Margin Trading WS-API
 

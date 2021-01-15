@@ -10,7 +10,7 @@ namespace Okex.Net.Helpers
         /// Validate the string is a valid spot symbol.
         /// </summary>
         /// <param name="symbol">string to validate</param>
-        public static string ValidateSymbol(this string symbol, string messagePrefix="", string messageSuffix="")
+        public static string ValidateSymbol(this string symbol, string messagePrefix = "", string messageSuffix = "")
         {
             if (string.IsNullOrEmpty(symbol))
                 throw new ArgumentException($"{messagePrefix}{(messagePrefix.Length > 0 ? " " : "")}Symbol is not provided{(messageSuffix.Length > 0 ? " " : "")}{messageSuffix}");

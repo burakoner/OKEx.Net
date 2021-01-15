@@ -89,7 +89,7 @@ namespace Okex.Net.RestObjects
         /// </summary>
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
-        
+
         /// <summary>
         /// Latest time position was adjusted
         /// </summary>

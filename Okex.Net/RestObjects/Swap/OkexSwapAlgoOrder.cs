@@ -58,10 +58,10 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("algo_price")]
         public decimal? AlgoPrice { get; set; }
-        
+
         [JsonProperty("real_amount")]
         public decimal? RealAmount { get; set; }
-        
+
         [JsonProperty("trigger_price")]
         public decimal? TriggerPrice { get; set; }
 

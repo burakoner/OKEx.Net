@@ -98,7 +98,7 @@ namespace Okex.Net
             // Ping Request
             if (data.ToString() == "pong")
             {
-                var desResult = Deserialize<T>(data, false);
+                var desResult = Deserialize<T>(data, false); 
                 if (!desResult)
                 {
                     log.Write(LogVerbosity.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
@@ -123,7 +123,7 @@ namespace Okex.Net
                 return true;
             }
 
-            return true;
+            return false;
         }
 
         protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
@@ -267,7 +267,7 @@ namespace Okex.Net
                             return true;
                     }
                 }
-                
+
                 // Swap Balance (Private)
                 if (table.StartsWith("swap/account"))
                 {

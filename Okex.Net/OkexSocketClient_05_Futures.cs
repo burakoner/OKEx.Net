@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientFutures
+    public partial class OkexSocketClient : IOkexSocketClientFutures
     {
         #region Futures Trading WS-API
 

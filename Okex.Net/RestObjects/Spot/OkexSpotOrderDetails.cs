@@ -104,7 +104,7 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// Average filled price
         /// </summary>
-        [ JsonProperty("price_avg"), JsonOptionalProperty]
+        [JsonProperty("price_avg"), JsonOptionalProperty]
         public decimal? PriceAverage { get; set; }
 
         [JsonProperty("funds"), JsonOptionalProperty]

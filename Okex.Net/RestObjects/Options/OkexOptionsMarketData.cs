@@ -135,6 +135,6 @@ namespace Okex.Net.RestObjects
         /// Estimated price at delivery
         /// </summary>
         [JsonProperty("estimated_price")]
-        public decimal EstimatedPrice { get; set; } 
+        public decimal EstimatedPrice { get; set; }
     }
 }

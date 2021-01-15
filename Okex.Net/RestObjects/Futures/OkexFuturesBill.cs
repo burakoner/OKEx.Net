@@ -56,7 +56,7 @@ namespace Okex.Net.RestObjects
         public OkexFuturesRemittingAccountType RemittingAccount { get; set; }
 
         [JsonProperty("to"), JsonConverter(typeof(FuturesReceivingAccountTypeConverter))]
-        public OkexFuturesReceivingAccountType ReceivingAccount { get; set; } 
+        public OkexFuturesReceivingAccountType ReceivingAccount { get; set; }
     }
 
     public class OkexFuturesBillDetails

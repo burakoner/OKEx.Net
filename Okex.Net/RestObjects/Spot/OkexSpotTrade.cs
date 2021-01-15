@@ -41,7 +41,7 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// Filled side
         /// </summary>
-        [JsonProperty("side"), JsonConverter(typeof(SpotOrderSideConverter))]        
+        [JsonProperty("side"), JsonConverter(typeof(SpotOrderSideConverter))]
         public OkexSpotOrderSide Side { get; set; }
     }
 }

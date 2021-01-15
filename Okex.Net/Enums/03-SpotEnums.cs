@@ -75,7 +75,7 @@
         /// </summary>
         Market,
     }
-    
+
     public enum OkexSpotOrderSide
     {
         /// <summary>

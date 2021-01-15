@@ -93,11 +93,11 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit .ToString(ci)},
             };
             if (type != null) parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new MarginBillTypeConverter(false)));
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexMarginBill>>(GetUrl(Endpoints_Margin_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -166,10 +166,10 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "status", JsonConvert.SerializeObject(status, new MarginLoanStatusConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistory), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -202,10 +202,10 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "state", JsonConvert.SerializeObject(state, new MarginLoanStateConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistoryOfCurrency, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -238,7 +238,7 @@ namespace Okex.Net
             {
                 { "instrument_id", symbol },
                 { "currency", currency },
-                { "amount", amount },
+                { "amount", amount.ToString(ci) },
             };
             parameters.AddOptionalParameter("client_oid", clientOrderId);
 
@@ -275,9 +275,9 @@ namespace Okex.Net
             {
                 { "instrument_id", symbol },
                 { "currency", currency },
-                { "amount", amount },
+                { "amount", amount.ToString(ci)},
             };
-            parameters.AddOptionalParameter("borrow_id", borrow_id);
+            parameters.AddOptionalParameter("borrow_id", borrow_id?.ToString(ci));
             parameters.AddOptionalParameter("client_oid", clientOrderId);
 
             return await SendRequest<OkexMarginRepaymentResponse>(GetUrl(Endpoints_Margin_Repayment), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
@@ -335,7 +335,7 @@ namespace Okex.Net
         /// The client_oid is optional and you can customize it using alpha-numeric characters with length 1 to 32. No warning is sent when client_oid is not unique. In case of multiple identical client_oid, only the latest entry will be returned.
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price, order.Size, order.Notional, order.ClientOrderId, ct).Result;
+        public WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price?.ToDecimalNullable(), order.Size?.ToDecimalNullable(), order.Notional?.ToDecimalNullable(), order.ClientOrderId, ct).Result;
         /// <summary>
         /// OKEx API only supports limit and market orders (more order types will become available in the future). You can place an order only if you have enough funds. Once your order is placed, the amount will be put on hold until the order is executed.
         /// Rate limit: 100 requests per 2 seconds （The speed limit is not accumulated between different trading pair symbols)
@@ -388,7 +388,7 @@ namespace Okex.Net
         /// The client_oid is optional and you can customize it using alpha-numeric characters with length 1 to 32. No warning is sent when client_oid is not unique. In case of multiple identical client_oid, only the latest entry will be returned.
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public Task<WebCallResult<OkexSpotPlacedOrder>> Margin_PlaceOrder_Async(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price, order.Size, order.Notional, order.ClientOrderId, ct);
+        public Task<WebCallResult<OkexSpotPlacedOrder>> Margin_PlaceOrder_Async(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price?.ToDecimalNullable(), order.Size?.ToDecimalNullable(), order.Notional?.ToDecimalNullable(), order.ClientOrderId, ct);
         /// <summary>
         /// OKEx API only supports limit and market orders (more order types will become available in the future). You can place an order only if you have enough funds. Once your order is placed, the amount will be put on hold until the order is executed.
         /// Rate limit: 100 requests per 2 seconds （The speed limit is not accumulated between different trading pair symbols)
@@ -523,9 +523,9 @@ namespace Okex.Net
                 { "margin_trading", "2" }, // The Difference with Spot Order
 			};
             parameters.AddOptionalParameter("client_oid", clientOrderId);
-            parameters.AddOptionalParameter("notional", notional);
-            parameters.AddOptionalParameter("price", price);
-            parameters.AddOptionalParameter("size", size);
+            parameters.AddOptionalParameter("notional", notional?.ToString(ci));
+            parameters.AddOptionalParameter("price", price?.ToString(ci));
+            parameters.AddOptionalParameter("size", size?.ToString(ci));
 
             return await SendRequest<OkexSpotPlacedOrder>(GetUrl(Endpoints_Margin_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -791,10 +791,10 @@ namespace Okex.Net
             {
                 { "instrument_id", symbol },
                 { "state", JsonConvert.SerializeObject(state, new SpotOrderStateConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSpotOrderDetails>>(GetUrl(Endpoints_Margin_OrderList), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -845,7 +845,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "instrument_id", symbol },
-                { "leverage", leverage },
+                { "leverage", leverage.ToString(ci)},
             };
 
             return await SendRequest<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_SetLeverage, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
@@ -937,10 +937,10 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "instrument_id", symbol },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexMarginOrderDetails>>(GetUrl(Endpoints_Margin_OpenOrders), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }

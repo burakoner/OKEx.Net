@@ -48,7 +48,7 @@ namespace Okex.Net.RestObjects
         /// </summary>
         [JsonProperty("exec_type"), JsonConverter(typeof(TraderRoleConverter))]
         public OkexTraderRole TraderRole { get; set; }
-        
+
         /// <summary>
         /// Taker or maker (T or M)
         /// </summary>

@@ -10,10 +10,10 @@ namespace Okex.Net.RestObjects
         public string Instrument { get; set; } = "";
 
         [JsonProperty("size", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal Size { get; set; }
+        public string Size { get; set; } = "";
 
         [JsonProperty("price", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal Price { get; set; }
+        public string Price { get; set; } = "";
 
         [JsonProperty("side"), JsonConverter(typeof(OptionsOrderSideConverter))]
         public OkexOptionsOrderSide Side { get; set; }

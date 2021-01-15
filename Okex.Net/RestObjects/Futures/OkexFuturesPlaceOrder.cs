@@ -10,14 +10,14 @@ namespace Okex.Net.RestObjects
         public OkexFuturesOrderType Type { get; set; }
 
         [JsonProperty("size", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal Size { get; set; }
+        public string Size { get; set; } = "";
 
         [JsonProperty("order_type"), JsonConverter(typeof(FuturesTimeInForceConverter))]
         public OkexFuturesTimeInForce TimeInForce { get; set; } = OkexFuturesTimeInForce.NormalOrder;
 
         [JsonProperty("price", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Price { get; set; }
-        
+        public string? Price { get; set; }
+
         [JsonProperty("match_price")]
         public bool MatchPrice { get; set; }
 

@@ -178,7 +178,7 @@ namespace Okex.Net
             leverage.ValidateIntBetween(nameof(leverage), 1, 100);
             var parameters = new Dictionary<string, object>()
             {
-                { "leverage", leverage },
+                { "leverage", leverage.ToString(ci) },
                 { "side", JsonConvert.SerializeObject(side, new SwapLeverageSideConverter(false)) },
             };
 
@@ -215,11 +215,11 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
             if (type != null) parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new SwapBillTypeConverter(false)));
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapBill>>(GetUrl(Endpoints_Swap_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -314,12 +314,12 @@ namespace Okex.Net
             {
                 { "instrument_id", symbol },
                 { "type", JsonConvert.SerializeObject(type, new SwapOrderTypeConverter(false)) },
-                { "size", size },
-                { "match_price", match_price?1:0 },
+                { "size", size.ToString(ci) },
+                { "match_price", match_price?"1":"0" },
                 { "order_type", JsonConvert.SerializeObject(timeInForce, new SwapTimeInForceConverter(false)) },
             };
             parameters.AddOptionalParameter("client_oid", clientOrderId);
-            parameters.AddOptionalParameter("price", price);
+            parameters.AddOptionalParameter("price", price?.ToString(ci));
 
             return await SendRequest<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -530,12 +530,12 @@ namespace Okex.Net
             {
                 { "instrument_id", symbol },
             };
-            if (orderId.HasValue) parameters.AddOptionalParameter("order_id", orderId);
+            if (orderId.HasValue) parameters.AddOptionalParameter("order_id", orderId?.ToString(ci));
             if (!string.IsNullOrEmpty(clientOrderId)) parameters.AddOptionalParameter("client_oid", clientOrderId);
-            if (cancelOnFail.HasValue) parameters.AddOptionalParameter("cancel_on_fail", cancelOnFail.Value ? 1 : 0);
+            if (cancelOnFail.HasValue) parameters.AddOptionalParameter("cancel_on_fail", cancelOnFail.Value ? "1" : "0");
             if (!string.IsNullOrEmpty(requestId)) parameters.AddOptionalParameter("request_id", requestId);
-            if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize);
-            if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice);
+            if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize?.ToString(ci));
+            if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice?.ToString(ci));
 
             return await SendRequest<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_ModifyOrder, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -642,10 +642,10 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "state", JsonConvert.SerializeObject(state, new SwapOrderStateConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<OkexSwapOrderList>(GetUrl(Endpoints_Swap_OrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -729,11 +729,11 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "instrument_id", symbol },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
             parameters.AddOptionalParameter("order_id", orderId);
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapTransaction>>(GetUrl(Endpoints_Swap_TransactionDetails), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -791,7 +791,7 @@ namespace Okex.Net
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("instrument_id", symbol);
-            parameters.AddOptionalParameter("category", category);
+            parameters.AddOptionalParameter("category", category?.ToString(ci));
 
             return await SendRequest<OkexSwapTradeFee>(GetUrl(Endpoints_Swap_AccountTierRate), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -1033,7 +1033,7 @@ namespace Okex.Net
                 { "instrument_id", symbol },
                 { "type", JsonConvert.SerializeObject(order_type, new SwapOrderTypeConverter(false)) },
                 { "order_type", JsonConvert.SerializeObject(order_type, new AlgoOrderTypeConverter(false)) },
-                { "size", size },
+                { "size", size.ToString(ci) },
             };
 
             if (order_type == OkexAlgoOrderType.TriggerOrder)
@@ -1042,8 +1042,8 @@ namespace Okex.Net
                 if (trigger_algo_price == null) throw new ArgumentException("trigger_algo_price is mandatory for Trigger Order");
                 // if(trigger_algo_type == null) throw new ArgumentException("trigger_algo_type is mandatory for Trigger Order");
 
-                parameters.AddParameter("trigger_price", trigger_price);
-                parameters.AddParameter("algo_price", trigger_algo_price);
+                parameters.AddParameter("trigger_price", trigger_price.Value.ToString(ci));
+                parameters.AddParameter("algo_price", trigger_algo_price.Value.ToString(ci));
                 parameters.AddOptionalParameter("algo_type", JsonConvert.SerializeObject(trigger_algo_type, new AlgoPriceTypeConverter(false)));
             }
 
@@ -1052,8 +1052,8 @@ namespace Okex.Net
                 if (trail_callback_rate == null) throw new ArgumentException("trail_callback_rate is mandatory for Trail Order");
                 if (trail_trigger_price == null) throw new ArgumentException("trail_trigger_price is mandatory for Trail Order");
 
-                parameters.AddParameter("callback_rate", trail_callback_rate);
-                parameters.AddParameter("trigger_price", trail_trigger_price);
+                parameters.AddParameter("callback_rate", trail_callback_rate.Value.ToString(ci));
+                parameters.AddParameter("trigger_price", trail_trigger_price.Value.ToString(ci));
             }
 
             else if (order_type == OkexAlgoOrderType.IcebergOrder)
@@ -1062,9 +1062,9 @@ namespace Okex.Net
                 if (iceberg_avg_amount == null) throw new ArgumentException("iceberg_avg_amount is mandatory for Iceberg Order");
                 if (iceberg_limit_price == null) throw new ArgumentException("iceberg_limit_price is mandatory for Iceberg Order");
 
-                parameters.AddParameter("algo_variance", iceberg_algo_variance);
-                parameters.AddParameter("avg_amount", iceberg_avg_amount);
-                parameters.AddParameter("limit_price", iceberg_limit_price);
+                parameters.AddParameter("algo_variance", iceberg_algo_variance.Value.ToString(ci));
+                parameters.AddParameter("avg_amount", iceberg_avg_amount.Value.ToString(ci));
+                parameters.AddParameter("limit_price", iceberg_limit_price.Value.ToString(ci));
             }
 
             else if (order_type == OkexAlgoOrderType.TWAP)
@@ -1075,11 +1075,11 @@ namespace Okex.Net
                 if (twap_price_limit == null) throw new ArgumentException("twap_price_limit is mandatory for TWAP Order");
                 if (twap_time_interval == null) throw new ArgumentException("twap_time_interval is mandatory for TWAP Order");
 
-                parameters.AddParameter("sweep_range", twap_sweep_range);
-                parameters.AddParameter("sweep_ratio", twap_sweep_ratio);
-                parameters.AddParameter("single_limit", twap_single_limit);
-                parameters.AddParameter("price_limit", twap_price_limit);
-                parameters.AddParameter("time_interval", twap_time_interval);
+                parameters.AddParameter("sweep_range", twap_sweep_range.Value.ToString(ci));
+                parameters.AddParameter("sweep_ratio", twap_sweep_ratio.Value.ToString(ci));
+                parameters.AddParameter("single_limit", twap_single_limit.Value.ToString(ci));
+                parameters.AddParameter("price_limit", twap_price_limit.Value.ToString(ci));
+                parameters.AddParameter("time_interval", twap_time_interval.Value.ToString(ci));
             }
 
             else if (order_type == OkexAlgoOrderType.StopOrder)
@@ -1091,12 +1091,12 @@ namespace Okex.Net
                 //if(sl_trigger_price == null) throw new ArgumentException("sl_trigger_price is mandatory for Stop Order");
                 //if(sl_price == null) throw new ArgumentException("sl_price is mandatory for Stop Order");
 
-                parameters.AddOptionalParameter("tp_trigger_type", tp_trigger_type);
-                parameters.AddOptionalParameter("tp_trigger_price", tp_trigger_price);
-                parameters.AddOptionalParameter("tp_price", tp_price);
-                parameters.AddOptionalParameter("sl_trigger_type", sl_trigger_type);
-                parameters.AddOptionalParameter("sl_trigger_price", sl_trigger_price);
-                parameters.AddOptionalParameter("sl_price", sl_price);
+                if (tp_trigger_type != null) parameters.AddOptionalParameter("tp_trigger_type", JsonConvert.SerializeObject(tp_trigger_type, new AlgoPriceTypeConverter(false)));
+                parameters.AddOptionalParameter("tp_trigger_price", tp_trigger_price?.ToString(ci));
+                parameters.AddOptionalParameter("tp_price", tp_price?.ToString(ci));
+                if (sl_trigger_type != null) parameters.AddOptionalParameter("sl_trigger_type", JsonConvert.SerializeObject(sl_trigger_type, new AlgoPriceTypeConverter(false)));
+                parameters.AddOptionalParameter("sl_trigger_price", sl_trigger_price?.ToString(ci));
+                parameters.AddOptionalParameter("sl_price", sl_price?.ToString(ci));
             }
 
             return await SendRequest<OkexSwapAlgoPlacedOrder>(GetUrl(Endpoints_Swap_AlgoPlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
@@ -1186,12 +1186,12 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "order_type", JsonConvert.SerializeObject(type, new AlgoOrderTypeConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
             parameters.AddOptionalParameter("status", JsonConvert.SerializeObject(status, new AlgoStatusConverter(false)));
             parameters.AddOptionalParameter("algo_id", algo_ids);
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapAlgoOrder>>(GetUrl(Endpoints_Swap_AlgoOrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -1253,8 +1253,8 @@ namespace Okex.Net
             size?.ValidateIntBetween(nameof(size), 1, 200);
 
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("size", size);
-            parameters.AddOptionalParameter("depth", depth);
+            parameters.AddOptionalParameter("size", size?.ToString(ci));
+            parameters.AddOptionalParameter("depth", depth?.ToString(ci));
 
             return await SendRequest<OkexSwapOrderBook>(GetUrl(Endpoints_Swap_OrderBook, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
@@ -1340,10 +1340,10 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapTrade>>(GetUrl(Endpoints_Swap_Trades, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
@@ -1517,11 +1517,11 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
                 { "status", JsonConvert.SerializeObject(status, new SwapLiquidationStatusConverter(false)) },
             };
-            parameters.AddOptionalParameter("from", from);
-            parameters.AddOptionalParameter("to", to);
+            parameters.AddOptionalParameter("from", from?.ToString(ci));
+            parameters.AddOptionalParameter("to", to?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapLiquidatedOrder>>(GetUrl(Endpoints_Swap_LiquidatedOrders, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
@@ -1600,7 +1600,12 @@ namespace Okex.Net
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
 
-            return await SendRequest<IEnumerable<OkexSwapFundingRate>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            var parameters = new Dictionary<string, object>
+            {
+                { "limit", limit.ToString(ci) },
+            };
+
+            return await SendRequest<IEnumerable<OkexSwapFundingRate>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1643,7 +1648,7 @@ namespace Okex.Net
             };
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
-            parameters.AddOptionalParameter("limit", limit);
+            parameters.AddOptionalParameter("limit", limit.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexSwapCandle>>(GetUrl(Endpoints_Swap_HistoricalMarketData, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }

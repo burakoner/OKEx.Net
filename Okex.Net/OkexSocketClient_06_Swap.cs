@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientSwap
+    public partial class OkexSocketClient : IOkexSocketClientSwap
     {
         #region Perpetual Swap Trading WS-API
 

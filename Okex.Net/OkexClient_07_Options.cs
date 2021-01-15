@@ -144,9 +144,9 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "instrument_id", instrument },
-                { "size", size },
-                { "price", price },
-                { "match_price", match_price ? 1 : 0 },
+                { "size", size.ToString(ci) },
+                { "price", price.ToString(ci) },
+                { "match_price", match_price ? "1" : "0" },
                 { "side", JsonConvert.SerializeObject(side, new OptionsOrderSideConverter(false)) },
                 { "order_type", JsonConvert.SerializeObject(timeInForce, new OptionsTimeInForceConverter(false)) },
             };
@@ -372,12 +372,12 @@ namespace Okex.Net
                 throw new ArgumentException("Must provide at least one of new_size or new_price");
 
             var parameters = new Dictionary<string, object>();
-            if (orderId.HasValue) parameters.AddOptionalParameter("order_id", orderId);
+            if (orderId.HasValue) parameters.AddOptionalParameter("order_id", orderId?.ToString(ci));
             if (!string.IsNullOrEmpty(clientOrderId)) parameters.AddOptionalParameter("client_oid", clientOrderId);
-            if (cancelOnFail.HasValue) parameters.AddOptionalParameter("cancel_on_fail", cancelOnFail.Value ? 1 : 0);
+            if (cancelOnFail.HasValue) parameters.AddOptionalParameter("cancel_on_fail", cancelOnFail.Value ? "1" : "0");
             if (!string.IsNullOrEmpty(requestId)) parameters.AddOptionalParameter("request_id", requestId);
-            if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize);
-            if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice);
+            if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize?.ToString(ci));
+            if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice?.ToString(ci));
 
             return await SendRequest<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_MofiyOrder, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -512,11 +512,11 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>
             {
                 { "state", JsonConvert.SerializeObject(state, new OptionsOrderStateConverter(false)) },
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
             parameters.AddOptionalParameter("instrument_id", instrument);
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<OkexOptionsOrderList>(GetUrl(Endpoints_Options_OrderList, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -553,12 +553,12 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
             parameters.AddOptionalParameter("instrument_id", instrument);
-            parameters.AddOptionalParameter("order_id", orderId);
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("order_id", orderId?.ToString(ci));
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexOptionsTransaction>>(GetUrl(Endpoints_Options_TransactionDetails, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -591,10 +591,10 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexOptionsBill>>(GetUrl(Endpoints_Options_Bills, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -624,7 +624,7 @@ namespace Okex.Net
                 throw new ArgumentException("Either underlying or category must be present.");
 
             parameters.AddOptionalParameter("underlying", underlying);
-            parameters.AddOptionalParameter("category", category);
+            parameters.AddOptionalParameter("category", category?.ToString(ci));
 
             return await SendRequest<OkexOptionsTradeFee>(GetUrl(Endpoints_Options_TradeFee), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
@@ -764,7 +764,7 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "size", size}
+                { "size", size.ToString(ci)}
             };
 
             return await SendRequest<OkexOptionsOrderBook>(GetUrl(Endpoints_Options_OrderBook, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
@@ -798,10 +798,10 @@ namespace Okex.Net
 
             var parameters = new Dictionary<string, object>
             {
-                { "limit", limit },
+                { "limit", limit.ToString(ci) },
             };
-            parameters.AddOptionalParameter("before", before);
-            parameters.AddOptionalParameter("after", after);
+            parameters.AddOptionalParameter("before", before?.ToString(ci));
+            parameters.AddOptionalParameter("after", after?.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexOptionsTrade>>(GetUrl(Endpoints_Options_Trades, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
@@ -895,9 +895,9 @@ namespace Okex.Net
             limit.ValidateIntBetween(nameof(limit), 1, 5);
 
             var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("start", start);
-            parameters.AddOptionalParameter("end", end);
-            parameters.AddOptionalParameter("limit", limit);
+            parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
+            parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
+            parameters.AddOptionalParameter("limit", limit.ToString(ci));
 
             return await SendRequest<IEnumerable<OkexOptionsSettlementHistory>>(GetUrl(Endpoints_Options_SettlementHistory, underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }

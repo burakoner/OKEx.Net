@@ -12,10 +12,10 @@ namespace Okex.Net.RestObjects
 
         [JsonProperty("currency")]
         public string Currency { get; set; } = "";
-        
+
         [JsonProperty("amount")]
         public decimal Amount { get; set; }
-        
+
         [JsonProperty("realized_pnl")]
         public decimal RealizedPnl { get; set; }
 
@@ -44,7 +44,7 @@ namespace Okex.Net.RestObjects
         public OkexOptionsRemittingAccountType RemittingAccount { get; set; }
 
         [JsonProperty("to"), JsonConverter(typeof(OptionsReceivingAccountTypeConverter))]
-        public OkexOptionsReceivingAccountType ReceivingAccount { get; set; } 
+        public OkexOptionsReceivingAccountType ReceivingAccount { get; set; }
     }
 
     public class OkexOptionsBillDetails

@@ -2,7 +2,7 @@
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClientFunding
+    public partial class OkexSocketClient : IOkexSocketClientFunding
     {
     }
 }

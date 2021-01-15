@@ -122,7 +122,7 @@
         On,
         Off,
     }
-    
+
     public enum OkexFuturesLiquidationStatus
     {
         UnfilledInTheRecent7Days,

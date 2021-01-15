@@ -16,7 +16,7 @@ namespace Okex.Net.CoreObjects
 {
     internal class OkexAuthenticationProvider : AuthenticationProvider
     {
-        private SecureString? PassPhrase;
+        private readonly SecureString? PassPhrase;
         private readonly HMACSHA256 encryptor;
         private readonly bool signPublicRequests;
         private readonly ArrayParametersSerialization arraySerialization;
@@ -24,7 +24,7 @@ namespace Okex.Net.CoreObjects
         public OkexAuthenticationProvider(ApiCredentials credentials, string passPhrase, bool signPublicRequests, ArrayParametersSerialization arraySerialization) : base(credentials)
         {
 
-            if (credentials==null|| credentials.Secret == null)
+            if (credentials == null || credentials.Secret == null)
                 throw new ArgumentException("No valid API credentials provided. Key/Secret needed.");
 
             PassPhrase = passPhrase.ToSecureString();
@@ -41,7 +41,7 @@ namespace Okex.Net.CoreObjects
             if (Credentials == null || Credentials.Key == null || PassPhrase == null)
                 throw new ArgumentException("No valid API credentials provided. Key/Secret/PassPhrase needed.");
 
-            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds()/ 1000.0m).ToString(CultureInfo.InvariantCulture);
+            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
             var signtext = time + method.Method.ToUpper() + uri.Replace("https://www.okex.com", "").Trim('?');
 
             if (method == HttpMethod.Post)

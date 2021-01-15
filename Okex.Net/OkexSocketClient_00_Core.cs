@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient: IOkexSocketClient
+    public partial class OkexSocketClient : IOkexSocketClient
     {
         private SecureString? Key;
         private SecureString? Secret;

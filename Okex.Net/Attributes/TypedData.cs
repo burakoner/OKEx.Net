@@ -123,8 +123,8 @@ namespace Okex.Net.Attributes
 
     public struct PushValue<T> : IDisposable
     {
-        private Action<T> setValue;
-        private T oldValue;
+        private readonly Action<T> setValue;
+        private readonly T oldValue;
 
         public PushValue(T value, Func<T> getValue, Action<T> setValue)
         {
