@@ -98,7 +98,7 @@ namespace Okex.Net
             // Ping Request
             if (data.ToString() == "pong")
             {
-                var desResult = Deserialize<T>(data, false); 
+                var desResult = Deserialize<T>(data, false);
                 if (!desResult)
                 {
                     log.Write(LogVerbosity.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");

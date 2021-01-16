@@ -1224,7 +1224,7 @@ namespace Okex.Net
         /// Return Parameter: Return parameter is the order ID of canceled orders. This does not mean that the orders are successfully canceled. Orders that are pending cannot be canceled, only unfulfilled orders can be canceled.
         /// Description: This does not guarantee orders are canceled successfully. Users are advised to request the order list to confirm after using the cancelation endpoint.
         /// </returns>
-        public WebCallResult<OkexSpotAlgoCancelledOrder> Margin_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
+        public WebCallResult<OkexSpotAlgoCancelledOrder> Margin_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
         /// <summary>
         /// If user use "algo_id" to cancel unfulfilled orders, they can cancel a maximum of 6 iceberg/TWAP or 10 trigger/trail orders at the same time.
         /// Rate limit：20 requests per 2 seconds
@@ -1240,7 +1240,7 @@ namespace Okex.Net
         /// Return Parameter: Return parameter is the order ID of canceled orders. This does not mean that the orders are successfully canceled. Orders that are pending cannot be canceled, only unfulfilled orders can be canceled.
         /// Description: This does not guarantee orders are canceled successfully. Users are advised to request the order list to confirm after using the cancelation endpoint.
         /// </returns>
-        public Task<WebCallResult<OkexSpotAlgoCancelledOrder>> Margin_AlgoCancelOrder_Async(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct);
+        public Task<WebCallResult<OkexSpotAlgoCancelledOrder>> Margin_AlgoCancelOrder_Async(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct);
 
         /// <summary>
         /// Obtaining Order List
@@ -1258,7 +1258,7 @@ namespace Okex.Net
         /// <returns></returns>
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8604 // Possible null reference argument.
-        public WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>> Margin_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<long> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
+        public WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>> Margin_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         /// <summary>
@@ -1277,7 +1277,7 @@ namespace Okex.Net
         /// <returns></returns>
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8604 // Possible null reference argument.
-        public Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>>> Margin_AlgoGetOrders_Async(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<long> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct);
+        public Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>>> Margin_AlgoGetOrders_Async(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct);
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 

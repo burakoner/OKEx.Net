@@ -439,7 +439,7 @@ namespace Okex.Net
         /// <param name="clientOrderIds">Either client_oid or order_id must be present. Client-supplied order ID that you can customize. It should be comprised of alpha-numeric characters with length 1 to 32. Both uppercase and lowercase are supported</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSwapBatchOrders> Swap_BatchCancelOrders(string symbol, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default) => Swap_BatchCancelOrders_Async(symbol, orderIds, clientOrderIds, ct).Result;
+        public WebCallResult<OkexSwapBatchOrders> Swap_BatchCancelOrders(string symbol, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default) => Swap_BatchCancelOrders_Async(symbol, orderIds, clientOrderIds, ct).Result;
         /// <summary>
         /// Cancel multiple open orders with order_id or client_oid，Maximum 10 orders can be cancelled at a time for each contract."
         /// Rate Limit: 20 requests per 2 seconds 
@@ -457,7 +457,7 @@ namespace Okex.Net
         /// <param name="clientOrderIds">Either client_oid or order_id must be present. Client-supplied order ID that you can customize. It should be comprised of alpha-numeric characters with length 1 to 32. Both uppercase and lowercase are supported</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexSwapBatchOrders>> Swap_BatchCancelOrders_Async(string symbol, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexSwapBatchOrders>> Swap_BatchCancelOrders_Async(string symbol, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -1114,7 +1114,7 @@ namespace Okex.Net
         /// Return Parameter: Return parameter is the order ID of canceled orders. This does not mean that the orders are successfully canceled. Orders that are pending cannot be canceled, only unfulfilled orders can be canceled.
         /// Description: This does not guarantee orders are canceled successfully. Users are advised to request the order list to confirm after using the cancelation endpoint.
         /// </returns>
-        public WebCallResult<OkexSwapAlgoCancelledOrder> Swap_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default) => Swap_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
+        public WebCallResult<OkexSwapAlgoCancelledOrder> Swap_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default) => Swap_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
         /// <summary>
         /// If user use "algo_id" to cancel unfulfilled orders, they can cancel a maximum of 6 iceberg/TWAP or 10 trigger/trail orders at the same time.
         /// Rate limit：20 requests per 2 seconds
@@ -1127,7 +1127,7 @@ namespace Okex.Net
         /// Return Parameter: Return parameter is the order ID of canceled orders. This does not mean that the orders are successfully canceled. Orders that are pending cannot be canceled, only unfulfilled orders can be canceled.
         /// Description: This does not guarantee orders are canceled successfully. Users are advised to request the order list to confirm after using the cancelation endpoint.
         /// </returns>
-        public async Task<WebCallResult<OkexSwapAlgoCancelledOrder>> Swap_AlgoCancelOrder_Async(string symbol, OkexAlgoOrderType type, IEnumerable<long> algo_ids, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexSwapAlgoCancelledOrder>> Swap_AlgoCancelOrder_Async(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -1160,7 +1160,7 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Symbol grouped algo orders list. Dictionary&lt;string: symbol, IEnumerable&lt;OkexSwapAlgoOrder&gt;: algo orders&gt;</returns>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexSwapAlgoOrder>> Swap_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<long> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Swap_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
+        public WebCallResult<IEnumerable<OkexSwapAlgoOrder>> Swap_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Swap_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
         /// <summary>
         /// Obtaining Order List
         /// Rate limit：20 requests per 2 seconds
@@ -1175,7 +1175,7 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Symbol grouped algo orders list. Dictionary&lt;string: symbol, IEnumerable&lt;OkexSwapAlgoOrder&gt;: algo orders&gt;</returns>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexSwapAlgoOrder>>> Swap_AlgoGetOrders_Async(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<long> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<OkexSwapAlgoOrder>>> Swap_AlgoGetOrders_Async(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);

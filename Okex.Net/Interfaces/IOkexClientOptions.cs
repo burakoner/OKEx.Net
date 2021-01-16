@@ -10,8 +10,8 @@ namespace Okex.Net.Interfaces
 {
     public interface IOkexClientOptions
     {
-        WebCallResult<OkexOptionsBatchOrders> Options_BatchCancelOrders(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
-        Task<WebCallResult<OkexOptionsBatchOrders>> Options_BatchCancelOrders_Async(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
+        WebCallResult<OkexOptionsBatchOrders> Options_BatchCancelOrders(string underlying, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
+        Task<WebCallResult<OkexOptionsBatchOrders>> Options_BatchCancelOrders_Async(string underlying, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default);
         WebCallResult<OkexOptionsBatchOrders> Options_BatchModifyOrders(string underlying, IEnumerable<OkexOptionsModifyOrder> orders, CancellationToken ct = default);
         Task<WebCallResult<OkexOptionsBatchOrders>> Options_BatchModifyOrders_Async(string underlying, IEnumerable<OkexOptionsModifyOrder> orders, CancellationToken ct = default);
         WebCallResult<OkexOptionsBatchOrders> Options_BatchPlaceOrders(string underlying, IEnumerable<OkexOptionsPlaceOrder> orders, CancellationToken ct = default);

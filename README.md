@@ -207,13 +207,13 @@ spot_place_orders.Add(spot_place_order_02);
 var spot_cancel_order_01 = new OkexSpotCancelOrder
 {
     Symbol = "ETH-BTC",
-    OrderIds = new List<long> { 1001, 1002, 1003, 1004, 1005 },
+    OrderIds = new List<string> { "1001", "1002", "1003", "1004", "1005" },
     ClientOrderIds = new List<string>()
 };
 var spot_cancel_order_02 = new OkexSpotCancelOrder
 {
     Symbol = "ETH-BTC",
-    OrderIds = new List<long> { },
+    OrderIds = new List<string> { },
     ClientOrderIds = new List<string> { "coid001", "coid002", "coid003", "coid004", "coid005" }
 };
 var spot_cancel_orders = new List<OkexSpotCancelOrder>();
@@ -243,7 +243,7 @@ var spot_private_20 = api.Spot_GetOrderDetails("ETH-BTC", clientOrderId: "client
 var spot_private_21 = api.Spot_TradeFeeRates();
 var spot_private_22 = api.Spot_GetTransactionDetails("ETH-BTC");
 var spot_private_23 = api.Spot_AlgoPlaceOrder("ETH-BTC", OkexAlgoOrderType.TriggerOrder, OkexMarket.Spot, OkexSpotOrderSide.Buy, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
-var spot_private_24 = api.Spot_AlgoCancelOrder("ETH-BTC", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+var spot_private_24 = api.Spot_AlgoCancelOrder("ETH-BTC", OkexAlgoOrderType.TriggerOrder, new List<string> { "1001" });
 var spot_private_25 = api.Spot_AlgoGetOrders("ETH-BTC", OkexAlgoOrderType.TriggerOrder);
 ```
 
@@ -277,7 +277,7 @@ var margin_private_17 = api.Margin_GetOrderDetails("BTC-USDT", 1001);
 var margin_private_18 = api.Margin_GetOpenOrders("BTC-USDT");
 var margin_private_19 = api.Margin_GetTransactionDetails("BTC-USDT", 1001);
 var margin_private_20 = api.Margin_AlgoPlaceOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, OkexMarket.Margin, OkexSpotOrderSide.Buy, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
-var margin_private_21 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+var margin_private_21 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<string> { "1001" });
 var margin_private_22 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
@@ -317,7 +317,7 @@ var futures_private_09 = api.Futures_BatchPlaceOrders("ETH-USDT", new List<OkexF
 var futures_private_10 = api.Futures_ModifyOrder("ETH-USDT", orderId: 1001, newSize: 0.1m);
 var futures_private_11 = api.Futures_BatchModifyOrders("ETH-USDT", new List<OkexFuturesModifyOrder> { });
 var futures_private_12 = api.Futures_CancelOrder("ETH-USDT", 1001);
-var futures_private_13 = api.Futures_BatchCancelOrders("ETH-USDT", new List<long> { }, new List<string> { });
+var futures_private_13 = api.Futures_BatchCancelOrders("ETH-USDT", new List<string> { }, new List<string> { });
 var futures_private_14 = api.Futures_GetAllOrders("ETH-USDT", OkexFuturesOrderState.Complete, 2, after: 1);
 var futures_private_15 = api.Futures_GetOrderDetails("ETH-USDT", clientOrderId: "clientorderid");
 var futures_private_16 = api.Futures_GetTransactionDetails("ETH-USDT", orderId: 1001);
@@ -327,7 +327,7 @@ var futures_private_19 = api.Futures_MarketCloseAll("ETH-USDT", OkexFuturesDirec
 var futures_private_20 = api.Futures_CancelAll("ETH-USDT", OkexFuturesDirection.Long);
 var futures_private_21 = api.Futures_GetHoldAmount("ETH-USDT");
 var futures_private_22 = api.Futures_AlgoPlaceOrder("BTC-USDT", OkexFuturesOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
-var futures_private_23 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+var futures_private_23 = api.Margin_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<string> { "1001" });
 var futures_private_24 = api.Margin_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
@@ -365,7 +365,7 @@ var swap_private_07 = api.Swap_GetBills("BTC-USDT-SWAP");
 var swap_private_08 = api.Swap_PlaceOrder("BTC-USDT-SWAP", OkexSwapOrderType.OpenLong, 0.1m);
 var swap_private_09 = api.Swap_BatchPlaceOrders("BTC-USDT-SWAP", new List<OkexSwapPlaceOrder> { });
 var swap_private_10 = api.Swap_CancelOrder("BTC-USDT-SWAP", orderId:1001);
-var swap_private_11 = api.Swap_BatchCancelOrders("BTC-USDT-SWAP", new List<long> { }, new List<string> { });
+var swap_private_11 = api.Swap_BatchCancelOrders("BTC-USDT-SWAP", new List<string> { }, new List<string> { });
 var swap_private_12 = api.Swap_ModifyOrder("BTC-USDT-SWAP", orderId: 1001, newSize: 0.1m);
 var swap_private_13 = api.Swap_BatchModifyOrders("BTC-USDT-SWAP", new List<OkexSwapModifyOrder> { });
 var swap_private_14 = api.Swap_GetAllOrders("BTC-USDT-SWAP", OkexSwapOrderState.Complete);
@@ -376,7 +376,7 @@ var swap_private_18 = api.Swap_GetTradeFeeRates("BTC-USDT-SWAP");
 var swap_private_19 = api.Swap_MarketCloseAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
 var swap_private_20 = api.Swap_CancelAll("BTC-USDT-SWAP", OkexSwapDirection.Long);
 var swap_private_21 = api.Swap_AlgoPlaceOrder("BTC-USDT", OkexSwapOrderType.OpenLong, OkexAlgoOrderType.TriggerOrder, size: 0.1m, trigger_price: 0.0101m, trigger_algo_price: 0.0100m, trigger_algo_type: OkexAlgoPriceType.Limit);
-var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<long> { 1001 });
+var swap_private_22 = api.Swap_AlgoCancelOrder("BTC-USDT", OkexAlgoOrderType.TriggerOrder, new List<string> { "1001" });
 var swap_private_23 = api.Swap_AlgoGetOrders("BTC-USDT", OkexAlgoOrderType.TriggerOrder);
 ```
 
@@ -413,7 +413,7 @@ var options_private_02 = api.Options_GetBalances("BTC-USD");
 var options_private_03 = api.Options_PlaceOrder("BTC-USD-201218-16250-C", OkexOptionsOrderSide.Buy, 20000m, 0.1m, OkexOptionsTimeInForce.NormalOrder);
 var options_private_04 = api.Options_BatchPlaceOrders("BTC-USD", new List<OkexOptionsPlaceOrder> { });
 var options_private_05 = api.Options_CancelOrder("BTC-USD", 1001);
-var options_private_06 = api.Options_BatchCancelOrders("BTC-USD", new List<long> { }, new List<string> { });
+var options_private_06 = api.Options_BatchCancelOrders("BTC-USD", new List<string> { }, new List<string> { });
 var options_private_07 = api.Options_CancelAllOrders("BTC-USD");
 var options_private_08 = api.Options_ModifyOrder("BTC-USD", orderId: 1001, newSize: 0.1m);
 var options_private_09 = api.Options_BatchModifyOrders("BTC-USD", new List<OkexOptionsModifyOrder> { });

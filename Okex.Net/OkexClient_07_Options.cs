@@ -264,7 +264,7 @@ namespace Okex.Net
         /// <param name="clientOrderIds">Either client_oids or order_ids must be present. List of client_oid, which should be the same Client-supplied order ID when submitting the order. It should be comprised of alpha-numeric characters with length 1 to 32. Both uppercase and lowercase are supported.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexOptionsBatchOrders> Options_BatchCancelOrders(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default) => Options_BatchCancelOrders_Async(underlying, orderIds, clientOrderIds, ct).Result;
+        public WebCallResult<OkexOptionsBatchOrders> Options_BatchCancelOrders(string underlying, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default) => Options_BatchCancelOrders_Async(underlying, orderIds, clientOrderIds, ct).Result;
         /// <summary>
         /// Batch cancel open orders; a maximum of 10 orders can be canceled at a time.
         /// Rate Limit：20 Requests per 2 seconds
@@ -280,7 +280,7 @@ namespace Okex.Net
         /// <param name="clientOrderIds">Either client_oids or order_ids must be present. List of client_oid, which should be the same Client-supplied order ID when submitting the order. It should be comprised of alpha-numeric characters with length 1 to 32. Both uppercase and lowercase are supported.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexOptionsBatchOrders>> Options_BatchCancelOrders_Async(string underlying, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
+        public async Task<WebCallResult<OkexOptionsBatchOrders>> Options_BatchCancelOrders_Async(string underlying, IEnumerable<string> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
         {
             underlying = underlying.ValidateSymbol();
 
