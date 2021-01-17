@@ -22,14 +22,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Margin_SubscribeToBalance(string symbol, Action<OkexMarginBalance> onData) => Margin_SubscribeToBalance_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Margin_SubscribeToBalance(string symbol, Action<OkexMarginBalance> onData) => Margin_SubscribeToBalance_Async(symbol, onData).Result;
         /// <summary>
         /// Retrieve the user's margin account information (login authentication required).
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Margin_SubscribeToBalance_Async(string symbol, Action<OkexMarginBalance> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Margin_SubscribeToBalance_Async(string symbol, Action<OkexMarginBalance> onData)
         {
             symbol = symbol.ValidateSymbol();
 

@@ -15,10 +15,10 @@ namespace Okex.Net
 {
     public partial class OkexSocketClient : IOkexSocketClient
     {
-        private SecureString? Key;
-        private SecureString? Secret;
-        private SecureString? PassPhrase;
-        private HMACSHA256? _hmacEncryptor;
+        protected SecureString? Key;
+        protected SecureString? Secret;
+        protected SecureString? PassPhrase;
+        protected HMACSHA256? _hmacEncryptor;
         public bool Authendicated { get; private set; }
 
         #region WS Auth Methods
@@ -28,15 +28,15 @@ namespace Okex.Net
         /// <param name="apiKey">The api key</param>
         /// <param name="apiSecret">The api secret</param>
         /// <param name="passPhrase">The api pass phrase</param>
-        public void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
+        public virtual void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
         {
             Key = apiKey.ToSecureString();
             Secret = apiSecret.ToSecureString();
             PassPhrase = passPhrase.ToSecureString();
         }
 
-        public CallResult<OkexSocketLoginResponse> Auth_Login(string apiKey, string apiSecret, string passPhrase) => Auth_Login_Async(apiKey, apiSecret, passPhrase).Result;
-        public async Task<CallResult<OkexSocketLoginResponse>> Auth_Login_Async(string apiKey, string apiSecret, string passPhrase)
+        public virtual CallResult<OkexSocketLoginResponse> Auth_Login(string apiKey, string apiSecret, string passPhrase) => Auth_Login_Async(apiKey, apiSecret, passPhrase).Result;
+        public virtual async Task<CallResult<OkexSocketLoginResponse>> Auth_Login_Async(string apiKey, string apiSecret, string passPhrase)
         {
             if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret) || string.IsNullOrEmpty(passPhrase))
                 return new CallResult<OkexSocketLoginResponse>(default, new NoApiCredentialsError());

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FuturesTimeInForceConverter : BaseConverter<OkexFuturesTimeInForce>
+    public class FuturesTimeInForceConverter : BaseConverter<OkexFuturesTimeInForce>
     {
         public FuturesTimeInForceConverter() : this(true) { }
         public FuturesTimeInForceConverter(bool quotes) : base(quotes) { }

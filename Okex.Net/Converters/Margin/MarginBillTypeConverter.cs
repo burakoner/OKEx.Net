@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class MarginBillTypeConverter : BaseConverter<OkexMarginBillType>
+    public class MarginBillTypeConverter : BaseConverter<OkexMarginBillType>
     {
         public MarginBillTypeConverter() : this(true) { }
         public MarginBillTypeConverter(bool quotes) : base(quotes) { }

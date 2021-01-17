@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class AlgoStatusConverter : BaseConverter<OkexAlgoStatus>
+    public class AlgoStatusConverter : BaseConverter<OkexAlgoStatus>
     {
         public AlgoStatusConverter() : this(true) { }
         public AlgoStatusConverter(bool quotes) : base(quotes) { }

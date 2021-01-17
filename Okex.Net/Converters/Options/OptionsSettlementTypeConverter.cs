@@ -1,11 +1,10 @@
-﻿
-using CryptoExchange.Net.Converters;
+﻿using CryptoExchange.Net.Converters;
 using Okex.Net.Enums;
 using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsSettlementTypeConverter : BaseConverter<OkexOptionsSettlementType>
+    public class OptionsSettlementTypeConverter : BaseConverter<OkexOptionsSettlementType>
     {
         public OptionsSettlementTypeConverter() : this(true) { }
         public OptionsSettlementTypeConverter(bool quotes) : base(quotes) { }

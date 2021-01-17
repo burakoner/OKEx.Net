@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotTimeInForceConverter : BaseConverter<OkexSpotTimeInForce>
+    public class SpotTimeInForceConverter : BaseConverter<OkexSpotTimeInForce>
     {
         public SpotTimeInForceConverter() : this(true) { }
         public SpotTimeInForceConverter(bool quotes) : base(quotes) { }

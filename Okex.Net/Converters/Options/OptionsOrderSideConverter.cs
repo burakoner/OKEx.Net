@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsOrderSideConverter : BaseConverter<OkexOptionsOrderSide>
+    public class OptionsOrderSideConverter : BaseConverter<OkexOptionsOrderSide>
     {
         public OptionsOrderSideConverter() : this(true) { }
         public OptionsOrderSideConverter(bool quotes) : base(quotes) { }

@@ -28,7 +28,7 @@ namespace Okex.Net
         /// <param name="underlying">The underlying index that the contract is based upon, e.g. BTC-USD.</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToContracts(string underlying, Action<OkexOptionsInstrument> onData) => Options_SubscribeToContracts_Async(underlying, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToContracts(string underlying, Action<OkexOptionsInstrument> onData) => Options_SubscribeToContracts_Async(underlying, onData).Result;
         /// <summary>
         /// Retrieve list of instruments with open contracts for options trading，Does not require login.
         /// When a new contract is available or the sate of a contract is updated, full contract data of the underlying will be pushed.
@@ -36,7 +36,7 @@ namespace Okex.Net
         /// <param name="underlying">The underlying index that the contract is based upon, e.g. BTC-USD.</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToContracts_Async(string underlying, Action<OkexOptionsInstrument> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToContracts_Async(string underlying, Action<OkexOptionsInstrument> onData)
         {
             underlying = underlying.ValidateSymbol();
 
@@ -57,7 +57,7 @@ namespace Okex.Net
         /// <param name="underlying">The underlying index that the contract is based upon, e.g. BTC-USD.</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToMarketData(string underlying, Action<OkexOptionsMarketData> onData) => Options_SubscribeToMarketData_Async(underlying, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToMarketData(string underlying, Action<OkexOptionsMarketData> onData) => Options_SubscribeToMarketData_Async(underlying, onData).Result;
         /// <summary>
         /// Retrieve market data summary of all contracts of an underlying index for options trading. Does not require login.
         /// It will push multiple messages for multiple contracts, and only one contract per message.
@@ -65,7 +65,7 @@ namespace Okex.Net
         /// <param name="underlying">The underlying index that the contract is based upon, e.g. BTC-USD.</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToMarketData_Async(string underlying, Action<OkexOptionsMarketData> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToMarketData_Async(string underlying, Action<OkexOptionsMarketData> onData)
         {
             underlying = underlying.ValidateSymbol();
 
@@ -86,7 +86,7 @@ namespace Okex.Net
         /// <param name="underlyings">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToMarketData(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData) => Options_SubscribeToMarketData_Async(underlyings, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToMarketData(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData) => Options_SubscribeToMarketData_Async(underlyings, onData).Result;
         /// <summary>
         /// Retrieve market data summary of all contracts of an underlying index for options trading. Does not require login.
         /// It will push multiple messages for multiple contracts, and only one contract per message.
@@ -94,7 +94,7 @@ namespace Okex.Net
         /// <param name="underlyings">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToMarketData_Async(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToMarketData_Async(IEnumerable<string> underlyings, Action<OkexOptionsMarketData> onData)
         {
             // To List
             var symbolList = underlyings.ToList();
@@ -131,7 +131,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToCandlesticks(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData) => Options_SubscribeToCandlesticks_Async(instrument, period, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToCandlesticks(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData) => Options_SubscribeToCandlesticks_Async(instrument, period, onData).Result;
         /// <summary>
         /// Retrieve the candlestick charts of option contracts. Does not require login,data is pushed every 500ms.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToCandlesticks_Async(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToCandlesticks_Async(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsCandleContainer>>>(data =>
             {
@@ -162,14 +162,14 @@ namespace Okex.Net
         /// <param name="instrument">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToTrades(string instrument, Action<OkexOptionsTrade> onData) => Options_SubscribeToTrades_Async(instrument, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToTrades(string instrument, Action<OkexOptionsTrade> onData) => Options_SubscribeToTrades_Async(instrument, onData).Result;
         /// <summary>
         /// Get the filled orders data,it will be pushed when there is transaction data.
         /// </summary>
 		/// <param name="instrument">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToTrades_Async(string instrument, Action<OkexOptionsTrade> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToTrades_Async(string instrument, Action<OkexOptionsTrade> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTrade>>>(data =>
             {
@@ -187,14 +187,14 @@ namespace Okex.Net
         /// <param name="instrument">Instrument ID, e.g. BTC-USD-190830-9000-C</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToTicker(string instrument, Action<OkexOptionsTicker> onData) => Options_SubscribeToTicker_Async(instrument, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToTicker(string instrument, Action<OkexOptionsTicker> onData) => Options_SubscribeToTicker_Async(instrument, onData).Result;
         /// <summary>
         /// This retrieves the latest traded price, best-bid price, best-ask price etc,data is pushed every 100ms.
         /// </summary>
         /// <param name="instrument">Instrument ID, e.g. BTC-USD-190830-9000-C</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToTicker_Async(string instrument, Action<OkexOptionsTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToTicker_Async(string instrument, Action<OkexOptionsTicker> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>(data =>
             {
@@ -212,14 +212,14 @@ namespace Okex.Net
         /// <param name="underlyings">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToTicker(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData) => Options_SubscribeToTicker_Async(underlyings, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToTicker(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData) => Options_SubscribeToTicker_Async(underlyings, onData).Result;
         /// <summary>
         /// This retrieves the latest traded price, best-bid price, best-ask price etc,data is pushed every 100ms.
         /// </summary>
         /// <param name="underlyings">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToTicker_Async(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToTicker_Async(IEnumerable<string> underlyings, Action<OkexOptionsTicker> onData)
         {
             // To List
             var symbolList = underlyings.ToList();
@@ -257,7 +257,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToOrderBook(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData) => Options_SubscribeToOrderBook_Async(instrument, depth, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToOrderBook(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData) => Options_SubscribeToOrderBook_Async(instrument, depth, onData).Result;
         /// <summary>
         /// Depth-Five: The latest 5 entries of the market depth data is snapshooted and pushed every 100 milliseconds.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
@@ -267,7 +267,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrderBook_Async(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrderBook_Async(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData)
         {
             var internalHandler = new Action<OkexOptionsOrderBookUpdate>(data =>
             {
@@ -300,7 +300,7 @@ namespace Okex.Net
         /// <param name="underlying">Underlying Symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToPositions(string underlying, Action<OkexOptionsPosition> onData) => Options_SubscribeToPositions_Async(underlying, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToPositions(string underlying, Action<OkexOptionsPosition> onData) => Options_SubscribeToPositions_Async(underlying, onData).Result;
         /// <summary>
         /// Retrieve the information on your option positions. Requires login.
         /// It will also push data due to change of fields such as mark price, option value etc.
@@ -310,7 +310,7 @@ namespace Okex.Net
         /// <param name="underlying">Underlying Symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToPositions_Async(string underlying, Action<OkexOptionsPosition> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToPositions_Async(string underlying, Action<OkexOptionsPosition> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsPosition>>>(data =>
             {
@@ -328,14 +328,14 @@ namespace Okex.Net
         /// <param name="underlying">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToBalance(string underlying, Action<OkexOptionsBalance> onData) => Options_SubscribeToBalance_Async(underlying, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToBalance(string underlying, Action<OkexOptionsBalance> onData) => Options_SubscribeToBalance_Async(underlying, onData).Result;
         /// <summary>
         /// Retrieve account information. Requires login.
         /// </summary>
         /// <param name="underlying">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToBalance_Async(string underlying, Action<OkexOptionsBalance> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToBalance_Async(string underlying, Action<OkexOptionsBalance> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsBalance>>>(data =>
             {
@@ -353,14 +353,14 @@ namespace Okex.Net
         /// <param name="underlying">Underlying Symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Options_SubscribeToOrders(string underlying, Action<OkexOptionsOrder> onData) => Options_SubscribeToOrders_Async(underlying, onData).Result;
+        public virtual CallResult<UpdateSubscription> Options_SubscribeToOrders(string underlying, Action<OkexOptionsOrder> onData) => Options_SubscribeToOrders_Async(underlying, onData).Result;
         /// <summary>
         /// Retrieves the order details of the account. Requires login.
         /// </summary>
         /// <param name="underlying">Underlying Symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrders_Async(string underlying, Action<OkexOptionsOrder> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrders_Async(string underlying, Action<OkexOptionsOrder> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsOrder>>>(data =>
             {

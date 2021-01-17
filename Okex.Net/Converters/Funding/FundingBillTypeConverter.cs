@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FundingBillTypeConverter : BaseConverter<OkexFundingBillType>
+    public class FundingBillTypeConverter : BaseConverter<OkexFundingBillType>
     {
         public FundingBillTypeConverter() : this(true) { }
         public FundingBillTypeConverter(bool quotes) : base(quotes) { }

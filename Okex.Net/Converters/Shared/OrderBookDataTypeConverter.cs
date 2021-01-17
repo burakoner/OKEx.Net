@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OrderBookDataTypeConverter : BaseConverter<OkexOrderBookDataType>
+    public class OrderBookDataTypeConverter : BaseConverter<OkexOrderBookDataType>
     {
         public OrderBookDataTypeConverter() : this(true) { }
         public OrderBookDataTypeConverter(bool quotes) : base(quotes) { }

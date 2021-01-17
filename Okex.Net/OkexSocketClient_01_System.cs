@@ -9,8 +9,8 @@ namespace Okex.Net
 {
     public partial class OkexSocketClient : IOkexSocketClientSystem
     {
-        public CallResult<OkexGeneralPingPongContainer> Ping() => PingAsync().Result;
-        public async Task<CallResult<OkexGeneralPingPongContainer>> PingAsync()
+        public virtual CallResult<OkexGeneralPingPongContainer> Ping() => PingAsync().Result;
+        public virtual async Task<CallResult<OkexGeneralPingPongContainer>> PingAsync()
         {
             var pit = DateTime.UtcNow;
             var sw = Stopwatch.StartNew();

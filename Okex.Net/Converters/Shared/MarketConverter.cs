@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class MarketConverter : BaseConverter<OkexMarket>
+    public class MarketConverter : BaseConverter<OkexMarket>
     {
         public MarketConverter() : this(true) { }
         public MarketConverter(bool quotes) : base(quotes) { }

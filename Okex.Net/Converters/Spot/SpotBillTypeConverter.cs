@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotBillTypeConverter : BaseConverter<OkexSpotBillType>
+    public class SpotBillTypeConverter : BaseConverter<OkexSpotBillType>
     {
         public SpotBillTypeConverter() : this(true) { }
         public SpotBillTypeConverter(bool quotes) : base(quotes) { }

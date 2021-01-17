@@ -30,7 +30,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexContractRatio>> Contract_GetLongShortRatio(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetLongShortRatio_Async(currency, period, start, end, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexContractRatio>> Contract_GetLongShortRatio(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetLongShortRatio_Async(currency, period, start, end, ct).Result;
         /// <summary>
         /// This is a public endpoint, no identity verification is needed.
         /// Rate limit: 20 requests per 2 seconds
@@ -41,7 +41,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexContractRatio>>> Contract_GetLongShortRatio_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexContractRatio>>> Contract_GetLongShortRatio_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -63,7 +63,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexContractVolume>> Contract_GetVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetVolume_Async(currency, period, start, end, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexContractVolume>> Contract_GetVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetVolume_Async(currency, period, start, end, ct).Result;
         /// <summary>
         /// This is a public endpoint, no identity verification is needed.
         /// Rate limit: 20 requests per 2 seconds
@@ -74,7 +74,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexContractVolume>>> Contract_GetVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexContractVolume>>> Contract_GetVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -96,7 +96,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexContractTakerVolume>> Contract_GetTakerVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetTakerVolume_Async(currency, period, start, end, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexContractTakerVolume>> Contract_GetTakerVolume(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetTakerVolume_Async(currency, period, start, end, ct).Result;
         /// <summary>
         /// This is a public endpoint, no identity verification is needed.
         /// Rate limit: 20 requests per 2 seconds
@@ -107,7 +107,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexContractTakerVolume>>> Contract_GetTakerVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexContractTakerVolume>>> Contract_GetTakerVolume_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -129,7 +129,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexContractSentiment>> Contract_GetSentiment(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetSentiment_Async(currency, period, start, end, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexContractSentiment>> Contract_GetSentiment(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetSentiment_Async(currency, period, start, end, ct).Result;
         /// <summary>
         /// This is a public endpoint, no identity verification is needed.
         /// Rate limit: 20 requests per 2 seconds
@@ -140,7 +140,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexContractSentiment>>> Contract_GetSentiment_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexContractSentiment>>> Contract_GetSentiment_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -162,7 +162,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexContractMargin>> Contract_GetMargin(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetMargin_Async(currency, period, start, end, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexContractMargin>> Contract_GetMargin(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default) => Contract_GetMargin_Async(currency, period, start, end, ct).Result;
         /// <summary>
         /// This is a public endpoint, no identity verification is needed.
         /// Rate limit: 20 requests per 2 seconds
@@ -173,7 +173,7 @@ namespace Okex.Net
         /// <param name="end">End time in ISO 8601</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexContractMargin>>> Contract_GetMargin_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexContractMargin>>> Contract_GetMargin_Async(string currency, OkexContractPeriod period = OkexContractPeriod.FiveMinutes, DateTime? start = null, DateTime? end = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {

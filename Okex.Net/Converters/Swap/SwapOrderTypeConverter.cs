@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapOrderTypeConverter : BaseConverter<OkexSwapOrderType>
+    public class SwapOrderTypeConverter : BaseConverter<OkexSwapOrderType>
     {
         public SwapOrderTypeConverter() : this(true) { }
         public SwapOrderTypeConverter(bool quotes) : base(quotes) { }

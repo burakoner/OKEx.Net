@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapLeverageSideConverter : BaseConverter<OkexSwapLeverageSide>
+    public class SwapLeverageSideConverter : BaseConverter<OkexSwapLeverageSide>
     {
         public SwapLeverageSideConverter() : this(true) { }
         public SwapLeverageSideConverter(bool quotes) : base(quotes) { }

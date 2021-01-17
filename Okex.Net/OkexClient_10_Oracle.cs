@@ -20,7 +20,7 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexOracleData> Oracle_GetData(CancellationToken ct = default) => Oracle_GetData_Async(ct).Result;
+        public virtual WebCallResult<OkexOracleData> Oracle_GetData(CancellationToken ct = default) => Oracle_GetData_Async(ct).Result;
         /// <summary>
         /// Cryptographically signed prices available to be posted on-chain, using the Open Oracle standard.
         /// Rate Limit: 1 request per 5 seconds
@@ -30,7 +30,7 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexOracleData>> Oracle_GetData_Async(CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexOracleData>> Oracle_GetData_Async(CancellationToken ct = default)
         {
             return await SendRequest<OkexOracleData>(GetUrl(Endpoints_Oracle), HttpMethod.Get, ct).ConfigureAwait(false);
         }

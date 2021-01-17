@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsAccountStatusConverter : BaseConverter<OkexOptionsAccountStatus>
+    public class OptionsAccountStatusConverter : BaseConverter<OkexOptionsAccountStatus>
     {
         public OptionsAccountStatusConverter() : this(true) { }
         public OptionsAccountStatusConverter(bool quotes) : base(quotes) { }

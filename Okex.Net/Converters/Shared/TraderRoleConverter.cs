@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class TraderRoleConverter : BaseConverter<OkexTraderRole>
+    public class TraderRoleConverter : BaseConverter<OkexTraderRole>
     {
         public TraderRoleConverter() : this(true) { }
         public TraderRoleConverter(bool quotes) : base(quotes) { }

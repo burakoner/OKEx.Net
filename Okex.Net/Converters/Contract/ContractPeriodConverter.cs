@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class ContractPeriodConverter : BaseConverter<OkexContractPeriod>
+    public class ContractPeriodConverter : BaseConverter<OkexContractPeriod>
     {
         public ContractPeriodConverter() : this(true) { }
         public ContractPeriodConverter(bool quotes) : base(quotes) { }

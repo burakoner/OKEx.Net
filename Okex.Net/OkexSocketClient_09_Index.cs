@@ -29,7 +29,7 @@ namespace Okex.Net
         /// <param name="symbol">The trading pair</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Index_SubscribeToTicker(string symbol, Action<OkexIndexTicker> onData) => Index_SubscribeToTicker_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Index_SubscribeToTicker(string symbol, Action<OkexIndexTicker> onData) => Index_SubscribeToTicker_Async(symbol, onData).Result;
         /// <summary>
         /// This channel is a public index channel that includes the k-lines and tickers for indices. It can be taken reference to for futures and spot trading.
         /// The indices currently available are all USD-denominated. The asset list includes: BTC, LTC, ETH, ETC, XRP, EOS, BTG.
@@ -38,7 +38,7 @@ namespace Okex.Net
         /// <param name="symbol">The trading pair</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Index_SubscribeToTicker_Async(string symbol, Action<OkexIndexTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Index_SubscribeToTicker_Async(string symbol, Action<OkexIndexTicker> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexIndexTicker>>>(data =>
             {
@@ -58,7 +58,7 @@ namespace Okex.Net
         /// <param name="symbol">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Index_SubscribeToTicker(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData) => Index_SubscribeToTicker_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Index_SubscribeToTicker(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData) => Index_SubscribeToTicker_Async(symbol, onData).Result;
         /// <summary>
         /// This channel is a public index channel that includes the k-lines and tickers for indices. It can be taken reference to for futures and spot trading.
         /// The indices currently available are all USD-denominated. The asset list includes: BTC, LTC, ETH, ETC, XRP, EOS, BTG.
@@ -67,7 +67,7 @@ namespace Okex.Net
         /// <param name="symbol">The underlying symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Index_SubscribeToTicker_Async(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Index_SubscribeToTicker_Async(IEnumerable<string> symbol, Action<OkexOptionsTicker> onData)
         {
             // To List
             var symbolList = symbol.ToList();
@@ -103,7 +103,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Index_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData) => Index_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
+        public virtual CallResult<UpdateSubscription> Index_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData) => Index_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
         /// <summary>
         /// Get the kline information
         /// </summary>
@@ -111,7 +111,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Index_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Index_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexIndexCandleContainer>>>(data =>
             {

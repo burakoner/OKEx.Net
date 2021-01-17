@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapMarginModeConverter : BaseConverter<OkexSwapMarginMode>
+    public class SwapMarginModeConverter : BaseConverter<OkexSwapMarginMode>
     {
         public SwapMarginModeConverter() : this(true) { }
         public SwapMarginModeConverter(bool quotes) : base(quotes) { }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class MarginLoanStateConverter : BaseConverter<OkexMarginLoanState>
+    public class MarginLoanStateConverter : BaseConverter<OkexMarginLoanState>
     {
         public MarginLoanStateConverter() : this(true) { }
         public MarginLoanStateConverter(bool quotes) : base(quotes) { }

@@ -29,7 +29,7 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginBalance>> Margin_GetAllBalances(CancellationToken ct = default) => Margin_GetAllBalances_Async(ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginBalance>> Margin_GetAllBalances(CancellationToken ct = default) => Margin_GetAllBalances_Async(ct).Result;
         /// <summary>
         /// This retrieves the list of assets, (with nonzero balance), remaining balance, and amount available in the margin trading account.
         /// Rate limit: 20 requests per 2 seconds
@@ -37,7 +37,7 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginBalance>>> Margin_GetAllBalances_Async(CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginBalance>>> Margin_GetAllBalances_Async(CancellationToken ct = default)
         {
             return await SendRequest<IEnumerable<OkexMarginBalance>>(GetUrl(Endpoints_Margin_Accounts), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
@@ -49,7 +49,7 @@ namespace Okex.Net
         /// <param name="symbol">[required] trading pair</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginBalance> Margin_GetSymbolBalance(string symbol, CancellationToken ct = default) => Margin_GetSymbolBalance_Async(symbol, ct).Result;
+        public virtual WebCallResult<OkexMarginBalance> Margin_GetSymbolBalance(string symbol, CancellationToken ct = default) => Margin_GetSymbolBalance_Async(symbol, ct).Result;
         /// <summary>
         /// Get the balance, amount on hold and more useful information.
         /// Rate limit: 20 requests per 2 seconds
@@ -57,7 +57,7 @@ namespace Okex.Net
         /// <param name="symbol">[required] trading pair</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginBalance>> Margin_GetSymbolBalance_Async(string symbol, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginBalance>> Margin_GetSymbolBalance_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             return await SendRequest<OkexMarginBalance>(GetUrl(Endpoints_Margin_AccountsOfSymbol, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
@@ -74,7 +74,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id,the parameter is ledger_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginBill>> Margin_GetSymbolBills(string symbol, OkexMarginBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetSymbolBills_Async(symbol, type, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginBill>> Margin_GetSymbolBills(string symbol, OkexMarginBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetSymbolBills_Async(symbol, type, limit, before, after, ct).Result;
         /// <summary>
         /// This retrieves the margin account bills dating back the past 3 months. Pagination is supported and the response is sorted with most recent first in reverse chronological order.
         /// Rate limit: 10 requests per 2 seconds
@@ -86,7 +86,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id,the parameter is ledger_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginBill>>> Margin_GetSymbolBills_Async(string symbol, OkexMarginBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginBill>>> Margin_GetSymbolBills_Async(string symbol, OkexMarginBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -108,14 +108,14 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginAccountSettings>> Margin_GetAccountSettings(CancellationToken ct = default) => Margin_GetAccountSettings_Async(ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginAccountSettings>> Margin_GetAccountSettings(CancellationToken ct = default) => Margin_GetAccountSettings_Async(ct).Result;
         /// <summary>
         /// Retrieve all the information of the margin trading account, including the maximum loan amount, interest rate, and maximum leverage.
         /// Rate limit：20 requests per 2 seconds
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(CancellationToken ct = default)
         {
             return await SendRequest<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettings), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
@@ -127,7 +127,7 @@ namespace Okex.Net
         /// <param name="symbol">[required] trading pair</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginAccountSettings>> Margin_GetAccountSettings(string symbol, CancellationToken ct = default) => Margin_GetAccountSettings_Async(symbol, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginAccountSettings>> Margin_GetAccountSettings(string symbol, CancellationToken ct = default) => Margin_GetAccountSettings_Async(symbol, ct).Result;
         /// <summary>
         /// Get all information of the margin trading account of a specific token, including the maximum loan amount, interest rate, and maximum leverage.
         /// Rate limit：20 requests per 2 seconds
@@ -135,7 +135,7 @@ namespace Okex.Net
         /// <param name="symbol">[required] trading pair</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(string symbol, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(string symbol, CancellationToken ct = default)
         {
             return await SendRequest<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettingsOfCurrency, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
@@ -150,7 +150,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id, the parameter is borrow_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginLoanHistory>> Margin_GetLoanHistory(OkexMarginLoanStatus status, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetLoanHistory_Async(status, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginLoanHistory>> Margin_GetLoanHistory(OkexMarginLoanStatus status, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetLoanHistory_Async(status, limit, before, after, ct).Result;
         /// <summary>
         /// Get loan history of the margin trading account. Pagination is used here. before and after cursor arguments should not be confused with before and after in chronological time. Most paginated requests return the latest information (newest) as the first page sorted by newest (in chronological time) first.
         /// Rate limit：20 requests per 2 seconds
@@ -161,7 +161,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id, the parameter is borrow_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginLoanHistory>>> Margin_GetLoanHistory_Async(OkexMarginLoanStatus status, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginLoanHistory>>> Margin_GetLoanHistory_Async(OkexMarginLoanStatus status, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -185,7 +185,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id, the parameter is borrow_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginLoanHistory>> Margin_GetLoanHistory(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetLoanHistory_Async(symbol, state, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginLoanHistory>> Margin_GetLoanHistory(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetLoanHistory_Async(symbol, state, limit, before, after, ct).Result;
         /// <summary>
         /// Get loan history of the margin trading account of a specific token. Pagination is used here. before and after cursor arguments should not be confused with before and after in chronological time. Most paginated requests return the latest information (newest) as the first page sorted by newest (in chronological time) first.
         /// Rate limit：20 requests per 2 seconds
@@ -197,7 +197,7 @@ namespace Okex.Net
         /// <param name="after">Request page before (older) this pagination id, the parameter is borrow_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginLoanHistory>>> Margin_GetLoanHistory_Async(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginLoanHistory>>> Margin_GetLoanHistory_Async(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -220,7 +220,7 @@ namespace Okex.Net
         /// <param name="clientOrderId"></param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginLoanResponse> Margin_Loan(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default) => Margin_Loan_Async(symbol, currency, amount, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexMarginLoanResponse> Margin_Loan(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default) => Margin_Loan_Async(symbol, currency, amount, clientOrderId, ct).Result;
         /// <summary>
         /// Borrowing tokens in a margin trading account.
         /// Rate limit：100 requests per 2 seconds
@@ -231,7 +231,7 @@ namespace Okex.Net
         /// <param name="clientOrderId"></param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginLoanResponse>> Margin_Loan_Async(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginLoanResponse>> Margin_Loan_Async(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             var parameters = new Dictionary<string, object>
@@ -256,7 +256,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">client-supplied order ID</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginRepaymentResponse> Margin_Repayment(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_Repayment_Async(symbol, currency, amount, borrow_id, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexMarginRepaymentResponse> Margin_Repayment(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_Repayment_Async(symbol, currency, amount, borrow_id, clientOrderId, ct).Result;
         /// <summary>
         /// Repaying tokens in a margin trading account.
         /// Rate limit：100 requests per 2 seconds
@@ -268,7 +268,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">client-supplied order ID</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginRepaymentResponse>> Margin_Repayment_Async(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginRepaymentResponse>> Margin_Repayment_Async(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             var parameters = new Dictionary<string, object>
@@ -335,7 +335,7 @@ namespace Okex.Net
         /// The client_oid is optional and you can customize it using alpha-numeric characters with length 1 to 32. No warning is sent when client_oid is not unique. In case of multiple identical client_oid, only the latest entry will be returned.
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price?.ToDecimalNullable(), order.Size?.ToDecimalNullable(), order.Notional?.ToDecimalNullable(), order.ClientOrderId, ct).Result;
+        public virtual WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(OkexSpotPlaceOrder order, CancellationToken ct = default) => Margin_PlaceOrder_Async(order.Symbol, order.Side, order.Type, order.TimeInForce, order.Price?.ToDecimalNullable(), order.Size?.ToDecimalNullable(), order.Notional?.ToDecimalNullable(), order.ClientOrderId, ct).Result;
         /// <summary>
         /// OKEx API only supports limit and market orders (more order types will become available in the future). You can place an order only if you have enough funds. Once your order is placed, the amount will be put on hold until the order is executed.
         /// Rate limit: 100 requests per 2 seconds （The speed limit is not accumulated between different trading pair symbols)
@@ -441,7 +441,7 @@ namespace Okex.Net
         /// The client_oid is optional and you can customize it using alpha-numeric characters with length 1 to 32. No warning is sent when client_oid is not unique. In case of multiple identical client_oid, only the latest entry will be returned.
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_PlaceOrder_Async(symbol, side, type, timeInForce, price, size, notional, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexSpotPlacedOrder> Margin_PlaceOrder(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_PlaceOrder_Async(symbol, side, type, timeInForce, price, size, notional, clientOrderId, ct).Result;
         /// <summary>
         /// OKEx API only supports limit and market orders (more order types will become available in the future). You can place an order only if you have enough funds. Once your order is placed, the amount will be put on hold until the order is executed.
         /// Rate limit: 100 requests per 2 seconds （The speed limit is not accumulated between different trading pair symbols)
@@ -494,7 +494,7 @@ namespace Okex.Net
         /// The client_oid is optional and you can customize it using alpha-numeric characters with length 1 to 32. No warning is sent when client_oid is not unique. In case of multiple identical client_oid, only the latest entry will be returned.
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexSpotPlacedOrder>> Margin_PlaceOrder_Async(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexSpotPlacedOrder>> Margin_PlaceOrder_Async(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             clientOrderId?.ValidateStringLength("clientOrderId", 0, 32);
@@ -572,7 +572,7 @@ namespace Okex.Net
         /// </param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Symbol grouped order results. Dictionary&lt;string: symbol, IEnumerable&lt;OkexSpotPlacedOrder&gt;: order results&gt;</returns>
-        public WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>> Margin_BatchPlaceOrders(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default) => Margin_BatchPlaceOrders_Async(orders, ct = default).Result;
+        public virtual WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>> Margin_BatchPlaceOrders(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default) => Margin_BatchPlaceOrders_Async(orders, ct = default).Result;
         /// <summary>
         /// This supports placing multiple orders in batches for up to 4 trading pairs and a maximum of 10 orders per trading pair can be placed at a time.
         /// Rate limit: 50 requests per 2 seconds （The speed limit is accumulated between different trading pair symbols)
@@ -615,7 +615,7 @@ namespace Okex.Net
         /// </param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Symbol grouped order results. Dictionary&lt;string: symbol, IEnumerable&lt;OkexSpotPlacedOrder&gt;: order results&gt;</returns>
-        public async Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>> Margin_BatchPlaceOrders_Async(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>> Margin_BatchPlaceOrders_Async(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default)
         {
             if (orders == null || orders.Count() == 0)
                 throw new ArgumentException("Orders cant be null or with zero-elements");
@@ -666,7 +666,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Either client_oid or order_id must be present. the order ID created by yourself , The client_oid type should be comprised of alphabets + numbers or only alphabets within 1 – 32 characters， both uppercase and lowercase letters are supported</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSpotPlacedOrder> Margin_CancelOrder(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_CancelOrder_Async(symbol, orderId, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexSpotPlacedOrder> Margin_CancelOrder(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_CancelOrder_Async(symbol, orderId, clientOrderId, ct).Result;
         /// <summary>
         /// Cancelling an unfilled order.
         /// Rate limit: 100 / 2s （The speed limit is not accumulated between different trading pair symbols)
@@ -679,7 +679,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Either client_oid or order_id must be present. the order ID created by yourself , The client_oid type should be comprised of alphabets + numbers or only alphabets within 1 – 32 characters， both uppercase and lowercase letters are supported</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexSpotPlacedOrder>> Margin_CancelOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexSpotPlacedOrder>> Margin_CancelOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -711,7 +711,7 @@ namespace Okex.Net
         /// </param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>> Margin_BatchCancelOrders(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default) => Margin_BatchCancelOrders_Async(orders, ct).Result;
+        public virtual WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>> Margin_BatchCancelOrders(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default) => Margin_BatchCancelOrders_Async(orders, ct).Result;
         /// <summary>
         /// Cancel multiple open orders with order_id or client_oid. Up to 4 trading pairs, and maximum 10 orders can be canceled at a time for each trading pair.
         /// Rate limit: 50/ 2s （The speed limit is accumulated between different trading pair symbols)
@@ -726,7 +726,7 @@ namespace Okex.Net
         /// </param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>> Margin_BatchCancelOrders_Async(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>> Margin_BatchCancelOrders_Async(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
         {
             if (orders == null || orders.Count() == 0)
                 throw new ArgumentException("Orders cant be null or with zero-elements");
@@ -765,7 +765,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested order_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexSpotOrderDetails>> Margin_GetAllOrders(string symbol, OkexSpotOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetAllOrders_Async(symbol, state, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexSpotOrderDetails>> Margin_GetAllOrders(string symbol, OkexSpotOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetAllOrders_Async(symbol, state, limit, before, after, ct).Result;
         /// <summary>
         /// This retrieves the list of your orders from the most recent 3 months. This request supports paging and is stored according to the order time in chronological order from latest to earliest.
         /// Rate limit: 10 requests per 2 seconds
@@ -782,7 +782,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested order_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexSpotOrderDetails>>> Margin_GetAllOrders_Async(string symbol, OkexSpotOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexSpotOrderDetails>>> Margin_GetAllOrders_Async(string symbol, OkexSpotOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -806,7 +806,7 @@ namespace Okex.Net
         /// <param name="symbol">Currency pair name, such as: BTC-USDT</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginLeverageResponse> Margin_GetLeverage(string symbol, CancellationToken ct = default) => Margin_GetLeverage_Async(symbol, ct).Result;
+        public virtual WebCallResult<OkexMarginLeverageResponse> Margin_GetLeverage(string symbol, CancellationToken ct = default) => Margin_GetLeverage_Async(symbol, ct).Result;
         /// <summary>
         /// Get currency leverage account currency leverage
         /// Rate Limit: 100 requests per 2 seconds
@@ -814,7 +814,7 @@ namespace Okex.Net
         /// <param name="symbol">Currency pair name, such as: BTC-USDT</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginLeverageResponse>> Margin_GetLeverage_Async(string symbol, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginLeverageResponse>> Margin_GetLeverage_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             return await SendRequest<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_GetLeverage, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
@@ -829,7 +829,7 @@ namespace Okex.Net
         /// <param name="leverage">2-10x leverage</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginLeverageResponse> Margin_SetLeverage(string symbol, int leverage, CancellationToken ct = default) => Margin_SetLeverage_Async(symbol, leverage, ct).Result;
+        public virtual WebCallResult<OkexMarginLeverageResponse> Margin_SetLeverage(string symbol, int leverage, CancellationToken ct = default) => Margin_SetLeverage_Async(symbol, leverage, ct).Result;
         /// <summary>
         /// Set the leverage ratio of the currency pair account.
         /// Notes:
@@ -839,7 +839,7 @@ namespace Okex.Net
         /// <param name="leverage">2-10x leverage</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginLeverageResponse>> Margin_SetLeverage_Async(string symbol, int leverage, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginLeverageResponse>> Margin_SetLeverage_Async(string symbol, int leverage, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             var parameters = new Dictionary<string, object>
@@ -864,7 +864,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Client-supplied order ID Either client_oid or order_id must be present.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginOrderDetails> Margin_GetOrderDetails(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_GetOrderDetails_Async(symbol, orderId, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexMarginOrderDetails> Margin_GetOrderDetails(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default) => Margin_GetOrderDetails_Async(symbol, orderId, clientOrderId, ct).Result;
         /// <summary>
         /// Retrieve order details by order ID.Can get order information for nearly 3 months。 Unfilled orders will be kept in record for only two hours after it is canceled.
         /// Rate limit: 20 requests per 2 seconds
@@ -878,7 +878,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Client-supplied order ID Either client_oid or order_id must be present.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexMarginOrderDetails>> Margin_GetOrderDetails_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexMarginOrderDetails>> Margin_GetOrderDetails_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -912,7 +912,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested order_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginOrderDetails>> Margin_GetOpenOrders(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetOpenOrders_Async(symbol, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginOrderDetails>> Margin_GetOpenOrders(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetOpenOrders_Async(symbol, limit, before, after, ct).Result;
         /// <summary>
         /// This retrieves the list of your current open orders. Pagination is supported and the response is sorted with most recent first in reverse chronological order.
         /// Rate limit: 20 requests per 2 seconds
@@ -929,7 +929,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested order_id.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginOrderDetails>>> Margin_GetOpenOrders_Async(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginOrderDetails>>> Margin_GetOpenOrders_Async(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -961,7 +961,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<IEnumerable<OkexMarginTransaction>> Margin_GetTransactionDetails(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetTransactionDetails_Async(symbol, orderId, limit, before, after, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexMarginTransaction>> Margin_GetTransactionDetails(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Margin_GetTransactionDetails_Async(symbol, orderId, limit, before, after, ct).Result;
         /// <summary>
         /// Retrieve recently filled transaction details. Pagination is supported and the response is sorted with most recent first in reverse chronological order. Data for up to 3 months can be retrieved.
         /// Rate limit: 10 requests per 2 seconds
@@ -978,7 +978,7 @@ namespace Okex.Net
         /// <param name="after">Pagination of data to return records earlier than the requested ledger_id</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<IEnumerable<OkexMarginTransaction>>> Margin_GetTransactionDetails_Async(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexMarginTransaction>>> Margin_GetTransactionDetails_Async(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             limit.ValidateIntBetween(nameof(limit), 1, 100);
@@ -1025,7 +1025,7 @@ namespace Okex.Net
         /// <param name="sl_price">SL order price must be between 0 and 1,000,000</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexSpotAlgoPlacedOrder> Margin_AlgoPlaceOrder(
+        public virtual WebCallResult<OkexSpotAlgoPlacedOrder> Margin_AlgoPlaceOrder(
             /* General Parameters */
             string symbol,
             OkexAlgoOrderType type,
@@ -1224,7 +1224,7 @@ namespace Okex.Net
         /// Return Parameter: Return parameter is the order ID of canceled orders. This does not mean that the orders are successfully canceled. Orders that are pending cannot be canceled, only unfulfilled orders can be canceled.
         /// Description: This does not guarantee orders are canceled successfully. Users are advised to request the order list to confirm after using the cancelation endpoint.
         /// </returns>
-        public WebCallResult<OkexSpotAlgoCancelledOrder> Margin_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
+        public virtual WebCallResult<OkexSpotAlgoCancelledOrder> Margin_AlgoCancelOrder(string symbol, OkexAlgoOrderType type, IEnumerable<string> algo_ids, CancellationToken ct = default) => Spot_AlgoCancelOrder_Async(symbol, type, algo_ids, ct).Result;
         /// <summary>
         /// If user use "algo_id" to cancel unfulfilled orders, they can cancel a maximum of 6 iceberg/TWAP or 10 trigger/trail orders at the same time.
         /// Rate limit：20 requests per 2 seconds
@@ -1258,7 +1258,7 @@ namespace Okex.Net
         /// <returns></returns>
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8604 // Possible null reference argument.
-        public WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>> Margin_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
+        public virtual WebCallResult<Dictionary<string, IEnumerable<OkexSpotAlgoOrder>>> Margin_AlgoGetOrders(string symbol, OkexAlgoOrderType type, OkexAlgoStatus? status = null, IEnumerable<string> algo_ids = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default) => Spot_AlgoGetOrders_Async(symbol, type, status, algo_ids, limit, before, after, ct).Result;
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         /// <summary>
@@ -1291,8 +1291,8 @@ namespace Okex.Net
         /// <param name="symbol">Trading pair symbol</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexMarginMarkPrice> Margin_GetMarkPrice(string symbol, CancellationToken ct = default) => Margin_GetMarkPrice_Async(symbol, ct).Result;
-        public async Task<WebCallResult<OkexMarginMarkPrice>> Margin_GetMarkPrice_Async(string symbol, CancellationToken ct = default)
+        public virtual WebCallResult<OkexMarginMarkPrice> Margin_GetMarkPrice(string symbol, CancellationToken ct = default) => Margin_GetMarkPrice_Async(symbol, ct).Result;
+        public virtual async Task<WebCallResult<OkexMarginMarkPrice>> Margin_GetMarkPrice_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
             return await SendRequest<OkexMarginMarkPrice>(GetUrl(Endpoints_Margin_MarkPrice, symbol), HttpMethod.Get, ct).ConfigureAwait(false);

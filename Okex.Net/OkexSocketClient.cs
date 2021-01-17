@@ -25,8 +25,8 @@ namespace Okex.Net
     public partial class OkexSocketClient : SocketClient, IOkexSocketClient
     {
         #region Client Options
-        private static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
-        private static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
+        protected static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
+        protected static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
 
         #region Constructor/Destructor
@@ -58,7 +58,7 @@ namespace Okex.Net
         }
         #endregion
 
-        private static string DecompressData(byte[] byteData)
+        protected static string DecompressData(byte[] byteData)
         {
             using (var decompressedStream = new MemoryStream())
             using (var compressedStream = new MemoryStream(byteData))
@@ -83,6 +83,10 @@ namespace Okex.Net
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8629 // Nullable value type may be null.
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
+        {
+            return this.OkexHandleQueryResponse<T>(s, request, data, out callResult);
+        }
+        protected virtual bool OkexHandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
             callResult = new CallResult<T>(default, null);
 
@@ -128,6 +132,10 @@ namespace Okex.Net
 
         protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
         {
+            return this.OkexHandleSubscriptionResponse(s, subscription, request, message, out callResult);
+        }
+        protected virtual bool OkexHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
+        {
             callResult = null;
 
             // Check for Error
@@ -157,6 +165,10 @@ namespace Okex.Net
         }
 
         protected override bool MessageMatchesHandler(JToken message, object request)
+        {
+            return this.OkexMessageMatchesHandler(message, request);
+        }
+        protected virtual bool OkexMessageMatchesHandler(JToken message, object request)
         {
             if (request is OkexSocketRequest hRequest)
             {
@@ -286,10 +298,18 @@ namespace Okex.Net
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
         {
+            return this.OkexMessageMatchesHandler(message, identifier);
+        }
+        protected virtual bool OkexMessageMatchesHandler(JToken message, string identifier)
+        {
             return true;
         }
 
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+        {
+            return await this.OkexAuthenticateSocket(s);
+        }
+        protected virtual async Task<CallResult<bool>> OkexAuthenticateSocket(SocketConnection s)
         {
             if (Key == null || Secret == null || PassPhrase == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
@@ -335,6 +355,10 @@ namespace Okex.Net
         }
 
         protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        {
+            return await this.OkexUnsubscribe(connection, s);
+        }
+        protected virtual async Task<bool> OkexUnsubscribe(SocketConnection connection, SocketSubscription s)
         {
             if (s == null || s.Request == null)
                 return false;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class AlgoOrderTypeConverter : BaseConverter<OkexAlgoOrderType>
+    public class AlgoOrderTypeConverter : BaseConverter<OkexAlgoOrderType>
     {
         public AlgoOrderTypeConverter() : this(true) { }
         public AlgoOrderTypeConverter(bool quotes) : base(quotes) { }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsDeliverySettlementConverter : BaseConverter<OkexOptionsDeliverySettlement>
+    public class OptionsDeliverySettlementConverter : BaseConverter<OkexOptionsDeliverySettlement>
     {
         public OptionsDeliverySettlementConverter() : this(true) { }
         public OptionsDeliverySettlementConverter(bool quotes) : base(quotes) { }

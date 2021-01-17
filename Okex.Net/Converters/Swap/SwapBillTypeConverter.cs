@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapBillTypeConverter : BaseConverter<OkexSwapBillType>
+    public class SwapBillTypeConverter : BaseConverter<OkexSwapBillType>
     {
         public SwapBillTypeConverter() : this(true) { }
         public SwapBillTypeConverter(bool quotes) : base(quotes) { }

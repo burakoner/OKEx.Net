@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsBillTypeConverter : BaseConverter<OkexOptionsBillType>
+    public class OptionsBillTypeConverter : BaseConverter<OkexOptionsBillType>
     {
         public OptionsBillTypeConverter() : this(true) { }
         public OptionsBillTypeConverter(bool quotes) : base(quotes) { }

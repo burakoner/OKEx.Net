@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FundingWithdrawalDestinationConverter : BaseConverter<OkexFundingWithdrawalDestination>
+    public class FundingWithdrawalDestinationConverter : BaseConverter<OkexFundingWithdrawalDestination>
     {
         public FundingWithdrawalDestinationConverter() : this(true) { }
         public FundingWithdrawalDestinationConverter(bool quotes) : base(quotes) { }

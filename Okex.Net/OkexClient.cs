@@ -33,9 +33,9 @@ namespace Okex.Net
         #endregion
 
         #region Private Fields
-        private static OkexClientOptions defaultOptions = new OkexClientOptions();
-        private static OkexClientOptions DefaultOptions => defaultOptions.Copy();
-        private readonly CultureInfo ci = CultureInfo.InvariantCulture;
+        protected static OkexClientOptions defaultOptions = new OkexClientOptions();
+        protected static OkexClientOptions DefaultOptions => defaultOptions.Copy();
+        protected readonly CultureInfo ci = CultureInfo.InvariantCulture;
         #endregion
 
         #region Constructor/Destructor
@@ -71,14 +71,27 @@ namespace Okex.Net
         /// <param name="apiKey">The api key</param>
         /// <param name="apiSecret">The api secret</param>
         /// <param name="passPhrase">The passphrase you specified when creating the API key</param>
-        public void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
+        public virtual void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
         {
             SetAuthenticationProvider(new OkexAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), passPhrase, SignPublicRequests, ArrayParametersSerialization.Array));
         }
         #endregion
 
         #region Core Methods
+        protected virtual Uri GetUrl(string endpoint, string param = "")
+        {
+            var x = endpoint.IndexOf('<');
+            var y = endpoint.IndexOf('>');
+            if (x > -1 && y > -1) endpoint = endpoint.Replace(endpoint.Substring(x, y - x + 1), param);
+
+            return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
+        }
+
         protected override IRequest ConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed, PostParameters postPosition, ArrayParametersSerialization arraySerialization, int requestId)
+        {
+            return this.OkexConstructRequest(uri, method, parameters, signed, postPosition, arraySerialization, requestId);
+        }
+        protected virtual IRequest OkexConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed, PostParameters postPosition, ArrayParametersSerialization arraySerialization, int requestId)
         {
             if (parameters == null)
                 parameters = new Dictionary<string, object>();
@@ -122,6 +135,10 @@ namespace Okex.Net
 
         protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
         {
+            this.OkexWriteParamBody(request, parameters, contentType);
+        }
+        protected virtual void OkexWriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
+        {
             if (requestBodyFormat == RequestBodyFormat.Json)
             {
                 if (parameters.Count == 1 && parameters.Keys.First() == BodyParameterKey)
@@ -156,24 +173,14 @@ namespace Okex.Net
 
         protected override Error ParseErrorResponse(JToken error)
         {
+            return this.OkexParseErrorResponse(error);
+        }
+        protected virtual Error OkexParseErrorResponse(JToken error)
+        {
             if (error["code"] == null || error["message"] == null)
                 return new ServerError(error.ToString());
 
             return new ServerError((int)error["code"]!, (string)error["message"]!);
-        }
-
-        protected Uri GetUrl(string endpoint, string param = "")
-        {
-            var x = endpoint.IndexOf('<');
-            var y = endpoint.IndexOf('>');
-            if (x > -1 && y > -1) endpoint = endpoint.Replace(endpoint.Substring(x, y - x + 1), param);
-
-            return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
-        }
-
-        private static long ToUnixTimestamp(DateTime time)
-        {
-            return (long)(time - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
 
         #endregion

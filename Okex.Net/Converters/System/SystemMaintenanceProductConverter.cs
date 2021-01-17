@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SystemMaintenanceProductConverter : BaseConverter<OkexSystemMaintenanceProduct>
+    public class SystemMaintenanceProductConverter : BaseConverter<OkexSystemMaintenanceProduct>
     {
         public SystemMaintenanceProductConverter() : this(true) { }
         public SystemMaintenanceProductConverter(bool quotes) : base(quotes) { }

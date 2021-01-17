@@ -26,14 +26,14 @@ namespace Okex.Net
         /// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToTicker(string symbol, Action<OkexSpotTicker> onData) => Spot_SubscribeToTicker_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToTicker(string symbol, Action<OkexSpotTicker> onData) => Spot_SubscribeToTicker_Async(symbol, onData).Result;
         /// <summary>
         /// Retrieve the latest price, best bid & offer and 24-hours trading volume of a single contract.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTicker_Async(string symbol, Action<OkexSpotTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTicker_Async(string symbol, Action<OkexSpotTicker> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -53,13 +53,13 @@ namespace Okex.Net
         /// <param name="symbols">Trading pair symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexSpotTicker> onData) => Spot_SubscribeToTicker_Async(symbols, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexSpotTicker> onData) => Spot_SubscribeToTicker_Async(symbols, onData).Result;
         /// <summary>
         /// Subscribes tickers for multiple symbols
         /// </summary>
         /// <param name="symbols">Trading pair symbols. Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexSpotTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexSpotTicker> onData)
         {
             // To List
             var symbolList = symbols.ToList();
@@ -95,7 +95,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData) => Spot_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData) => Spot_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
         /// <summary>
         /// Retrieve the candlestick data
         /// </summary>
@@ -103,7 +103,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexSpotCandle> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -128,14 +128,14 @@ namespace Okex.Net
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToTrades(string symbol, Action<OkexSpotTrade> onData) => Spot_SubscribeToTrades_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToTrades(string symbol, Action<OkexSpotTrade> onData) => Spot_SubscribeToTrades_Async(symbol, onData).Result;
         /// <summary>
         /// Get the filled orders data
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, Action<OkexSpotTrade> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, Action<OkexSpotTrade> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -158,7 +158,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData) => Spot_SubscribeToTrades_Async(symbol, depth, onData).Result;
         /// <summary>
         /// Depth-Five: Back to the previous five entries of depth data,This data is snapshot data per 100 milliseconds.For every 100 milliseconds, we will snapshot and push 5 entries of market depth data of the current order book.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
@@ -168,7 +168,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToTrades_Async(string symbol, OkexOrderBookDepth depth, Action<OkexSpotOrderBook> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -199,14 +199,14 @@ namespace Okex.Net
         /// <param name="currency">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => Spot_SubscribeToBalance_Async(currency, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToBalance(string currency, Action<OkexSpotBalance> onData) => Spot_SubscribeToBalance_Async(currency, onData).Result;
         /// <summary>
         /// Retrieve the user's spot account information (login authentication required).
         /// </summary>
         /// <param name="currency">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToBalance_Async(string currency, Action<OkexSpotBalance> onData)
         {
             currency = currency.ValidateCurrency();
 
@@ -226,14 +226,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData) => Spot_SubscribeToOrders_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToOrders(string symbol, Action<OkexSpotOrderDetails> onData) => Spot_SubscribeToOrders_Async(symbol, onData).Result;
         /// <summary>
         /// Retrieve the user's transaction information (login authentication required).
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToOrders_Async(string symbol, Action<OkexSpotOrderDetails> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -253,14 +253,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Spot_SubscribeToAlgoOrders(string symbol, Action<OkexSpotAlgoOrder> onData) => Spot_SubscribeToAlgoOrders_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Spot_SubscribeToAlgoOrders(string symbol, Action<OkexSpotAlgoOrder> onData) => Spot_SubscribeToAlgoOrders_Async(symbol, onData).Result;
         /// <summary>
         /// Users must login to obtain trading data.
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Spot_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSpotAlgoOrder> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Spot_SubscribeToAlgoOrders_Async(string symbol, Action<OkexSpotAlgoOrder> onData)
         {
             symbol = symbol.ValidateSymbol();
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FuturesMarginModeConverter : BaseConverter<OkexFuturesMarginMode>
+    public class FuturesMarginModeConverter : BaseConverter<OkexFuturesMarginMode>
     {
         public FuturesMarginModeConverter() : this(true) { }
         public FuturesMarginModeConverter(bool quotes) : base(quotes) { }

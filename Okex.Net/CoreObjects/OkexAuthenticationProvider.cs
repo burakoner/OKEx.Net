@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Okex.Net.CoreObjects
 {
-    internal class OkexAuthenticationProvider : AuthenticationProvider
+    public class OkexAuthenticationProvider : AuthenticationProvider
     {
         private readonly SecureString? PassPhrase;
         private readonly HMACSHA256 encryptor;

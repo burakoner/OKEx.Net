@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FuturesBillTypeConverter : BaseConverter<OkexFuturesBillType>
+    public class FuturesBillTypeConverter : BaseConverter<OkexFuturesBillType>
     {
         public FuturesBillTypeConverter() : this(true) { }
         public FuturesBillTypeConverter(bool quotes) : base(quotes) { }

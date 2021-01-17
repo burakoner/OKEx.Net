@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapTimeInForceConverter : BaseConverter<OkexSwapTimeInForce>
+    public class SwapTimeInForceConverter : BaseConverter<OkexSwapTimeInForce>
     {
         public SwapTimeInForceConverter() : this(true) { }
         public SwapTimeInForceConverter(bool quotes) : base(quotes) { }

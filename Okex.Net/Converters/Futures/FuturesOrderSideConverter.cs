@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class FuturesOrderSideConverter : BaseConverter<OkexFuturesOrderSide>
+    public class FuturesOrderSideConverter : BaseConverter<OkexFuturesOrderSide>
     {
         public FuturesOrderSideConverter() : this(true) { }
         public FuturesOrderSideConverter(bool quotes) : base(quotes) { }

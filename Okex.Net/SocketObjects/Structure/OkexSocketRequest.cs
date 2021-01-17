@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Okex.Net.SocketObjects.Structure
 {
-    internal class OkexSocketRequest
+    public class OkexSocketRequest
     {
         [JsonProperty("op"), JsonConverter(typeof(OkexSocketOperationConverter))]
         public OkexSocketOperation Operation { get; set; }
@@ -26,14 +26,14 @@ namespace Okex.Net.SocketObjects.Structure
         }
     }
 
-    internal enum OkexSocketOperation
+    public enum OkexSocketOperation
     {
         Subscribe,
         Unsubscribe,
         Login,
     }
 
-    internal class OkexSocketOperationConverter : BaseConverter<OkexSocketOperation>
+    public class OkexSocketOperationConverter : BaseConverter<OkexSocketOperation>
     {
         public OkexSocketOperationConverter() : this(true) { }
         public OkexSocketOperationConverter(bool quotes) : base(quotes) { }

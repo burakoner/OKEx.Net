@@ -27,14 +27,14 @@ namespace Okex.Net
         /// </summary>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToContracts(Action<OkexFuturesContract> onData) => Futures_SubscribeToContracts_Async(onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToContracts(Action<OkexFuturesContract> onData) => Futures_SubscribeToContracts_Async(onData).Result;
         /// <summary>
         /// Complete List of Contracts
         /// When a new contract is available for trading after settlement, full contract data of all currency will be pushed in this channel ,no login required.
         /// </summary>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToContracts_Async(Action<OkexFuturesContract> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToContracts_Async(Action<OkexFuturesContract> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<IEnumerable<OkexFuturesContract>>>>(data =>
             {
@@ -53,14 +53,14 @@ namespace Okex.Net
         /// <param name="symbol">Trading contract symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToTicker(string symbol, Action<OkexFuturesTicker> onData) => Futures_SubscribeToTicker_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToTicker(string symbol, Action<OkexFuturesTicker> onData) => Futures_SubscribeToTicker_Async(symbol, onData).Result;
         /// <summary>
         /// To capture the latest traded price, best-bid price, best-ask price, 24-hour trading volume etc for the contract,data is pushed every 100ms.
         /// </summary>
         /// <param name="symbol">Trading contract symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTicker_Async(string symbol, Action<OkexFuturesTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTicker_Async(string symbol, Action<OkexFuturesTicker> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -80,14 +80,14 @@ namespace Okex.Net
         /// <param name="symbols">Trading pair symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData) => Futures_SubscribeToTicker_Async(symbols, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToTicker(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData) => Futures_SubscribeToTicker_Async(symbols, onData).Result;
         /// <summary>
         /// To capture the latest traded price, best-bid price, best-ask price, 24-hour trading volume etc for the contract,data is pushed every 100ms.
         /// </summary>
         /// <param name="symbols">Trading pair symbols Maximum Length: 100 symbols</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTicker_Async(IEnumerable<string> symbols, Action<OkexFuturesTicker> onData)
         {
             // To List
             var symbolList = symbols.ToList();
@@ -123,7 +123,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData) => Futures_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToCandlesticks(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData) => Futures_SubscribeToCandlesticks_Async(symbol, period, onData).Result;
         /// <summary>
         /// Retrieve the candlestick data
         /// </summary>
@@ -131,7 +131,7 @@ namespace Okex.Net
         /// <param name="period">The period of a single candlestick</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexFuturesCandle> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -156,14 +156,14 @@ namespace Okex.Net
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToTrades(string symbol, Action<OkexFuturesTrade> onData) => Futures_SubscribeToTrades_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToTrades(string symbol, Action<OkexFuturesTrade> onData) => Futures_SubscribeToTrades_Async(symbol, onData).Result;
         /// <summary>
         /// Get the filled orders data
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTrades_Async(string symbol, Action<OkexFuturesTrade> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToTrades_Async(string symbol, Action<OkexFuturesTrade> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -183,14 +183,14 @@ namespace Okex.Net
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToPriceRange(string symbol, Action<OkexFuturesPriceRange> onData) => Futures_SubscribeToPriceRange_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToPriceRange(string symbol, Action<OkexFuturesPriceRange> onData) => Futures_SubscribeToPriceRange_Async(symbol, onData).Result;
         /// <summary>
         /// The maximum buying price and the minimum selling price of the contract.When the limit price is changed, data is pushed once every 5 seconds, and when the limit price is not changed, data is not pushed.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToPriceRange_Async(string symbol, Action<OkexFuturesPriceRange> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToPriceRange_Async(string symbol, Action<OkexFuturesPriceRange> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -210,14 +210,14 @@ namespace Okex.Net
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToEstimatedPrice(string symbol, Action<OkexFuturesEstimatedPrice> onData) => Futures_SubscribeToEstimatedPrice_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToEstimatedPrice(string symbol, Action<OkexFuturesEstimatedPrice> onData) => Futures_SubscribeToEstimatedPrice_Async(symbol, onData).Result;
         /// <summary>
         /// Get estimated price，the estimated delivery price will be pushed one hour before the delivery, and it will be pushed if there is a change.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToEstimatedPrice_Async(string symbol, Action<OkexFuturesEstimatedPrice> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToEstimatedPrice_Async(string symbol, Action<OkexFuturesEstimatedPrice> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -240,7 +240,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData) => Futures_SubscribeToOrderBook_Async(symbol, depth, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToOrderBook(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData) => Futures_SubscribeToOrderBook_Async(symbol, depth, onData).Result;
         /// <summary>
         /// Depth-Five: The latest 5 entries of the market depth data is snapshooted and pushed every 100 milliseconds.
         /// Depth-All: After subscription, 400 entries of market depth data of the order book will first be pushed. Subsequently every 100 milliseconds we will snapshot and push entries that have changed during this time.
@@ -250,7 +250,7 @@ namespace Okex.Net
         /// <param name="depth">Order Book Depth</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToOrderBook_Async(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToOrderBook_Async(string symbol, OkexOrderBookDepth depth, Action<OkexFuturesOrderBook> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -278,14 +278,14 @@ namespace Okex.Net
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToMarkPrice(string symbol, Action<OkexFuturesMarkPrice> onData) => Futures_SubscribeToMarkPrice_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToMarkPrice(string symbol, Action<OkexFuturesMarkPrice> onData) => Futures_SubscribeToMarkPrice_Async(symbol, onData).Result;
         /// <summary>
         /// Get the mark price，when the mark price changes, data is pushed once every 200ms, and when the mark price is not changed, data is pushed once every 10s.
         /// </summary>
 		/// <param name="symbol">Trading pair symbol</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToMarkPrice_Async(string symbol, Action<OkexFuturesMarkPrice> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToMarkPrice_Async(string symbol, Action<OkexFuturesMarkPrice> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -309,14 +309,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToPositions(string symbol, Action<OkexFuturesPosition> onData) => Futures_SubscribeToPositions_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToPositions(string symbol, Action<OkexFuturesPosition> onData) => Futures_SubscribeToPositions_Async(symbol, onData).Result;
         /// <summary>
         /// Get the information of holding positions of a contract. require login
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToPositions_Async(string symbol, Action<OkexFuturesPosition> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToPositions_Async(string symbol, Action<OkexFuturesPosition> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesPosition>>>(data =>
             {
@@ -334,14 +334,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToBalance(string symbol, Action<OkexFuturesBalance> onData) => Futures_SubscribeToBalance_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToBalance(string symbol, Action<OkexFuturesBalance> onData) => Futures_SubscribeToBalance_Async(symbol, onData).Result;
         /// <summary>
         /// Get the user's account information , require login.
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToBalance_Async(string symbol, Action<OkexFuturesBalance> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToBalance_Async(string symbol, Action<OkexFuturesBalance> onData)
         {
             var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesBalances>>>(data =>
             {
@@ -360,14 +360,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToOrders(string symbol, Action<OkexFuturesOrder> onData) => Futures_SubscribeToOrders_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToOrders(string symbol, Action<OkexFuturesOrder> onData) => Futures_SubscribeToOrders_Async(symbol, onData).Result;
         /// <summary>
         /// Get user's order information , require login .
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToOrders_Async(string symbol, Action<OkexFuturesOrder> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToOrders_Async(string symbol, Action<OkexFuturesOrder> onData)
         {
             symbol = symbol.ValidateSymbol();
 
@@ -387,14 +387,14 @@ namespace Okex.Net
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public CallResult<UpdateSubscription> Futures_SubscribeToAlgoOrders(string symbol, Action<OkexFuturesAlgoOrder> onData) => Futures_SubscribeToAlgoOrders_Async(symbol, onData).Result;
+        public virtual CallResult<UpdateSubscription> Futures_SubscribeToAlgoOrders(string symbol, Action<OkexFuturesAlgoOrder> onData) => Futures_SubscribeToAlgoOrders_Async(symbol, onData).Result;
         /// <summary>
         /// Users must login to obtain trading data.
         /// </summary>
         /// <param name="symbol">Instrument Id</param>
         /// <param name="onData">The handler for updates</param>
         /// <returns></returns>
-        public async Task<CallResult<UpdateSubscription>> Futures_SubscribeToAlgoOrders_Async(string symbol, Action<OkexFuturesAlgoOrder> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToAlgoOrders_Async(string symbol, Action<OkexFuturesAlgoOrder> onData)
         {
             symbol = symbol.ValidateSymbol();
 

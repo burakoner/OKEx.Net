@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SwapDirectionConverter : BaseConverter<OkexSwapDirection>
+    public class SwapDirectionConverter : BaseConverter<OkexSwapDirection>
     {
         public SwapDirectionConverter() : this(true) { }
         public SwapDirectionConverter(bool quotes) : base(quotes) { }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotOrderStateConverter : BaseConverter<OkexSpotOrderState>
+    public class SpotOrderStateConverter : BaseConverter<OkexSpotOrderState>
     {
         public SpotOrderStateConverter() : this(true) { }
         public SpotOrderStateConverter(bool quotes) : base(quotes) { }

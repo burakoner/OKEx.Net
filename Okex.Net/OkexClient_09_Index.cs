@@ -19,7 +19,7 @@ namespace Okex.Net
         /// <param name="symbol">trading pair of index . for example, such as BTC/USD index is BTC-USD, BTC/USDT index is BTC-USDT, and EOS/BTC index is EOS-BTC</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public WebCallResult<OkexIndexConstituents> Index_GetConstituents(string symbol, CancellationToken ct = default) => Index_GetConstituents_Async(symbol, ct).Result;
+        public virtual WebCallResult<OkexIndexConstituents> Index_GetConstituents(string symbol, CancellationToken ct = default) => Index_GetConstituents_Async(symbol, ct).Result;
         /// <summary>
         /// get constituents of index
         /// Rate limit: 20 20 requests per 2 seconds
@@ -27,7 +27,7 @@ namespace Okex.Net
         /// <param name="symbol">trading pair of index . for example, such as BTC/USD index is BTC-USD, BTC/USDT index is BTC-USDT, and EOS/BTC index is EOS-BTC</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public async Task<WebCallResult<OkexIndexConstituents>> Index_GetConstituents_Async(string symbol, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexIndexConstituents>> Index_GetConstituents_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
 

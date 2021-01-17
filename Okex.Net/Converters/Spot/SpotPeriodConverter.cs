@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class SpotPeriodConverter : BaseConverter<OkexSpotPeriod>
+    public class SpotPeriodConverter : BaseConverter<OkexSpotPeriod>
     {
         public SpotPeriodConverter() : this(true) { }
         public SpotPeriodConverter(bool quotes) : base(quotes) { }

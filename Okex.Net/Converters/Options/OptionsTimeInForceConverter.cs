@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class OptionsTimeInForceConverter : BaseConverter<OkexOptionsTimeInForce>
+    public class OptionsTimeInForceConverter : BaseConverter<OkexOptionsTimeInForce>
     {
         public OptionsTimeInForceConverter() : this(true) { }
         public OptionsTimeInForceConverter(bool quotes) : base(quotes) { }
