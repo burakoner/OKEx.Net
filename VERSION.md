@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 2.0.1 - 01 Feb 2021
+    * Updated CryptoExchange.Net to 3.6.0
+
 * Version 2.0.0 - 17 Jan 2021
     * All methods are virtual now. You can customize methods by overriding.
     * Fixed several minor bugs
