@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 2.0.2 - 23 Feb 2021
+    * Fixed WebSocket Client Ping query response bug
+
 * Version 2.0.1 - 01 Feb 2021
     * Updated CryptoExchange.Net to 3.6.0
 

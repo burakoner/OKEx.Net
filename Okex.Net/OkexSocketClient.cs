@@ -90,15 +90,6 @@ namespace Okex.Net
         {
             callResult = new CallResult<T>(default, null);
 
-            // Check for Error
-            // 30040: {0} Channel : {1} doesn't exist
-            if (data["event"] != null && (string)data["event"]! == "error" && data["errorCode"] != null)
-            {
-                log.Write(LogVerbosity.Warning, "Query failed: " + (string)data["message"]!);
-                callResult = new CallResult<T>(default, new ServerError($"{(string)data["errorCode"]!}, {(string)data["message"]!}"));
-                return true;
-            }
-
             // Ping Request
             if (data.ToString() == "pong")
             {
@@ -113,8 +104,17 @@ namespace Okex.Net
                 return true;
             }
 
+            // Check for Error
+            // 30040: {0} Channel : {1} doesn't exist
+            if (data is JObject && data["event"] != null && (string)data["event"]! == "error" && data["errorCode"] != null)
+            {
+                log.Write(LogVerbosity.Warning, "Query failed: " + (string)data["message"]!);
+                callResult = new CallResult<T>(default, new ServerError($"{(string)data["errorCode"]!}, {(string)data["message"]!}"));
+                return true;
+            }
+
             // Login Request
-            if (data["event"] != null && (string)data["event"]! == "login")
+            if (data is JObject && data["event"] != null && (string)data["event"]! == "login")
             {
                 var desResult = Deserialize<T>(data, false);
                 if (!desResult)

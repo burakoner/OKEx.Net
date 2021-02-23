@@ -7,10 +7,10 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>2.0.1</Version>
-    <FileVersion>2.0.1.0</FileVersion>
-    <PackageVersion>2.0.1</PackageVersion>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <Version>2.0.2</Version>
+    <FileVersion>2.0.2.0</FileVersion>
+    <PackageVersion>2.0.2</PackageVersion>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
     <Description>Okex.Net is a .Net wrapper for the Okex API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -19,8 +19,8 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-      Version 2.0.1 - 02 Feb 2021
-      - Updated CryptoExchange.Net to 3.6.0
+    Version 2.0.2 - 23 Feb 2021
+    - Fixed WebSocket Client Ping query response bug
     </PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
