@@ -38,8 +38,8 @@ namespace Okex.Net.Interfaces
         Task<WebCallResult<OkexOptionsOrderBook>> Options_GetOrderBook_Async(string instrument, int size, CancellationToken ct = default);
         WebCallResult<OkexOptionsOrder> Options_GetOrderDetails(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
         Task<WebCallResult<OkexOptionsOrder>> Options_GetOrderDetails_Async(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
-        WebCallResult<OkexOptionsPositions> Options_GetPositions(string underlying, string? instrument = null, CancellationToken ct = default);
-        Task<WebCallResult<OkexOptionsPositions>> Options_GetPositions_Async(string underlying, string? instrument = null, CancellationToken ct = default);
+        WebCallResult<IEnumerable<OkexOptionsPosition>> Options_GetPositions(string underlying, string? instrument = null, CancellationToken ct = default);
+        Task<WebCallResult<IEnumerable<OkexOptionsPosition>>> Options_GetPositions_Async(string underlying, string? instrument = null, CancellationToken ct = default);
         WebCallResult<IEnumerable<OkexOptionsSettlementHistory>> Options_GetSettlementHistory(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
         Task<WebCallResult<IEnumerable<OkexOptionsSettlementHistory>>> Options_GetSettlementHistory_Async(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
         WebCallResult<OkexOptionsTicker> Options_GetTicker(string instrument, CancellationToken ct = default);
