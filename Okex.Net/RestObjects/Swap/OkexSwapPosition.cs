@@ -102,8 +102,8 @@ namespace Okex.Net.RestObjects
         /// <summary>
         /// Side
         /// </summary>
-        [JsonProperty("side"), JsonConverter(typeof(SwapOrderSideConverter))]
-        public OkexSwapOrderSide Side { get; set; }
+        [JsonProperty("side"), JsonConverter(typeof(SwapDirectionConverter))]
+        public OkexSwapDirection Direction { get; set; }
 
         /// <summary>
         /// Realized Profit and loss
