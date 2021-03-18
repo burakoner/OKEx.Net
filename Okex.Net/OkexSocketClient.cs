@@ -248,13 +248,11 @@ namespace Okex.Net
                         }
                     }
                 }
-
-                #region Exceptional Matchings
-
-                return (table == "futures/instruments" || table == "futures/account" || table == "swap/account") &&
-                       hRequest.Arguments.Contains(table);
-
-                #endregion
+                else
+                {
+                    return table == "futures/instruments" && hRequest.Arguments.Contains(table) ||
+                           (table == "futures/account" || table == "swap/account") && hRequest.Arguments.Any(a => a.StartsWith(table));
+                }
             }
 
             return false;
