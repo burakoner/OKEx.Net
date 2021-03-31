@@ -24,7 +24,7 @@ namespace Okex.Net.RestObjects
         /// Order ID
         /// </summary>
         [JsonProperty("order_id")]
-        public long OrderId { get; set; }
+        public long? OrderId { get; set; }
 
         /// <summary>
         /// Order time

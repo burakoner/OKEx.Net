@@ -9,7 +9,7 @@ namespace Okex.Net.Examples
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private  static void Main(string[] args)
         {
             // Okex Rest Api Client
             OkexClient api = new OkexClient();
