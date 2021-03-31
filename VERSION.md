@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 2.1.0 - 31 Mar 2021
+    * Updated dependencies
+
 * Version 2.0.2 - 23 Feb 2021
     * Fixed WebSocket Client Ping query response bug
 
