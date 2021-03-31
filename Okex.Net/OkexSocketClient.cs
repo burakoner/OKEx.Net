@@ -24,72 +24,72 @@ namespace Okex.Net
     /// </summary>
     public partial class OkexSocketClient : SocketClient, IOkexSocketClient
     {
+        private const string InstrumentIdChannelKey = "instrument_id";
+        private const string UnderlyingChannelKey = "underlying";
+
+        // Match Lists
+        Dictionary<string, string>? channelKeyByTable = new Dictionary<string, string>
+        {
+            {"spot/ticker", InstrumentIdChannelKey}, // Spot Tickers Update
+            {"spot/candle", InstrumentIdChannelKey}, // Spot Candlesticks Update
+            {"spot/trade", InstrumentIdChannelKey}, // Spot Trades Update
+            {"spot/depth_l2_tbt", InstrumentIdChannelKey}, // Spot Depth-TBT Update
+            {"spot/depth5", InstrumentIdChannelKey}, // Spot Depth-5 Update
+            {"spot/depth", InstrumentIdChannelKey}, // Spot Depth-400 Update
+            {"spot/order", InstrumentIdChannelKey}, // Spot Orders Update (Private)
+            {"spot/order_algo", InstrumentIdChannelKey}, // Spot Algo Orders Update (Private)
+
+            {"spot/margin_account", InstrumentIdChannelKey}, // Margin Balance Update (Private)
+
+            {"futures/ticker", InstrumentIdChannelKey}, // Futures Tickers Update
+            {"futures/candle", InstrumentIdChannelKey}, // Futures Candlesticks Update
+            {"futures/trade", InstrumentIdChannelKey}, // Futures Trades Update
+            {"futures/price_range", InstrumentIdChannelKey}, // Futures Price Range Update
+            {"futures/estimated_price", InstrumentIdChannelKey}, // Futures Estimated Price Update
+            {"futures/depth_l2_tbt", InstrumentIdChannelKey}, // Futures Depth-TBT Update
+            {"futures/depth5", InstrumentIdChannelKey}, // Futures Depth-5 Update
+            {"futures/depth", InstrumentIdChannelKey}, // Futures Depth-400 Update
+            {"futures/mark_price", InstrumentIdChannelKey}, // Futures Mark Price Update
+            {"futures/position", InstrumentIdChannelKey}, // Futures Positions Update (Private)
+            {"futures/order", InstrumentIdChannelKey}, // Futures Orders Update (Private)
+            {"futures/order_algo", InstrumentIdChannelKey}, // Futures Algo Orders Update (Private)
+
+            {"swap/ticker", InstrumentIdChannelKey}, // Perpetual Swap Tickers Update
+            {"swap/candle", InstrumentIdChannelKey}, // Perpetual Swap Candlesticks Update
+            {"swap/trade", InstrumentIdChannelKey}, // Perpetual Swap Trades Update
+            {"swap/funding_rate", InstrumentIdChannelKey}, // Perpetual Swap Funding Rate Update
+            {"swap/price_range", InstrumentIdChannelKey}, // Perpetual Swap Price Range Update
+            {"swap/depth_l2_tbt", InstrumentIdChannelKey}, // Perpetual Swap Depth-TBT Update
+            {"swap/depth5", InstrumentIdChannelKey}, // Perpetual Swap Depth-5 Update
+            {"swap/depth", InstrumentIdChannelKey}, // Perpetual Swap Depth-400 Update
+            {"swap/mark_price", InstrumentIdChannelKey}, // Perpetual Swap Mark Price Update
+            {"swap/position", InstrumentIdChannelKey}, // Perpetual Swap Positions Update (Private)
+            {"swap/order", InstrumentIdChannelKey}, // Perpetual Swap Orders Update (Private)
+            {"swap/order_algo", InstrumentIdChannelKey}, // Perpetual Swap Algo Orders Update (Private)
+
+            {"option/candle", InstrumentIdChannelKey}, // Options Candlesticks Update
+            {"option/trade", InstrumentIdChannelKey}, // Options Trades Update
+            {"option/ticker", InstrumentIdChannelKey}, // Options Tickers Update
+            {"option/depth_l2_tbt", InstrumentIdChannelKey}, // Options Depth-TBT Update
+            {"option/depth5", InstrumentIdChannelKey}, // Options Depth-5 Update
+            {"option/depth", InstrumentIdChannelKey}, // Options Depth-400 Update
+            {"option/position", InstrumentIdChannelKey}, // Options Positions Update (Private)
+            {"option/order", InstrumentIdChannelKey}, // Options Orders Update (Private)
+
+            {"index/ticker", InstrumentIdChannelKey}, // Index Tickers Update
+            {"index/candle", InstrumentIdChannelKey}, // Index Candlesticks Update
+
+            {"spot/account", "currency"}, // Spot Balance Update (Private)
+
+            {"option/instruments", UnderlyingChannelKey}, // Options Contracts Update
+            {"option/summary", UnderlyingChannelKey}, // Options Market Data Update
+            {"option/account", UnderlyingChannelKey}, // Options Balance Update (Private)
+        };
+
         #region Client Options
         protected static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
         protected static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
-
-        // Match Lists
-        private const string channelKey_Currency = "currency";
-        private const string channelKey_InstrumentId = "instrument_id";
-        private const string channelKey_Underlying = "underlying";
-        Dictionary<string, string> channelKeys = new Dictionary<string, string>
-        {
-            {"spot/ticker", channelKey_InstrumentId}, // Spot Tickers Update
-            {"spot/candle", channelKey_InstrumentId}, // Spot Candlesticks Update
-            {"spot/trade", channelKey_InstrumentId}, // Spot Trades Update
-            {"spot/depth_l2_tbt", channelKey_InstrumentId}, // Spot Depth-TBT Update
-            {"spot/depth5", channelKey_InstrumentId}, // Spot Depth-5 Update
-            {"spot/depth", channelKey_InstrumentId}, // Spot Depth-400 Update
-            {"spot/order", channelKey_InstrumentId}, // Spot Orders Update (Private)
-            {"spot/order_algo", channelKey_InstrumentId}, // Spot Algo Orders Update (Private)
-
-            {"spot/margin_account", channelKey_InstrumentId}, // Margin Balance Update (Private)
-
-            {"futures/ticker", channelKey_InstrumentId}, // Futures Tickers Update
-            {"futures/candle", channelKey_InstrumentId}, // Futures Candlesticks Update
-            {"futures/trade", channelKey_InstrumentId}, // Futures Trades Update
-            {"futures/price_range", channelKey_InstrumentId}, // Futures Price Range Update
-            {"futures/estimated_price", channelKey_InstrumentId}, // Futures Estimated Price Update
-            {"futures/depth_l2_tbt", channelKey_InstrumentId}, // Futures Depth-TBT Update
-            {"futures/depth5", channelKey_InstrumentId}, // Futures Depth-5 Update
-            {"futures/depth", channelKey_InstrumentId}, // Futures Depth-400 Update
-            {"futures/mark_price", channelKey_InstrumentId}, // Futures Mark Price Update
-            {"futures/position", channelKey_InstrumentId}, // Futures Positions Update (Private)
-            {"futures/order", channelKey_InstrumentId}, // Futures Orders Update (Private)
-            {"futures/order_algo", channelKey_InstrumentId}, // Futures Algo Orders Update (Private)
-
-            {"swap/ticker", channelKey_InstrumentId}, // Perpetual Swap Tickers Update
-            {"swap/candle", channelKey_InstrumentId}, // Perpetual Swap Candlesticks Update
-            {"swap/trade", channelKey_InstrumentId}, // Perpetual Swap Trades Update
-            {"swap/funding_rate", channelKey_InstrumentId}, // Perpetual Swap Funding Rate Update
-            {"swap/price_range", channelKey_InstrumentId}, // Perpetual Swap Price Range Update
-            {"swap/depth_l2_tbt", channelKey_InstrumentId}, // Perpetual Swap Depth-TBT Update
-            {"swap/depth5", channelKey_InstrumentId}, // Perpetual Swap Depth-5 Update
-            {"swap/depth", channelKey_InstrumentId}, // Perpetual Swap Depth-400 Update
-            {"swap/mark_price", channelKey_InstrumentId}, // Perpetual Swap Mark Price Update
-            {"swap/position", channelKey_InstrumentId}, // Perpetual Swap Positions Update (Private)
-            {"swap/order", channelKey_InstrumentId}, // Perpetual Swap Orders Update (Private)
-            {"swap/order_algo", channelKey_InstrumentId}, // Perpetual Swap Algo Orders Update (Private)
-
-            {"option/candle", channelKey_InstrumentId}, // Options Candlesticks Update
-            {"option/trade", channelKey_InstrumentId}, // Options Trades Update
-            {"option/ticker", channelKey_InstrumentId}, // Options Tickers Update
-            {"option/depth_l2_tbt", channelKey_InstrumentId}, // Options Depth-TBT Update
-            {"option/depth5", channelKey_InstrumentId}, // Options Depth-5 Update
-            {"option/depth", channelKey_InstrumentId}, // Options Depth-400 Update
-            {"option/position", channelKey_InstrumentId}, // Options Positions Update (Private)
-            {"option/order", channelKey_InstrumentId}, // Options Orders Update (Private)
-
-            {"index/ticker", channelKey_InstrumentId}, // Index Tickers Update
-            {"index/candle", channelKey_InstrumentId}, // Index Candlesticks Update
-
-            {"spot/account", channelKey_Currency}, // Spot Balance Update (Private)
-
-            {"option/instruments", channelKey_Underlying}, // Options Contracts Update
-            {"option/summary", channelKey_Underlying}, // Options Market Data Update
-            {"option/account", channelKey_Underlying}, // Options Balance Update (Private)
-        };
 
         #region Constructor/Destructor
         /// <summary>
@@ -131,11 +131,6 @@ namespace Okex.Net
 
                 using (var streamReader = new StreamReader(decompressedStream))
                 {
-                    /** /
-                    var response = streamReader.ReadToEnd();
-                    return response;
-                    /**/
-
                     return streamReader.ReadToEnd();
                 }
             }
@@ -240,13 +235,13 @@ namespace Okex.Net
                 // Table Name
                 var table = (string)message["table"]!;
 
-                // Search in Match Dictionary
-                if (channelKeys.TryGetValue(table, out var channelKey))
+                if (channelKeyByTable.TryGetValue(table, out var channelKey))
                 {
                     var data = message["data"];
                     if (data?.HasValues ?? false)
                     {
                         var channelSuffix = data[0][channelKey];
+
                         if (channelSuffix != null && hRequest.Arguments.Contains(table + ":" + channelSuffix))
                         {
                             return true;
@@ -255,9 +250,8 @@ namespace Okex.Net
                 }
                 else
                 {
-                    return 
-                        (table == "futures/instruments" && hRequest.Arguments.Contains(table)) ||
-                        ((table == "futures/account" || table == "swap/account") && hRequest.Arguments.Any(a => a.StartsWith(table)));
+                    return table == "futures/instruments" && hRequest.Arguments.Contains(table) ||
+                           (table == "futures/account" || table == "swap/account") && hRequest.Arguments.Any(a => a.StartsWith(table));
                 }
             }
 
