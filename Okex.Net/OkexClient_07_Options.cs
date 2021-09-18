@@ -44,7 +44,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("instrument_id", instrument);
 
-            return await SendRequest<OkexOptionsPositions>(GetUrl(Endpoints_Options_Positions), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsPositions>(GetUrl(Endpoints_Options_Positions), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexOptionsBalance>> Options_GetBalances_Async(string underlying, CancellationToken ct = default)
         {
-            return await SendRequest<OkexOptionsBalance>(GetUrl(Endpoints_Options_Account, underlying), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsBalance>(GetUrl(Endpoints_Options_Account, underlying), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Okex.Net
             };
             parameters.AddOptionalParameter("client_oid", clientOrderId);
 
-            return await SendRequest<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Okex.Net
                 { "order_data", orders },
             };
 
-            return await SendRequest<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_PlaceBatchOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_PlaceBatchOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace Okex.Net
             if (orderId != null && !string.IsNullOrEmpty(clientOrderId))
                 throw new ArgumentException("Either orderId or clientOrderId must be present.");
 
-            return await SendRequest<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_CancelOrder.Replace("<underlying>", underlying), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_CancelOrder.Replace("<underlying>", underlying), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace Okex.Net
             if (orderIds != null && orderIds.Count() > 0) parameters.Add("order_ids", orderIds);
             if (clientOrderIds != null && clientOrderIds.Count() > 0) parameters.Add("client_oids", clientOrderIds);
 
-            return await SendRequest<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_CancelBatchOrders, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_CancelBatchOrders, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace Okex.Net
         {
             underlying = underlying.ValidateSymbol();
 
-            return await SendRequest<OkexOptionsResponse>(GetUrl(Endpoints_Options_CancelAll, underlying), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsResponse>(GetUrl(Endpoints_Options_CancelAll, underlying), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace Okex.Net
             if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize?.ToString(ci));
             if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice?.ToString(ci));
 
-            return await SendRequest<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_MofiyOrder, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsPlacedOrder>(GetUrl(Endpoints_Options_MofiyOrder, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace Okex.Net
                 { "amend_data", orders },
             };
 
-            return await SendRequest<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_BatchModifyOrders, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsBatchOrders>(GetUrl(Endpoints_Options_BatchModifyOrders, underlying), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Okex.Net
             if (orderId != null && !string.IsNullOrEmpty(clientOrderId))
                 throw new ArgumentException("Either orderId or clientOrderId must be present.");
 
-            return await SendRequest<OkexOptionsOrder>(GetUrl(Endpoints_Options_OrderDetails.Replace("<underlying>", underlying), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsOrder>(GetUrl(Endpoints_Options_OrderDetails.Replace("<underlying>", underlying), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<OkexOptionsOrderList>(GetUrl(Endpoints_Options_OrderList, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsOrderList>(GetUrl(Endpoints_Options_OrderList, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexOptionsTransaction>>(GetUrl(Endpoints_Options_TransactionDetails, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsTransaction>>(GetUrl(Endpoints_Options_TransactionDetails, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -596,7 +596,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexOptionsBill>>(GetUrl(Endpoints_Options_Bills, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsBill>>(GetUrl(Endpoints_Options_Bills, underlying), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -626,7 +626,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("underlying", underlying);
             parameters.AddOptionalParameter("category", category?.ToString(ci));
 
-            return await SendRequest<OkexOptionsTradeFee>(GetUrl(Endpoints_Options_TradeFee), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsTradeFee>(GetUrl(Endpoints_Options_TradeFee), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         #endregion
@@ -648,7 +648,7 @@ namespace Okex.Net
         /// <returns>Underlying String Array</returns>
         public virtual async Task<WebCallResult<IEnumerable<string>>> Options_GetUnderlyingList_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<string>>(GetUrl(Endpoints_Options_Underlying), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<string>>(GetUrl(Endpoints_Options_Underlying), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -678,7 +678,7 @@ namespace Okex.Net
             if (!string.IsNullOrEmpty(instrument)) parameters.AddParameter("instrument_id", instrument!);
             if (delivery.HasValue) parameters.AddParameter("delivery", delivery.Value.ToString("yyMMdd"));
 
-            return await SendRequest<IEnumerable<OkexOptionsInstrument>>(GetUrl(Endpoints_Options_Instruments, underlying), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsInstrument>>(GetUrl(Endpoints_Options_Instruments, underlying), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>();
             if (delivery.HasValue) parameters.AddParameter("delivery", delivery.Value.ToString("yyMMdd"));
 
-            return await SendRequest<IEnumerable<OkexOptionsMarketData>>(GetUrl(Endpoints_Options_MarketData, underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsMarketData>>(GetUrl(Endpoints_Options_MarketData, underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -731,7 +731,7 @@ namespace Okex.Net
             instrument = instrument.ValidateSymbol();
             var url = Endpoints_Options_MarketDataOfInstrument.Replace("<underlying>", underlying).Replace("<instrument_id>", instrument);
 
-            return await SendRequest<OkexOptionsMarketData>(GetUrl(url), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsMarketData>(GetUrl(url), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -767,7 +767,7 @@ namespace Okex.Net
                 { "size", size.ToString(ci)}
             };
 
-            return await SendRequest<OkexOptionsOrderBook>(GetUrl(Endpoints_Options_OrderBook, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsOrderBook>(GetUrl(Endpoints_Options_OrderBook, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -803,7 +803,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexOptionsTrade>>(GetUrl(Endpoints_Options_Trades, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsTrade>>(GetUrl(Endpoints_Options_Trades, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -823,7 +823,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexOptionsTicker>> Options_GetTicker_Async(string instrument, CancellationToken ct = default)
         {
-            return await SendRequest<OkexOptionsTicker>(GetUrl(Endpoints_Options_Ticker, instrument), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOptionsTicker>(GetUrl(Endpoints_Options_Ticker, instrument), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -866,7 +866,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexOptionsCandle>>(GetUrl(Endpoints_Options_Candles, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsCandle>>(GetUrl(Endpoints_Options_Candles, instrument), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -899,7 +899,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("limit", limit.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexOptionsSettlementHistory>>(GetUrl(Endpoints_Options_SettlementHistory, underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexOptionsSettlementHistory>>(GetUrl(Endpoints_Options_SettlementHistory, underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         #endregion

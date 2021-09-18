@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Okex.Net.CoreObjects;
 using Okex.Net.Helpers;
@@ -158,7 +159,7 @@ namespace Okex.Net
                 var desResult = Deserialize<T>(data, false);
                 if (!desResult)
                 {
-                    log.Write(LogVerbosity.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
+                    log.Write(LogLevel.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
                     return false;
                 }
 
@@ -170,7 +171,7 @@ namespace Okex.Net
             // 30040: {0} Channel : {1} doesn't exist
             if (data is JObject && data["event"] != null && (string)data["event"]! == "error" && data["errorCode"] != null)
             {
-                log.Write(LogVerbosity.Warning, "Query failed: " + (string)data["message"]!);
+                log.Write(LogLevel.Warning, "Query failed: " + (string)data["message"]!);
                 callResult = new CallResult<T>(default, new ServerError($"{(string)data["errorCode"]!}, {(string)data["message"]!}"));
                 return true;
             }
@@ -181,7 +182,7 @@ namespace Okex.Net
                 var desResult = Deserialize<T>(data, false);
                 if (!desResult)
                 {
-                    log.Write(LogVerbosity.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
+                    log.Write(LogLevel.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
                     return false;
                 }
 
@@ -204,7 +205,7 @@ namespace Okex.Net
             // 30040: {0} Channel : {1} doesn't exist
             if (message["event"] != null && (string)message["event"]! == "error" && message["errorCode"] != null && (string)message["errorCode"]! == "30040")
             {
-                log.Write(LogVerbosity.Warning, "Subscription failed: " + (string)message["message"]!);
+                log.Write(LogLevel.Warning, "Subscription failed: " + (string)message["message"]!);
                 callResult = new CallResult<object>(null, new ServerError($"{(string)message["errorCode"]!}, {(string)message["message"]!}"));
                 return true;
             }
@@ -216,7 +217,7 @@ namespace Okex.Net
                 {
                     if (socRequest.Arguments.Contains((string)message["channel"]!))
                     {
-                        log.Write(LogVerbosity.Debug, "Subscription completed");
+                        log.Write(LogLevel.Debug, "Subscription completed");
                         callResult = new CallResult<object>(true, null);
                         return true;
                     }
@@ -273,7 +274,7 @@ namespace Okex.Net
             return true;
         }
 
-        protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+        protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
             return await this.OkexAuthenticateSocket(s);
         }
@@ -295,7 +296,7 @@ namespace Okex.Net
             var request = new OkexSocketRequest(OkexSocketOperation.Login, Key.GetString(), PassPhrase.GetString(), time, signature);
 
             var result = new CallResult<bool>(false, new ServerError("No response from server"));
-            await s.SendAndWait(request, ResponseTimeout, data =>
+            await s.SendAndWaitAsync(request, ResponseTimeout, data =>
             {
                 if ((string)data["event"] != "login")
                     return false;
@@ -303,18 +304,18 @@ namespace Okex.Net
                 var authResponse = Deserialize<OkexSocketLoginResponse>(data, false);
                 if (!authResponse)
                 {
-                    log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Error);
+                    log.Write(LogLevel.Warning, "Authorization failed: " + authResponse.Error);
                     result = new CallResult<bool>(false, authResponse.Error);
                     return true;
                 }
                 if (!authResponse.Data.Success)
                 {
-                    log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Error.Message);
+                    log.Write(LogLevel.Warning, "Authorization failed: " + authResponse.Error.Message);
                     result = new CallResult<bool>(false, new ServerError(authResponse.Error.Code.Value, authResponse.Error.Message));
                     return true;
                 }
 
-                log.Write(LogVerbosity.Debug, "Authorization completed");
+                log.Write(LogLevel.Debug, "Authorization completed");
                 result = new CallResult<bool>(true, null);
                 return true;
             });
@@ -322,7 +323,7 @@ namespace Okex.Net
             return result;
         }
 
-        protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription s)
         {
             return await this.OkexUnsubscribe(connection, s);
         }
@@ -332,7 +333,7 @@ namespace Okex.Net
                 return false;
 
             var request = new OkexSocketRequest(OkexSocketOperation.Unsubscribe, ((OkexSocketRequest)s.Request).Arguments);
-            await connection.SendAndWait(request, ResponseTimeout, data =>
+            await connection.SendAndWaitAsync(request, ResponseTimeout, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;

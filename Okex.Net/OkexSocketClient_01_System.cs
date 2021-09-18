@@ -14,7 +14,7 @@ namespace Okex.Net
         {
             var pit = DateTime.UtcNow;
             var sw = Stopwatch.StartNew();
-            var response = await Query<string>("ping", false).ConfigureAwait(true);
+            var response = await QueryAsync<string>("ping", false).ConfigureAwait(true);
             var pot = DateTime.UtcNow;
             sw.Stop();
 

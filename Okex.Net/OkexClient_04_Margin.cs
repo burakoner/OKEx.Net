@@ -39,7 +39,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexMarginBalance>>> Margin_GetAllBalances_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexMarginBalance>>(GetUrl(Endpoints_Margin_Accounts), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginBalance>>(GetUrl(Endpoints_Margin_Accounts), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<OkexMarginBalance>> Margin_GetSymbolBalance_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
-            return await SendRequest<OkexMarginBalance>(GetUrl(Endpoints_Margin_AccountsOfSymbol, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginBalance>(GetUrl(Endpoints_Margin_AccountsOfSymbol, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexMarginBill>>(GetUrl(Endpoints_Margin_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginBill>>(GetUrl(Endpoints_Margin_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettings), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettings), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexMarginAccountSettings>>> Margin_GetAccountSettings_Async(string symbol, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettingsOfCurrency, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginAccountSettings>>(GetUrl(Endpoints_Margin_AccountSettingsOfCurrency, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistory), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistory), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistoryOfCurrency, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginLoanHistory>>(GetUrl(Endpoints_Margin_LoanHistoryOfCurrency, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace Okex.Net
             };
             parameters.AddOptionalParameter("client_oid", clientOrderId);
 
-            return await SendRequest<OkexMarginLoanResponse>(GetUrl(Endpoints_Margin_Loan), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginLoanResponse>(GetUrl(Endpoints_Margin_Loan), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("borrow_id", borrow_id?.ToString(ci));
             parameters.AddOptionalParameter("client_oid", clientOrderId);
 
-            return await SendRequest<OkexMarginRepaymentResponse>(GetUrl(Endpoints_Margin_Repayment), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginRepaymentResponse>(GetUrl(Endpoints_Margin_Repayment), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("price", price?.ToString(ci));
             parameters.AddOptionalParameter("size", size?.ToString(ci));
 
-            return await SendRequest<OkexSpotPlacedOrder>(GetUrl(Endpoints_Margin_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSpotPlacedOrder>(GetUrl(Endpoints_Margin_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace Okex.Net
                 { BodyParameterKey, orders },
             };
 
-            return await SendRequest<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>(GetUrl(Endpoints_Margin_PlaceBatchOrders), HttpMethod.Post, ct, parameters, arraySerialization: ArrayParametersSerialization.Array, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>(GetUrl(Endpoints_Margin_PlaceBatchOrders), HttpMethod.Post, ct, parameters, arraySerialization: ArrayParametersSerialization.Array, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -694,7 +694,7 @@ namespace Okex.Net
                 { "instrument_id", symbol },
             };
 
-            return await SendRequest<OkexSpotPlacedOrder>(GetUrl(Endpoints_Margin_CancelOrder, orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSpotPlacedOrder>(GetUrl(Endpoints_Margin_CancelOrder, orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -746,7 +746,7 @@ namespace Okex.Net
                 { BodyParameterKey, orders },
             };
 
-            return await SendRequest<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>(GetUrl(Endpoints_Margin_CancelBatchOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<Dictionary<string, IEnumerable<OkexSpotPlacedOrder>>>(GetUrl(Endpoints_Margin_CancelBatchOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -796,7 +796,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSpotOrderDetails>>(GetUrl(Endpoints_Margin_OrderList), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSpotOrderDetails>>(GetUrl(Endpoints_Margin_OrderList), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -817,7 +817,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<OkexMarginLeverageResponse>> Margin_GetLeverage_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
-            return await SendRequest<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_GetLeverage, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_GetLeverage, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -848,7 +848,7 @@ namespace Okex.Net
                 { "leverage", leverage.ToString(ci)},
             };
 
-            return await SendRequest<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_SetLeverage, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginLeverageResponse>(GetUrl(Endpoints_Margin_SetLeverage, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -893,7 +893,7 @@ namespace Okex.Net
                 { "instrument_id", symbol },
             };
 
-            return await SendRequest<OkexMarginOrderDetails>(GetUrl(Endpoints_Margin_OrderDetails, orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginOrderDetails>(GetUrl(Endpoints_Margin_OrderDetails, orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -942,7 +942,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexMarginOrderDetails>>(GetUrl(Endpoints_Margin_OpenOrders), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginOrderDetails>>(GetUrl(Endpoints_Margin_OpenOrders), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -992,7 +992,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before);
             parameters.AddOptionalParameter("after", after);
 
-            return await SendRequest<IEnumerable<OkexMarginTransaction>>(GetUrl(Endpoints_Margin_TransactionDetails), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexMarginTransaction>>(GetUrl(Endpoints_Margin_TransactionDetails), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1295,7 +1295,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<OkexMarginMarkPrice>> Margin_GetMarkPrice_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
-            return await SendRequest<OkexMarginMarkPrice>(GetUrl(Endpoints_Margin_MarkPrice, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexMarginMarkPrice>(GetUrl(Endpoints_Margin_MarkPrice, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
         #endregion
 

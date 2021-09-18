@@ -51,7 +51,7 @@ namespace Okex.Net
             var signature = OkexAuthenticationProvider.Base64Encode(_hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
             var request = new OkexSocketRequest(OkexSocketOperation.Login, Key.GetString(), PassPhrase.GetString(), time, signature);
 
-            var result = await Query<OkexSocketLoginResponse>(request, false).ConfigureAwait(true);
+            var result = await QueryAsync<OkexSocketLoginResponse>(request, false).ConfigureAwait(true);
             Authendicated = result != null && result.Data != null && result.Data.Success;
             return result!;
         }

@@ -37,14 +37,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/ticker:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Okex.Net
             for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
@@ -85,7 +85,7 @@ namespace Okex.Net
                 tickerList.Add($"spot/ticker:{symbolList[i]}");
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, tickerList);
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotCandleContainer>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotCandleContainer>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Timestamp = DateTime.UtcNow;
                     d.Candle.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
@@ -119,7 +119,7 @@ namespace Okex.Net
 
             var period_s = JsonConvert.SerializeObject(period, new SpotPeriodConverter(false));
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/candle{period_s}s:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -139,14 +139,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotTrade>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotTrade>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/trade:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -172,12 +172,12 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSpotOrderBookUpdate>(data =>
+            var internalHandler = new Action<DataEvent<OkexSpotOrderBookUpdate>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
-                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.DataType;
+                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.Data.DataType;
                     onData(d);
                 }
             });
@@ -187,7 +187,7 @@ namespace Okex.Net
             else if (depth == OkexOrderBookDepth.Depth400) channel = "depth";
             else if (depth == OkexOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/{channel}:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
         #endregion
 
@@ -210,14 +210,14 @@ namespace Okex.Net
         {
             currency = currency.ValidateCurrency();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotBalance>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotBalance>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/account:{currency}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -237,14 +237,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotOrderDetails>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotOrderDetails>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/order:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -264,14 +264,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexSpotAlgoOrder>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexSpotAlgoOrder>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/order_algo:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         #endregion

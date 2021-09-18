@@ -31,7 +31,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexIndexConstituents>(GetUrl(Endpoints_Index_Constituents, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexIndexConstituents>(GetUrl(Endpoints_Index_Constituents, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         #endregion

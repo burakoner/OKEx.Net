@@ -32,7 +32,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexOracleData>> Oracle_GetData_Async(CancellationToken ct = default)
         {
-            return await SendRequest<OkexOracleData>(GetUrl(Endpoints_Oracle), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexOracleData>(GetUrl(Endpoints_Oracle), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         #endregion

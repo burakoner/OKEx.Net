@@ -339,7 +339,7 @@ namespace Okex.Net.Examples
             // Unsubscribe
             foreach (var sub in subs)
             {
-                _ = ws.Unsubscribe(sub);
+                _ = ws.UnsubscribeAsync(sub);
             }
 
             /* 03. Spot - Private */

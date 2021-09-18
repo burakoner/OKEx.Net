@@ -40,14 +40,14 @@ namespace Okex.Net
         {
             underlying = underlying.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsInstrument>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsInstrument>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/instruments:{underlying}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -69,14 +69,14 @@ namespace Okex.Net
         {
             underlying = underlying.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsMarketData>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsMarketData>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/summary:{underlying}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace Okex.Net
             for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsMarketData>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsMarketData>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
@@ -120,7 +120,7 @@ namespace Okex.Net
                 tickerList.Add($"option/summary:{symbolList[i]}");
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, tickerList);
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToCandlesticks_Async(string instrument, OkexSpotPeriod period, Action<OkexOptionsCandle> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsCandleContainer>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsCandleContainer>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Timestamp = DateTime.UtcNow;
                     d.Candle.Symbol = instrument.ToUpper(OkexGlobals.OkexCultureInfo);
@@ -153,7 +153,7 @@ namespace Okex.Net
 
             var period_s = JsonConvert.SerializeObject(period, new SpotPeriodConverter(false));
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/candle{period_s}s:{instrument}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -171,14 +171,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToTrades_Async(string instrument, Action<OkexOptionsTrade> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTrade>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTrade>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/trade:{instrument}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -196,14 +196,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToTicker_Async(string instrument, Action<OkexOptionsTicker> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/ticker:{instrument}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -234,9 +234,9 @@ namespace Okex.Net
             for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
@@ -245,7 +245,7 @@ namespace Okex.Net
                 tickerList.Add($"option/ticker:{symbolList[i]}");
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, tickerList);
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -269,12 +269,12 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrderBook_Async(string instrument, OkexOrderBookDepth depth, Action<OkexOptionsOrderBook> onData)
         {
-            var internalHandler = new Action<OkexOptionsOrderBookUpdate>(data =>
+            var internalHandler = new Action<DataEvent<OkexOptionsOrderBookUpdate>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Symbol = instrument.ToUpper(OkexGlobals.OkexCultureInfo);
-                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.DataType;
+                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.Data.DataType;
                     onData(d);
                 }
             });
@@ -284,7 +284,7 @@ namespace Okex.Net
             else if (depth == OkexOrderBookDepth.Depth400) channel = "depth";
             else if (depth == OkexOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/{channel}:{instrument}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         #endregion
@@ -312,14 +312,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToPositions_Async(string underlying, Action<OkexOptionsPosition> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsPosition>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsPosition>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/position:{underlying}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -337,14 +337,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToBalance_Async(string underlying, Action<OkexOptionsBalance> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsBalance>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsBalance>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/account:{underlying}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -362,14 +362,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Options_SubscribeToOrders_Async(string underlying, Action<OkexOptionsOrder> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsOrder>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsOrder>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"option/order:{underlying}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         #endregion

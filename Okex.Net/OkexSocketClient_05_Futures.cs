@@ -36,15 +36,15 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToContracts_Async(Action<OkexFuturesContract> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<IEnumerable<OkexFuturesContract>>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<IEnumerable<OkexFuturesContract>>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     foreach (var dd in d)
                         onData(dd);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/instruments");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -64,14 +64,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/ticker:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace Okex.Net
             for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
@@ -113,7 +113,7 @@ namespace Okex.Net
                 tickerList.Add($"futures/ticker:{symbolList[i]}");
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, tickerList);
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesCandleContainer>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesCandleContainer>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Timestamp = DateTime.UtcNow;
                     d.Candle.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
@@ -147,7 +147,7 @@ namespace Okex.Net
 
             var period_s = JsonConvert.SerializeObject(period, new SpotPeriodConverter(false));
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/candle{period_s}s:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -167,14 +167,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTrade>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesTrade>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/trade:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -194,14 +194,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesPriceRange>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesPriceRange>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/price_range:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -221,14 +221,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesEstimatedPrice>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesEstimatedPrice>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/estimated_price:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -254,12 +254,12 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexFuturesOrderBookUpdate>(data =>
+            var internalHandler = new Action<DataEvent<OkexFuturesOrderBookUpdate>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
-                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.DataType;
+                    d.DataType = depth == OkexOrderBookDepth.Depth5 ? OkexOrderBookDataType.DepthTop5 : data.Data.DataType;
                     onData(d);
                 }
             });
@@ -269,7 +269,7 @@ namespace Okex.Net
             else if (depth == OkexOrderBookDepth.Depth400) channel = "depth";
             else if (depth == OkexOrderBookDepth.TickByTick) channel = "depth_l2_tbt";
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/{channel}:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -289,14 +289,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesMarkPrice>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesMarkPrice>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/mark_price:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         #endregion
@@ -318,14 +318,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToPositions_Async(string symbol, Action<OkexFuturesPosition> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesPosition>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesPosition>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/position:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -343,15 +343,15 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Futures_SubscribeToBalance_Async(string symbol, Action<OkexFuturesBalance> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesBalances>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesBalances>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     foreach (var dd in d.Balances.Values)
                         onData(dd);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/account:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -371,14 +371,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesOrder>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesOrder>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/order:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -398,14 +398,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexFuturesAlgoOrder>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexFuturesAlgoOrder>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"futures/order_algo:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         #endregion

@@ -87,20 +87,20 @@ namespace Okex.Net
             return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
         }
 
-        protected override IRequest ConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed, PostParameters postPosition, ArrayParametersSerialization arraySerialization, int requestId)
+        protected override IRequest ConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, HttpMethodParameterPosition parameterPosition, ArrayParametersSerialization arraySerialization, int requestId, Dictionary<string, string> additionalHeaders)
         {
-            return this.OkexConstructRequest(uri, method, parameters, signed, postPosition, arraySerialization, requestId);
+            return this.OkexConstructRequest(uri, method, parameters, signed, parameterPosition, arraySerialization, requestId, additionalHeaders);
         }
-        protected virtual IRequest OkexConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object>? parameters, bool signed, PostParameters postPosition, ArrayParametersSerialization arraySerialization, int requestId)
+        protected virtual IRequest OkexConstructRequest(Uri uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, HttpMethodParameterPosition parameterPosition, ArrayParametersSerialization arraySerialization, int requestId, Dictionary<string, string> additionalHeaders)
         {
             if (parameters == null)
                 parameters = new Dictionary<string, object>();
 
             var uriString = uri.ToString();
             if (authProvider != null)
-                parameters = authProvider.AddAuthenticationToParameters(uriString, method, parameters, signed, postPosition, arraySerialization);
+                parameters = authProvider.AddAuthenticationToParameters(uriString, method, parameters, signed, parameterPosition, arraySerialization);
 
-            if ((method == HttpMethod.Get || method == HttpMethod.Delete || postParametersPosition == PostParameters.InUri) && parameters?.Any() == true)
+            if ((method == HttpMethod.Get || parameterPosition == HttpMethodParameterPosition.InUri) && parameters?.Any() == true)
                 uriString += "?" + parameters.CreateParamString(true, arraySerialization);
 
             if (method == HttpMethod.Post && signed)
@@ -117,12 +117,12 @@ namespace Okex.Net
 
             var headers = new Dictionary<string, string>();
             if (authProvider != null)
-                headers = authProvider.AddAuthenticationToHeaders(uriString, method, parameters!, signed, postPosition, arraySerialization);
+                headers = authProvider.AddAuthenticationToHeaders(uriString, method, parameters!, signed, parameterPosition, arraySerialization);
 
             foreach (var header in headers)
                 request.AddHeader(header.Key, header.Value);
 
-            if ((method == HttpMethod.Post || method == HttpMethod.Put) && postParametersPosition != PostParameters.InUri)
+            if (parameterPosition == HttpMethodParameterPosition.InBody)
             {
                 if (parameters?.Any() == true)
                     WriteParamBody(request, parameters, contentType);

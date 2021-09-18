@@ -37,7 +37,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexSwapPosition>>> Swap_GetPositions_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexSwapPosition>>(GetUrl(Endpoints_Swap_Positions), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapPosition>>(GetUrl(Endpoints_Swap_Positions), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSwapPosition>> Swap_GetPositions_Async(string symbol, CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapPosition>(GetUrl(Endpoints_Swap_PositionsOfContract, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapPosition>(GetUrl(Endpoints_Swap_PositionsOfContract, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSwapBalances>> Swap_GetBalances_Async(CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapBalances>(GetUrl(Endpoints_Swap_Accounts), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapBalances>(GetUrl(Endpoints_Swap_Accounts), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSwapBalanceOfSymbol>> Swap_GetBalances_Async(string symbol, CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapBalanceOfSymbol>(GetUrl(Endpoints_Swap_AccountsOfCurrency, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapBalanceOfSymbol>(GetUrl(Endpoints_Swap_AccountsOfCurrency, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSwapLeverage>> Swap_GetLeverage_Async(string symbol, CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapLeverage>(GetUrl(Endpoints_Swap_GetSwapLeverage, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapLeverage>(GetUrl(Endpoints_Swap_GetSwapLeverage, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Okex.Net
                 { "side", JsonConvert.SerializeObject(side, new SwapLeverageSideConverter(false)) },
             };
 
-            return await SendRequest<OkexSwapLeverage>(GetUrl(Endpoints_Swap_SetSwapLeverage, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapLeverage>(GetUrl(Endpoints_Swap_SetSwapLeverage, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapBill>>(GetUrl(Endpoints_Swap_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapBill>>(GetUrl(Endpoints_Swap_Bills, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("client_oid", clientOrderId);
             parameters.AddOptionalParameter("price", price?.ToString(ci));
 
-            return await SendRequest<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_PlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace Okex.Net
                 { "order_data", orders },
             };
 
-            return await SendRequest<OkexSwapBatchPlacedOrder>(GetUrl(Endpoints_Swap_BatchPlaceOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapBatchPlacedOrder>(GetUrl(Endpoints_Swap_BatchPlaceOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace Okex.Net
             if (orderId != null && !string.IsNullOrEmpty(clientOrderId))
                 throw new ArgumentException("Either orderId or clientOrderId must be present.");
 
-            return await SendRequest<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_CancelOrder.Replace("<instrument_id>", symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_CancelOrder.Replace("<instrument_id>", symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace Okex.Net
             if (orderIds != null && orderIds.Count() > 0) parameters.Add("ids", orderIds);
             if (clientOrderIds != null && clientOrderIds.Count() > 0) parameters.Add("client_oids", clientOrderIds);
 
-            return await SendRequest<OkexSwapBatchOrders>(GetUrl(Endpoints_Swap_BatchCancelOrders, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapBatchOrders>(GetUrl(Endpoints_Swap_BatchCancelOrders, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace Okex.Net
             if (newSize.HasValue) parameters.AddOptionalParameter("new_size", newSize?.ToString(ci));
             if (newPrice.HasValue) parameters.AddOptionalParameter("new_price", newPrice?.ToString(ci));
 
-            return await SendRequest<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_ModifyOrder, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapPlacedOrder>(GetUrl(Endpoints_Swap_ModifyOrder, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -596,7 +596,7 @@ namespace Okex.Net
                 { "amend_data", orders },
             };
 
-            return await SendRequest<OkexSwapBatchPlacedOrder>(GetUrl(Endpoints_Swap_BatchModifyOrder, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapBatchPlacedOrder>(GetUrl(Endpoints_Swap_BatchModifyOrder, symbol), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -647,7 +647,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<OkexSwapOrderList>(GetUrl(Endpoints_Swap_OrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapOrderList>(GetUrl(Endpoints_Swap_OrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -691,7 +691,7 @@ namespace Okex.Net
             if (orderId != null && !string.IsNullOrEmpty(clientOrderId))
                 throw new ArgumentException("Either orderId or clientOrderId must be present.");
 
-            return await SendRequest<OkexSwapOrder>(GetUrl(Endpoints_Swap_OrderDetails.Replace("<instrument_id>", symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapOrder>(GetUrl(Endpoints_Swap_OrderDetails.Replace("<instrument_id>", symbol), orderId.HasValue ? orderId.ToString() : clientOrderId!), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -735,7 +735,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapTransaction>>(GetUrl(Endpoints_Swap_TransactionDetails), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapTransaction>>(GetUrl(Endpoints_Swap_TransactionDetails), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -761,7 +761,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await base.SendRequest<OkexSwapHoldAmount>(GetUrl(Endpoints_Swap_HoldAmount, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await base.SendRequestAsync<OkexSwapHoldAmount>(GetUrl(Endpoints_Swap_HoldAmount, symbol), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -793,7 +793,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("instrument_id", symbol);
             parameters.AddOptionalParameter("category", category?.ToString(ci));
 
-            return await SendRequest<OkexSwapTradeFee>(GetUrl(Endpoints_Swap_AccountTierRate), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapTradeFee>(GetUrl(Endpoints_Swap_AccountTierRate), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -822,7 +822,7 @@ namespace Okex.Net
                 { "direction", JsonConvert.SerializeObject(direction, new SwapDirectionConverter(false)) },
             };
 
-            return await base.SendRequest<OkexSwapDirectionResponse>(GetUrl(Endpoints_Swap_CloseAll), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await base.SendRequestAsync<OkexSwapDirectionResponse>(GetUrl(Endpoints_Swap_CloseAll), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -851,7 +851,7 @@ namespace Okex.Net
                 { "direction", JsonConvert.SerializeObject(direction, new SwapDirectionConverter(false)) },
             };
 
-            return await base.SendRequest<OkexSwapDirectionResponse>(GetUrl(Endpoints_Swap_CancelAll), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await base.SendRequestAsync<OkexSwapDirectionResponse>(GetUrl(Endpoints_Swap_CancelAll), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1099,7 +1099,7 @@ namespace Okex.Net
                 parameters.AddOptionalParameter("sl_price", sl_price?.ToString(ci));
             }
 
-            return await SendRequest<OkexSwapAlgoPlacedOrder>(GetUrl(Endpoints_Swap_AlgoPlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapAlgoPlacedOrder>(GetUrl(Endpoints_Swap_AlgoPlaceOrder), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1141,7 +1141,7 @@ namespace Okex.Net
                 { "order_type", JsonConvert.SerializeObject(type, new AlgoOrderTypeConverter(false)) },
             };
 
-            return await SendRequest<OkexSwapAlgoCancelledOrder>(GetUrl(Endpoints_Swap_AlgoCancelOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapAlgoCancelledOrder>(GetUrl(Endpoints_Swap_AlgoCancelOrders), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -1193,7 +1193,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapAlgoOrder>>(GetUrl(Endpoints_Swap_AlgoOrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapAlgoOrder>>(GetUrl(Endpoints_Swap_AlgoOrderList, symbol), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -1217,7 +1217,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexSwapContract>>> Swap_GetTradingContracts_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexSwapContract>>(GetUrl(Endpoints_Swap_TradingContracts), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapContract>>(GetUrl(Endpoints_Swap_TradingContracts), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1256,7 +1256,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("size", size?.ToString(ci));
             parameters.AddOptionalParameter("depth", depth?.ToString(ci));
 
-            return await SendRequest<OkexSwapOrderBook>(GetUrl(Endpoints_Swap_OrderBook, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapOrderBook>(GetUrl(Endpoints_Swap_OrderBook, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1278,7 +1278,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexSwapTicker>>> Swap_GetAllTickers_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexSwapTicker>>(GetUrl(Endpoints_Swap_Ticker), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapTicker>>(GetUrl(Endpoints_Swap_Ticker), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1303,7 +1303,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<OkexSwapTicker>> Swap_GetSymbolTicker_Async(string symbol, CancellationToken ct = default)
         {
             symbol = symbol.ValidateSymbol();
-            return await SendRequest<OkexSwapTicker>(GetUrl(Endpoints_Swap_TickerOfSymbol, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapTicker>(GetUrl(Endpoints_Swap_TickerOfSymbol, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1345,7 +1345,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapTrade>>(GetUrl(Endpoints_Swap_Trades, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapTrade>>(GetUrl(Endpoints_Swap_Trades, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1396,7 +1396,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexSwapCandle>>(GetUrl(Endpoints_Swap_Candles, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapCandle>>(GetUrl(Endpoints_Swap_Candles, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1422,7 +1422,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapIndex>(GetUrl(Endpoints_Swap_Indices, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapIndex>(GetUrl(Endpoints_Swap_Indices, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1440,7 +1440,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSwapRate>> Swap_GetFiatExchangeRates_Async(CancellationToken ct = default)
         {
-            return await SendRequest<OkexSwapRate>(GetUrl(Endpoints_Swap_ExchangeRates), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapRate>(GetUrl(Endpoints_Swap_ExchangeRates), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1462,7 +1462,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapInterest>(GetUrl(Endpoints_Swap_OpenInterest, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapInterest>(GetUrl(Endpoints_Swap_OpenInterest, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1484,7 +1484,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapPriceRange>(GetUrl(Endpoints_Swap_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapPriceRange>(GetUrl(Endpoints_Swap_PriceLimit, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1523,7 +1523,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("from", from?.ToString(ci));
             parameters.AddOptionalParameter("to", to?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapLiquidatedOrder>>(GetUrl(Endpoints_Swap_LiquidatedOrders, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapLiquidatedOrder>>(GetUrl(Endpoints_Swap_LiquidatedOrders, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1549,7 +1549,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapSettlementTime>(GetUrl(Endpoints_Swap_NextSettlementTime, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapSettlementTime>(GetUrl(Endpoints_Swap_NextSettlementTime, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1575,7 +1575,7 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            return await SendRequest<OkexSwapMarkPrice>(GetUrl(Endpoints_Swap_MarkPrice, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSwapMarkPrice>(GetUrl(Endpoints_Swap_MarkPrice, symbol), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1605,7 +1605,7 @@ namespace Okex.Net
                 { "limit", limit.ToString(ci) },
             };
 
-            return await SendRequest<IEnumerable<OkexSwapFundingRate>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapFundingRate>>(GetUrl(Endpoints_Swap_FundingRateHistory, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1650,7 +1650,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("limit", limit.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexSwapCandle>>(GetUrl(Endpoints_Swap_HistoricalMarketData, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSwapCandle>>(GetUrl(Endpoints_Swap_HistoricalMarketData, symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         #endregion

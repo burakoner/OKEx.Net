@@ -33,14 +33,14 @@ namespace Okex.Net
         {
             symbol = symbol.ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexMarginBalance>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexMarginBalance>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"spot/margin_account:{symbol}");
-            return await Subscribe(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         #endregion

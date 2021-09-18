@@ -50,7 +50,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexContractRatio>>(GetUrl(Endpoints_Contract_LongShortRatio, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexContractRatio>>(GetUrl(Endpoints_Contract_LongShortRatio, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexContractVolume>>(GetUrl(Endpoints_Contract_Volume, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexContractVolume>>(GetUrl(Endpoints_Contract_Volume, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexContractTakerVolume>>(GetUrl(Endpoints_Contract_Taker, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexContractTakerVolume>>(GetUrl(Endpoints_Contract_Taker, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexContractSentiment>>(GetUrl(Endpoints_Contract_Sentiment, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexContractSentiment>>(GetUrl(Endpoints_Contract_Sentiment, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("start", start?.DateTimeToIso8601String());
             parameters.AddOptionalParameter("end", end?.DateTimeToIso8601String());
 
-            return await SendRequest<IEnumerable<OkexContractMargin>>(GetUrl(Endpoints_Contract_Margin, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexContractMargin>>(GetUrl(Endpoints_Contract_Margin, currency), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         #endregion

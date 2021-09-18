@@ -28,7 +28,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexSystemTime>> SystemTime_Async(CancellationToken ct = default)
         {
-            return await SendRequest<OkexSystemTime>(GetUrl(Endpoints_General_Time), HttpMethod.Get, ct).ConfigureAwait(false);
+            return await SendRequestAsync<OkexSystemTime>(GetUrl(Endpoints_General_Time), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>();
             if (status != null) parameters.AddOptionalParameter("status", JsonConvert.SerializeObject(status, new SystemMaintenanceStatusConverter(false)));
 
-            return await SendRequest<IEnumerable<OkexSystemStatus>>(GetUrl(Endpoints_System_Status), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexSystemStatus>>(GetUrl(Endpoints_System_Status), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
         #endregion
     }

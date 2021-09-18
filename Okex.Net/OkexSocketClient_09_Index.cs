@@ -40,14 +40,14 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Index_SubscribeToTicker_Async(string symbol, Action<OkexIndexTicker> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexIndexTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexIndexTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"index/ticker:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace Okex.Net
             for (int i = 0; i < symbolList.Count; i++)
                 symbolList[i] = symbolList[i].ValidateSymbol();
 
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOptionsTicker>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                     onData(d);
             });
 
@@ -93,7 +93,7 @@ namespace Okex.Net
                 tickerList.Add($"index/ticker:{symbolList[i]}");
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, tickerList);
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -113,9 +113,9 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<CallResult<UpdateSubscription>> Index_SubscribeToCandlesticks_Async(string symbol, OkexSpotPeriod period, Action<OkexIndexCandle> onData)
         {
-            var internalHandler = new Action<OkexSocketUpdateResponse<IEnumerable<OkexIndexCandleContainer>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexIndexCandleContainer>>>>(data =>
             {
-                foreach (var d in data.Data)
+                foreach (var d in data.Data.Data)
                 {
                     d.Timestamp = DateTime.UtcNow;
                     d.Candle.Symbol = symbol.ToUpper(OkexGlobals.OkexCultureInfo);
@@ -125,7 +125,7 @@ namespace Okex.Net
 
             var period_s = JsonConvert.SerializeObject(period, new SpotPeriodConverter(false));
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, $"index/candle{period_s}s:{symbol}");
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         #endregion

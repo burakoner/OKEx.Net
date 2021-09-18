@@ -33,7 +33,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingAssetBalance>>> Funding_GetAllBalances_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetAllBalances), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetAllBalances), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Okex.Net
                 { "sub-account", subAccountName },
             };
 
-            return await SendRequest<OkexFundingSubAccount>(GetUrl(Endpoints_Funding_GetSubAccount), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexFundingSubAccount>(GetUrl(Endpoints_Funding_GetSubAccount), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Okex.Net
                 { "valuation_currency", valuationCurrency },
             };
 
-            return await SendRequest<OkexFundingAssetValuation>(GetUrl(Endpoints_Funding_GetAssetValuation), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexFundingAssetValuation>(GetUrl(Endpoints_Funding_GetAssetValuation), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingAssetBalance>>> Funding_GetBalance_Async(string currency, CancellationToken ct = default)
         {
             currency = currency.ValidateCurrency();
-            return await SendRequest<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetCurrencyBalance, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingAssetBalance>>(GetUrl(Endpoints_Funding_GetCurrencyBalance, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("instrument_id", fromSymbol);
             parameters.AddOptionalParameter("to_instrument_id", toSymbol);
 
-            return await SendRequest<OkexFundingAssetTransfer>(GetUrl(Endpoints_Funding_Transfer, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexFundingAssetTransfer>(GetUrl(Endpoints_Funding_Transfer, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Okex.Net
                 { "fee", fee.ToString(ci) },
             };
 
-            return await SendRequest<IEnumerable<OkexFundingWithdrawalRequest>>(GetUrl(Endpoints_Funding_Withdrawal), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingWithdrawalRequest>>(GetUrl(Endpoints_Funding_Withdrawal), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistory_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingWithdrawalDetails>>> Funding_GetWithdrawalHistoryByCurrency_Async(string currency, CancellationToken ct = default)
         {
             currency = currency.ValidateCurrency();
-            return await SendRequest<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistoryOfCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingWithdrawalDetails>>(GetUrl(Endpoints_Funding_WithdrawalHistoryOfCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(ci));
             parameters.AddOptionalParameter("after", after?.ToString(ci));
 
-            return await SendRequest<IEnumerable<OkexFundingBill>>(GetUrl(Endpoints_Funding_Bills), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingBill>>(GetUrl(Endpoints_Funding_Bills), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Okex.Net
                 { "currency", currency },
             };
 
-            return await SendRequest<IEnumerable<OkexFundingDepositAddress>>(GetUrl(Endpoints_Funding_DepositAddress), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingDepositAddress>>(GetUrl(Endpoints_Funding_DepositAddress), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistory_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistory), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Okex.Net
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingDepositDetails>>> Funding_GetDepositHistoryByCurrency_Async(string currency, CancellationToken ct = default)
         {
             currency = currency.ValidateCurrency();
-            return await SendRequest<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistoryOfCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingDepositDetails>>(GetUrl(Endpoints_Funding_DepositHistoryOfCurrency, currency), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingAssetInformation>>> Funding_GetAllCurrencies_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexFundingAssetInformation>>(GetUrl(Endpoints_Funding_GetCurrencies), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingAssetInformation>>(GetUrl(Endpoints_Funding_GetCurrencies), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexFundingUserId>>> Funding_GetUserID_Async(CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<OkexFundingUserId>>(GetUrl(Endpoints_Funding_GetUserID), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingUserId>>(GetUrl(Endpoints_Funding_GetUserID), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("currency", currency);
 
-            return await SendRequest<IEnumerable<OkexFundingWithdrawalFee>>(GetUrl(Endpoints_Funding_WithdrawalFees), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<IEnumerable<OkexFundingWithdrawalFee>>(GetUrl(Endpoints_Funding_WithdrawalFees), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Okex.Net
                 { "side", JsonConvert.SerializeObject(side, new FundingPiggyBankActionSideConverter(false)) },
             };
 
-            return await SendRequest<OkexFundingPiggyBank>(GetUrl(Endpoints_Funding_PiggyBank, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
+            return await SendRequestAsync<OkexFundingPiggyBank>(GetUrl(Endpoints_Funding_PiggyBank, currency), HttpMethod.Post, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         #endregion
