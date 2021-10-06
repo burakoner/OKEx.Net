@@ -58,7 +58,7 @@ namespace Okex.Net.Helpers
         #endregion
 
         #region ToStr
-        public static string? ToStr(this object @this, bool nullToEmpty = true)
+        public static string ToStr(this object @this, bool nullToEmpty = true)
         {
             bool isNull = @this == null ? true : false;
             bool isDBNull = @this != null && @this.GetType() == typeof(DBNull) ? true : false;
@@ -222,6 +222,15 @@ namespace Okex.Net.Helpers
 
         #endregion
 
+        public static bool IsIn<T>(this T @this, params T[] values)
+        {
+            return Array.IndexOf(values, @this) != -1;
+        }
+
+        public static bool IsNotIn<T>(this T @this, params T[] values)
+        {
+            return Array.IndexOf(values, @this) == -1;
+        }
     }
 
 }

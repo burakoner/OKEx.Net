@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using Okex.Net.Helpers;
-using Okex.Net.Interfaces;
 using Okex.Net.RestObjects;
 using Okex.Net.SocketObjects.Containers;
 using Okex.Net.SocketObjects.Structure;
@@ -15,8 +14,9 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient : IOkexSocketClientSpot
+    public partial class OkexSocketClient
     {
+        /*
         #region Spot Trading WS-API
 
         #region Public Unsigned Feeds
@@ -277,5 +277,6 @@ namespace Okex.Net
         #endregion
 
         #endregion
+        */
     }
 }

@@ -16,7 +16,7 @@ namespace Okex.Net.CoreObjects
 {
     public class OkexAuthenticationProvider : AuthenticationProvider
     {
-        private readonly SecureString? PassPhrase;
+        private readonly SecureString PassPhrase;
         private readonly HMACSHA256 encryptor;
         private readonly bool signPublicRequests;
         private readonly ArrayParametersSerialization arraySerialization;
@@ -70,19 +70,19 @@ namespace Okex.Net.CoreObjects
 
         public static string Base64Encode(byte[] plainBytes)
         {
-            return System.Convert.ToBase64String(plainBytes);
+            return Convert.ToBase64String(plainBytes);
         }
 
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            return Convert.ToBase64String(plainTextBytes);
         }
 
         public static string Base64Decode(string base64EncodedData)
         {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }

@@ -2,7 +2,6 @@
 using CryptoExchange.Net.Objects;
 using Okex.Net.CoreObjects;
 using Okex.Net.Helpers;
-using Okex.Net.Interfaces;
 using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Globalization;
@@ -13,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient : IOkexSocketClient
+    public partial class OkexSocketClient
     {
-        protected SecureString? Key;
-        protected SecureString? Secret;
-        protected SecureString? PassPhrase;
-        protected HMACSHA256? _hmacEncryptor;
+        protected SecureString Key;
+        protected SecureString Secret;
+        protected SecureString PassPhrase;
+        protected HMACSHA256 _hmacEncryptor;
         public bool Authendicated { get; private set; }
 
         #region WS Auth Methods

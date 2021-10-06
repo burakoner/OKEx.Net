@@ -10,9 +10,9 @@ namespace Okex.Net.SocketObjects.Containers
         public DateTime Timestamp { get; set; }
 
         [JsonProperty("instrument_id")]
-        public string Symbol { get; set; } = "";
+        public string Symbol { get; set; }
 
-        [JsonProperty("candle")]
-        public OkexFuturesCandle Candle { get; set; } = default!;
+        //[JsonProperty("candle")]
+        //public OkexFuturesCandle Candle { get; set; } = default!;
     }
 }

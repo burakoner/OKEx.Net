@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Okex.Net.CoreObjects;
 using Okex.Net.Helpers;
-using Okex.Net.Interfaces;
 using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ namespace Okex.Net
     /// <summary>
     /// Client for the Okex Websocket API
     /// </summary>
-    public partial class OkexSocketClient : SocketClient, IOkexSocketClient
+    public partial class OkexSocketClient : SocketClient
     {
         #region Client Options
         protected static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
@@ -193,11 +192,11 @@ namespace Okex.Net
             return false;
         }
 
-        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
+        protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
             return this.OkexHandleSubscriptionResponse(s, subscription, request, message, out callResult);
         }
-        protected virtual bool OkexHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object>? callResult)
+        protected virtual bool OkexHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
             callResult = null;
 

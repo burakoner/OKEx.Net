@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Objects;
-using Okex.Net.Interfaces;
 using Okex.Net.SocketObjects.Containers;
 using System;
 using System.Diagnostics;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    public partial class OkexSocketClient : IOkexSocketClientSystem
+    public partial class OkexSocketClient
     {
         public virtual CallResult<OkexGeneralPingPongContainer> Ping() => PingAsync().Result;
         public virtual async Task<CallResult<OkexGeneralPingPongContainer>> PingAsync()

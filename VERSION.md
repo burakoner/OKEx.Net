@@ -152,44 +152,44 @@
         * Options_BatchPlaceOrders_Async(string underlying, IEnumerable<OkexOptionsPlaceOrder> orders, CancellationToken ct = default);
         * Options_CancelAllOrders(string underlying, CancellationToken ct = default);
         * Options_CancelAllOrders_Async(string underlying, CancellationToken ct = default);
-        * Options_CancelOrder(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
-        * Options_CancelOrder_Async(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
-        * Options_GetAllOrders(string underlying, OkexOptionsOrderState state, string? instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
-        * Options_GetAllOrders_Async(string underlying, OkexOptionsOrderState state, string? instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_CancelOrder(string underlying, long? orderId = null, string clientOrderId = null, CancellationToken ct = default);
+        * Options_CancelOrder_Async(string underlying, long? orderId = null, string clientOrderId = null, CancellationToken ct = default);
+        * Options_GetAllOrders(string underlying, OkexOptionsOrderState state, string instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetAllOrders_Async(string underlying, OkexOptionsOrderState state, string instrument = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
         * Options_GetBalances(string underlying, CancellationToken ct = default);
         * Options_GetBalances_Async(string underlying, CancellationToken ct = default);
         * Options_GetBills(string underlying, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
         * Options_GetBills_Async(string underlying, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
         * Options_GetCandles(string instrument, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
         * Options_GetCandles_Async(string instrument, OkexSpotPeriod period, DateTime? start = null, DateTime? end = null, CancellationToken ct = default);
-        * Options_GetInstruments(string underlying, string? instrument = null, DateTime? delivery = null, CancellationToken ct = default);
-        * Options_GetInstruments_Async(string underlying, string? instrument = null, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetInstruments(string underlying, string instrument = null, DateTime? delivery = null, CancellationToken ct = default);
+        * Options_GetInstruments_Async(string underlying, string instrument = null, DateTime? delivery = null, CancellationToken ct = default);
         * Options_GetMarketData(string underlying, DateTime? delivery = null, CancellationToken ct = default);
         * Options_GetMarketData(string underlying, string instrument, CancellationToken ct = default);
         * Options_GetMarketData_Async(string underlying, DateTime? delivery = null, CancellationToken ct = default);
         * Options_GetMarketData_Async(string underlying, string instrument, CancellationToken ct = default);
         * Options_GetOrderBook(string instrument, int size = 200, CancellationToken ct = default);
         * Options_GetOrderBook_Async(string instrument, int size, CancellationToken ct = default);
-        * Options_GetOrderDetails(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
-        * Options_GetOrderDetails_Async(string underlying, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
-        * Options_GetPositions(string underlying, string? instrument = null, CancellationToken ct = default);
-        * Options_GetPositions_Async(string underlying, string? instrument = null, CancellationToken ct = default);
+        * Options_GetOrderDetails(string underlying, long? orderId = null, string clientOrderId = null, CancellationToken ct = default);
+        * Options_GetOrderDetails_Async(string underlying, long? orderId = null, string clientOrderId = null, CancellationToken ct = default);
+        * Options_GetPositions(string underlying, string instrument = null, CancellationToken ct = default);
+        * Options_GetPositions_Async(string underlying, string instrument = null, CancellationToken ct = default);
         * Options_GetSettlementHistory(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
         * Options_GetSettlementHistory_Async(string underlying, DateTime? start = null, DateTime? end = null, int limit = 5, CancellationToken ct = default);
         * Options_GetTicker(string instrument, CancellationToken ct = default);
         * Options_GetTicker_Async(string instrument, CancellationToken ct = default);
-        * Options_GetTradeFeeRates(string? underlying = null, int? category = null, CancellationToken ct = default);
-        * Options_GetTradeFeeRates_Async(string? underlying = null, int? category = null, CancellationToken ct = default);
+        * Options_GetTradeFeeRates(string underlying = null, int? category = null, CancellationToken ct = default);
+        * Options_GetTradeFeeRates_Async(string underlying = null, int? category = null, CancellationToken ct = default);
         * Options_GetTrades(string instrument, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
         * Options_GetTrades_Async(string instrument, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
-        * Options_GetTransactionDetails(string underlying, string? instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
-        * Options_GetTransactionDetails_Async(string underlying, string? instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetTransactionDetails(string underlying, string instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
+        * Options_GetTransactionDetails_Async(string underlying, string instrument = null, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default);
         * Options_GetUnderlyingList(CancellationToken ct = default);
         * Options_GetUnderlyingList_Async(CancellationToken ct = default);
-        * Options_ModifyOrder(string underlying, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
-        * Options_ModifyOrder_Async(string underlying, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
-        * Options_PlaceOrder(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default);
-        * Options_PlaceOrder_Async(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default);
+        * Options_ModifyOrder(string underlying, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
+        * Options_ModifyOrder_Async(string underlying, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default);
+        * Options_PlaceOrder(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string clientOrderId = null, CancellationToken ct = default);
+        * Options_PlaceOrder_Async(string instrument, OkexOptionsOrderSide side, decimal price, decimal size, OkexOptionsTimeInForce timeInForce = OkexOptionsTimeInForce.NormalOrder, bool match_price = false, string clientOrderId = null, CancellationToken ct = default);
 
 * Version 1.4.2 - 17 Dec 2020
     * Added Contract Rest Api Support
@@ -220,8 +220,8 @@
         * Swap_BatchPlaceOrders_Async(string symbol, IEnumerable<OkexSwapPlaceOrder> orders, CancellationToken ct = default)
         * Swap_CancelAll(string symbol, OkexSwapDirection direction, CancellationToken ct = default)
         * Swap_CancelAll_Async(string symbol, OkexSwapDirection direction, CancellationToken ct = default)
-        * Swap_CancelOrder(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Swap_CancelOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Swap_CancelOrder(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Swap_CancelOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Swap_GetAllOrders(string symbol, OkexSwapOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Swap_GetAllOrders_Async(string symbol, OkexSwapOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Swap_GetAllTickers(CancellationToken ct = default)
@@ -256,8 +256,8 @@
         * Swap_GetOpenInterests_Async(string symbol, CancellationToken ct = default)
         * Swap_GetOrderBook(string symbol, int? size = null, decimal? depth = null, CancellationToken ct = default)
         * Swap_GetOrderBook_Async(string symbol, int? size = null, decimal? depth = null, CancellationToken ct = default)
-        * Swap_GetOrderDetails(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Swap_GetOrderDetails_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Swap_GetOrderDetails(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Swap_GetOrderDetails_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Swap_GetPositions(CancellationToken ct = default)
         * Swap_GetPositions(string symbol, CancellationToken ct = default)
         * Swap_GetPositions_Async(CancellationToken ct = default)
@@ -266,8 +266,8 @@
         * Swap_GetPriceLimit_Async(string symbol, CancellationToken ct = default)
         * Swap_GetSymbolTicker(string symbol, CancellationToken ct = default)
         * Swap_GetSymbolTicker_Async(string symbol, CancellationToken ct = default)
-        * Swap_GetTradeFeeRates(string? symbol = null, int? category = null, CancellationToken ct = default)
-        * Swap_GetTradeFeeRates_Async(string? symbol = null, int? category = null, CancellationToken ct = default)
+        * Swap_GetTradeFeeRates(string symbol = null, int? category = null, CancellationToken ct = default)
+        * Swap_GetTradeFeeRates_Async(string symbol = null, int? category = null, CancellationToken ct = default)
         * Swap_GetTrades(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Swap_GetTrades_Async(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Swap_GetTradingContracts(CancellationToken ct = default)
@@ -276,10 +276,10 @@
         * Swap_GetTransactionDetails_Async(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Swap_MarketCloseAll(string symbol, OkexSwapDirection direction, CancellationToken ct = default)
         * Swap_MarketCloseAll_Async(string symbol, OkexSwapDirection direction, CancellationToken ct = default)
-        * Swap_ModifyOrder(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
-        * Swap_ModifyOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
-        * Swap_PlaceOrder(string symbol, OkexSwapOrderType type, decimal size, OkexSwapTimeInForce timeInForce = OkexSwapTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default)
-        * Swap_PlaceOrder_Async(string symbol, OkexSwapOrderType type, decimal size, OkexSwapTimeInForce timeInForce = OkexSwapTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default)
+        * Swap_ModifyOrder(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Swap_ModifyOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Swap_PlaceOrder(string symbol, OkexSwapOrderType type, decimal size, OkexSwapTimeInForce timeInForce = OkexSwapTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string clientOrderId = null, CancellationToken ct = default)
+        * Swap_PlaceOrder_Async(string symbol, OkexSwapOrderType type, decimal size, OkexSwapTimeInForce timeInForce = OkexSwapTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string clientOrderId = null, CancellationToken ct = default)
         * Swap_SetLeverage(string symbol, OkexSwapLeverageSide side, int leverage, CancellationToken ct = default)
         * Swap_SetLeverage_Async(string symbol, OkexSwapLeverageSide side, int leverage, CancellationToken ct = default)
 
@@ -308,32 +308,32 @@
         * Futures_GetBalances_Async(string underlying, CancellationToken ct = default)
         * Futures_GetLeverage(string underlying, CancellationToken ct = default)
         * Futures_GetLeverage_Async(string underlying, CancellationToken ct = default)
-        * Futures_SetLeverage(OkexFuturesMarginMode mode, string underlying, int leverage, string? instrument_id = null, OkexFuturesDirection? direction = null, CancellationToken ct = default)
-        * Futures_SetLeverage_Async(OkexFuturesMarginMode mode, string underlying, int leverage, string? instrument_id = null, OkexFuturesDirection? direction = null, CancellationToken ct = default)
+        * Futures_SetLeverage(OkexFuturesMarginMode mode, string underlying, int leverage, string instrument_id = null, OkexFuturesDirection? direction = null, CancellationToken ct = default)
+        * Futures_SetLeverage_Async(OkexFuturesMarginMode mode, string underlying, int leverage, string instrument_id = null, OkexFuturesDirection? direction = null, CancellationToken ct = default)
         * Futures_GetSymbolBills(string underlying, OkexFuturesBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Futures_GetSymbolBills_Async(string underlying, OkexFuturesBillType? type = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
-        * Futures_PlaceOrder(string symbol, OkexFuturesOrderType type, decimal size, OkexFuturesTimeInForce timeInForce = OkexFuturesTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default)
-        * Futures_PlaceOrder_Async(string symbol, OkexFuturesOrderType type, decimal size, OkexFuturesTimeInForce timeInForce = OkexFuturesTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string? clientOrderId = null, CancellationToken ct = default)
+        * Futures_PlaceOrder(string symbol, OkexFuturesOrderType type, decimal size, OkexFuturesTimeInForce timeInForce = OkexFuturesTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string clientOrderId = null, CancellationToken ct = default)
+        * Futures_PlaceOrder_Async(string symbol, OkexFuturesOrderType type, decimal size, OkexFuturesTimeInForce timeInForce = OkexFuturesTimeInForce.NormalOrder, decimal? price = null, bool match_price = false, string clientOrderId = null, CancellationToken ct = default)
         * Futures_BatchPlaceOrders(string symbol, IEnumerable<OkexFuturesPlaceOrder> orders, CancellationToken ct = default)
         * Futures_BatchPlaceOrders_Async(string symbol, IEnumerable<OkexFuturesPlaceOrder> orders, CancellationToken ct = default)
-        * Futures_ModifyOrder(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
-        * Futures_ModifyOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Futures_ModifyOrder(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Futures_ModifyOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
         * Futures_BatchModifyOrders(string symbol, IEnumerable<OkexFuturesModifyOrder> orders, CancellationToken ct = default)
         * Futures_BatchModifyOrders_Async(string symbol, IEnumerable<OkexFuturesModifyOrder> orders, CancellationToken ct = default)
-        * Futures_CancelOrder(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Futures_CancelOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Futures_CancelOrder(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Futures_CancelOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Futures_BatchCancelOrders(string symbol, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
         * Futures_BatchCancelOrders_Async(string symbol, IEnumerable<long> orderIds, IEnumerable<string> clientOrderIds, CancellationToken ct = default)
         * Futures_GetAllOrders(string symbol, OkexFuturesOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Futures_GetAllOrders_Async(string symbol, OkexFuturesOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
-        * Futures_GetOrderDetails(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Futures_GetOrderDetails_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Futures_GetOrderDetails(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Futures_GetOrderDetails_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Futures_GetTransactionDetails(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Futures_GetTransactionDetails_Async(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Futures_SetAccountMode(string symbol, OkexFuturesMarginMode margin_mode, CancellationToken ct = default)
         * Futures_SetAccountMode_Async(string symbol, OkexFuturesMarginMode margin_mode, CancellationToken ct = default)
-        * Futures_GetTradeFeeRates(string? symbol = null, int? category = null, CancellationToken ct = default)
-        * Futures_GetTradeFeeRates_Async(string? symbol = null, int? category = null, CancellationToken ct = default)
+        * Futures_GetTradeFeeRates(string symbol = null, int? category = null, CancellationToken ct = default)
+        * Futures_GetTradeFeeRates_Async(string symbol = null, int? category = null, CancellationToken ct = default)
         * Futures_MarketCloseAll(string symbol, OkexFuturesDirection direction, CancellationToken ct = default)
         * Futures_MarketCloseAll_Async(string symbol, OkexFuturesDirection direction, CancellationToken ct = default)
         * Futures_CancelAll(string symbol, OkexFuturesDirection direction, CancellationToken ct = default)
@@ -382,8 +382,8 @@
         * Spot_BatchPlaceOrders_Async(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default)
         * Spot_BatchCancelOrders(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
         * Spot_BatchCancelOrders_Async(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
-        * Spot_ModifyOrder(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
-        * Spot_ModifyOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Spot_ModifyOrder(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
+        * Spot_ModifyOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, string requestId = null, decimal? newSize = null, decimal? newPrice = null, bool? cancelOnFail = null, CancellationToken ct = default)
         * Spot_BatchModifyOrders(IEnumerable<OkexSpotModifyOrder> orders, CancellationToken ct = default)
         * Spot_BatchModifyOrders_Async(IEnumerable<OkexSpotModifyOrder> orders, CancellationToken ct = default)
         * Spot_GetTransactionDetails(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
@@ -412,18 +412,18 @@
         * Margin_GetLoanHistory_Async(OkexMarginLoanStatus status, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Margin_GetLoanHistory(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Margin_GetLoanHistory_Async(string symbol, OkexMarginLoanState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
-        * Margin_Loan(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_Loan_Async(string symbol, string currency, decimal amount, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_Repayment(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_Repayment_Async(string symbol, string currency, decimal amount, long? borrow_id = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Margin_Loan(string symbol, string currency, decimal amount, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_Loan_Async(string symbol, string currency, decimal amount, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_Repayment(string symbol, string currency, decimal amount, long? borrow_id = null, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_Repayment_Async(string symbol, string currency, decimal amount, long? borrow_id = null, string clientOrderId = null, CancellationToken ct = default)
         * Margin_PlaceOrder(OkexSpotPlaceOrder order, CancellationToken ct = default)
         * Margin_PlaceOrder_Async(OkexSpotPlaceOrder order, CancellationToken ct = default)
-        * Margin_PlaceOrder(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_PlaceOrder_Async(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Margin_PlaceOrder(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_PlaceOrder_Async(string symbol, OkexSpotOrderSide side, OkexSpotOrderType type, OkexSpotTimeInForce timeInForce = OkexSpotTimeInForce.NormalOrder, decimal? price = null, decimal? size = null, decimal? notional = null, string clientOrderId = null, CancellationToken ct = default)
         * Margin_BatchPlaceOrders(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default)
         * Margin_BatchPlaceOrders_Async(IEnumerable<OkexSpotPlaceOrder> orders, CancellationToken ct = default)
-        * Margin_CancelOrder(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_CancelOrder_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Margin_CancelOrder(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_CancelOrder_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Margin_BatchCancelOrders(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
         * Margin_BatchCancelOrders_Async(IEnumerable<OkexSpotCancelOrder> orders, CancellationToken ct = default)
         * Margin_GetAllOrders(string symbol, OkexSpotOrderState state, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
@@ -432,8 +432,8 @@
         * Margin_GetLeverage_Async(string symbol, CancellationToken ct = default)
         * Margin_SetLeverage(string symbol, int leverage, CancellationToken ct = default)
         * Margin_SetLeverage_Async(string symbol, int leverage, CancellationToken ct = default)
-        * Margin_GetOrderDetails(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
-        * Margin_GetOrderDetails_Async(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+        * Margin_GetOrderDetails(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        * Margin_GetOrderDetails_Async(string symbol, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         * Margin_GetOpenOrders(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Margin_GetOpenOrders_Async(string symbol, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)
         * Margin_GetTransactionDetails(string symbol, long? orderId = null, int limit = 100, long? before = null, long? after = null, CancellationToken ct = default)

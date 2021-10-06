@@ -10,22 +10,22 @@ namespace Okex.Net.SocketObjects.Structure
     public class OkexSocketResponse
     {
         [JsonProperty("event")]
-        public string Event { get; set; } = "";
+        public string Event { get; set; }
     }
 
     public class OkexSocketSubscribeResponse : OkexSocketResponse
     {
         [JsonProperty("channel")]
-        public string Channel { get; set; } = "";
+        public string Channel { get; set; }
     }
 
     public class OkexSocketErrorResponse : OkexSocketResponse
     {
         [JsonProperty("errorCode")]
-        public string ErrorCode { get; set; } = "";
+        public string ErrorCode { get; set; }
 
         [JsonProperty("message")]
-        public string ErrorMessage { get; set; } = "";
+        public string ErrorMessage { get; set; }
     }
 
     public class OkexSocketLoginResponse : OkexSocketResponse
@@ -37,7 +37,7 @@ namespace Okex.Net.SocketObjects.Structure
     public class OkexSocketUpdateResponse<T>
     {
         [JsonProperty("table")]
-        public string Table { get; set; } = "";
+        public string Table { get; set; }
 
         /*
         [JsonOptionalProperty]
@@ -50,10 +50,11 @@ namespace Okex.Net.SocketObjects.Structure
         public T Data { get; set; } = default!;
     }
 
+    /*
     public class OkexSpotOrderBookUpdate
     {
         [JsonProperty("table")]
-        public string Table { get; set; } = "";
+        public string Table { get; set; }
 
         [JsonProperty("action"), JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
         public OkexOrderBookDataType DataType { get; set; }
@@ -65,7 +66,7 @@ namespace Okex.Net.SocketObjects.Structure
     public class OkexFuturesOrderBookUpdate
     {
         [JsonProperty("table")]
-        public string Table { get; set; } = "";
+        public string Table { get; set; }
 
         [JsonProperty("action"), JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
         public OkexOrderBookDataType DataType { get; set; }
@@ -77,7 +78,7 @@ namespace Okex.Net.SocketObjects.Structure
     public class OkexSwapOrderBookUpdate
     {
         [JsonProperty("table")]
-        public string Table { get; set; } = "";
+        public string Table { get; set; }
 
         [JsonProperty("action"), JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
         public OkexOrderBookDataType DataType { get; set; }
@@ -89,7 +90,7 @@ namespace Okex.Net.SocketObjects.Structure
     public class OkexOptionsOrderBookUpdate
     {
         [JsonProperty("table")]
-        public string Table { get; set; } = "";
+        public string Table { get; set; }
 
         [JsonProperty("action"), JsonOptionalProperty, JsonConverter(typeof(OrderBookDataTypeConverter))]
         public OkexOrderBookDataType DataType { get; set; }
@@ -97,4 +98,5 @@ namespace Okex.Net.SocketObjects.Structure
         [JsonProperty("data")]
         public IEnumerable<OkexOptionsOrderBook> Data { get; set; } = default!;
     }
+    */
 }

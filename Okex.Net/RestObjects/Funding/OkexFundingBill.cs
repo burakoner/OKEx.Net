@@ -1,51 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿using CryptoExchange.Net.Converters;
+using Newtonsoft.Json;
+using Okex.Net.Converters;
+using Okex.Net.Enums;
 using System;
 
-namespace Okex.Net.RestObjects
+namespace Okex.Net.RestObjects.Funding
 {
     public class OkexFundingBill
     {
-        /// <summary>
-        /// Bill ID
-        /// </summary>
-        [JsonProperty("ledger_id")]
-        public long LedgerId { get; set; }
+        [JsonProperty("billId")]
+        public long? BillId { get; set; }
 
-        /// <summary>
-        /// Creation time
-        /// </summary>
-        [JsonProperty("timestamp")]
-        public DateTime Timestamp { get; set; }
+        [JsonProperty("ccy")]
+        public string Currency { get; set; }
+                
+        [JsonProperty("bal")]
+        public decimal? Balance { get; set; }
+        
+        [JsonProperty("balChg")]
+        public decimal? BalanceChange { get; set; }
 
-        /// <summary>
-        /// Token symbol
-        /// </summary>
-        [JsonProperty("currency")]
-        public string Currency { get; set; } = "";
+        [JsonProperty("type"), JsonConverter(typeof(FundingBillTypeConverter))]
+        public OkexFundingBillType Type { get; set; }
 
-        /// <summary>
-        /// Remaining balance
-        /// </summary>
-        [JsonProperty("balance")]
-        public decimal Balance { get; set; }
-
-        /// <summary>
-        /// Amount changed
-        /// </summary>
-        [JsonProperty("amount")]
-        public decimal Amount { get; set; }
-
-        /// <summary>
-        /// Service fees
-        /// </summary>
-        [JsonProperty("fee")]
-        public decimal Fee { get; set; }
-
-        /// <summary>
-        /// Type of bills
-        /// </summary>
-        [JsonProperty("typename")]
-        public string TypeName { get; set; } = "";
+        [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
+        public DateTime Time { get; set; }
     }
-
 }
