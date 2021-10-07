@@ -8,39 +8,58 @@ A .Net wrapper for the OKEx API as described on [OKEx](https://www.okex.com/docs
 Implementation is build upon the CryptoExchange.Net library, make sure to also check out the documentation on that: [docs](https://github.com/JKorf/CryptoExchange.Net)
 
 My CryptoExchange.Net implementations:
+
+
+
 <table>
 <tr>
-<td><a href="https://github.com/burakoner/OKEx.Net"><img src="https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/OKEx.Net">OKEx</a>
+<td>
+
+![Image](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true)
+
+[OKEx](https://github.com/burakoner/OKEx.Net)
 </td>
-<td><a href="https://github.com/burakoner/Chiliz.Net"><img src="https://github.com/burakoner/Chiliz.Net/blob/master/Chiliz.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/Chiliz.Net">Chiliz</a>
+<td>
+
+![Image](https://github.com/burakoner/Chiliz.Net/blob/master/Chiliz.Net/Icon/icon.png?raw=true)
+
+[Chiliz](https://github.com/burakoner/Chiliz.Net)
 </td>
-<td><a href="https://github.com/burakoner/BitMax.Net"><img src="https://github.com/burakoner/BitMax.Net/blob/master/BitMax.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/BitMax.Net">BitMax</a>
+<td>
+
+![Image](https://github.com/burakoner/BitMax.Net/blob/master/BitMax.Net/Icon/icon.png?raw=true)
+
+[BitMax](https://github.com/burakoner/BitMax.Net)
 </td>
-<td><a href="https://github.com/burakoner/BtcTurk.Net"><img src="https://github.com/burakoner/BtcTurk.Net/blob/master/BtcTurk.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/BtcTurk.Net">BtcTurk</a>
+<td>
+
+![Image](https://github.com/burakoner/BtcTurk.Net/blob/master/BtcTurk.Net/Icon/icon.png?raw=true)
+
+[BtcTurk](https://github.com/burakoner/BtcTurk.Net)
 </td>
-<td><a href="https://github.com/burakoner/Paribu.Net"><img src="https://github.com/burakoner/Paribu.Net/blob/master/Paribu.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/Paribu.Net">Paribu</a>
+<td>
+
+![Image](https://github.com/burakoner/Paribu.Net/blob/master/Paribu.Net/Icon/icon.png?raw=true)
+
+[Paribu](https://github.com/burakoner/Paribu.Net)
 </td>
-<td><a href="https://github.com/burakoner/Thodex.Net"><img src="https://github.com/burakoner/Thodex.Net/blob/master/Thodex.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/Thodex.Net">Thodex</a>
+<td>
+
+![Image](https://github.com/burakoner/Thodex.Net/blob/master/Thodex.Net/Icon/icon.png?raw=true)
+
+[Thodex](https://github.com/burakoner/Thodex.Net)
 </td>
-<td><a href="https://github.com/burakoner/Coinzo.Net"><img src="https://github.com/burakoner/Coinzo.Net/blob/master/Coinzo.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/Coinzo.Net">Coinzo</a>
+<td>
+
+![Image](https://github.com/burakoner/Coinzo.Net/blob/master/Coinzo.Net/Icon/icon.png?raw=true)
+
+[Coinzo](https://github.com/burakoner/Coinzo.Net)
 </td>
-<td><a href="https://github.com/burakoner/Tatum.Net"><img src="https://github.com/burakoner/Tatum.Net/blob/master/Tatum.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/burakoner/Tatum.Net">Tatum</a>
+<td>
+
+![Image](https://github.com/burakoner/Tatum.Net/blob/master/Tatum.Net/Icon/icon.png?raw=true)
+
+[Tatum](https://github.com/burakoner/Tatum.Net)
 </td>
 </tr>
 </table>
@@ -48,33 +67,47 @@ My CryptoExchange.Net implementations:
 JKorf CryptoExchange.Net implementations:
 <table>
 <tr>
-<td><a href="https://github.com/JKorf/Binance.Net"><img src="https://github.com/JKorf/Binance.Net/blob/master/Binance.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Binance.Net">Binance</a>
+<td>
+
+![Image](https://github.com/JKorf/Binance.Net/blob/master/Binance.Net/Icon/icon.png?raw=true)
+
+[Binance](https://github.com/JKorf/Binance.Net)
 </td>
-<td><a href="https://github.com/JKorf/Bitfinex.Net"><img src="https://github.com/JKorf/Bitfinex.Net/blob/master/Bitfinex.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Bitfinex.Net">Bitfinex</a>
+<td>
+
+![Image](https://github.com/JKorf/Bitfinex.Net/blob/master/Bitfinex.Net/Icon/icon.png?raw=true)
+
+[Bitfinex](https://github.com/JKorf/Bitfinex.Net)
 </td>
-<td><a href="https://github.com/JKorf/Bittrex.Net"><img src="https://github.com/JKorf/Bittrex.Net/blob/master/Bittrex.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Bittrex.Net">Bittrex</a>
+<td>
+
+![Image](https://github.com/JKorf/Bittrex.Net/blob/master/Bittrex.Net/Icon/icon.png?raw=true)
+
+[Bittrex](https://github.com/JKorf/Bittrex.Net)
 </td>
-<td><a href="https://github.com/JKorf/CoinEx.Net"><img src="https://github.com/JKorf/CoinEx.Net/blob/master/CoinEx.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/CoinEx.Net">CoinEx</a>
+<td>
+
+![Image](https://github.com/JKorf/CoinEx.Net/blob/master/CoinEx.Net/Icon/icon.png?raw=true)
+
+[CoinEx](https://github.com/JKorf/CoinEx.Net)
 </td>
-<td><a href="https://github.com/JKorf/Huobi.Net"><img src="https://github.com/JKorf/Huobi.Net/blob/master/Huobi.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Huobi.Net">Huobi</a>
+<td>
+
+![Image](https://github.com/JKorf/Huobi.Net/blob/master/Huobi.Net/Icon/icon.png?raw=true)
+
+[Huobi](https://github.com/JKorf/Huobi.Net)
 </td>
-<td><a href="https://github.com/JKorf/Kraken.Net"><img src="https://github.com/JKorf/Kraken.Net/blob/master/Kraken.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Kraken.Net">Kraken</a>
+<td>
+
+![Image](https://github.com/JKorf/Kraken.Net/blob/master/Kraken.Net/Icon/icon.png?raw=true)
+
+[Kraken](https://github.com/JKorf/Kraken.Net)
 </td>
-<td><a href="https://github.com/JKorf/Kucoin.Net"><img src="https://github.com/JKorf/Kucoin.Net/blob/master/Kucoin.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/JKorf/Kucoin.Net">Kucoin</a>
+<td>
+
+![Image](https://github.com/JKorf/Kucoin.Net/blob/master/Kucoin.Net/Icon/icon.png?raw=true)
+
+[Kucoin](https://github.com/JKorf/Kucoin.Net)
 </td>
 </tr>
 </table>
@@ -82,29 +115,41 @@ JKorf CryptoExchange.Net implementations:
 Implementations from third parties:
 <table>
 <tr>
-<td><a href="https://github.com/ridicoulous/Bitmex.Net"><img src="https://github.com/ridicoulous/Bitmex.Net/blob/master/Bitmex.Net/Icon/icon.png"></a>
-<br />
-<a href="https://github.com/ridicoulous/Bitmex.Net">Bitmex</a>
+<td>
+
+![Image](https://github.com/ridicoulous/Bitmex.Net/blob/master/Bitmex.Net/Icon/icon.png?raw=true)
+
+[Bitmex](https://github.com/ridicoulous/Bitmex.Net)
 </td>
-<td><a href="https://github.com/d-ugarov/Exante.Net"><img src="https://github.com/d-ugarov/Exante.Net/blob/master/Exante.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/d-ugarov/Exante.Net">Exante</a>
+<td>
+
+![Image](https://github.com/d-ugarov/Exante.Net/blob/master/Exante.Net/Icon/icon.png?raw=true)
+
+[Exante](https://github.com/d-ugarov/Exante.Net)
 </td>
-<td><a href="https://github.com/intelligences/HitBTC.Net"><img src="https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/intelligences/HitBTC.Net">HitBTC</a>
+<td>
+
+![Image](https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png?raw=true)
+
+[HitBTC](https://github.com/intelligences/HitBTC.Net)
 </td>
-<td><a href="https://github.com/ridicoulous/LiquidQuoine.Net"><img src="https://github.com/ridicoulous/LiquidQuoine.Net/blob/master/Resources/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/ridicoulous/LiquidQuoine.Net">Liquid</a>
+<td>
+
+![Image](https://github.com/ridicoulous/LiquidQuoine.Net/blob/master/Resources/icon.png?raw=true)
+
+[Liquid](https://github.com/ridicoulous/LiquidQuoine.Net)
 </td>
-<td><a href="https://github.com/EricGarnier/LiveCoin.Net"><img src="https://github.com/EricGarnier/LiveCoin.Net/blob/master/LiveCoin.Net/Icon/icon.png?raw=true"></a>
-<br />
-<a href="https://github.com/EricGarnier/LiveCoin.Net">LiveCoin</a>
+<td>
+
+![Image](https://github.com/EricGarnier/LiveCoin.Net/blob/master/LiveCoin.Net/Icon/icon.png?raw=true)
+
+[LiveCoin](https://github.com/EricGarnier/LiveCoin.Net)
 </td>
-<td><a href="https://github.com/Zaliro/Switcheo.Net"><img src="https://github.com/Zaliro/Switcheo.Net/blob/master/Resources/switcheo-coin.png?raw=true"></a>
-<br />
-<a href="https://github.com/Zaliro/Switcheo.Net">Switcheo</a>
+<td>
+
+![Image](https://github.com/Zaliro/Switcheo.Net/blob/master/Resources/switcheo-coin.png?raw=true)
+
+[Switcheo](https://github.com/Zaliro/Switcheo.Net)
 </td>
 </tr>
 </table>
@@ -970,4 +1015,4 @@ ws.Index_SubscribeToCandlesticks("BTC-USD", OkexSpotPeriod.FiveMinutes, (data) =
 ```
 
 ## Release Notes
-Please refer to <a href="https://github.com/burakoner/OKEx.Net/blob/master/VERSION.md">VERSION</a> file.
+Please refer to [VERSION](https://github.com/burakoner/OKEx.Net/blob/master/VERSION.md "VERSION") file.
