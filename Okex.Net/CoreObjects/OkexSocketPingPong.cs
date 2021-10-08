@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Okex.Net.SocketObjects.Containers
+namespace Okex.Net.CoreObjects
 {
-    public class OkexGeneralPingPongContainer
+    public class OkexSocketPingPong
     {
         public DateTime PingTime { get; set; }
         public DateTime PongTime { get; set; }

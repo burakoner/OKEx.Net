@@ -1,7 +1,5 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -11,12 +9,12 @@ namespace Okex.Net.RestObjects.Market
     {
         [JsonProperty("last")]
         public decimal LastPrice { get; set; }
-        
+
         [JsonProperty("index")]
         public string Index { get; set; }
 
         [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
-        public DateTime  Time { get; set; }
+        public DateTime Time { get; set; }
 
         [JsonProperty("components")]
         public IEnumerable<OkexIndexComponent> Components { get; set; }
@@ -32,10 +30,10 @@ namespace Okex.Net.RestObjects.Market
 
         [JsonProperty("wgt")]
         public decimal Weight { get; set; }
-        
+
         [JsonProperty("cnvPx")]
         public decimal ConvertPrice { get; set; }
-        
+
         [JsonProperty("exch")]
         public string Exchange { get; set; }
     }

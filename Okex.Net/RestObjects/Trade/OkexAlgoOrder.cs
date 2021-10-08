@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -16,7 +15,7 @@ namespace Okex.Net.RestObjects.Trade
 
         [JsonProperty("algoId")]
         public long? AlgoId { get; set; }
-        
+
         [JsonProperty("ordId")]
         public long? OrderId { get; set; }
 
@@ -46,7 +45,7 @@ namespace Okex.Net.RestObjects.Trade
 
         [JsonProperty("actualPx")]
         public decimal? ActualOrderPrice { get; set; }
-        
+
         [JsonProperty("actualSz")]
         public decimal? ActualOrderQuantity { get; set; }
 
@@ -64,7 +63,7 @@ namespace Okex.Net.RestObjects.Trade
 
         [JsonProperty("slOrdPx")]
         public decimal? StopLossOrderPrice { get; set; }
-        
+
         [JsonProperty("slTriggerPx")]
         public decimal? StopLossTriggerPrice { get; set; }
 
@@ -76,13 +75,13 @@ namespace Okex.Net.RestObjects.Trade
 
         [JsonProperty("triggerPx")]
         public decimal? TriggerPrice { get; set; }
-        
+
         [JsonProperty("lever")]
         public decimal? Leverage { get; set; }
-        
+
         [JsonProperty("szLimit")]
         public decimal? AverageQuantity { get; set; }
-        
+
         [JsonProperty("timeInterval")]
         public long? TimeInterval { get; set; }
 

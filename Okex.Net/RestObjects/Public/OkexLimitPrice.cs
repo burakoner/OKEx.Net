@@ -1,9 +1,7 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Public
 {
@@ -17,7 +15,7 @@ namespace Okex.Net.RestObjects.Public
 
         [JsonProperty("buyLmt")]
         public decimal BuyLimit { get; set; }
-        
+
         [JsonProperty("sellLmt")]
         public decimal SellLimit { get; set; }
 

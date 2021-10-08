@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects.SubAccount
 {

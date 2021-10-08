@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Globalization;
-using Newtonsoft.Json;
 
 namespace Okex.Net.Converters
 {
@@ -29,7 +29,7 @@ namespace Okex.Net.Converters
 
             var t = double.Parse(reader.Value.ToString(), CultureInfo.InvariantCulture);
             // Set ticks instead of seconds or milliseconds, because AddSeconds/AddMilliseconds rounds to nearest millisecond
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddTicks((long)(t * TimeSpan.TicksPerSecond)); 
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddTicks((long)(t * TimeSpan.TicksPerSecond));
         }
 
         /// <inheritdoc />

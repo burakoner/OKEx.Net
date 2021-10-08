@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Public
@@ -11,10 +7,10 @@ namespace Okex.Net.RestObjects.Public
     {
         [JsonProperty("basic")]
         public IEnumerable<OkexPublicInterestRateBasic> Basic { get; set; }
-        
+
         [JsonProperty("vip")]
         public IEnumerable<OkexPublicInterestRateVip> Vip { get; set; }
-        
+
         [JsonProperty("regular")]
         public IEnumerable<OkexPublicInterestRateRegular> regular { get; set; }
 
@@ -27,7 +23,7 @@ namespace Okex.Net.RestObjects.Public
 
         [JsonProperty("quota")]
         public decimal? Quota { get; set; }
-        
+
         [JsonProperty("rate")]
         public decimal? Rate { get; set; }
     }
@@ -39,7 +35,7 @@ namespace Okex.Net.RestObjects.Public
 
         [JsonProperty("loanQuotaCoef")]
         public decimal? LoanQuotaCoef { get; set; }
-        
+
         [JsonProperty("level")]
         public string Level { get; set; }
     }
@@ -51,7 +47,7 @@ namespace Okex.Net.RestObjects.Public
 
         [JsonProperty("loanQuotaCoef")]
         public decimal? LoanQuotaCoef { get; set; }
-        
+
         [JsonProperty("level")]
         public string Level { get; set; }
     }

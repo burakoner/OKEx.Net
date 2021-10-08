@@ -1,111 +1,46 @@
 ﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Okex.Net.CoreObjects;
 using Okex.Net.Helpers;
-using Okex.Net.SocketObjects.Structure;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Okex.Net
 {
-    /// <summary>
-    /// Client for the Okex Websocket API
-    /// </summary>
     public partial class OkexSocketClient : SocketClient
     {
+        protected SecureString Key { get; set; }
+        protected SecureString Secret { get; set; }
+        protected SecureString PassPhrase { get; set; }
+        public bool Authendicated { get; private set; }
+
         #region Client Options
         protected static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
         protected static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
         #endregion
 
-        // Match Lists
-        private const string channelKey_Currency = "currency";
-        private const string channelKey_InstrumentId = "instrument_id";
-        private const string channelKey_Underlying = "underlying";
-        Dictionary<string, string> channelKeys = new Dictionary<string, string>
-        {
-            {"spot/ticker", channelKey_InstrumentId}, // Spot Tickers Update
-            {"spot/candle", channelKey_InstrumentId}, // Spot Candlesticks Update
-            {"spot/trade", channelKey_InstrumentId}, // Spot Trades Update
-            {"spot/depth_l2_tbt", channelKey_InstrumentId}, // Spot Depth-TBT Update
-            {"spot/depth5", channelKey_InstrumentId}, // Spot Depth-5 Update
-            {"spot/depth", channelKey_InstrumentId}, // Spot Depth-400 Update
-            {"spot/order", channelKey_InstrumentId}, // Spot Orders Update (Private)
-            {"spot/order_algo", channelKey_InstrumentId}, // Spot Algo Orders Update (Private)
-
-            {"spot/margin_account", channelKey_InstrumentId}, // Margin Balance Update (Private)
-
-            {"futures/ticker", channelKey_InstrumentId}, // Futures Tickers Update
-            {"futures/candle", channelKey_InstrumentId}, // Futures Candlesticks Update
-            {"futures/trade", channelKey_InstrumentId}, // Futures Trades Update
-            {"futures/price_range", channelKey_InstrumentId}, // Futures Price Range Update
-            {"futures/estimated_price", channelKey_InstrumentId}, // Futures Estimated Price Update
-            {"futures/depth_l2_tbt", channelKey_InstrumentId}, // Futures Depth-TBT Update
-            {"futures/depth5", channelKey_InstrumentId}, // Futures Depth-5 Update
-            {"futures/depth", channelKey_InstrumentId}, // Futures Depth-400 Update
-            {"futures/mark_price", channelKey_InstrumentId}, // Futures Mark Price Update
-            {"futures/position", channelKey_InstrumentId}, // Futures Positions Update (Private)
-            {"futures/order", channelKey_InstrumentId}, // Futures Orders Update (Private)
-            {"futures/order_algo", channelKey_InstrumentId}, // Futures Algo Orders Update (Private)
-
-            {"swap/ticker", channelKey_InstrumentId}, // Perpetual Swap Tickers Update
-            {"swap/candle", channelKey_InstrumentId}, // Perpetual Swap Candlesticks Update
-            {"swap/trade", channelKey_InstrumentId}, // Perpetual Swap Trades Update
-            {"swap/funding_rate", channelKey_InstrumentId}, // Perpetual Swap Funding Rate Update
-            {"swap/price_range", channelKey_InstrumentId}, // Perpetual Swap Price Range Update
-            {"swap/depth_l2_tbt", channelKey_InstrumentId}, // Perpetual Swap Depth-TBT Update
-            {"swap/depth5", channelKey_InstrumentId}, // Perpetual Swap Depth-5 Update
-            {"swap/depth", channelKey_InstrumentId}, // Perpetual Swap Depth-400 Update
-            {"swap/mark_price", channelKey_InstrumentId}, // Perpetual Swap Mark Price Update
-            {"swap/position", channelKey_InstrumentId}, // Perpetual Swap Positions Update (Private)
-            {"swap/order", channelKey_InstrumentId}, // Perpetual Swap Orders Update (Private)
-            {"swap/order_algo", channelKey_InstrumentId}, // Perpetual Swap Algo Orders Update (Private)
-
-            {"option/candle", channelKey_InstrumentId}, // Options Candlesticks Update
-            {"option/trade", channelKey_InstrumentId}, // Options Trades Update
-            {"option/ticker", channelKey_InstrumentId}, // Options Tickers Update
-            {"option/depth_l2_tbt", channelKey_InstrumentId}, // Options Depth-TBT Update
-            {"option/depth5", channelKey_InstrumentId}, // Options Depth-5 Update
-            {"option/depth", channelKey_InstrumentId}, // Options Depth-400 Update
-            {"option/position", channelKey_InstrumentId}, // Options Positions Update (Private)
-            {"option/order", channelKey_InstrumentId}, // Options Orders Update (Private)
-
-            {"index/ticker", channelKey_InstrumentId}, // Index Tickers Update
-            {"index/candle", channelKey_InstrumentId}, // Index Candlesticks Update
-
-            {"spot/account", channelKey_Currency}, // Spot Balance Update (Private)
-
-            {"option/instruments", channelKey_Underlying}, // Options Contracts Update
-            {"option/summary", channelKey_Underlying}, // Options Market Data Update
-            {"option/account", channelKey_Underlying}, // Options Balance Update (Private)
-        };
-
         #region Constructor/Destructor
-        /// <summary>
-        /// Create a new instance of OkexSocketClient with default options
-        /// </summary>
         public OkexSocketClient() : this(DefaultOptions)
         {
         }
 
-        /// <summary>
-        /// Create a new instance of OkexSocketClient using provided options
-        /// </summary>
-        /// <param name="options">The options to use for this client</param>
-        public OkexSocketClient(OkexSocketClientOptions options) : base("Okex", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
+        public OkexSocketClient(OkexSocketClientOptions options) : base("OKEx WS Api", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
         {
             SetDataInterpreter(DecompressData, null);
+            SetupPingTimer();
         }
         #endregion
 
@@ -119,6 +54,69 @@ namespace Okex.Net
             defaultOptions = options;
         }
         #endregion
+
+        /// <summary>
+        /// Set the API key and secret
+        /// </summary>
+        /// <param name="apiKey">The api key</param>
+        /// <param name="apiSecret">The api secret</param>
+        /// <param name="passPhrase">The api pass phrase</param>
+        public virtual void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
+        {
+            Key = apiKey.ToSecureString();
+            Secret = apiSecret.ToSecureString();
+            PassPhrase = passPhrase.ToSecureString();
+        }
+
+        protected bool IsPingTimerRunning { get; set; }
+        protected System.Timers.Timer PingTimer { get; set; }
+        protected virtual void SetupPingTimer()
+        {
+            PingTimer = new System.Timers.Timer();
+            PingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PingTimer_Action);
+            PingTimer.Interval = 25 * 1000;
+            PingTimer.Enabled = true;
+        }
+
+        private void PingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Check Point
+            if (IsPingTimerRunning)
+                return;
+
+            // Is Running
+            IsPingTimerRunning = true;
+
+            // Action
+            try
+            {
+                Ping();
+            }
+            catch { }
+
+            // Is Running
+            IsPingTimerRunning = false;
+        }
+
+        public virtual CallResult<OkexSocketPingPong> Ping() => PingAsync().Result;
+        public virtual async Task<CallResult<OkexSocketPingPong>> PingAsync()
+        {
+            var pit = DateTime.UtcNow;
+            var sw = Stopwatch.StartNew();
+            var response = await QueryAsync<string>("ping", false).ConfigureAwait(true);
+            var pot = DateTime.UtcNow;
+            sw.Stop();
+
+            var result = new OkexSocketPingPong { PingTime = pit, PongTime = pot, Latency = sw.Elapsed, PongMessage = response.Data };
+            return new CallResult<OkexSocketPingPong>(result, response.Error);
+        }
+
+
+        protected virtual void PingHandler(MessageEvent messageEvent)
+        {
+            //if (messageEvent.JsonData["m"] != null && (string)messageEvent.JsonData["m"] == "ping")
+            //    messageEvent.Connection.Send(new BitMaxSocketPingRequest(NextRequestId()));
+        }
 
         protected static string DecompressData(byte[] byteData)
         {
@@ -141,12 +139,48 @@ namespace Okex.Net
             }
         }
 
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8629 // Nullable value type may be null.
+        protected override SocketConnection GetSocketConnection(string address, bool authenticated)
+        {
+            return OkexGetSocketConnection(address, authenticated);
+        }
+        protected virtual SocketConnection OkexGetSocketConnection(string address, bool authenticated)
+        {
+            address = authenticated
+                ? "wss://ws.okex.com:8443/ws/v5/private"
+                : "wss://ws.okex.com:8443/ws/v5/public";
+            var socketResult = sockets
+                .Where(s =>
+                    s.Value.Socket.Url.TrimEnd('/') == address.TrimEnd('/') &&
+                    (s.Value.Authenticated == authenticated || !authenticated) &&
+                    s.Value.Connected)
+                .OrderBy(s => s.Value.SubscriptionCount)
+                .FirstOrDefault();
+            var result = socketResult.Equals(default(KeyValuePair<int, SocketConnection>)) ? null : socketResult.Value;
+            if (result != null)
+            {
+                if (result.SubscriptionCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.SubscriptionCount >= SocketCombineTarget)))
+                {
+                    // Use existing socket if it has less than target connections OR it has the least connections and we can't make new
+                    return result;
+                }
+            }
+
+            // Create new socket
+            var socket = CreateSocket(address);
+            var socketConnection = new SocketConnection(this, socket);
+            socketConnection.UnhandledMessage += HandleUnhandledMessage;
+            foreach (var kvp in genericHandlers)
+            {
+                var handler = SocketSubscription.CreateForIdentifier(NextId(), kvp.Key, false, kvp.Value);
+                socketConnection.AddSubscription(handler);
+            }
+
+            return socketConnection;
+        }
+
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
-            return this.OkexHandleQueryResponse<T>(s, request, data, out callResult);
+            return OkexHandleQueryResponse<T>(s, request, data, out callResult);
         }
         protected virtual bool OkexHandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
@@ -167,11 +201,10 @@ namespace Okex.Net
             }
 
             // Check for Error
-            // 30040: {0} Channel : {1} doesn't exist
-            if (data is JObject && data["event"] != null && (string)data["event"]! == "error" && data["errorCode"] != null)
+            if (data is JObject && data["event"] != null && (string)data["event"]! == "error" && data["code"] != null && data["msg"] != null)
             {
-                log.Write(LogLevel.Warning, "Query failed: " + (string)data["message"]!);
-                callResult = new CallResult<T>(default, new ServerError($"{(string)data["errorCode"]!}, {(string)data["message"]!}"));
+                log.Write(LogLevel.Warning, "Query failed: " + (string)data["msg"]!);
+                callResult = new CallResult<T>(default, new ServerError($"{(string)data["code"]!}, {(string)data["msg"]!}"));
                 return true;
             }
 
@@ -194,7 +227,7 @@ namespace Okex.Net
 
         protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
-            return this.OkexHandleSubscriptionResponse(s, subscription, request, message, out callResult);
+            return OkexHandleSubscriptionResponse(s, subscription, request, message, out callResult);
         }
         protected virtual bool OkexHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
@@ -210,11 +243,11 @@ namespace Okex.Net
             }
 
             // Check for Success
-            if (message["event"] != null && (string)message["event"]! == "subscribe" && message["channel"] != null)
+            if (message["event"] != null && (string)message["event"]! == "subscribe" && message["arg"]["channel"] != null)
             {
                 if (request is OkexSocketRequest socRequest)
                 {
-                    if (socRequest.Arguments.Contains((string)message["channel"]!))
+                    if (socRequest.Arguments.FirstOrDefault().Channel == (string)message["arg"]["channel"]!)
                     {
                         log.Write(LogLevel.Debug, "Subscription completed");
                         callResult = new CallResult<object>(true, null);
@@ -228,36 +261,35 @@ namespace Okex.Net
 
         protected override bool MessageMatchesHandler(JToken message, object request)
         {
-            return this.OkexMessageMatchesHandler(message, request);
+            return OkexMessageMatchesHandler(message, request);
         }
         protected virtual bool OkexMessageMatchesHandler(JToken message, object request)
         {
             if (request is OkexSocketRequest hRequest)
             {
-                if (hRequest.Operation != OkexSocketOperation.Subscribe || message["table"] == null)
+                // Check for Error
+                if (message is JObject && message["event"] != null && (string)message["event"]! == "error" && message["code"] != null && message["msg"] != null)
                     return false;
 
-                // Table Name
-                var table = (string)message["table"]!;
+                // Check for Channel
+                if (hRequest.Operation != OkexSocketOperation.Subscribe || message["arg"]["channel"] == null)
+                    return false;
 
-                // Search in Match Dictionary
-                if (channelKeys.TryGetValue(table, out var channelKey))
+                // Compare Request and Response Arguments
+                var reqArg = hRequest.Arguments.FirstOrDefault();
+                var resArg = JsonConvert.DeserializeObject<OkexSocketRequestArgument>(message["arg"].ToString());
+
+                // Check Data
+                var data = message["data"];
+                if (data?.HasValues ?? false)
                 {
-                    var data = message["data"];
-                    if (data?.HasValues ?? false)
+                    if (reqArg.Channel == resArg.Channel &&
+                        reqArg.Underlying == resArg.Underlying &&
+                        reqArg.InstrumentId == resArg.InstrumentId &&
+                        reqArg.InstrumentType == resArg.InstrumentType)
                     {
-                        var channelSuffix = data[0][channelKey];
-                        if (channelSuffix != null && hRequest.Arguments.Contains(table + ":" + channelSuffix))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
-                }
-                else
-                {
-                    return 
-                        (table == "futures/instruments" && hRequest.Arguments.Contains(table)) ||
-                        ((table == "futures/account" || table == "swap/account") && hRequest.Arguments.Any(a => a.StartsWith(table)));
                 }
             }
 
@@ -266,7 +298,7 @@ namespace Okex.Net
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
         {
-            return this.OkexMessageMatchesHandler(message, identifier);
+            return OkexMessageMatchesHandler(message, identifier);
         }
         protected virtual bool OkexMessageMatchesHandler(JToken message, string identifier)
         {
@@ -275,32 +307,50 @@ namespace Okex.Net
 
         protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
-            return await this.OkexAuthenticateSocket(s);
+            return await OkexAuthenticateSocket(s);
         }
         protected virtual async Task<CallResult<bool>> OkexAuthenticateSocket(SocketConnection s)
         {
+            // Check Point
+            if (s.Authenticated)
+                return new CallResult<bool>(true, null);
+
+            // Check Point
             if (Key == null || Secret == null || PassPhrase == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
 
+            // Get Credentials
             var key = Key.GetString();
             var secret = Secret.GetString();
             var passphrase = PassPhrase.GetString();
+
+            // Check Point
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(passphrase))
                 return new CallResult<bool>(false, new NoApiCredentialsError());
 
-            var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
-            var signtext = time + "GET" + "/users/self/verify";
-            _hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(Secret.GetString()));
-            var signature = OkexAuthenticationProvider.Base64Encode(_hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
-            var request = new OkexSocketRequest(OkexSocketOperation.Login, Key.GetString(), PassPhrase.GetString(), time, signature);
+            // Timestamp
+            var timestamp = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
 
+            // Signature
+            var signtext = timestamp + "GET" + "/users/self/verify";
+            var hmacEncryptor = new HMACSHA256(Encoding.ASCII.GetBytes(secret));
+            var signature = OkexAuthenticationProvider.Base64Encode(hmacEncryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
+            var request = new OkexSocketAuthRequest(OkexSocketOperation.Login, new OkexSocketAuthRequestArgument
+            {
+                ApiKey = key,
+                Passphrase = passphrase,
+                Timestamp = timestamp,
+                Signature = signature,
+            });
+
+            // Try to Login
             var result = new CallResult<bool>(false, new ServerError("No response from server"));
             await s.SendAndWaitAsync(request, ResponseTimeout, data =>
             {
                 if ((string)data["event"] != "login")
                     return false;
 
-                var authResponse = Deserialize<OkexSocketLoginResponse>(data, false);
+                var authResponse = Deserialize<OkexSocketResponse>(data, false);
                 if (!authResponse)
                 {
                     log.Write(LogLevel.Warning, "Authorization failed: " + authResponse.Error);
@@ -316,6 +366,7 @@ namespace Okex.Net
 
                 log.Write(LogLevel.Debug, "Authorization completed");
                 result = new CallResult<bool>(true, null);
+                Authendicated = true;
                 return true;
             });
 
@@ -324,7 +375,7 @@ namespace Okex.Net
 
         protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription s)
         {
-            return await this.OkexUnsubscribe(connection, s);
+            return await OkexUnsubscribe(connection, s);
         }
         protected virtual async Task<bool> OkexUnsubscribe(SocketConnection connection, SocketSubscription s)
         {
@@ -339,15 +390,12 @@ namespace Okex.Net
 
                 if ((string)data["event"] == "unsubscribe")
                 {
-                    return (string)data["channel"] == request.Arguments.FirstOrDefault();
+                    return (string)data["arg"]["channel"] == request.Arguments.FirstOrDefault().Channel;
                 }
 
                 return false;
             });
             return false;
         }
-#pragma warning restore CS8629 // Nullable value type may be null.
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
     }
 }

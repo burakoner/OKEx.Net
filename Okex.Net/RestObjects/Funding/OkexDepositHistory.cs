@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -13,7 +12,7 @@ namespace Okex.Net.RestObjects.Funding
 
         [JsonProperty("chain")]
         public string Chain { get; set; }
-        
+
         [JsonProperty("amt")]
         public decimal Amount { get; set; }
 
@@ -22,7 +21,7 @@ namespace Okex.Net.RestObjects.Funding
 
         [JsonProperty("to")]
         public string To { get; set; }
-        
+
         [JsonProperty("txId")]
         public string TransactionId { get; set; }
 

@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects.Funding
 {
@@ -10,10 +6,10 @@ namespace Okex.Net.RestObjects.Funding
     {
         [JsonProperty("ccy")]
         public string Currency { get; set; }
-        
+
         [JsonProperty("name")]
         public string Name { get; set; }
-        
+
         [JsonProperty("chain")]
         public string Chain { get; set; }
 
@@ -25,13 +21,13 @@ namespace Okex.Net.RestObjects.Funding
 
         [JsonProperty("canInternal")]
         public bool AllowInternalTransfer { get; set; }
-        
+
         [JsonProperty("minWd")]
         public decimal MinimumWithdrawalAmount { get; set; }
-        
+
         [JsonProperty("minFee")]
         public decimal MinimumWithdrawealFee { get; set; }
-        
+
         [JsonProperty("maxFee")]
         public decimal MaximumWithdrawealFee { get; set; }
     }

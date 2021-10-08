@@ -25,7 +25,7 @@ namespace Okex.Net.Helpers
         /// <summary>
         /// Validate the string is a valid spot currency.
         /// </summary>
-        /// <param name="currency"></param>
+        /// <param name="currency">Currency</param>
         /// <returns></returns>
         public static string ValidateCurrency(this string currency, string messagePrefix = "", string messageSuffix = "")
         {

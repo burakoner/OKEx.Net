@@ -1,7 +1,5 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.Enums;
 using System;
 
 namespace Okex.Net.RestObjects.SubAccount
@@ -10,16 +8,16 @@ namespace Okex.Net.RestObjects.SubAccount
     {
         [JsonProperty("enable")]
         public bool Enable { get; set; }
-        
+
         [JsonProperty("gAuth")]
         public bool GoogleAuth { get; set; }
-        
+
         [JsonProperty("subAcct")]
         public string SubAccountName { get; set; }
-        
+
         [JsonProperty("label")]
         public string Label { get; set; }
-        
+
         [JsonProperty("mobile")]
         public string Mobile { get; set; }
 

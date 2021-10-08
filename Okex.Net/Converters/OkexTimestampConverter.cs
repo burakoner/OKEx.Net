@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Okex.Net.Converters
 {
@@ -30,7 +30,7 @@ namespace Okex.Net.Converters
         /// <inheritdoc />
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if(value == null)
+            if (value == null)
                 writer.WriteValue((DateTime?)null);
             else
                 writer.WriteValue((long)Math.Round(((DateTime)value - new DateTime(1970, 1, 1)).TotalMilliseconds));

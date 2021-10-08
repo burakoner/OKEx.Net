@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects.Funding
 {
@@ -13,7 +9,7 @@ namespace Okex.Net.RestObjects.Funding
 
         [JsonProperty("chain")]
         public string Chain { get; set; }
-        
+
         [JsonProperty("amt")]
         public decimal Amount { get; set; }
 

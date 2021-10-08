@@ -1,8 +1,6 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
-using System;
 
 namespace Okex.Net.RestObjects.Trade
 {
@@ -10,7 +8,7 @@ namespace Okex.Net.RestObjects.Trade
     {
         [JsonProperty("instId")]
         public string Instrument { get; set; }
-        
+
         [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
         public OkexPositionSide PositionSide { get; set; }
     }

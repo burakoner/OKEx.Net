@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -43,7 +42,7 @@ namespace Okex.Net.RestObjects.System
         /// </summary>
         [JsonProperty("serviceType"), JsonConverter(typeof(MaintenanceServiceConverter))]
         public OkexMaintenanceService Product { get; set; }
-        
+
         /// <summary>
         /// Service type, 0：WebSocket ; 1：Spot/Margin ; 2：Futures ; 3：Perpetual ; 4：Options ; 5：Trading service
         /// </summary>

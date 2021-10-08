@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class MaintenanceStateConverter: BaseConverter<OkexMaintenanceState>
+    internal class MaintenanceStateConverter : BaseConverter<OkexMaintenanceState>
     {
         public MaintenanceStateConverter() : this(true) { }
         public MaintenanceStateConverter(bool quotes) : base(quotes) { }

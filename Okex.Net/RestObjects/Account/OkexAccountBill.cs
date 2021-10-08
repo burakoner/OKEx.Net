@@ -1,9 +1,7 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Account
 {
@@ -20,25 +18,25 @@ namespace Okex.Net.RestObjects.Account
 
         [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
         public OkexInstrumentType? InstrumentType { get; set; }
-        
+
         [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
         public OkexMarginMode? MarginMode { get; set; }
 
         [JsonProperty("billId")]
         public long? BillId { get; set; }
-        
+
         [JsonProperty("ordId")]
         public long? OrderId { get; set; }
-        
+
         [JsonProperty("bal")]
         public decimal? Balance { get; set; }
-        
+
         [JsonProperty("balChg")]
         public decimal? BalanceChange { get; set; }
-        
+
         [JsonProperty("sz")]
         public decimal? Quantity { get; set; }
-        
+
         [JsonProperty("fee")]
         public decimal? Fee { get; set; }
 

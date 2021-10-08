@@ -1,9 +1,6 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
-using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Account
 {
@@ -11,10 +8,10 @@ namespace Okex.Net.RestObjects.Account
     {
         [JsonProperty("uid")]
         public long UserId { get; set; }
-        
+
         [JsonProperty("acctLv"), JsonConverter(typeof(AccountLevelConverter))]
         public OkexAccountLevel AccountLevel { get; set; }
-        
+
         [JsonProperty("posMode"), JsonConverter(typeof(PositionModeConverter))]
         public OkexPositionMode PositionMode { get; set; }
 
@@ -26,7 +23,7 @@ namespace Okex.Net.RestObjects.Account
 
         [JsonProperty("level")]
         public string Level { get; set; }
-        
+
         [JsonProperty("levelTmp")]
         public string LevelTemporary { get; set; }
     }

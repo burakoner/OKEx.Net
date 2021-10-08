@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Okex.Net.Converters
 {
-    internal class  TransferTypeConverter : BaseConverter<OkexTransferType>
+    internal class TransferTypeConverter : BaseConverter<OkexTransferType>
     {
         public TransferTypeConverter() : this(true) { }
         public TransferTypeConverter(bool quotes) : base(quotes) { }

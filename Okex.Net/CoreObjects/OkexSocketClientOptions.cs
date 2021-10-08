@@ -7,7 +7,7 @@ namespace Okex.Net.CoreObjects
     /// </summary>
     public class OkexSocketClientOptions : SocketClientOptions
     {
-        public OkexSocketClientOptions() : base("wss://real.okex.com:8443/ws/v3")
+        public OkexSocketClientOptions() : base("")
         {
             SocketSubscriptionsCombineTarget = 100;
         }

@@ -2,10 +2,12 @@
 {
     public enum OkexInstrumentType
     {
+        Any,
         Spot,
         Margin,
         Swap,
         Futures,
         Option,
+        Contracts,
     }
 }

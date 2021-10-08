@@ -1,9 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects.Account
 {
@@ -11,7 +6,7 @@ namespace Okex.Net.RestObjects.Account
     {
         [JsonProperty("instId")]
         public string Instrument { get; set; }
-        
+
         [JsonProperty("ccy")]
         public string Currency { get; set; }
 

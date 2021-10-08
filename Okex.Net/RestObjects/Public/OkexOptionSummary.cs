@@ -1,9 +1,7 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Public
 {
@@ -47,7 +45,7 @@ namespace Okex.Net.RestObjects.Public
 
         [JsonProperty("lever")]
         public decimal Leverage { get; set; }
-        
+
         [JsonProperty("markVol")]
         public decimal? MarkVolatility { get; set; }
 

@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -17,11 +16,11 @@ namespace Okex.Net.RestObjects.Account
 
         [JsonProperty("balData")]
         public IEnumerable<OkexAccountPositionRiskBalanceData> BalanceData { get; set; }
-        
+
         [JsonProperty("posData")]
         public IEnumerable<OkexAccountPositionRiskPositionData> PositionData { get; set; }
     }
-    
+
     public class OkexAccountPositionRiskBalanceData
     {
         [JsonProperty("ccy")]
@@ -29,7 +28,7 @@ namespace Okex.Net.RestObjects.Account
 
         [JsonProperty("disEq")]
         public decimal? DiscountEquity { get; set; }
-        
+
         [JsonProperty("eq")]
         public decimal? Equity { get; set; }
     }
@@ -38,31 +37,31 @@ namespace Okex.Net.RestObjects.Account
     {
         [JsonProperty("ccy")]
         public string Currency { get; set; }
-        
+
         [JsonProperty("instId")]
         public string Instrument { get; set; }
 
         [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-        public OkexInstrumentType  InstrumentType { get; set; }
-        
+        public OkexInstrumentType InstrumentType { get; set; }
+
         [JsonProperty("instType"), JsonConverter(typeof(MarginModeConverter))]
         public OkexMarginMode MarginMode { get; set; }
 
         [JsonProperty("notionalCcy")]
         public decimal? NotionalCcy { get; set; }
-        
+
         [JsonProperty("notionalUsd")]
         public decimal? NotionalUsd { get; set; }
-        
+
         [JsonProperty("pos")]
         public decimal? Quantity { get; set; }
-        
+
         [JsonProperty("posCcy")]
         public string PositionCurrency { get; set; }
-        
+
         [JsonProperty("posId")]
         public long PositionId { get; set; }
-        
+
         [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
         public OkexPositionSide PositionSide { get; set; }
     }

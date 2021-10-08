@@ -1,4 +1,13 @@
 ﻿## Release Notes
+* Version 5.0.2 - 09 Oct 2021
+    * Added WS Api V5 Support
+    * Added method summaries
+    * Updated ReadMe
+    * Updated Examples
+
+* Version 5.0.1 - 07 Oct 2021
+    * Switched to OKEx V5 API
+
 * Version 2.5.0 - 18 Sep 2021
     * Synced with CryptoExchange.Net v4.1.0
 

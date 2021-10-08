@@ -33,7 +33,7 @@ namespace Okex.Net
             var parameters = new Dictionary<string, object>();
             if (state != null) parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new MaintenanceStateConverter(false)));
 
-            var result = await SendRequestAsync<OkexApiResponse<IEnumerable<OkexStatus>>>(GetUrl(Endpoints_V5_System_Status), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexStatus>>>(GetUrl(Endpoints_V5_System_Status), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexStatus>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
             if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexStatus>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
 

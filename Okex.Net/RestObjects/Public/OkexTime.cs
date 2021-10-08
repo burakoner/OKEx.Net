@@ -1,9 +1,6 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Okex.Net.RestObjects.Public
 {

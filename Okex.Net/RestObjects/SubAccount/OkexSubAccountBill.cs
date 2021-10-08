@@ -1,9 +1,7 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.SubAccount
 {
@@ -14,13 +12,13 @@ namespace Okex.Net.RestObjects.SubAccount
 
         [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
         public DateTime Time { get; set; }
-        
+
         [JsonProperty("type"), JsonConverter(typeof(SubAccountTransferTypeConverter))]
         public OkexSubAccountTransferType Type { get; set; }
 
         [JsonProperty("ccy")]
         public string Currency { get; set; }
-        
+
         [JsonProperty("subAcct")]
         public string SubAccountName { get; set; }
 

@@ -1,8 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
+﻿using Newtonsoft.Json;
 
 namespace Okex.Net.RestObjects.Funding
 {
@@ -10,13 +6,13 @@ namespace Okex.Net.RestObjects.Funding
     {
         [JsonProperty("ccy")]
         public string Currency { get; set; }
-                
+
         [JsonProperty("availBal")]
         public decimal Available { get; set; }
-        
+
         [JsonProperty("bal")]
         public decimal Balance { get; set; }
-        
+
         [JsonProperty("frozenBal")]
         public decimal Frozen { get; set; }
     }

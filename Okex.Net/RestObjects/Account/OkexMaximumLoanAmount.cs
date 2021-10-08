@@ -1,9 +1,6 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
-using System;
-using System.Collections.Generic;
 
 namespace Okex.Net.RestObjects.Account
 {
@@ -17,7 +14,7 @@ namespace Okex.Net.RestObjects.Account
 
         [JsonProperty("mgnCcy")]
         public string MarginCurrency { get; set; }
-        
+
         [JsonProperty("maxLoan")]
         public decimal? MaximumLoan { get; set; }
 

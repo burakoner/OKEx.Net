@@ -1,7 +1,5 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.Enums;
 using System;
 
 namespace Okex.Net.RestObjects.Market
@@ -13,16 +11,16 @@ namespace Okex.Net.RestObjects.Market
 
         [JsonProperty("idxPx")]
         public decimal IndexPrice { get; set; }
-        
+
         [JsonProperty("high24h")]
         public decimal High { get; set; }
-        
+
         [JsonProperty("low24h")]
         public decimal Low { get; set; }
-        
+
         [JsonProperty("open24h")]
         public decimal Open { get; set; }
-        
+
         [JsonProperty("sodUtc0")]
         public decimal OpenPriceUtc0 { get; set; }
 
@@ -30,6 +28,6 @@ namespace Okex.Net.RestObjects.Market
         public decimal OpenPriceUtc8 { get; set; }
 
         [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
-        public DateTime  Time { get; set; }
+        public DateTime Time { get; set; }
     }
 }

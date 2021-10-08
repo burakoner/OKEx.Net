@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -13,10 +12,10 @@ namespace Okex.Net.RestObjects.Funding
 
         [JsonProperty("ccy")]
         public string Currency { get; set; }
-                
+
         [JsonProperty("bal")]
         public decimal? Balance { get; set; }
-        
+
         [JsonProperty("balChg")]
         public decimal? BalanceChange { get; set; }
 

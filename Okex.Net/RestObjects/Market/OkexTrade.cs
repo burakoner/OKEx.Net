@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Okex.Net.Converters;
 using Okex.Net.Enums;
 using System;
@@ -16,14 +15,14 @@ namespace Okex.Net.RestObjects.Market
 
         [JsonProperty("px")]
         public decimal Price { get; set; }
-        
+
         [JsonProperty("sz")]
         public decimal Quantity { get; set; }
 
         [JsonProperty("side"), JsonConverter(typeof(TradeSideConverter))]
         public OkexTradeSide Side { get; set; }
-        
+
         [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
-        public DateTime  Time { get; set; }
+        public DateTime Time { get; set; }
     }
 }

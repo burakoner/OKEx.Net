@@ -7,35 +7,23 @@ using Newtonsoft.Json.Linq;
 using Okex.Net.CoreObjects;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net.Http;
 using System.Web;
 
 namespace Okex.Net
 {
     public partial class OkexClient : RestClient, IRestClient
     {
-        #region Public Fields
-        /// <summary>
-        /// Whether public requests should be signed if ApiCredentials are provided.
-        /// </summary>
-        public bool SignPublicRequests { get; }
-
-        /// <summary>
-        /// Flag for sending data without root key
-        /// </summary>
-        public const string BodyParameterKey = "<BODY>";
-        #endregion
-
         #region Protected Fields
         protected static OkexRestClientOptions defaultOptions = new OkexRestClientOptions();
         protected static OkexRestClientOptions DefaultOptions => defaultOptions.Copy();
+        public const string BodyParameterKey = "<BODY>";
+        protected bool SignPublicRequests { get; }
         #endregion
 
         #region Rest Api Endpoints
 
-        #region OK - Trade Endpoints
+        #region Trade Endpoints
         protected const string Endpoints_V5_Trade_Order = "api/v5/trade/order";
         protected const string Endpoints_V5_Trade_BatchOrders = "api/v5/trade/batch-orders";
         protected const string Endpoints_V5_Trade_CancelOrder = "api/v5/trade/cancel-order";
@@ -55,7 +43,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_Trade_OrdersAlgoHistory = "api/v5/trade/orders-algo-history";
         #endregion
 
-        #region OK - Funding Endpoints
+        #region Funding Endpoints
         protected const string Endpoints_V5_Asset_Currencies = "api/v5/asset/currencies";
         protected const string Endpoints_V5_Asset_Balances = "api/v5/asset/balances";
         protected const string Endpoints_V5_Asset_Transfer = "api/v5/asset/transfer";
@@ -70,7 +58,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_Asset_WithdrawalLightning = "api/v5/asset/withdrawal-lightning";
         #endregion
 
-        #region OK - Account Endpoints
+        #region Account Endpoints
         protected const string Endpoints_V5_Account_Balance = "api/v5/account/balance";
         protected const string Endpoints_V5_Account_Positions = "api/v5/account/positions";
         protected const string Endpoints_V5_Account_PositionRisk = "api/v5/account/account-position-risk";
@@ -91,7 +79,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_Account_MaxWithdrawal = "api/v5/account/max-withdrawal";
         #endregion
 
-        #region OK - Sub-Account Endpoints
+        #region Sub-Account Endpoints
         protected const string Endpoints_V5_SubAccount_List = "api/v5/users/subaccount/list";
         protected const string Endpoints_V5_SubAccount_ApiKey = "api/v5/users/subaccount/apikey";
         protected const string Endpoints_V5_SubAccount_ModifyApiKey = "api/v5/users/subaccount/modify-apikey";
@@ -101,7 +89,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_SubAccount_Transfer = "api/v5/users/subaccount/transfer";
         #endregion
 
-        #region OK - Market Data
+        #region Market Data
         protected const string Endpoints_V5_Market_Tickers = "api/v5/market/tickers";
         protected const string Endpoints_V5_Market_Ticker = "api/v5/market/ticker";
         protected const string Endpoints_V5_Market_IndexTickers = "api/v5/market/index-tickers";
@@ -116,7 +104,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_Market_IndexComponents = "api/v5/market/index-components";
         #endregion
 
-        #region OK - Public Data
+        #region Public Data
         protected const string Endpoints_V5_Public_Instruments = "api/v5/public/instruments";
         protected const string Endpoints_V5_Public_DeliveryExerciseHistory = "api/v5/public/delivery-exercise-history";
         protected const string Endpoints_V5_Public_OpenInterest = "api/v5/public/open-interest";
@@ -147,24 +135,18 @@ namespace Okex.Net
         protected const string Endpoints_V5_RubikStat_OptionTakerBlockVolume = "api/v5/rubik/stat/option/taker-block-volume";
         #endregion
 
-        #region OK - System
+        #region System
         protected const string Endpoints_V5_System_Status = "api/v5/system/status";
         #endregion
 
         #endregion
 
         #region Constructor/Destructor
-        /// <summary>
-        /// Create a new instance of OkexClient using the default options
-        /// </summary>
         public OkexClient() : this(DefaultOptions)
         {
         }
 
-        /// <summary>
-        /// Create a new instance of the OkexClient with the provided options
-        /// </summary>
-        public OkexClient(OkexRestClientOptions options) : base("Okex", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
+        public OkexClient(OkexRestClientOptions options) : base("OKEx Rest Api", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
         {
             SignPublicRequests = options.SignPublicRequests;
         }
@@ -195,7 +177,7 @@ namespace Okex.Net
         #region Core Methods
         protected override void WriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
         {
-            this.OkexWriteParamBody(request, parameters, contentType);
+            OkexWriteParamBody(request, parameters, contentType);
         }
 
         protected virtual void OkexWriteParamBody(IRequest request, Dictionary<string, object> parameters, string contentType)
@@ -246,7 +228,7 @@ namespace Okex.Net
 
         protected override Error ParseErrorResponse(JToken error)
         {
-            return this.OkexParseErrorResponse(error);
+            return OkexParseErrorResponse(error);
         }
 
         protected virtual Error OkexParseErrorResponse(JToken error)
