@@ -59,7 +59,7 @@ namespace Okex.Net.RestObjects.Account
         public decimal? AutoDeleveragingIndicator { get; set; }
 
         [JsonProperty("availPos")]
-        public int? AvailablePositions { get; set; }
+        public decimal? AvailablePositions { get; set; }
 
         [JsonProperty("interest")]
         public decimal? Interest { get; set; }
