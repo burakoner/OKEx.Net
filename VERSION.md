@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 5.0.3 - 16 Oct 2021
+    * Fixed minor bugs
+
 * Version 5.0.2 - 09 Oct 2021
     * Added WS Api V5 Support
     * Added method summaries
