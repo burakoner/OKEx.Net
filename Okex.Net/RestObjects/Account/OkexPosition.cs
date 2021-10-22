@@ -44,7 +44,7 @@ namespace Okex.Net.RestObjects.Account
         public decimal? Liabilities { get; set; }
 
         [JsonProperty("liabCcy")]
-        public decimal? LiabilitiesCurrency { get; set; }
+        public string LiabilitiesCurrency { get; set; }
 
         [JsonProperty("imr")]
         public decimal? InitialMarginRequirement { get; set; }

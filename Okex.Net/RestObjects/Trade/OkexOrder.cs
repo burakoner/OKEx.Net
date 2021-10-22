@@ -46,7 +46,7 @@ namespace Okex.Net.RestObjects.Trade
         [JsonProperty("tdMode"), JsonConverter(typeof(TradeModeConverter))]
         public OkexTradeMode TradeMode { get; set; }
 
-        [JsonProperty("posSide"), JsonConverter(typeof(OrderStateConverter))]
+        [JsonProperty("state"), JsonConverter(typeof(OrderStateConverter))]
         public OkexOrderState OrderState { get; set; }
 
         [JsonProperty("tgtCcy"), JsonConverter(typeof(QuantityTypeConverter))]
