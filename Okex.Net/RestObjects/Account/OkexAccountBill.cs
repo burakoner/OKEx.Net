@@ -43,7 +43,7 @@ namespace Okex.Net.RestObjects.Account
         [JsonProperty("from"), JsonConverter(typeof(AccountConverter))]
         public OkexAccount? FromAccount { get; set; }
 
-        [JsonProperty("mgnMode"), JsonConverter(typeof(AccountConverter))]
+        [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
         public OkexAccount? ToAccount { get; set; }
 
         [JsonProperty("notes")]
