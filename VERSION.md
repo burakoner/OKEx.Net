@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 5.1.0 - 25 Nov 2021
+    * Added Demo Trading Service
+
 * Version 5.0.4 - 22 Oct 2021
     * Fixed minor bugs
 

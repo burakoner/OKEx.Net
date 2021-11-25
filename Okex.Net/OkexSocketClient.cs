@@ -30,6 +30,7 @@ namespace Okex.Net
         #region Client Options
         protected static OkexSocketClientOptions defaultOptions = new OkexSocketClientOptions();
         protected static OkexSocketClientOptions DefaultOptions => defaultOptions.Copy();
+        protected bool DemoTradingService { get; }
         #endregion
 
         #region Constructor/Destructor
@@ -37,8 +38,9 @@ namespace Okex.Net
         {
         }
 
-        public OkexSocketClient(OkexSocketClientOptions options) : base("OKEx WS Api", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", false, ArrayParametersSerialization.Array))
+        public OkexSocketClient(OkexSocketClientOptions options) : base("OKEx WS Api", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.DemoTradingService, false, ArrayParametersSerialization.Array))
         {
+            DemoTradingService = options.DemoTradingService;
             SetDataInterpreter(DecompressData, null);
             SetupPingTimer();
         }
@@ -148,6 +150,14 @@ namespace Okex.Net
             address = authenticated
                 ? "wss://ws.okex.com:8443/ws/v5/private"
                 : "wss://ws.okex.com:8443/ws/v5/public";
+
+            if (DemoTradingService)
+            {
+                address = authenticated
+                    ? "wss://wspap.okex.com:8443/ws/v5/private?brokerId=9999"
+                    : "wss://wspap.okex.com:8443/ws/v5/public?brokerId=9999";
+            }
+
             var socketResult = sockets
                 .Where(s =>
                     s.Value.Socket.Url.TrimEnd('/') == address.TrimEnd('/') &&

@@ -7,6 +7,11 @@ namespace Okex.Net.CoreObjects
     /// </summary>
     public class OkexSocketClientOptions : SocketClientOptions
     {
+        /// <summary>
+        /// Flag for Demo Trading Services of OKEx. Use this option if you want to use demo trading in OKEx
+        /// </summary>
+        public bool DemoTradingService { get; set; } = false;
+
         public OkexSocketClientOptions() : base("")
         {
             SocketSubscriptionsCombineTarget = 100;

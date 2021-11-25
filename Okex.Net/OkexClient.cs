@@ -18,6 +18,7 @@ namespace Okex.Net
         protected static OkexRestClientOptions defaultOptions = new OkexRestClientOptions();
         protected static OkexRestClientOptions DefaultOptions => defaultOptions.Copy();
         public const string BodyParameterKey = "<BODY>";
+        protected bool DemoTradingService { get; }
         protected bool SignPublicRequests { get; }
         #endregion
 
@@ -146,8 +147,12 @@ namespace Okex.Net
         {
         }
 
-        public OkexClient(OkexRestClientOptions options) : base("OKEx Rest Api", options, options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.SignPublicRequests, ArrayParametersSerialization.Array))
+        public OkexClient(OkexRestClientOptions options) : base(
+            "OKEx Rest Api",
+            options,
+            options.ApiCredentials == null ? null : new OkexAuthenticationProvider(options.ApiCredentials, "", options.DemoTradingService, options.SignPublicRequests, ArrayParametersSerialization.Array))
         {
+            DemoTradingService = options.DemoTradingService;
             SignPublicRequests = options.SignPublicRequests;
         }
         #endregion
@@ -170,7 +175,7 @@ namespace Okex.Net
         /// <param name="passPhrase">The passphrase you specified when creating the API key</param>
         public virtual void SetApiCredentials(string apiKey, string apiSecret, string passPhrase)
         {
-            SetAuthenticationProvider(new OkexAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), passPhrase, SignPublicRequests, ArrayParametersSerialization.Array));
+            SetAuthenticationProvider(new OkexAuthenticationProvider(new ApiCredentials(apiKey, apiSecret), passPhrase, DemoTradingService, SignPublicRequests, ArrayParametersSerialization.Array));
         }
         #endregion
 

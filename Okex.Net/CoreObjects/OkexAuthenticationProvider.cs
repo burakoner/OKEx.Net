@@ -19,9 +19,10 @@ namespace Okex.Net.CoreObjects
         private readonly SecureString PassPhrase;
         private readonly HMACSHA256 encryptor;
         private readonly bool signPublicRequests;
+        private readonly bool demoTradingService;
         private readonly ArrayParametersSerialization arraySerialization;
 
-        public OkexAuthenticationProvider(ApiCredentials credentials, string passPhrase, bool signPublicRequests, ArrayParametersSerialization arraySerialization) : base(credentials)
+        public OkexAuthenticationProvider(ApiCredentials credentials, string passPhrase, bool demoTradingService, bool signPublicRequests, ArrayParametersSerialization arraySerialization) : base(credentials)
         {
 
             if (credentials == null || credentials.Secret == null)
@@ -29,6 +30,7 @@ namespace Okex.Net.CoreObjects
 
             PassPhrase = passPhrase.ToSecureString();
             encryptor = new HMACSHA256(Encoding.ASCII.GetBytes(credentials.Secret.GetString()));
+            this.demoTradingService = demoTradingService;
             this.signPublicRequests = signPublicRequests;
             this.arraySerialization = arraySerialization;
         }
@@ -60,12 +62,16 @@ namespace Okex.Net.CoreObjects
 
             var signature = OkexAuthenticationProvider.Base64Encode(encryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
 
-            return new Dictionary<string, string> {
+            var headerParameters= new Dictionary<string, string> {
                 { "OK-ACCESS-KEY", Credentials.Key.GetString() },
                 { "OK-ACCESS-SIGN", signature },
                 { "OK-ACCESS-TIMESTAMP", time },
                 { "OK-ACCESS-PASSPHRASE", PassPhrase.GetString() },
             };
+            if (this.demoTradingService)
+                headerParameters.Add("x-simulated-trading", "1");
+
+            return headerParameters;
         }
 
         public static string Base64Encode(byte[] plainBytes)

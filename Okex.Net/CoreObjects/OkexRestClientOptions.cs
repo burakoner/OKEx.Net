@@ -13,6 +13,11 @@ namespace Okex.Net.CoreObjects
         public bool SignPublicRequests { get; set; } = false;
 
         /// <summary>
+        /// Flag for Demo Trading Services of OKEx. Use this option if you want to use demo trading in OKEx
+        /// </summary>
+        public bool DemoTradingService { get; set; } = false;
+
+        /// <summary>
         /// ctor
         /// </summary>
         public OkexRestClientOptions() : base("https://www.okex.com")

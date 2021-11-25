@@ -333,7 +333,7 @@ namespace Okex.Net
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexTrade>>> GetTrades_Async(string instrumentId, int limit = 100, CancellationToken ct = default)
         {
-            if (limit < 1 || limit > 100)
+            if (limit < 1 || limit > 500)
                 throw new ArgumentException("Limit can be between 1-500.");
 
             var parameters = new Dictionary<string, object>
