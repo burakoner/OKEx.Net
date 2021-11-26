@@ -42,8 +42,7 @@ namespace Okex.Net
         {
             DemoTradingService = options.DemoTradingService;
             SetDataInterpreter(DecompressData, null);
-            SetupPublicPingTimer();
-            SetupPrivatePingTimer();
+            SendPeriodic(TimeSpan.FromSeconds(5), con => "ping");
         }
         #endregion
 
@@ -71,85 +70,12 @@ namespace Okex.Net
             PassPhrase = passPhrase.ToSecureString();
         }
 
-        protected bool IsPublicPingTimerRunning { get; set; }
-        protected System.Timers.Timer PublicPingTimer { get; set; }
-        protected virtual void SetupPublicPingTimer()
-        {
-            PublicPingTimer = new System.Timers.Timer();
-            PublicPingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PublicPingTimer_Action);
-            PublicPingTimer.Interval = 5 * 1000;
-            PublicPingTimer.Enabled = true;
-        }
-
-        private void PublicPingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            // Check Point
-            if (IsPublicPingTimerRunning)
-                return;
-
-            // Is Running
-            IsPublicPingTimerRunning = true;
-
-            // Action
-            try
-            {
-                PublicPing();
-            }
-            catch { }
-
-            // Is Running
-            IsPublicPingTimerRunning = false;
-        }
-
-        protected bool IsPrivatePingTimerRunning { get; set; }
-        protected System.Timers.Timer PrivatePingTimer { get; set; }
-        protected virtual void SetupPrivatePingTimer()
-        {
-            PrivatePingTimer = new System.Timers.Timer();
-            PrivatePingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PrivatePingTimer_Action);
-            PrivatePingTimer.Interval = 5 * 1000;
-            PrivatePingTimer.Enabled = true;
-        }
-
-        private void PrivatePingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            // Check Point
-            if (IsPrivatePingTimerRunning)
-                return;
-
-            // Is Running
-            IsPrivatePingTimerRunning = true;
-
-            // Action
-            try
-            {
-                PrivatePing();
-            }
-            catch { }
-
-            // Is Running
-            IsPrivatePingTimerRunning = false;
-        }
-
-        public virtual CallResult<OkexSocketPingPong> PublicPing() => PublicPingAsync().Result;
-        public virtual async Task<CallResult<OkexSocketPingPong>> PublicPingAsync()
+        public virtual CallResult<OkexSocketPingPong> Ping() => PingAsync().Result;
+        public virtual async Task<CallResult<OkexSocketPingPong>> PingAsync()
         {
             var pit = DateTime.UtcNow;
             var sw = Stopwatch.StartNew();
             var response = await QueryAsync<string>("ping", false).ConfigureAwait(true);
-            var pot = DateTime.UtcNow;
-            sw.Stop();
-
-            var result = new OkexSocketPingPong { PingTime = pit, PongTime = pot, Latency = sw.Elapsed, PongMessage = response.Data };
-            return new CallResult<OkexSocketPingPong>(result, response.Error);
-        }
-
-        public virtual CallResult<OkexSocketPingPong> PrivatePing() => PrivatePingAsync().Result;
-        public virtual async Task<CallResult<OkexSocketPingPong>> PrivatePingAsync()
-        {
-            var pit = DateTime.UtcNow;
-            var sw = Stopwatch.StartNew();
-            var response = await QueryAsync<string>("ping", true).ConfigureAwait(true);
             var pot = DateTime.UtcNow;
             sw.Stop();
 
@@ -304,6 +230,15 @@ namespace Okex.Net
         }
         protected virtual bool OkexMessageMatchesHandler(JToken message, object request)
         {
+            // Ping Request
+            if (request.ToString() == "ping" && message.ToString() == "pong")
+                return true;
+
+            // Check Point
+            if (message.Type != JTokenType.Object)
+                return false;
+
+            // Socket Request
             if (request is OkexSocketRequest hRequest)
             {
                 // Check for Error
