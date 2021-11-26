@@ -49,19 +49,12 @@ namespace Okex.Net.CoreObjects
             if (method == HttpMethod.Post)
             {
                 if (parameters.Count == 1 && parameters.Keys.First() == OkexClient.BodyParameterKey)
-                {
-                    var bodyString = JsonConvert.SerializeObject(parameters[OkexClient.BodyParameterKey]);
-                    signtext = signtext + bodyString;
-                }
+                    signtext += JsonConvert.SerializeObject(parameters[OkexClient.BodyParameterKey]);
                 else
-                {
-                    var bodyString = JsonConvert.SerializeObject(parameters.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
-                    signtext = signtext + bodyString;
-                }
+                    signtext += JsonConvert.SerializeObject(parameters.OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
             }
 
-            var signature = OkexAuthenticationProvider.Base64Encode(encryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
-
+            var signature = Base64Encode(encryptor.ComputeHash(Encoding.UTF8.GetBytes(signtext)));
             var headerParameters= new Dictionary<string, string> {
                 { "OK-ACCESS-KEY", Credentials.Key.GetString() },
                 { "OK-ACCESS-SIGN", signature },

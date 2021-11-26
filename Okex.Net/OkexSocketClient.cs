@@ -42,7 +42,8 @@ namespace Okex.Net
         {
             DemoTradingService = options.DemoTradingService;
             SetDataInterpreter(DecompressData, null);
-            SetupPingTimer();
+            SetupPublicPingTimer();
+            SetupPrivatePingTimer();
         }
         #endregion
 
@@ -70,38 +71,68 @@ namespace Okex.Net
             PassPhrase = passPhrase.ToSecureString();
         }
 
-        protected bool IsPingTimerRunning { get; set; }
-        protected System.Timers.Timer PingTimer { get; set; }
-        protected virtual void SetupPingTimer()
+        protected bool IsPublicPingTimerRunning { get; set; }
+        protected System.Timers.Timer PublicPingTimer { get; set; }
+        protected virtual void SetupPublicPingTimer()
         {
-            PingTimer = new System.Timers.Timer();
-            PingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PingTimer_Action);
-            PingTimer.Interval = 25 * 1000;
-            PingTimer.Enabled = true;
+            PublicPingTimer = new System.Timers.Timer();
+            PublicPingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PublicPingTimer_Action);
+            PublicPingTimer.Interval = 5 * 1000;
+            PublicPingTimer.Enabled = true;
         }
 
-        private void PingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
+        private void PublicPingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
         {
             // Check Point
-            if (IsPingTimerRunning)
+            if (IsPublicPingTimerRunning)
                 return;
 
             // Is Running
-            IsPingTimerRunning = true;
+            IsPublicPingTimerRunning = true;
 
             // Action
             try
             {
-                Ping();
+                PublicPing();
             }
             catch { }
 
             // Is Running
-            IsPingTimerRunning = false;
+            IsPublicPingTimerRunning = false;
         }
 
-        public virtual CallResult<OkexSocketPingPong> Ping() => PingAsync().Result;
-        public virtual async Task<CallResult<OkexSocketPingPong>> PingAsync()
+        protected bool IsPrivatePingTimerRunning { get; set; }
+        protected System.Timers.Timer PrivatePingTimer { get; set; }
+        protected virtual void SetupPrivatePingTimer()
+        {
+            PrivatePingTimer = new System.Timers.Timer();
+            PrivatePingTimer.Elapsed += new System.Timers.ElapsedEventHandler(PrivatePingTimer_Action);
+            PrivatePingTimer.Interval = 5 * 1000;
+            PrivatePingTimer.Enabled = true;
+        }
+
+        private void PrivatePingTimer_Action(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Check Point
+            if (IsPrivatePingTimerRunning)
+                return;
+
+            // Is Running
+            IsPrivatePingTimerRunning = true;
+
+            // Action
+            try
+            {
+                PrivatePing();
+            }
+            catch { }
+
+            // Is Running
+            IsPrivatePingTimerRunning = false;
+        }
+
+        public virtual CallResult<OkexSocketPingPong> PublicPing() => PublicPingAsync().Result;
+        public virtual async Task<CallResult<OkexSocketPingPong>> PublicPingAsync()
         {
             var pit = DateTime.UtcNow;
             var sw = Stopwatch.StartNew();
@@ -113,11 +144,17 @@ namespace Okex.Net
             return new CallResult<OkexSocketPingPong>(result, response.Error);
         }
 
-
-        protected virtual void PingHandler(MessageEvent messageEvent)
+        public virtual CallResult<OkexSocketPingPong> PrivatePing() => PrivatePingAsync().Result;
+        public virtual async Task<CallResult<OkexSocketPingPong>> PrivatePingAsync()
         {
-            //if (messageEvent.JsonData["m"] != null && (string)messageEvent.JsonData["m"] == "ping")
-            //    messageEvent.Connection.Send(new BitMaxSocketPingRequest(NextRequestId()));
+            var pit = DateTime.UtcNow;
+            var sw = Stopwatch.StartNew();
+            var response = await QueryAsync<string>("ping", true).ConfigureAwait(true);
+            var pot = DateTime.UtcNow;
+            sw.Stop();
+
+            var result = new OkexSocketPingPong { PingTime = pit, PongTime = pot, Latency = sw.Elapsed, PongMessage = response.Data };
+            return new CallResult<OkexSocketPingPong>(result, response.Error);
         }
 
         protected static string DecompressData(byte[] byteData)
@@ -197,16 +234,8 @@ namespace Okex.Net
             callResult = new CallResult<T>(default, null);
 
             // Ping Request
-            if (data.ToString() == "pong")
+            if (request.ToString() == "ping" && data.ToString() == "pong")
             {
-                var desResult = Deserialize<T>(data, false);
-                if (!desResult)
-                {
-                    log.Write(LogLevel.Warning, $"Failed to deserialize data: {desResult.Error}. Data: {data}");
-                    return false;
-                }
-
-                callResult = new CallResult<T>(desResult.Data, null);
                 return true;
             }
 
