@@ -133,10 +133,12 @@ namespace Okex.Net
             };
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderBook>>>(GetUrl(Endpoints_V5_Market_Books), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
+            if (!result.Success || result.Data.Data.Count()==0) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
             if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
 
-            return new WebCallResult<OkexOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            var orderbook = result.Data.Data.FirstOrDefault();
+            orderbook.Instrument = instrumentId;
+            return new WebCallResult<OkexOrderBook>(result.ResponseStatusCode, result.ResponseHeaders, orderbook, null);
         }
 
         /// <summary>

@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 5.1.3 - 7 Dec 2021
+    * Fixed minor bugs
+
 * Version 5.1.2 - 26 Nov 2021
     * Fixed Websocket disconnect error
 

@@ -287,6 +287,7 @@ namespace Okex.Net
             {
                 foreach (var d in data.Data.Data)
                 {
+                    d.Instrument = intrumentId;
                     d.Action = data.Data.Action;
                     onData(d);
                 }
@@ -384,16 +385,16 @@ namespace Okex.Net
         /// <param name="intrumentId">Instrument ID</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual CallResult<UpdateSubscription> SubscribeToIndexTickers(string intrumentId, Action<OkexTicker> onData) => SubscribeToIndexTickers_Async(intrumentId, onData).Result;
+        public virtual CallResult<UpdateSubscription> SubscribeToIndexTickers(string intrumentId, Action<OkexIndexTicker> onData) => SubscribeToIndexTickers_Async(intrumentId, onData).Result;
         /// <summary>
         /// Retrieve index tickers data
         /// </summary>
         /// <param name="intrumentId">Instrument ID</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickers_Async(string intrumentId, Action<OkexTicker> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickers_Async(string intrumentId, Action<OkexIndexTicker> onData)
         {
-            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexTicker>>>>(data =>
+            var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexIndexTicker>>>>(data =>
             {
                 foreach (var d in data.Data.Data)
                     onData(d);
