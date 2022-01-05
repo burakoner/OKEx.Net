@@ -31,7 +31,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<OkexSupportCoins>>(GetUrl(Endpoints_V5_RubikStat_TradingDataSupportCoin), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexSupportCoins>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexSupportCoins>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexSupportCoins>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexSupportCoins>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -81,7 +81,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTakerVolume>>>(GetUrl(Endpoints_V5_RubikStat_TakerVolume), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexTakerVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTakerVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTakerVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexTakerVolume>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -126,7 +126,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexRatio>>>(GetUrl(Endpoints_V5_RubikStat_MarginLoanRatio), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexRatio>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -171,7 +171,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexRatio>>>(GetUrl(Endpoints_V5_RubikStat_ContractsLongShortAccountRatio), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexRatio>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -216,7 +216,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInterestVolume>>>(GetUrl(Endpoints_V5_RubikStat_ContractsOpenInterestVolume), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexInterestVolume>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -251,7 +251,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInterestVolume>>>(GetUrl(Endpoints_V5_RubikStat_OptionOpenInterestVolume), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolume>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexInterestVolume>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -286,7 +286,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPutCallRatio>>>(GetUrl(Endpoints_V5_RubikStat_OptionOpenInterestVolumeRatio), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexPutCallRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPutCallRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPutCallRatio>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexPutCallRatio>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -321,7 +321,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInterestVolumeExpiry>>>(GetUrl(Endpoints_V5_RubikStat_OptionOpenInterestVolumeExpiry), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexInterestVolumeExpiry>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolumeExpiry>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolumeExpiry>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexInterestVolumeExpiry>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -361,7 +361,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInterestVolumeStrike>>>(GetUrl(Endpoints_V5_RubikStat_OptionOpenInterestVolumeStrike), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexInterestVolumeStrike>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolumeStrike>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInterestVolumeStrike>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexInterestVolumeStrike>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -396,7 +396,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<OkexTakerFlow>>(GetUrl(Endpoints_V5_RubikStat_OptionTakerBlockVolume), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexTakerFlow>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTakerFlow>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTakerFlow>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexTakerFlow>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }

@@ -33,7 +33,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCurrency>>>(GetUrl(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, null, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexCurrency>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCurrency>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCurrency>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexCurrency>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -58,7 +58,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingBalance>>>(GetUrl(Endpoints_V5_Asset_Balances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexFundingBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexFundingBalance>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -132,7 +132,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTransferResponse>>>(GetUrl(Endpoints_V5_Asset_Transfer), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexTransferResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTransferResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTransferResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexTransferResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -191,7 +191,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingBill>>>(GetUrl(Endpoints_V5_Asset_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexFundingBill>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBill>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBill>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexFundingBill>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -217,7 +217,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDepositAddress>>>(GetUrl(Endpoints_V5_Asset_DepositAddress), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexDepositAddress>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositAddress>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositAddress>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexDepositAddress>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -275,7 +275,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDepositHistory>>>(GetUrl(Endpoints_V5_Asset_DepositHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexDepositHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexDepositHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -343,7 +343,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalResponse>>>(GetUrl(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexWithdrawalResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexWithdrawalResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexWithdrawalResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexWithdrawalResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -401,7 +401,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalHistory>>>(GetUrl(Endpoints_V5_Asset_WithdrawalHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexWithdrawalHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexWithdrawalHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexWithdrawalHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexWithdrawalHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -445,7 +445,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPiggyBankActionResponse>>>(GetUrl(Endpoints_V5_Asset_PurchaseRedempt), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexPiggyBankActionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexPiggyBankActionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexPiggyBankActionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexPiggyBankActionResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -470,7 +470,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPiggyBankBalance>>>(GetUrl(Endpoints_V5_Asset_PiggyBalance), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexPiggyBankBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPiggyBankBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPiggyBankBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexPiggyBankBalance>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -512,7 +512,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLightningDeposit>>>(GetUrl(Endpoints_V5_Asset_DepositLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexLightningDeposit>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexLightningDeposit>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexLightningDeposit>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexLightningDeposit>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -553,7 +553,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLightningWithdrawal>>>(GetUrl(Endpoints_V5_Asset_WithdrawalLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexLightningWithdrawal>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexLightningWithdrawal>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexLightningWithdrawal>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexLightningWithdrawal>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }

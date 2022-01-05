@@ -43,7 +43,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTicker>>>(GetUrl(Endpoints_V5_Market_Tickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexTicker>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -71,7 +71,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTicker>>>(GetUrl(Endpoints_V5_Market_Ticker), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexTicker>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTicker>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTicker>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexTicker>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -100,7 +100,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexIndexTicker>>>(GetUrl(Endpoints_V5_Market_IndexTickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexIndexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexIndexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexIndexTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexIndexTicker>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -134,7 +134,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderBook>>>(GetUrl(Endpoints_V5_Market_Books), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success || result.Data.Data.Count()==0) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderBook>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             var orderbook = result.Data.Data.FirstOrDefault();
             orderbook.Instrument = instrumentId;
@@ -179,7 +179,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCandlestick>>>(GetUrl(Endpoints_V5_Market_Candles), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             foreach (var candle in result.Data.Data) candle.Instrument = instrumentId;
             return new WebCallResult<IEnumerable<OkexCandlestick>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -223,7 +223,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCandlestick>>>(GetUrl(Endpoints_V5_Market_HistoryCandles), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             foreach (var candle in result.Data.Data) candle.Instrument = instrumentId;
             return new WebCallResult<IEnumerable<OkexCandlestick>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -267,7 +267,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCandlestick>>>(GetUrl(Endpoints_V5_Market_IndexCandles), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             foreach (var candle in result.Data.Data) candle.Instrument = instrumentId;
             return new WebCallResult<IEnumerable<OkexCandlestick>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -311,7 +311,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCandlestick>>>(GetUrl(Endpoints_V5_Market_MarkPriceCandles), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCandlestick>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             foreach (var candle in result.Data.Data) candle.Instrument = instrumentId;
             return new WebCallResult<IEnumerable<OkexCandlestick>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -346,7 +346,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTrade>>>(GetUrl(Endpoints_V5_Market_Trades), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexTrade>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTrade>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTrade>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexTrade>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -367,7 +367,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<Okex24HourVolume>>>(GetUrl(Endpoints_V5_Market_Platform24Volume), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<Okex24HourVolume>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<Okex24HourVolume>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<Okex24HourVolume>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<Okex24HourVolume>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -388,7 +388,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOracle>>>(GetUrl(Endpoints_V5_Market_OpenOracle), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexOracle>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOracle>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOracle>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexOracle>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -416,7 +416,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<OkexIndexComponents>>(GetUrl(Endpoints_V5_Market_IndexComponents), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexIndexComponents>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexIndexComponents>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexIndexComponents>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexIndexComponents>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }

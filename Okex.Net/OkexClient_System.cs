@@ -35,7 +35,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexStatus>>>(GetUrl(Endpoints_V5_System_Status), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexStatus>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexStatus>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexStatus>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexStatus>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }

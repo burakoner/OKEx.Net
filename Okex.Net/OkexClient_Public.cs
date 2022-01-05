@@ -46,7 +46,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInstrument>>>(GetUrl(Endpoints_V5_Public_Instruments), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexInstrument>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInstrument>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexInstrument>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexInstrument>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -91,7 +91,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDeliveryExerciseHistory>>>(GetUrl(Endpoints_V5_Public_DeliveryExerciseHistory), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexDeliveryExerciseHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDeliveryExerciseHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDeliveryExerciseHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexDeliveryExerciseHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -130,7 +130,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOpenInterest>>>(GetUrl(Endpoints_V5_Public_OpenInterest), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexOpenInterest>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOpenInterest>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOpenInterest>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexOpenInterest>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -157,7 +157,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingRate>>>(GetUrl(Endpoints_V5_Public_FundingRate), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexFundingRate>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingRate>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingRate>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexFundingRate>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -196,7 +196,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingRateHistory>>>(GetUrl(Endpoints_V5_Public_FundingRateHistory), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexFundingRateHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingRateHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingRateHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexFundingRateHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -223,7 +223,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLimitPrice>>>(GetUrl(Endpoints_V5_Public_PriceLimit), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexLimitPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexLimitPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexLimitPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexLimitPrice>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -253,7 +253,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOptionSummary>>>(GetUrl(Endpoints_V5_Public_OptionSummary), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexOptionSummary>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOptionSummary>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOptionSummary>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexOptionSummary>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -280,7 +280,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexEstimatedPrice>>>(GetUrl(Endpoints_V5_Public_EstimatedPrice), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexEstimatedPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexEstimatedPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexEstimatedPrice>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexEstimatedPrice>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -309,7 +309,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDiscountInfo>>>(GetUrl(Endpoints_V5_Public_DiscountRateInterestFreeQuota), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexDiscountInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDiscountInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDiscountInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexDiscountInfo>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -329,7 +329,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTime>>>(GetUrl(Endpoints_V5_Public_Time), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<DateTime>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<DateTime>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<DateTime>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<DateTime>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault().Time, null);
         }
@@ -425,7 +425,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLiquidationInfo>>>(GetUrl(Endpoints_V5_Public_LiquidationOrders), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexLiquidationInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexLiquidationInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexLiquidationInfo>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexLiquidationInfo>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -463,7 +463,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexMarkPrice>>>(GetUrl(Endpoints_V5_Public_MarkPrice), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexMarkPrice>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexMarkPrice>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexMarkPrice>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexMarkPrice>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -517,7 +517,7 @@ namespace Okex.Net
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPositionTier>>>(GetUrl(Endpoints_V5_Public_PositionTiers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<OkexPositionTier>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPositionTier>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPositionTier>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<OkexPositionTier>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
         }
@@ -537,7 +537,7 @@ namespace Okex.Net
         {
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexInterestRate>>>(GetUrl(Endpoints_V5_Public_InterestRateLoanQuota), HttpMethod.Get, ct).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexInterestRate>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexInterestRate>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<OkexInterestRate>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<OkexInterestRate>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
@@ -566,7 +566,7 @@ namespace Okex.Net
             };
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<IEnumerable<string>>>>(GetUrl(Endpoints_V5_Public_Underlying), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<IEnumerable<string>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<string>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage));
+            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<string>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
 
             return new WebCallResult<IEnumerable<string>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
         }
