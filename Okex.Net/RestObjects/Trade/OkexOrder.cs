@@ -14,7 +14,7 @@ namespace Okex.Net.RestObjects.Trade
         public DateTime UpdateTime { get; set; }
 
         [JsonProperty("fillTime"), JsonConverter(typeof(OkexTimestampConverter))]
-        public DateTime FillTime { get; set; }
+        public DateTime? FillTime { get; set; }
 
         [JsonProperty("ccy")]
         public string Currency { get; set; }
@@ -50,7 +50,7 @@ namespace Okex.Net.RestObjects.Trade
         public OkexOrderState OrderState { get; set; }
 
         [JsonProperty("tgtCcy"), JsonConverter(typeof(QuantityTypeConverter))]
-        public OkexQuantityType QuantityType { get; set; }
+        public OkexQuantityType? QuantityType { get; set; }
 
         [JsonProperty("avgPx")]
         public decimal? AveragePrice { get; set; }
