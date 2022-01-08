@@ -44,7 +44,7 @@ namespace Okex.Net.RestObjects.Account
         [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
         public OkexInstrumentType InstrumentType { get; set; }
 
-        [JsonProperty("instType"), JsonConverter(typeof(MarginModeConverter))]
+        [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
         public OkexMarginMode MarginMode { get; set; }
 
         [JsonProperty("notionalCcy")]

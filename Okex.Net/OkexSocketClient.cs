@@ -286,8 +286,8 @@ namespace Okex.Net
         protected virtual async Task<CallResult<bool>> OkexAuthenticateSocket(SocketConnection s)
         {
             // Check Point
-            if (s.Authenticated)
-                return new CallResult<bool>(true, null);
+            //if (s.Authenticated)
+            //    return new CallResult<bool>(true, null);
 
             // Check Point
             if (Key == null || Secret == null || PassPhrase == null)
