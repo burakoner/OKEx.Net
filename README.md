@@ -1,6 +1,6 @@
 ﻿# ![Icon!](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true "OKEx.Net") OKEx.Net
 
-A .Net wrapper for the OKEx API as described on [OKEx](https://www.okex.com/docs-v5/en/), including all features the API provides using clear and readable objects.
+A .Net wrapper for the OKEx API as described on [OKEx](https://www.okx.com/docs-v5/en/), including all features the API provides using clear and readable objects.
 
 **If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/burakoner/OKEx.Net/issues)**
 

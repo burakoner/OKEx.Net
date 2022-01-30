@@ -20,7 +20,7 @@ namespace Okex.Net.CoreObjects
         /// <summary>
         /// ctor
         /// </summary>
-        public OkexRestClientOptions() : base("https://www.okex.com")
+        public OkexRestClientOptions() : base("https://www.okx.com")
         {
         }
 

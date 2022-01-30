@@ -1,4 +1,7 @@
 ﻿## Release Notes
+* Version 5.2.0 - 08 Jan 2022
+    * Migrated to okx.com
+
 * Version 5.1.3 - 7 Dec 2021
     * Fixed minor bugs
 

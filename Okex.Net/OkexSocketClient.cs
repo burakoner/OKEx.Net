@@ -111,14 +111,14 @@ namespace Okex.Net
         protected virtual SocketConnection OkexGetSocketConnection(string address, bool authenticated)
         {
             address = authenticated
-                ? "wss://ws.okex.com:8443/ws/v5/private"
-                : "wss://ws.okex.com:8443/ws/v5/public";
+                ? "wss://ws.okx.com:8443/ws/v5/private"
+                : "wss://ws.okx.com:8443/ws/v5/public";
 
             if (DemoTradingService)
             {
                 address = authenticated
-                    ? "wss://wspap.okex.com:8443/ws/v5/private?brokerId=9999"
-                    : "wss://wspap.okex.com:8443/ws/v5/public?brokerId=9999";
+                    ? "wss://wspap.okx.com:8443/ws/v5/private?brokerId=9999"
+                    : "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
             }
 
             var socketResult = sockets

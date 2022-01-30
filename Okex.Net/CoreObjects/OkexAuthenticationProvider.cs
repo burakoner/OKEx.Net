@@ -44,7 +44,7 @@ namespace Okex.Net.CoreObjects
                 throw new ArgumentException("No valid API credentials provided. Key/Secret/PassPhrase needed.");
 
             var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
-            var signtext = time + method.Method.ToUpper() + uri.Replace("https://www.okex.com", "").Trim('?');
+            var signtext = time + method.Method.ToUpper() + uri.Replace("https://www.okx.com", "").Trim('?');
 
             if (method == HttpMethod.Post)
             {
