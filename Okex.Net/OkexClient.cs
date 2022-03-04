@@ -85,9 +85,9 @@ namespace Okex.Net
         protected const string Endpoints_V5_SubAccount_ApiKey = "api/v5/users/subaccount/apikey";
         protected const string Endpoints_V5_SubAccount_ModifyApiKey = "api/v5/users/subaccount/modify-apikey";
         protected const string Endpoints_V5_SubAccount_DeleteApiKey = "api/v5/users/subaccount/delete-apikey";
-        protected const string Endpoints_V5_SubAccount_Balances = "api/v5/users/subaccount/balances";
-        protected const string Endpoints_V5_SubAccount_Bills = "api/v5/users/subaccount/bills";
-        protected const string Endpoints_V5_SubAccount_Transfer = "api/v5/users/subaccount/transfer";
+        protected const string Endpoints_V5_SubAccount_Balances = "api/v5/account/subaccount/balances";
+        protected const string Endpoints_V5_SubAccount_Bills = "api/v5/asset/subaccount/bills";
+        protected const string Endpoints_V5_SubAccount_Transfer = "api/v5/asset/subaccount/transfer";
         #endregion
 
         #region Market Data
