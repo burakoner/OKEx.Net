@@ -122,7 +122,7 @@ namespace Okex.Net.Examples
             var trade_02 = api.PlaceMultipleOrders(new List<OkexOrderPlaceRequest>());
             var trade_03 = api.CancelOrder("BTC-USDT");
             var trade_04 = api.CancelMultipleOrders(new List<OkexOrderCancelRequest>());
-            var trade_05 = api.AmendOrder();
+            var trade_05 = api.AmendOrder("BTC-USDT");
             var trade_06 = api.AmendMultipleOrders(new List<OkexOrderAmendRequest>());
             var trade_07 = api.ClosePosition("BTC-USDT", OkexMarginMode.Isolated);
             var trade_08 = api.GetOrderDetails("BTC-USDT");

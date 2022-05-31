@@ -205,6 +205,7 @@ namespace Okex.Net
         /// <summary>
         /// Amend an incomplete order.
         /// </summary>
+        /// <param name="instrumentId">Instrument ID</param>
         /// <param name="orderId">Order ID</param>
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="requestId">Request ID</param>
@@ -214,16 +215,18 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual WebCallResult<OkexOrderAmendResponse> AmendOrder(
+            string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
             string requestId = null,
             bool? cancelOnFail = null,
             decimal? newQuantity = null,
             decimal? newPrice = null,
-            CancellationToken ct = default) => AmendOrder_Async(orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
+            CancellationToken ct = default) => AmendOrder_Async(instrumentId, orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
         /// <summary>
         /// Amend an incomplete order.
         /// </summary>
+        /// <param name="instrumentId">Instrument ID</param>
         /// <param name="orderId">Order ID</param>
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="requestId">Request ID</param>
@@ -233,6 +236,7 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexOrderAmendResponse>> AmendOrder_Async(
+            string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
             string requestId = null,
@@ -242,6 +246,7 @@ namespace Okex.Net
             CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("instId", instrumentId);
             parameters.AddOptionalParameter("ordId", orderId?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("clOrdId", clientOrderId);
             parameters.AddOptionalParameter("cxlOnFail", cancelOnFail);
@@ -289,6 +294,7 @@ namespace Okex.Net
         /// <param name="marginMode">Margin Mode</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="currency">Currency</param>
+        /// <param name="autoCxl">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual WebCallResult<OkexClosePositionResponse> ClosePosition(
@@ -296,7 +302,8 @@ namespace Okex.Net
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
             string currency = null,
-            CancellationToken ct = default) => ClosePosition_Async(instrumentId, marginMode, positionSide, currency, ct).Result;
+            bool? autoCxl = null,
+            CancellationToken ct = default) => ClosePosition_Async(instrumentId, marginMode, positionSide, currency, autoCxl, ct).Result;
         /// <summary>
         /// Close all positions of an instrument via a market order.
         /// </summary>
@@ -304,6 +311,7 @@ namespace Okex.Net
         /// <param name="marginMode">Margin Mode</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="currency">Currency</param>
+        /// <param name="autoCxl">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexClosePositionResponse>> ClosePosition_Async(
@@ -311,6 +319,7 @@ namespace Okex.Net
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
             string currency = null,
+            bool? autoCxl = null,
             CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
@@ -320,6 +329,9 @@ namespace Okex.Net
             if (positionSide.HasValue)
                 parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
             parameters.AddOptionalParameter("ccy", currency);
+
+            if (autoCxl.HasValue)
+                parameters.AddOptionalParameter("autoCxl", autoCxl);
 
             var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexClosePositionResponse>>>(GetUrl(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<OkexClosePositionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);

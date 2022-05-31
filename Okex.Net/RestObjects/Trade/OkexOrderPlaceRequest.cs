@@ -23,10 +23,10 @@ namespace Okex.Net.RestObjects.Trade
         public OkexOrderType OrderType { get; set; }
 
         [JsonProperty("sz")]
-        public decimal Size { get; set; }
+        public string Size { get; set; }
 
         [JsonProperty("px", NullValueHandling = NullValueHandling.Ignore), JsonOptionalProperty]
-        public decimal? Price { get; set; }
+        public string Price { get; set; }
 
         [JsonProperty("ccy")]
         public string Currency { get; set; }
