@@ -47,5 +47,25 @@ namespace Okex.Net.RestObjects.Market
 
         [ArrayProperty(6)]
         public decimal VolumeCurrency { get; set; }
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                var stick = (OkexCandlestick)obj;
+                return (this.Time == stick.Time)
+                    && (this.Instrument == stick.Instrument)
+                    && (this.Open == stick.Open)
+                    && (this.Close == stick.Close)
+                    && (this.High == stick.High)
+                    && (this.Low == stick.Low)
+                    && (this.Volume == stick.Volume);
+            }
+        }
     }
 }
