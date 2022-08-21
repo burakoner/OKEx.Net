@@ -1,4 +1,36 @@
 ﻿## Release Notes
+* Version 5.2.4 - 21 Aug 2022
+    * Synced with CryptoExchange.Net v5.2.4
+    * Removed "_" (underscore) from async method names (Dummy_Async() => DummyAsync())
+    * Okex.Net.CoreObjects namespace changed as Okex.Net.Objects.Core
+    * Okex.Net.RestObjects.* namespace changed as Okex.Net.Objects.*
+    * Added: Okex.Net.Objects.Core.OkexApiAddresses Class
+    * Added: Okex.Net.Objects.Core.OkexApiCredentials Class
+    * Added/Changed some Core Objects according to new version of CryptoExchange.Net
+    * Added: Public => GetVIPInterestRates GetVIPInterestRatesAsync methods
+    * Added: Public => GetInsuranceFund GetInsuranceFundAsync methods
+    * Added: Public => UnitConvert UnitConvertAsync methods
+    * Added: Market => GetTradesHistory GetTradesHistoryAsync methods
+    * Added: Market => GetBlockTickers GetBlockTickersAsync methods
+    * Added: Market => GetBlockTicker GetBlockTickerAsync methods
+    * Added: Market => GetBlockTrades GetBlockTradesAsync methods
+    * Added: SubAccount => ResetSubAccountApiKey ResetSubAccountApiKeyAsync methods
+    * Added: SubAccount => GetSubAccountTradingBalances GetSubAccountTradingBalancesAsync methods
+    * Added: SubAccount => GetSubAccountFundingBalances GetSubAccountFundingBalancesAsync methods
+    * Added: Funding => GetSavingBalances GetSavingBalancesAsync methods
+    * Removed: SubAccount => CreateSubAccountApiKey CreateSubAccountApiKey_Async methods
+    * Removed: SubAccount => GetSubAccountApiKey GetSubAccountApiKey_Async methods
+    * Removed: SubAccount => ModifySubAccountApiKey ModifySubAccountApiKey_Async methods
+    * Removed: SubAccount => DeleteSubAccountApiKey DeleteSubAccountApiKey_Async methods
+    * Removed: SubAccount => GetSubAccountBalance GetSubAccountBalance_Async methods
+    * Removed: Funding => PiggyBankAction PiggyBankAction_Async methods
+    * Removed: Funding => PiggyBankBalance PiggyBankBalance_Async methods
+    * Renamed: Okex.Net.RestObjects.Account.OkexPositionMode => Okex.Net.Objects.Account.OkexAccountPositionMode
+    * Renamed: Okex.Net.RestObjects.Account.OkexGreeksType => Okex.Net.Objects.Account.OkexAccountGreeksType
+    * Renamed: Okex.Net.RestObjects.Account.OkexConfiguration => Okex.Net.Objects.Account.OkexAccountConfiguration
+    * Added/Changed/Fixed many models (added some extra models for new methods, added missing fields, removed some fields, fixed minor bugs for existing models)
+    * Notes: CryptoExchange.Net v5 library is very different from version 4. I tried to keep main structure in OKEx.Net, but I had to make some changes. I know CryptoExchange.Net v5 is has different usage algorithm, but there are many developers using OKEx.Net. So I decided not to change main structure considering those developers. I can build a different wrapper for CryptoExchange.Net v5 later. I'm not sure...
+
 * Version 5.2.0 - 08 Jan 2022
     * Migrated to okx.com
 

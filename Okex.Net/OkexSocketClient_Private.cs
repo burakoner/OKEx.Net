@@ -1,11 +1,12 @@
 ﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
-using Okex.Net.CoreObjects;
 using Okex.Net.Enums;
-using Okex.Net.RestObjects.Account;
-using Okex.Net.RestObjects.Trade;
+using Okex.Net.Objects.Account;
+using Okex.Net.Objects.Core;
+using Okex.Net.Objects.Trade;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Okex.Net
@@ -18,13 +19,17 @@ namespace Okex.Net
         /// </summary>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual CallResult<UpdateSubscription> SubscribeToAccountUpdates(Action<OkexAccountBalance> onData) => SubscribeToAccountUpdates_Async(onData).Result;
+        public virtual CallResult<UpdateSubscription> SubscribeToAccountUpdates(
+            Action<OkexAccountBalance> onData)
+            => SubscribeToAccountUpdatesAsync(onData).Result;
         /// <summary>
         /// Retrieve account information. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
         /// </summary>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdates_Async(Action<OkexAccountBalance> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
+            Action<OkexAccountBalance> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexAccountBalance>>>>(data =>
             {
@@ -33,7 +38,7 @@ namespace Okex.Net
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, "account");
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -48,7 +53,8 @@ namespace Okex.Net
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexPosition> onData) => SubscribeToPositionUpdates_Async(instrumentType, instrumentId, underlying, onData).Result;
+            Action<OkexPosition> onData)
+            => SubscribeToPositionUpdatesAsync(instrumentType, instrumentId, underlying, onData).Result;
         /// <summary>
         /// Retrieve position information. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
         /// </summary>
@@ -57,11 +63,12 @@ namespace Okex.Net
         /// <param name="underlying">Underlying</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdates_Async(
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexPosition> onData)
+            Action<OkexPosition> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexPosition>>>>(data =>
             {
@@ -76,7 +83,7 @@ namespace Okex.Net
                 InstrumentType = instrumentType,
                 Underlying = underlying,
             });
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -84,13 +91,17 @@ namespace Okex.Net
         /// </summary>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual CallResult<UpdateSubscription> SubscribeToBalanceAndPositionUpdates(Action<OkexPositionRisk> onData) => SubscribeToBalanceAndPositionUpdates_Async(onData).Result;
+        public virtual CallResult<UpdateSubscription> SubscribeToBalanceAndPositionUpdates(
+            Action<OkexPositionRisk> onData)
+            => SubscribeToBalanceAndPositionUpdatesAsync(onData).Result;
         /// <summary>
         /// Retrieve account balance and position information. Data will be pushed when triggered by events such as filled order, funding transfer.
         /// </summary>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdates_Async(Action<OkexPositionRisk> onData)
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
+            Action<OkexPositionRisk> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexPositionRisk>>>>(data =>
             {
@@ -99,7 +110,7 @@ namespace Okex.Net
             });
 
             var request = new OkexSocketRequest(OkexSocketOperation.Subscribe, "balance_and_position");
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -114,7 +125,8 @@ namespace Okex.Net
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexOrder> onData) => SubscribeToOrderUpdates_Async(instrumentType, instrumentId, underlying, onData).Result;
+            Action<OkexOrder> onData)
+            => SubscribeToOrderUpdatesAsync(instrumentType, instrumentId, underlying, onData).Result;
         /// <summary>
         /// Retrieve order information. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
         /// </summary>
@@ -123,11 +135,12 @@ namespace Okex.Net
         /// <param name="underlying">Underlying</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdates_Async(
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexOrder> onData)
+            Action<OkexOrder> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexOrder>>>>(data =>
             {
@@ -143,7 +156,7 @@ namespace Okex.Net
                 InstrumentType = instrumentType,
                 Underlying = underlying,
             });
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -158,7 +171,8 @@ namespace Okex.Net
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexAlgoOrder> onData) => SubscribeToAlgoOrderUpdates_Async(instrumentType, instrumentId, underlying, onData).Result;
+            Action<OkexAlgoOrder> onData)
+            => SubscribeToAlgoOrderUpdatesAsync(instrumentType, instrumentId, underlying, onData).Result;
         /// <summary>
         /// Retrieve algo orders (includes trigger order, oco order, conditional order). Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
         /// </summary>
@@ -167,11 +181,12 @@ namespace Okex.Net
         /// <param name="underlying">Underlying</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdates_Async(
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexAlgoOrder> onData)
+            Action<OkexAlgoOrder> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexAlgoOrder>>>>(data =>
             {
@@ -187,7 +202,7 @@ namespace Okex.Net
                 InstrumentType = instrumentType,
                 Underlying = underlying,
             });
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -202,7 +217,8 @@ namespace Okex.Net
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexAlgoOrder> onData) => SubscribeToAdvanceAlgoOrderUpdates_Async(instrumentType, instrumentId, underlying, onData).Result;
+            Action<OkexAlgoOrder> onData)
+            => SubscribeToAdvanceAlgoOrderUpdatesAsync(instrumentType, instrumentId, underlying, onData).Result;
         /// <summary>
         /// Retrieve advance algo orders (includes iceberg order and twap order). Data will be pushed when first subscribed. Data will be pushed when triggered by events such as placing/canceling order.
         /// </summary>
@@ -211,11 +227,12 @@ namespace Okex.Net
         /// <param name="underlying">Underlying</param>
         /// <param name="onData">On Data Handler</param>
         /// <returns></returns>
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdates_Async(
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(
             OkexInstrumentType instrumentType,
             string instrumentId,
             string underlying,
-            Action<OkexAlgoOrder> onData)
+            Action<OkexAlgoOrder> onData,
+            CancellationToken ct = default)
         {
             var internalHandler = new Action<DataEvent<OkexSocketUpdateResponse<IEnumerable<OkexAlgoOrder>>>>(data =>
             {
@@ -231,8 +248,18 @@ namespace Okex.Net
                 InstrumentType = instrumentType,
                 Underlying = underlying,
             });
-            return await SubscribeAsync(request, null, true, internalHandler).ConfigureAwait(false);
+            return await UnifiedSubscribeAsync(request, null, true, internalHandler, ct).ConfigureAwait(false);
         }
+
+        // TODO: Position risk warning
+        // TODO: Account greeks channel
+        // TODO: Rfqs channel
+        // TODO: Quotes channel
+        // TODO: Structure block trades channel
+        // TODO: Spot grid algo orders channel
+        // TODO: Contract grid algo orders channel
+        // TODO: Grid positions channel
+        // TODO: Grid sub orders channel
 
         #endregion
     }

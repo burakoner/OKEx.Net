@@ -2,12 +2,13 @@
 using CryptoExchange.Net.Objects;
 using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.CoreObjects;
 using Okex.Net.Enums;
 using Okex.Net.Helpers;
-using Okex.Net.RestObjects.Funding;
+using Okex.Net.Objects.Core;
+using Okex.Net.Objects.Funding;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -23,19 +24,20 @@ namespace Okex.Net
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexCurrency>> GetCurrencies(CancellationToken ct = default) => GetCurrencies_Async(ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexCurrency>> GetCurrencies(CancellationToken ct = default)
+            => GetCurrenciesAsync(ct).Result;
         /// <summary>
         /// Retrieve a list of all currencies. Not all currencies can be traded. Currencies that have not been defined in ISO 4217 may use a custom symbol.
         /// </summary>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexCurrency>>> GetCurrencies_Async(CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexCurrency>>> GetCurrenciesAsync(CancellationToken ct = default)
         {
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexCurrency>>>(GetUrl(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, null, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexCurrency>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexCurrency>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexCurrency>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, null, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexCurrency>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexCurrency>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexCurrency>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -44,24 +46,27 @@ namespace Okex.Net
         /// <param name="currency">Currency</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexFundingBalance>> GetFundingBalance(string currency = null, CancellationToken ct = default) => GetFundingBalance_Async(currency, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexFundingBalance>> GetFundingBalance(string currency = null, CancellationToken ct = default)
+            => GetFundingBalanceAsync(currency, ct).Result;
         /// <summary>
         /// Retrieve the balances of all the assets, and the amount that is available or on hold.
         /// </summary>
         /// <param name="currency">Currency</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexFundingBalance>>> GetFundingBalance_Async(string currency = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexFundingBalance>>> GetFundingBalanceAsync(string currency = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>();
             parameters.AddOptionalParameter("ccy", currency);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingBalance>>>(GetUrl(Endpoints_V5_Asset_Balances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexFundingBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexFundingBalance>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Balances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexFundingBalance>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexFundingBalance>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexFundingBalance>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
+
+        // TODO: Get account asset valuation
 
         /// <summary>
         /// This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
@@ -85,7 +90,8 @@ namespace Okex.Net
             string subAccountName = null,
             string fromInstrumentId = null,
             string toInstrumentId = null,
-            CancellationToken ct = default) => FundTransfer_Async(
+            CancellationToken ct = default)
+            => FundTransferAsync(
             currency,
             amount,
             type,
@@ -108,7 +114,7 @@ namespace Okex.Net
         /// <param name="toInstrumentId">MARGIN trading pair (e.g. BTC-USDT) or contract underlying (e.g. BTC-USD) to be transferred in.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexTransferResponse>> FundTransfer_Async(
+        public virtual async Task<WebCallResult<OkexTransferResponse>> FundTransferAsync(
             string currency,
             decimal amount,
             OkexTransferType type,
@@ -130,12 +136,14 @@ namespace Okex.Net
             parameters.AddOptionalParameter("instId", fromInstrumentId);
             parameters.AddOptionalParameter("toInstId", toInstrumentId);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTransferResponse>>>(GetUrl(Endpoints_V5_Asset_Transfer), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexTransferResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexTransferResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexTransferResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Transfer), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexTransferResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexTransferResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexTransferResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
+
+        // TODO: Get funds transfer state
 
         /// <summary>
         /// Query the billing record, you can get the latest 1 month historical data
@@ -153,7 +161,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetFundingBillDetails_Async(
+            CancellationToken ct = default)
+            => GetFundingBillDetailsAsync(
             currency,
             type,
             after,
@@ -170,7 +179,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexFundingBill>>> GetFundingBillDetails_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexFundingBill>>> GetFundingBillDetailsAsync(
             string currency = null,
             OkexFundingBillType? type = null,
             long? after = null,
@@ -189,11 +198,54 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("limit", limit.ToString(OkexGlobals.OkexCultureInfo));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexFundingBill>>>(GetUrl(Endpoints_V5_Asset_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexFundingBill>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexFundingBill>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexFundingBill>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexFundingBill>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexFundingBill>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexFundingBill>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
+        }
+
+        /// <summary>
+        /// Users can create up to 10,000 different invoices within 24 hours.
+        /// </summary>
+        /// <param name="currency">Currency</param>
+        /// <param name="amount">deposit amount between 0.000001 - 0.1</param>
+        /// <param name="account">Receiving account</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual WebCallResult<IEnumerable<OkexLightningDeposit>> GetLightningDeposits(
+            string currency,
+            decimal amount,
+            OkexLightningDepositAccount? account = null,
+            CancellationToken ct = default)
+            => GetLightningDepositsAsync(currency, amount, account, ct).Result;
+        /// <summary>
+        /// Users can create up to 10,000 different invoices within 24 hours.
+        /// </summary>
+        /// <param name="currency">Currency</param>
+        /// <param name="amount">deposit amount between 0.000001 - 0.1</param>
+        /// <param name="account">Receiving account</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual async Task<WebCallResult<IEnumerable<OkexLightningDeposit>>> GetLightningDepositsAsync(
+            string currency,
+            decimal amount,
+            OkexLightningDepositAccount? account = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "ccy", currency },
+                { "amt", amount.ToString(OkexGlobals.OkexCultureInfo) },
+            };
+            if (account.HasValue)
+                parameters.AddOptionalParameter("to", JsonConvert.SerializeObject(account, new LightningDepositAccountConverter(false)));
+
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexLightningDeposit>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_DepositLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexLightningDeposit>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexLightningDeposit>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -202,24 +254,25 @@ namespace Okex.Net
         /// <param name="currency">Currency</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexDepositAddress>> GetDepositAddress(string currency = null, CancellationToken ct = default) => GetDepositAddress_Async(currency, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexDepositAddress>> GetDepositAddress(string currency = null, CancellationToken ct = default)
+            => GetDepositAddressAsync(currency, ct).Result;
         /// <summary>
         /// Retrieve the deposit addresses of currencies, including previously-used addresses.
         /// </summary>
         /// <param name="currency">Currency</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexDepositAddress>>> GetDepositAddress_Async(string currency = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexDepositAddress>>> GetDepositAddressAsync(string currency = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 { "ccy", currency },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDepositAddress>>>(GetUrl(Endpoints_V5_Asset_DepositAddress), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexDepositAddress>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositAddress>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexDepositAddress>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_DepositAddress), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexDepositAddress>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexDepositAddress>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexDepositAddress>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -240,7 +293,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetDepositHistory_Async(currency, transactionId, state, after, before, limit, ct).Result;
+            CancellationToken ct = default)
+            => GetDepositHistoryAsync(currency, transactionId, state, after, before, limit, ct).Result;
         /// <summary>
         /// Retrieve the deposit history of all currencies, up to 100 recent records in a year.
         /// </summary>
@@ -252,7 +306,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexDepositHistory>>> GetDepositHistory_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexDepositHistory>>> GetDepositHistoryAsync(
             string currency = null,
             string transactionId = null,
             OkexDepositState? state = null,
@@ -273,11 +327,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("limit", limit.ToString(OkexGlobals.OkexCultureInfo));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexDepositHistory>>>(GetUrl(Endpoints_V5_Asset_DepositHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexDepositHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexDepositHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexDepositHistory>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_DepositHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexDepositHistory>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexDepositHistory>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexDepositHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -300,7 +354,8 @@ namespace Okex.Net
             string password,
             decimal fee,
             string chain = null,
-            CancellationToken ct = default) => Withdraw_Async(
+            CancellationToken ct = default)
+            => WithdrawAsync(
             currency,
             amount,
             destination,
@@ -321,7 +376,7 @@ namespace Okex.Net
         /// <param name="chain">Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexWithdrawalResponse>> Withdraw_Async(
+        public virtual async Task<WebCallResult<OkexWithdrawalResponse>> WithdrawAsync(
             string currency,
             decimal amount,
             OkexWithdrawalDestination destination,
@@ -341,12 +396,57 @@ namespace Okex.Net
             };
             parameters.AddOptionalParameter("chain", chain);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalResponse>>>(GetUrl(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexWithdrawalResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexWithdrawalResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexWithdrawalResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexWithdrawalResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexWithdrawalResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
+
+        /// <summary>
+        /// The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
+        /// </summary>
+        /// <param name="currency">Token symbol. Currently only BTC is supported.</param>
+        /// <param name="invoice">Invoice text</param>
+        /// <param name="memo">Lightning withdrawal memo</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual WebCallResult<OkexLightningWithdrawal> GetLightningWithdrawals(
+            string currency,
+            string invoice,
+            string memo = null,
+            CancellationToken ct = default)
+            => GetLightningWithdrawalsAsync(currency, invoice, memo, ct).Result;
+        /// <summary>
+        /// The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
+        /// </summary>
+        /// <param name="currency">Token symbol. Currently only BTC is supported.</param>
+        /// <param name="invoice">Invoice text</param>
+        /// <param name="memo">Lightning withdrawal memo</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual async Task<WebCallResult<OkexLightningWithdrawal>> GetLightningWithdrawalsAsync(
+            string currency,
+            string invoice,
+            string memo = null,
+            CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "ccy", currency },
+                { "invoice", invoice },
+            };
+            if (!string.IsNullOrEmpty(memo))
+                parameters.AddOptionalParameter("memo", memo);
+
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexLightningWithdrawal>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_WithdrawalLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexLightningWithdrawal>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexLightningWithdrawal>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+            return result.As(result.Data.Data.FirstOrDefault());
+        }
+
+        // TODO: Cancel withdrawal
 
         /// <summary>
         /// Retrieve the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
@@ -366,7 +466,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetWithdrawalHistory_Async(currency, transactionId, state, after, before, limit, ct).Result;
+            CancellationToken ct = default)
+            => GetWithdrawalHistoryAsync(currency, transactionId, state, after, before, limit, ct).Result;
         /// <summary>
         /// Retrieve the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
         /// </summary>
@@ -378,7 +479,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexWithdrawalHistory>>> GetWithdrawalHistory_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexWithdrawalHistory>>> GetWithdrawalHistoryAsync(
             string currency = null,
             string transactionId = null,
             OkexWithdrawalState? state = null,
@@ -399,166 +500,82 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("limit", limit.ToString(OkexGlobals.OkexCultureInfo));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalHistory>>>(GetUrl(Endpoints_V5_Asset_WithdrawalHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexWithdrawalHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexWithdrawalHistory>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalHistory>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_WithdrawalHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexWithdrawalHistory>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexWithdrawalHistory>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexWithdrawalHistory>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
+        // TODO: Small assets convert
+
         /// <summary>
-        /// PiggyBank Purchase/Redemption
+        /// Get saving balance
+        /// Only the assets in the funding account can be used for saving.
+        /// Rate Limit: 6 requests per second
         /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="amount">Amount</param>
-        /// <param name="side">Side</param>
+        /// <param name="currency">Currency, e.g. BTC</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<OkexPiggyBankActionResponse> PiggyBankAction(
+        public virtual WebCallResult<IEnumerable<OkexSavingBalance>> GetSavingBalances(string currency = null, CancellationToken ct = default)
+            => GetSavingBalancesAsync(currency, ct).Result;
+        /// <summary>
+        /// Get saving balance
+        /// Only the assets in the funding account can be used for saving.
+        /// Rate Limit: 6 requests per second
+        /// </summary>
+        /// <param name="currency">Currency, e.g. BTC</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual async Task<WebCallResult<IEnumerable<OkexSavingBalance>>> GetSavingBalancesAsync(string currency = null, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("ccy", currency);
+
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexSavingBalance>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_SavingBalance), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexSavingBalance>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexSavingBalance>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+            return result.As(result.Data.Data);
+        }
+
+        public virtual WebCallResult<OkexSavingActionResponse> SavingPurchaseRedemption(
             string currency,
             decimal amount,
-            OkexPiggyBankActionSide side,
-            CancellationToken ct = default) => PiggyBankAction_Async(
+            OkexSavingActionSide side,
+            decimal? rate = null,
+            CancellationToken ct = default)
+            => SavingPurchaseRedemptionAsync(
             currency,
             amount,
             side,
+            rate,
             ct).Result;
-        /// <summary>
-        /// PiggyBank Purchase/Redemption
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="amount">Amount</param>
-        /// <param name="side">Side</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexPiggyBankActionResponse>> PiggyBankAction_Async(
+        public virtual async Task<WebCallResult<OkexSavingActionResponse>> SavingPurchaseRedemptionAsync(
             string currency,
             decimal amount,
-            OkexPiggyBankActionSide side,
+            OkexSavingActionSide side,
+            decimal? rate = null,
             CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 { "ccy",currency},
                 { "amt",amount.ToString(OkexGlobals.OkexCultureInfo)},
-                { "side", JsonConvert.SerializeObject(side, new PiggyBankActionSideConverter(false)) },
+                { "side", JsonConvert.SerializeObject(side, new SavingActionSideConverter(false)) },
             };
+            parameters.AddOptionalParameter("rate", rate?.ToString(OkexGlobals.OkexCultureInfo));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPiggyBankActionResponse>>>(GetUrl(Endpoints_V5_Asset_PurchaseRedempt), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexPiggyBankActionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexPiggyBankActionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexSavingActionResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_SavingPurchaseRedempt), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexSavingActionResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexSavingActionResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexPiggyBankActionResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
-        /// <summary>
-        /// Get PiggyBank Balance
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexPiggyBankBalance>> PiggyBankBalance(string currency = null, CancellationToken ct = default) => PiggyBankBalance_Async(currency, ct).Result;
-        /// <summary>
-        /// Get PiggyBank Balance
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexPiggyBankBalance>>> PiggyBankBalance_Async(string currency = null, CancellationToken ct = default)
-        {
-            var parameters = new Dictionary<string, object>();
-            parameters.AddOptionalParameter("ccy", currency);
-
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexPiggyBankBalance>>>(GetUrl(Endpoints_V5_Asset_PiggyBalance), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexPiggyBankBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexPiggyBankBalance>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
-
-            return new WebCallResult<IEnumerable<OkexPiggyBankBalance>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
-        }
-
-        /// <summary>
-        /// only 100 invoices can be generated within a 24 hour period.
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="amount">deposit amount between 0.000001 - 0.1</param>
-        /// <param name="account">Receiving account</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexLightningDeposit>> GetLightningDeposits(
-            string currency,
-            decimal amount,
-            OkexLightningDepositAccount? account = null,
-            CancellationToken ct = default) => GetLightningDeposits_Async(currency, amount, account, ct).Result;
-        /// <summary>
-        /// only 100 invoices can be generated within a 24 hour period.
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="amount">deposit amount between 0.000001 - 0.1</param>
-        /// <param name="account">Receiving account</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexLightningDeposit>>> GetLightningDeposits_Async(
-            string currency,
-            decimal amount,
-            OkexLightningDepositAccount? account = null,
-            CancellationToken ct = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                { "ccy", currency },
-                { "amt", amount.ToString(OkexGlobals.OkexCultureInfo) },
-            };
-            if (account.HasValue)
-                parameters.AddOptionalParameter("to", JsonConvert.SerializeObject(account, new LightningDepositAccountConverter(false)));
-
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLightningDeposit>>>(GetUrl(Endpoints_V5_Asset_DepositLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexLightningDeposit>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexLightningDeposit>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
-
-            return new WebCallResult<IEnumerable<OkexLightningDeposit>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
-        }
-
-        /// <summary>
-        /// Used to make a withdrawal via Lightning. Maximum withdrawal amount is 0.1 BTC, minimum amount is 0.000001 BTC. Rolling 24 hour limit of 1 BTC.
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="invoice">Invoice text</param>
-        /// <param name="password">fund password</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual WebCallResult<OkexLightningWithdrawal> GetLightningWithdrawals(
-            string currency,
-            string invoice,
-            string password,
-            CancellationToken ct = default) => GetLightningWithdrawals_Async(currency, invoice, password, ct).Result;
-        /// <summary>
-        /// Used to make a withdrawal via Lightning. Maximum withdrawal amount is 0.1 BTC, minimum amount is 0.000001 BTC. Rolling 24 hour limit of 1 BTC.
-        /// </summary>
-        /// <param name="currency">Currency</param>
-        /// <param name="invoice">Invoice text</param>
-        /// <param name="password">fund password</param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexLightningWithdrawal>> GetLightningWithdrawals_Async(
-            string currency,
-            string invoice,
-            string password,
-            CancellationToken ct = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                { "ccy", currency },
-                { "invoice", invoice },
-                { "pwd", password },
-            };
-
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexLightningWithdrawal>>>(GetUrl(Endpoints_V5_Asset_WithdrawalLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexLightningWithdrawal>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexLightningWithdrawal>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
-
-            return new WebCallResult<OkexLightningWithdrawal>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
-        }
-
-
+        // TODO: Set lending rate
+        // TODO: Get lending history
+        // TODO: Get public borrow info (public)
+        // TODO: Get public borrow history (public)
         #endregion
     }
 }

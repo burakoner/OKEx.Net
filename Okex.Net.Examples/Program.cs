@@ -1,10 +1,8 @@
 ﻿using CryptoExchange.Net.Sockets;
 using Microsoft.Extensions.Logging;
-using Okex.Net.Enums;
-using Okex.Net.RestObjects.Trade;
+using Okex.Net.Objects.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Okex.Net.Examples
 {
@@ -12,13 +10,12 @@ namespace Okex.Net.Examples
     {
         private static void Main(string[] args)
         {
+            #region Rest Api Client
             // OKEx Rest Api Client
-            OkexClient api = new OkexClient(new CoreObjects.OkexRestClientOptions { LogLevel = LogLevel.Debug });
+            OkexClient api = new OkexClient(new OkexClientOptions { LogLevel = LogLevel.Debug, OutputOriginalData=true });
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 
-            /* System Endpoints (Unsigned) */
-            var system_01 = api.GetSystemStatus();
-
+#if FALSE
             /* Public Endpoints (Unsigned) */
             var public_01 = api.GetInstruments(OkexInstrumentType.Spot);
             var public_02 = api.GetInstruments(OkexInstrumentType.Margin);
@@ -29,7 +26,7 @@ namespace Okex.Net.Examples
             var public_07 = api.GetDeliveryExerciseHistory(OkexInstrumentType.Option, "BTC-USD");
             var public_08 = api.GetOpenInterests(OkexInstrumentType.Futures);
             var public_09 = api.GetOpenInterests(OkexInstrumentType.Option, "BTC-USD");
-            var public_10 = api.GetOpenInterests(OkexInstrumentType.Swap);
+            var public_10 = api.GetOpenInterests(OkexInstrumentType.Swap, "BTC-USD");
             var public_11 = api.GetFundingRates("BTC-USD-SWAP");
             var public_12 = api.GetFundingRateHistory("BTC-USD-SWAP");
             var public_13 = api.GetLimitPrice("BTC-USD-SWAP");
@@ -41,24 +38,38 @@ namespace Okex.Net.Examples
             var public_19 = api.GetMarkPrices(OkexInstrumentType.Futures);
             var public_20 = api.GetPositionTiers(OkexInstrumentType.Futures, OkexMarginMode.Isolated, "BTC-USD");
             var public_21 = api.GetInterestRates();
-            var public_22 = api.GetUnderlying(OkexInstrumentType.Futures);
-            var public_23 = api.GetUnderlying(OkexInstrumentType.Option);
-            var public_24 = api.GetUnderlying(OkexInstrumentType.Swap);
+            var public_22 = api.GetVIPInterestRates();
+            var public_23 = api.GetUnderlying(OkexInstrumentType.Futures);
+            var public_24 = api.GetUnderlying(OkexInstrumentType.Option);
+            var public_25 = api.GetUnderlying(OkexInstrumentType.Swap);
+            var public_26 = api.GetInsuranceFund(OkexInstrumentType.Margin, currency:"BTC");
+            var public_27 = api.UnitConvert( OkexConvertType.CurrencyToContract, instrumentId:"BTC-USD-SWAP", price:35000, size:0.888m);
+#endif
 
+#if FALSE
             /* Market Endpoints (Unsigned) */
             var market_01 = api.GetTickers(OkexInstrumentType.Spot);
             var market_02 = api.GetTicker("BTC-USDT");
-            var market_03 = api.GetIndexTickers();
+            var market_03 = api.GetIndexTickers(instrumentId: "BTC-USDT");
             var market_04 = api.GetOrderBook("BTC-USDT", 40);
             var market_05 = api.GetCandlesticks("BTC-USDT", OkexPeriod.OneHour);
             var market_06 = api.GetCandlesticksHistory("BTC-USDT", OkexPeriod.OneHour);
             var market_07 = api.GetIndexCandlesticks("BTC-USDT", OkexPeriod.OneHour);
             var market_08 = api.GetMarkPriceCandlesticks("BTC-USDT", OkexPeriod.OneHour);
             var market_09 = api.GetTrades("BTC-USDT");
-            var market_10 = api.Get24HourVolume();
-            var market_11 = api.GetOracle();
-            var market_12 = api.GetIndexComponents("BTC-USDT");
+            var market_10 = api.GetTradesHistory("BTC-USDT");
+            var market_11 = api.Get24HourVolume();
+            var market_12 = api.GetOracle();
+            var market_13 = api.GetIndexComponents("BTC-USDT");
+            var market_14 = api.GetBlockTickers(OkexInstrumentType.Spot);
+            var market_15 = api.GetBlockTickers(OkexInstrumentType.Futures);
+            var market_16 = api.GetBlockTickers(OkexInstrumentType.Option);
+            var market_17 = api.GetBlockTickers(OkexInstrumentType.Swap);
+            var market_18 = api.GetBlockTicker("BTC-USDT");
+            var market_19 = api.GetBlockTrades("BTC-USDT");
+#endif
 
+#if FALSE
             /* Trading Endpoints (Unsigned) */
             var rubik_01 = api.GetRubikSupportCoin();
             var rubik_02 = api.GetRubikTakerVolume("BTC", OkexInstrumentType.Spot);
@@ -70,7 +81,9 @@ namespace Okex.Net.Examples
             var rubik_08 = api.GetRubikInterestVolumeExpiry("BTC", OkexPeriod.OneDay);
             var rubik_09 = api.GetRubikInterestVolumeStrike("BTC", "20210623", OkexPeriod.OneDay);
             var rubik_10 = api.GetRubikTakerFlow("BTC", OkexPeriod.OneDay);
+#endif
 
+#if FALSE
             /* Account Endpoints (Signed) */
             var account_01 = api.GetAccountBalance();
             var account_02 = api.GetAccountPositions();
@@ -91,32 +104,36 @@ namespace Okex.Net.Examples
             var account_17 = api.GetInterestRate();
             var account_18 = api.SetGreeks(OkexGreeksType.GreeksInCoins);
             var account_19 = api.GetMaximumWithdrawals();
+#endif
 
+#if FALSE
             /* SubAccount Endpoints (Signed) */
             var subaccount_01 = api.GetSubAccounts();
-            var subaccount_02 = api.CreateSubAccountApiKey("password", "subAccountName", "apiLabel", "apiPassphrase", OkexApiPermission.ReadOnly);
-            var subaccount_03 = api.GetSubAccountApiKey("subAccountName", "apiKey");
-            var subaccount_04 = api.ModifySubAccountApiKey("password", "subAccountName", "apiKey", "apiLabel", OkexApiPermission.ReadOnly);
-            var subaccount_05 = api.DeleteSubAccountApiKey("password", "subAccountName", "apiKey");
-            var subaccount_06 = api.GetSubAccountBalance("subAccountName");
-            var subaccount_07 = api.GetSubAccountBills();
-            var subaccount_08 = api.TransferBetweenSubAccounts("BTC", 0.5m, OkexAccount.Funding, OkexAccount.Unified, "fromSubAccountName", "toSubAccountName");
+            var subaccount_02 = api.ResetSubAccountApiKey("subAccountName", "apiKey", "apiLabel", true, true, "");
+            var subaccount_03 = api.GetSubAccountTradingBalances("subAccountName");
+            var subaccount_04 = api.GetSubAccountFundingBalances("subAccountName");
+            var subaccount_05 = api.GetSubAccountBills();
+            var subaccount_06 = api.TransferBetweenSubAccounts("BTC", 0.5m, OkexAccount.Funding, OkexAccount.Unified, "fromSubAccountName", "toSubAccountName");
+#endif
 
+#if FALSE
             /* Funding Endpoints (Signed) */
             var funding_01 = api.GetCurrencies();
             var funding_02 = api.GetFundingBalance();
             var funding_03 = api.FundTransfer("BTC", 0.5m, OkexTransferType.TransferWithinAccount, OkexAccount.Margin, OkexAccount.Spot);
             var funding_04 = api.GetFundingBillDetails("BTC");
-            var funding_05 = api.GetDepositAddress("BTC");
-            var funding_06 = api.GetDepositAddress("USDT");
-            var funding_07 = api.GetDepositHistory("USDT");
-            var funding_08 = api.Withdraw("USDT", 100.0m, OkexWithdrawalDestination.DigitalCurrencyAddress, "toAddress", "password", 1.0m, "USDT-TRC20");
-            var funding_09 = api.GetWithdrawalHistory("USDT");
-            var funding_10 = api.PiggyBankAction("USDT", 10.0m, OkexPiggyBankActionSide.Purchase);
-            var funding_11 = api.PiggyBankBalance();
-            var funding_12 = api.GetLightningDeposits("BTC", 0.001m);
-            var funding_13 = api.GetLightningWithdrawals("BTC", "invoice", "password");
+            var funding_05 = api.GetLightningDeposits("BTC", 0.001m);
+            var funding_06 = api.GetDepositAddress("BTC");
+            var funding_07 = api.GetDepositAddress("USDT");
+            var funding_08 = api.GetDepositHistory("USDT");
+            var funding_09 = api.Withdraw("USDT", 100.0m, OkexWithdrawalDestination.DigitalCurrencyAddress, "toAddress", "password", 1.0m, "USDT-TRC20");
+            var funding_10 = api.GetLightningWithdrawals("BTC", "invoice", "password");
+            var funding_11 = api.GetWithdrawalHistory("USDT");
+            var funding_12 = api.GetSavingBalances();
+            var funding_13 = api.SavingPurchaseRedemption("USDT", 10.0m, OkexSavingActionSide.Purchase);
+#endif
 
+#if FALSE
             /* Trade Endpoints (Signed) */
             var trade_01 = api.PlaceOrder("BTC-USDT", OkexTradeMode.Cash, OkexOrderSide.Buy, OkexPositionSide.Long, OkexOrderType.MarketOrder, 0.1m);
             var trade_02 = api.PlaceMultipleOrders(new List<OkexOrderPlaceRequest>());
@@ -136,7 +153,10 @@ namespace Okex.Net.Examples
             var trade_16 = api.CancelAdvanceAlgoOrder(new List<OkexAlgoOrderRequest>());
             var trade_17 = api.GetAlgoOrderList(OkexAlgoOrderType.OCO);
             var trade_18 = api.GetAlgoOrderHistory(OkexAlgoOrderType.Conditional);
+#endif
+            #endregion
 
+            #region Socket Api Client
             /* OKEx Socket Client */
             var ws = new OkexSocketClient();
             ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -147,15 +167,19 @@ namespace Okex.Net.Examples
             /* WS Subscriptions */
             var subs = new List<UpdateSubscription>();
 
+#if FALSE
             /* Instruments (Public) */
             ws.SubscribeToInstruments(OkexInstrumentType.Spot, (data) =>
             {
                 if (data != null)
                 {
                     // ... Your logic is here
+                    Console.WriteLine($"Instrument {data.Instrument} BaseCurrency:{data.BaseCurrency} Category:{data.Category}");
                 }
             });
+#endif
 
+#if FALSE
             /* Tickers (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -164,17 +188,22 @@ namespace Okex.Net.Examples
                     if (data != null)
                     {
                         // ... Your logic is here
+                        Console.WriteLine($"Ticker {data.Instrument} Ask:{data.AskPrice} Bid:{data.BidPrice}");
                     }
                 });
                 subs.Add(subscription.Data);
             }
+#endif
 
+#if FALSE
             /* Unsubscribe */
             foreach (var sub in subs)
             {
                 _ = ws.UnsubscribeAsync(sub);
             }
+#endif
 
+#if FALSE
             /* Interests (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -186,7 +215,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Candlesticks (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -198,7 +229,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Trades (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -210,7 +243,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Estimated Price (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -222,7 +257,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Mark Price (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -234,7 +271,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Mark Price Candlesticks (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -246,7 +285,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Limit Price (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -258,7 +299,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Order Book (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -270,7 +313,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Option Summary (Public) */
             ws.SubscribeToOptionSummary("USD", (data) =>
             {
@@ -279,7 +324,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Funding Rates (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -291,7 +338,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Index Candlesticks (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -303,7 +352,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* Index Tickers (Public) */
             foreach (var pair in sample_pairs)
             {
@@ -315,7 +366,9 @@ namespace Okex.Net.Examples
                     }
                 });
             }
+#endif
 
+#if FALSE
             /* System Status (Public) */
             ws.SubscribeToSystemStatus((data) =>
             {
@@ -324,7 +377,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Account Updates (Private) */
             ws.SubscribeToAccountUpdates((data) =>
             {
@@ -333,7 +388,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Position Updates (Private) */
             ws.SubscribeToPositionUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLYING", (data) =>
             {
@@ -342,7 +399,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Balance And Position Updates (Private) */
             ws.SubscribeToBalanceAndPositionUpdates((data) =>
             {
@@ -351,7 +410,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Order Updates (Private) */
             ws.SubscribeToOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLYING", (data) =>
             {
@@ -360,7 +421,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Algo Order Updates (Private) */
             ws.SubscribeToAlgoOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLYING", (data) =>
             {
@@ -369,7 +432,9 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
 
+#if FALSE
             /* Advance Algo Order Updates (Private) */
             ws.SubscribeToAdvanceAlgoOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLYING", (data) =>
             {
@@ -378,6 +443,8 @@ namespace Okex.Net.Examples
                     // ... Your logic is here
                 }
             });
+#endif
+            #endregion
 
             // Stop Here
             Console.ReadLine();

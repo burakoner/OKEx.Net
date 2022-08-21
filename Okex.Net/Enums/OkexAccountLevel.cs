@@ -5,6 +5,7 @@
         Simple,
         SingleCurrencyMargin,
         MultiCurrencyMargin,
+        PortfolioMargin,
     }
 
 }

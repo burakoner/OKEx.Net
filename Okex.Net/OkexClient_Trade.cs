@@ -2,10 +2,10 @@
 using CryptoExchange.Net.Objects;
 using Newtonsoft.Json;
 using Okex.Net.Converters;
-using Okex.Net.CoreObjects;
 using Okex.Net.Enums;
 using Okex.Net.Helpers;
-using Okex.Net.RestObjects.Trade;
+using Okex.Net.Objects.Core;
+using Okex.Net.Objects.Trade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +48,8 @@ namespace Okex.Net
             string tag = null,
             bool? reduceOnly = null,
             OkexQuantityType? quantityType = null,
-            CancellationToken ct = default) => PlaceOrder_Async(
+            CancellationToken ct = default)
+            => PlaceOrderAsync(
             instrumentId,
             tradeMode,
             orderSide,
@@ -79,7 +80,7 @@ namespace Okex.Net
         /// <param name="quantityType">Quantity Type</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexOrderPlaceResponse>> PlaceOrder_Async(
+        public virtual async Task<WebCallResult<OkexOrderPlaceResponse>> PlaceOrderAsync(
             string instrumentId,
             OkexTradeMode tradeMode,
             OkexOrderSide orderSide,
@@ -110,11 +111,11 @@ namespace Okex.Net
             if (quantityType.HasValue)
                 parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderPlaceResponse>>>(GetUrl(Endpoints_V5_Trade_Order), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexOrderPlaceResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderPlaceResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderPlaceResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexOrderPlaceResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexOrderPlaceResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexOrderPlaceResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -123,25 +124,26 @@ namespace Okex.Net
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexOrderPlaceResponse>> PlaceMultipleOrders(IEnumerable<OkexOrderPlaceRequest> orders, CancellationToken ct = default) => PlaceMultipleOrders_Async(orders, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexOrderPlaceResponse>> PlaceMultipleOrders(IEnumerable<OkexOrderPlaceRequest> orders, CancellationToken ct = default)
+            => PlaceMultipleOrdersAsync(orders, ct).Result;
         /// <summary>
         /// Place orders in batches. Maximum 20 orders can be placed at a time. Request parameters should be passed in the form of an array.
         /// </summary>
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrderPlaceResponse>>> PlaceMultipleOrders_Async(IEnumerable<OkexOrderPlaceRequest> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OkexOrderPlaceRequest> orders, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { BodyParameterKey, orders },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderPlaceResponse>>>(GetUrl(Endpoints_V5_Trade_BatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrderPlaceResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrderPlaceResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderPlaceResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_BatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrderPlaceResponse>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrderPlaceResponse>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrderPlaceResponse>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -152,7 +154,8 @@ namespace Okex.Net
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<OkexOrderCancelResponse> CancelOrder(string instrumentId, long? orderId = null, string clientOrderId = null, CancellationToken ct = default) => CancelOrder_Async(instrumentId, orderId, clientOrderId, ct).Result;
+        public virtual WebCallResult<OkexOrderCancelResponse> CancelOrder(string instrumentId, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+            => CancelOrderAsync(instrumentId, orderId, clientOrderId, ct).Result;
         /// <summary>
         /// Cancel an incomplete order.
         /// </summary>
@@ -161,7 +164,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexOrderCancelResponse>> CancelOrder_Async(string instrumentId, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexOrderCancelResponse>> CancelOrderAsync(string instrumentId, long? orderId = null, string clientOrderId = null, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 {"instId", instrumentId },
@@ -169,11 +172,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("ordId", orderId?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderCancelResponse>>>(GetUrl(Endpoints_V5_Trade_CancelOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexOrderCancelResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderCancelResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderCancelResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_CancelOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexOrderCancelResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexOrderCancelResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexOrderCancelResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -182,24 +185,25 @@ namespace Okex.Net
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexOrderCancelResponse>> CancelMultipleOrders(IEnumerable<OkexOrderCancelRequest> orders, CancellationToken ct = default) => CancelMultipleOrders_Async(orders, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexOrderCancelResponse>> CancelMultipleOrders(IEnumerable<OkexOrderCancelRequest> orders, CancellationToken ct = default)
+            => CancelMultipleOrdersAsync(orders, ct).Result;
         /// <summary>
         /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled at a time. Request parameters should be passed in the form of an array.
         /// </summary>
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrderCancelResponse>>> CancelMultipleOrders_Async(IEnumerable<OkexOrderCancelRequest> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OkexOrderCancelRequest> orders, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 { BodyParameterKey, orders },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderCancelResponse>>>(GetUrl(Endpoints_V5_Trade_CancelBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrderCancelResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrderCancelResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderCancelResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_CancelBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrderCancelResponse>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrderCancelResponse>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrderCancelResponse>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -220,7 +224,8 @@ namespace Okex.Net
             bool? cancelOnFail = null,
             decimal? newQuantity = null,
             decimal? newPrice = null,
-            CancellationToken ct = default) => AmendOrder_Async(orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
+            CancellationToken ct = default)
+            => AmendOrderAsync(orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
         /// <summary>
         /// Amend an incomplete order.
         /// </summary>
@@ -232,7 +237,7 @@ namespace Okex.Net
         /// <param name="newPrice">New Price</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexOrderAmendResponse>> AmendOrder_Async(
+        public virtual async Task<WebCallResult<OkexOrderAmendResponse>> AmendOrderAsync(
             long? orderId = null,
             string clientOrderId = null,
             string requestId = null,
@@ -249,11 +254,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("newSz", newQuantity);
             parameters.AddOptionalParameter("newPx", newPrice);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderAmendResponse>>>(GetUrl(Endpoints_V5_Trade_AmendOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexOrderAmendResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrderAmendResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderAmendResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_AmendOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexOrderAmendResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexOrderAmendResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexOrderAmendResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -262,24 +267,25 @@ namespace Okex.Net
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<IEnumerable<OkexOrderAmendResponse>> AmendMultipleOrders(IEnumerable<OkexOrderAmendRequest> orders, CancellationToken ct = default) => AmendMultipleOrders_Async(orders, ct).Result;
+        public virtual WebCallResult<IEnumerable<OkexOrderAmendResponse>> AmendMultipleOrders(IEnumerable<OkexOrderAmendRequest> orders, CancellationToken ct = default)
+            => AmendMultipleOrdersAsync(orders, ct).Result;
         /// <summary>
         /// Amend incomplete orders in batches. Maximum 20 orders can be amended at a time. Request parameters should be passed in the form of an array.
         /// </summary>
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrderAmendResponse>>> AmendMultipleOrders_Async(IEnumerable<OkexOrderAmendRequest> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OkexOrderAmendRequest> orders, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 { BodyParameterKey, orders },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrderAmendResponse>>>(GetUrl(Endpoints_V5_Trade_AmendBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrderAmendResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrderAmendResponse>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderAmendResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_AmendBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrderAmendResponse>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrderAmendResponse>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrderAmendResponse>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -296,7 +302,8 @@ namespace Okex.Net
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
             string currency = null,
-            CancellationToken ct = default) => ClosePosition_Async(instrumentId, marginMode, positionSide, currency, ct).Result;
+            CancellationToken ct = default)
+            => ClosePositionAsync(instrumentId, marginMode, positionSide, currency, ct).Result;
         /// <summary>
         /// Close all positions of an instrument via a market order.
         /// </summary>
@@ -306,7 +313,7 @@ namespace Okex.Net
         /// <param name="currency">Currency</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexClosePositionResponse>> ClosePosition_Async(
+        public virtual async Task<WebCallResult<OkexClosePositionResponse>> ClosePositionAsync(
             string instrumentId,
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
@@ -321,11 +328,11 @@ namespace Okex.Net
                 parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
             parameters.AddOptionalParameter("ccy", currency);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexClosePositionResponse>>>(GetUrl(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexClosePositionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexClosePositionResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexClosePositionResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexClosePositionResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexClosePositionResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexClosePositionResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -340,7 +347,8 @@ namespace Okex.Net
             string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
-            CancellationToken ct = default) => GetOrderDetails_Async(instrumentId, orderId, clientOrderId, ct).Result;
+            CancellationToken ct = default)
+            => GetOrderDetailsAsync(instrumentId, orderId, clientOrderId, ct).Result;
         /// <summary>
         /// Retrieve order details.
         /// </summary>
@@ -349,7 +357,7 @@ namespace Okex.Net
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexOrder>> GetOrderDetails_Async(
+        public virtual async Task<WebCallResult<OkexOrder>> GetOrderDetailsAsync(
             string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
@@ -361,11 +369,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("ordId", orderId?.ToString());
             parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(GetUrl(Endpoints_V5_Trade_Order), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexOrder>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexOrder>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexOrder>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexOrder>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexOrder>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -390,7 +398,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetOrderList_Async(
+            CancellationToken ct = default)
+            => GetOrderListAsync(
             instrumentType,
             instrumentId,
             underlying,
@@ -413,7 +422,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderList_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderListAsync(
             OkexInstrumentType? instrumentType = null,
             string instrumentId = null,
             string underlying = null,
@@ -443,11 +452,11 @@ namespace Okex.Net
             if (state.HasValue)
                 parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new OrderStateConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(GetUrl(Endpoints_V5_Trade_OrdersPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrdersPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrder>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -474,7 +483,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetOrderHistory_Async(
+            CancellationToken ct = default)
+            => GetOrderHistoryAsync(
             instrumentType,
             instrumentId,
             underlying,
@@ -499,7 +509,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderHistory_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderHistoryAsync(
             OkexInstrumentType instrumentType,
             string instrumentId = null,
             string underlying = null,
@@ -533,11 +543,11 @@ namespace Okex.Net
             if (category.HasValue)
                 parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(GetUrl(Endpoints_V5_Trade_OrdersHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrdersHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrder>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -564,7 +574,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetOrderArchive_Async(
+            CancellationToken ct = default)
+            => GetOrderArchiveAsync(
             instrumentType,
             instrumentId,
             underlying,
@@ -589,7 +600,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderArchive_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexOrder>>> GetOrderArchiveAsync(
             OkexInstrumentType instrumentType,
             string instrumentId = null,
             string underlying = null,
@@ -623,11 +634,11 @@ namespace Okex.Net
             if (category.HasValue)
                 parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(GetUrl(Endpoints_V5_Trade_OrdersHistoryArchive), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrdersHistoryArchive), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexOrder>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexOrder>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -650,7 +661,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetTransactionHistory_Async(
+            CancellationToken ct = default)
+            => GetTransactionHistoryAsync(
             instrumentType,
             instrumentId,
             underlying,
@@ -671,7 +683,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexTransaction>>> GetTransactionHistory_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexTransaction>>> GetTransactionHistoryAsync(
             OkexInstrumentType? instrumentType = null,
             string instrumentId = null,
             string underlying = null,
@@ -694,11 +706,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString());
             parameters.AddOptionalParameter("limit", limit.ToString());
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTransaction>>>(GetUrl(Endpoints_V5_Trade_Fills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexTransaction>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTransaction>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexTransaction>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_Fills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexTransaction>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexTransaction>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexTransaction>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -721,7 +733,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetTransactionArchive_Async(
+            CancellationToken ct = default)
+            => GetTransactionArchiveAsync(
             instrumentType,
             instrumentId,
             underlying,
@@ -742,7 +755,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexTransaction>>> GetTransactionArchive_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexTransaction>>> GetTransactionArchiveAsync(
             OkexInstrumentType instrumentType,
             string instrumentId = null,
             string underlying = null,
@@ -764,11 +777,11 @@ namespace Okex.Net
             parameters.AddOptionalParameter("before", before?.ToString());
             parameters.AddOptionalParameter("limit", limit.ToString());
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexTransaction>>>(GetUrl(Endpoints_V5_Trade_FillsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexTransaction>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexTransaction>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexTransaction>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_FillsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexTransaction>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexTransaction>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexTransaction>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -829,7 +842,8 @@ namespace Okex.Net
             long? timeInterval = null,
 
             /* Cancellation Token */
-            CancellationToken ct = default) => PlaceAlgoOrder_Async(
+            CancellationToken ct = default)
+            => PlaceAlgoOrderAsync(
             /* Common */
             instrumentId,
             tradeMode,
@@ -888,7 +902,7 @@ namespace Okex.Net
         /// <param name="timeInterval">Time Interval</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> PlaceAlgoOrder_Async(
+        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> PlaceAlgoOrderAsync(
             //* Common */
             string instrumentId,
             OkexTradeMode tradeMode,
@@ -960,11 +974,11 @@ namespace Okex.Net
             /* TWAP Order */
             parameters.AddOptionalParameter("timeInterval", timeInterval?.ToString(OkexGlobals.OkexCultureInfo));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(GetUrl(Endpoints_V5_Trade_OrderAlgo), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrderAlgo), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexAlgoOrderResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -973,24 +987,25 @@ namespace Okex.Net
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<OkexAlgoOrderResponse> CancelAlgoOrder(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default) => CancelAlgoOrder_Async(orders, ct).Result;
+        public virtual WebCallResult<OkexAlgoOrderResponse> CancelAlgoOrder(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
+            => CancelAlgoOrderAsync(orders, ct).Result;
         /// <summary>
         /// Cancel unfilled algo orders(trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
         /// </summary>
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> CancelAlgoOrder_Async(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 {BodyParameterKey, orders },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(GetUrl(Endpoints_V5_Trade_CancelAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_CancelAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexAlgoOrderResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -999,24 +1014,25 @@ namespace Okex.Net
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual WebCallResult<OkexAlgoOrderResponse> CancelAdvanceAlgoOrder(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default) => CancelAdvanceAlgoOrder_Async(orders, ct).Result;
+        public virtual WebCallResult<OkexAlgoOrderResponse> CancelAdvanceAlgoOrder(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
+            => CancelAdvanceAlgoOrderAsync(orders, ct).Result;
         /// <summary>
         /// Cancel unfilled algo orders(iceberg order and twap order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
         /// </summary>
         /// <param name="orders">Orders</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> CancelAdvanceAlgoOrder_Async(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
+        public virtual async Task<WebCallResult<OkexAlgoOrderResponse>> CancelAdvanceAlgoOrderAsync(IEnumerable<OkexAlgoOrderRequest> orders, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
                 {BodyParameterKey, orders },
             };
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(GetUrl(Endpoints_V5_Trade_CancelAdvanceAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<OkexAlgoOrderResponse>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrderResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_CancelAdvanceAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexAlgoOrderResponse>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<OkexAlgoOrderResponse>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data.FirstOrDefault(), null);
+            return result.As(result.Data.Data.FirstOrDefault());
         }
 
         /// <summary>
@@ -1039,7 +1055,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetAlgoOrderList_Async(
+            CancellationToken ct = default)
+            => GetAlgoOrderListAsync(
             algoOrderType,
             algoId,
             instrumentType,
@@ -1060,7 +1077,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexAlgoOrder>>> GetAlgoOrderList_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexAlgoOrder>>> GetAlgoOrderListAsync(
             OkexAlgoOrderType algoOrderType,
             long? algoId = null,
             OkexInstrumentType? instrumentType = null,
@@ -1086,11 +1103,11 @@ namespace Okex.Net
             if (instrumentType.HasValue)
                 parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrder>>>(GetUrl(Endpoints_V5_Trade_OrdersAlgoPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexAlgoOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexAlgoOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrdersAlgoPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexAlgoOrder>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexAlgoOrder>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexAlgoOrder>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         /// <summary>
@@ -1115,7 +1132,8 @@ namespace Okex.Net
             long? after = null,
             long? before = null,
             int limit = 100,
-            CancellationToken ct = default) => GetAlgoOrderHistory_Async(
+            CancellationToken ct = default)
+            => GetAlgoOrderHistoryAsync(
             algoOrderType,
             algoOrderState,
             algoId,
@@ -1138,7 +1156,7 @@ namespace Okex.Net
         /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
-        public virtual async Task<WebCallResult<IEnumerable<OkexAlgoOrder>>> GetAlgoOrderHistory_Async(
+        public virtual async Task<WebCallResult<IEnumerable<OkexAlgoOrder>>> GetAlgoOrderHistoryAsync(
             OkexAlgoOrderType algoOrderType,
             OkexAlgoOrderState? algoOrderState = null,
             long? algoId = null,
@@ -1168,11 +1186,11 @@ namespace Okex.Net
             if (instrumentType.HasValue)
                 parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
 
-            var result = await SendRequestAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrder>>>(GetUrl(Endpoints_V5_Trade_OrdersAlgoHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-            if (!result.Success) return WebCallResult<IEnumerable<OkexAlgoOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
-            if (result.Data.ErrorCode > 0) return WebCallResult<IEnumerable<OkexAlgoOrder>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage, result.Data.Data));
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexAlgoOrder>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_OrdersAlgoHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexAlgoOrder>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexAlgoOrder>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
 
-            return new WebCallResult<IEnumerable<OkexAlgoOrder>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
+            return result.As(result.Data.Data);
         }
 
         #endregion

@@ -182,12 +182,6 @@ After installing it's time to actually use it. To get started we have to add the
 OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  provides all rest API calls. The  `OkexSocketClient` provides functions to interact with the websocket provided by the OKEx API. Both clients are disposable and as such can be used in a  `using`statement.
 
 ## Rest Api Examples
-**System Endpoints (Unsigned)**
-```C#
-OkexClient api = new OkexClient();
-var system_01 = api.GetSystemStatus();
-```
-
 **Public Endpoints (Unsigned)**
 ```C#
 OkexClient api = new OkexClient();
@@ -212,9 +206,12 @@ var public_18 = api.GetLiquidationOrders(OkexInstrumentType.Futures, underlying:
 var public_19 = api.GetMarkPrices(OkexInstrumentType.Futures);
 var public_20 = api.GetPositionTiers(OkexInstrumentType.Futures, OkexMarginMode.Isolated, "BTC-USD");
 var public_21 = api.GetInterestRates();
-var public_22 = api.GetUnderlying(OkexInstrumentType.Futures);
-var public_23 = api.GetUnderlying(OkexInstrumentType.Option);
-var public_24 = api.GetUnderlying(OkexInstrumentType.Swap);
+var public_22 = api.GetVIPInterestRates();
+var public_23 = api.GetUnderlying(OkexInstrumentType.Futures);
+var public_24 = api.GetUnderlying(OkexInstrumentType.Option);
+var public_25 = api.GetUnderlying(OkexInstrumentType.Swap);
+var public_26 = api.GetInsuranceFund(OkexInstrumentType.Margin, currency:"BTC");
+var public_27 = api.UnitConvert( OkexConvertType.CurrencyToContract, instrumentId:"BTC-USD-SWAP", price:35000, size:0.888m);
 ```
 
 **Market Endpoints (Unsigned)**
@@ -222,16 +219,23 @@ var public_24 = api.GetUnderlying(OkexInstrumentType.Swap);
 OkexClient api = new OkexClient();
 var market_01 = api.GetTickers(OkexInstrumentType.Spot);
 var market_02 = api.GetTicker("BTC-USDT");
-var market_03 = api.GetIndexTickers();
-var market_04 = api.GetOrderBook("BTC-USDT",40);
+var market_03 = api.GetIndexTickers(instrumentId: "BTC-USDT");
+var market_04 = api.GetOrderBook("BTC-USDT", 40);
 var market_05 = api.GetCandlesticks("BTC-USDT", OkexPeriod.OneHour);
 var market_06 = api.GetCandlesticksHistory("BTC-USDT", OkexPeriod.OneHour);
 var market_07 = api.GetIndexCandlesticks("BTC-USDT", OkexPeriod.OneHour);
 var market_08 = api.GetMarkPriceCandlesticks("BTC-USDT", OkexPeriod.OneHour);
 var market_09 = api.GetTrades("BTC-USDT");
-var market_10 = api.Get24HourVolume();
-var market_11 = api.GetOracle();
-var market_12 = api.GetIndexComponents("BTC-USDT");
+var market_10 = api.GetTradesHistory("BTC-USDT");
+var market_11 = api.Get24HourVolume();
+var market_12 = api.GetOracle();
+var market_13 = api.GetIndexComponents("BTC-USDT");
+var market_14 = api.GetBlockTickers(OkexInstrumentType.Spot);
+var market_15 = api.GetBlockTickers(OkexInstrumentType.Futures);
+var market_16 = api.GetBlockTickers(OkexInstrumentType.Option);
+var market_17 = api.GetBlockTickers(OkexInstrumentType.Swap);
+var market_18 = api.GetBlockTicker("BTC-USDT");
+var market_19 = api.GetBlockTrades("BTC-USDT");
 ```
 
 **Trading Endpoints (Unsigned)**
@@ -279,13 +283,11 @@ var account_19 = api.GetMaximumWithdrawals();
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var subaccount_01 = api.GetSubAccounts();
-var subaccount_02 = api.CreateSubAccountApiKey("password", "subAccountName", "apiLabel", "apiPassphrase", OkexApiPermission.ReadOnly);
-var subaccount_03 = api.GetSubAccountApiKey( "subAccountName", "apiKey");
-var subaccount_04 = api.ModifySubAccountApiKey("password", "subAccountName", "apiKey", "apiLabel",  OkexApiPermission.ReadOnly);
-var subaccount_05 = api.DeleteSubAccountApiKey("password", "subAccountName", "apiKey");
-var subaccount_06 = api.GetSubAccountBalance( "subAccountName");
-var subaccount_07 = api.GetSubAccountBills();
-var subaccount_08 = api.TransferBetweenSubAccounts("BTC", 0.5m, OkexAccount.Funding, OkexAccount.Unified, "fromSubAccountName", "toSubAccountName");
+var subaccount_02 = api.ResetSubAccountApiKey("subAccountName", "apiKey", "apiLabel", true, true, "");
+var subaccount_03 = api.GetSubAccountTradingBalances("subAccountName");
+var subaccount_04 = api.GetSubAccountFundingBalances("subAccountName");
+var subaccount_05 = api.GetSubAccountBills();
+var subaccount_06 = api.TransferBetweenSubAccounts("BTC", 0.5m, OkexAccount.Funding, OkexAccount.Unified, "fromSubAccountName", "toSubAccountName");
 ```
 
 **Funding Endpoints (Signed)**
@@ -296,15 +298,15 @@ var funding_01 = api.GetCurrencies();
 var funding_02 = api.GetFundingBalance();
 var funding_03 = api.FundTransfer("BTC", 0.5m, OkexTransferType.TransferWithinAccount, OkexAccount.Margin, OkexAccount.Spot);
 var funding_04 = api.GetFundingBillDetails("BTC");
-var funding_05 = api.GetDepositAddress("BTC");
-var funding_06 = api.GetDepositAddress("USDT");
-var funding_07 = api.GetDepositHistory("USDT");
-var funding_08 = api.Withdraw("USDT",100.0m, OkexWithdrawalDestination.DigitalCurrencyAddress, "toAddress", "password",1.0m, "USDT-TRC20");
-var funding_09 = api.GetWithdrawalHistory("USDT");
-var funding_10 = api.PiggyBankAction("USDT",10.0m, OkexPiggyBankActionSide.Purchase);
-var funding_11 = api.PiggyBankBalance();
-var funding_12 = api.GetLightningDeposits("BTC", 0.001m);
-var funding_13 = api.GetLightningWithdrawals("BTC", "invoice", "password");
+var funding_05 = api.GetLightningDeposits("BTC", 0.001m);
+var funding_06 = api.GetDepositAddress("BTC");
+var funding_07 = api.GetDepositAddress("USDT");
+var funding_08 = api.GetDepositHistory("USDT");
+var funding_09 = api.Withdraw("USDT", 100.0m, OkexWithdrawalDestination.DigitalCurrencyAddress, "toAddress", "password", 1.0m, "USDT-TRC20");
+var funding_10 = api.GetLightningWithdrawals("BTC", "invoice", "password");
+var funding_11 = api.GetWithdrawalHistory("USDT");
+var funding_12 = api.GetSavingBalances();
+var funding_13 = api.SavingPurchaseRedemption("USDT", 10.0m, OkexSavingActionSide.Purchase);
 ```
 
 **Trade Endpoints (Signed)**
