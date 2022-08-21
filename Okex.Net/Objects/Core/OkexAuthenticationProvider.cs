@@ -46,7 +46,7 @@ namespace Okex.Net.Objects.Core
             // Signature Body
             // var time = (DateTime.UtcNow.ToUnixTimeMilliSeconds() / 1000.0m).ToString(CultureInfo.InvariantCulture);
             var time = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
-            var signtext = time + method.Method.ToUpper() + uri.AbsoluteUri.Replace("https://www.okx.com", "").Trim('?');
+            var signtext = time + method.Method.ToUpper() + uri.PathAndQuery.Trim('?');
 
             if (method == HttpMethod.Post)
             {

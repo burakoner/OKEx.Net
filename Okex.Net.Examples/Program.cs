@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Sockets;
 using Microsoft.Extensions.Logging;
+using Okex.Net.Enums;
 using Okex.Net.Objects.Core;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace Okex.Net.Examples
             // OKEx Rest Api Client
             OkexClient api = new OkexClient(new OkexClientOptions { LogLevel = LogLevel.Debug, OutputOriginalData=true });
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
+            var market_05 = api.GetCandlesticks("BTC-USDT", OkexPeriod.OneHour);
+            var a = 0;
 
 #if FALSE
             /* Public Endpoints (Unsigned) */
@@ -139,7 +142,7 @@ namespace Okex.Net.Examples
             var trade_02 = api.PlaceMultipleOrders(new List<OkexOrderPlaceRequest>());
             var trade_03 = api.CancelOrder("BTC-USDT");
             var trade_04 = api.CancelMultipleOrders(new List<OkexOrderCancelRequest>());
-            var trade_05 = api.AmendOrder();
+            var trade_05 = api.AmendOrder("BTC-USDT");
             var trade_06 = api.AmendMultipleOrders(new List<OkexOrderAmendRequest>());
             var trade_07 = api.ClosePosition("BTC-USDT", OkexMarginMode.Isolated);
             var trade_08 = api.GetOrderDetails("BTC-USDT");

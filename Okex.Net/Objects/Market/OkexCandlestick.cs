@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Converters;
 using Newtonsoft.Json;
 using Okex.Net.Converters;
+using Okex.Net.Helpers;
 using System;
 
 namespace Okex.Net.Objects.Market
@@ -47,5 +48,28 @@ namespace Okex.Net.Objects.Market
 
         [ArrayProperty(6)]
         public decimal VolumeCurrency { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            // Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+
+            // Equal Check
+            var stick = (OkexCandlestick)obj;
+            return (this.Time == stick.Time)
+                && (this.Instrument == stick.Instrument)
+                && (this.Open == stick.Open)
+                && (this.High == stick.High)
+                && (this.Low == stick.Low)
+                && (this.Close == stick.Close)
+                && (this.Volume == stick.Volume)
+                && (this.VolumeCurrency == stick.VolumeCurrency);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

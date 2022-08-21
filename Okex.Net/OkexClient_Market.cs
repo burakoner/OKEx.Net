@@ -148,7 +148,7 @@ namespace Okex.Net
         /// <param name="period">Bar size, the default is 1m</param>
         /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
         /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-        /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+        /// <param name="limit">Number of results per request. The maximum is 300; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual WebCallResult<IEnumerable<OkexCandlestick>> GetCandlesticks(string instrumentId, OkexPeriod period, long? after = null, long? before = null, int limit = 100, CancellationToken ct = default)
@@ -160,13 +160,13 @@ namespace Okex.Net
         /// <param name="period">Bar size, the default is 1m</param>
         /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
         /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-        /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+        /// <param name="limit">Number of results per request. The maximum is 300; the default is 100.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual async Task<WebCallResult<IEnumerable<OkexCandlestick>>> GetCandlesticksAsync(string instrumentId, OkexPeriod period, long? after = null, long? before = null, int limit = 100, CancellationToken ct = default)
         {
-            if (limit < 1 || limit > 100)
-                throw new ArgumentException("Limit can be between 1-100.");
+            if (limit < 1 || limit > 300)
+                throw new ArgumentException("Limit can be between 1-300.");
 
             var parameters = new Dictionary<string, object>
             {

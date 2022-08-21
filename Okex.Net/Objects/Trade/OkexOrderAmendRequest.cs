@@ -14,11 +14,14 @@ namespace Okex.Net.Objects.Trade
         [JsonProperty("reqId")]
         public string RequestId { get; set; }
 
+        [JsonProperty("instId")]
+        public string InstrumentId { get; set; }
+
         [JsonProperty("cxlOnFail", NullValueHandling = NullValueHandling.Ignore)]
         public bool? CancelOnFail { get; set; }
 
         [JsonProperty("newSz", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? NewQuantity { get; set; }
+        public string NewQuantity { get; set; }
 
         [JsonProperty("newPx", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? NewPrice { get; set; }

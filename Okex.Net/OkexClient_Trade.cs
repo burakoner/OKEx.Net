@@ -209,6 +209,7 @@ namespace Okex.Net
         /// <summary>
         /// Amend an incomplete order.
         /// </summary>
+        /// <param name="instrumentId">Instrument ID</param>
         /// <param name="orderId">Order ID</param>
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="requestId">Request ID</param>
@@ -218,6 +219,7 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual WebCallResult<OkexOrderAmendResponse> AmendOrder(
+            string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
             string requestId = null,
@@ -225,10 +227,11 @@ namespace Okex.Net
             decimal? newQuantity = null,
             decimal? newPrice = null,
             CancellationToken ct = default)
-            => AmendOrderAsync(orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
+            => AmendOrderAsync(instrumentId, orderId, clientOrderId, requestId, cancelOnFail, newQuantity, newPrice, ct).Result;
         /// <summary>
         /// Amend an incomplete order.
         /// </summary>
+        /// <param name="instrumentId">Instrument ID</param>
         /// <param name="orderId">Order ID</param>
         /// <param name="clientOrderId">Client Order ID</param>
         /// <param name="requestId">Request ID</param>
@@ -238,6 +241,7 @@ namespace Okex.Net
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexOrderAmendResponse>> AmendOrderAsync(
+            string instrumentId,
             long? orderId = null,
             string clientOrderId = null,
             string requestId = null,
@@ -246,13 +250,16 @@ namespace Okex.Net
             decimal? newPrice = null,
             CancellationToken ct = default)
         {
-            var parameters = new Dictionary<string, object>();
+            var parameters = new Dictionary<string, object>
+            {
+                { "instId", instrumentId },
+            };
             parameters.AddOptionalParameter("ordId", orderId?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("clOrdId", clientOrderId);
             parameters.AddOptionalParameter("cxlOnFail", cancelOnFail);
             parameters.AddOptionalParameter("reqId", requestId);
-            parameters.AddOptionalParameter("newSz", newQuantity);
-            parameters.AddOptionalParameter("newPx", newPrice);
+            parameters.AddOptionalParameter("newSz", newQuantity?.ToString(OkexGlobals.OkexCultureInfo));
+            parameters.AddOptionalParameter("newPx", newPrice?.ToString(OkexGlobals.OkexCultureInfo));
 
             var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderAmendResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_AmendOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return result.AsError<OkexOrderAmendResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));

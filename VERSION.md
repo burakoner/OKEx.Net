@@ -2,6 +2,8 @@
 * Version 5.2.5 - 21 Aug 2022
     * Added CancelWithdrawal CancelWithdrawalAsync methods
     * Corrected some deprecated endpoints
+    * Merged some community pull requests
+    * Fixed minor bugs
 
 * Version 5.2.4 - 21 Aug 2022
     * Synced with CryptoExchange.Net v5.2.4
