@@ -55,6 +55,7 @@ namespace Okex.Net
         protected const string Endpoints_V5_Asset_DepositHistory = "api/v5/asset/deposit-history";
         protected const string Endpoints_V5_Asset_Withdrawal = "api/v5/asset/withdrawal";
         protected const string Endpoints_V5_Asset_WithdrawalLightning = "api/v5/asset/withdrawal-lightning";
+        protected const string Endpoints_V5_Asset_WithdrawalCancel = "api/v5/asset/cancel-withdrawal";
         protected const string Endpoints_V5_Asset_WithdrawalHistory = "api/v5/asset/withdrawal-history";
         protected const string Endpoints_V5_Asset_SavingBalance = "api/v5/asset/saving-balance";
         protected const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/asset/purchase_redempt";
@@ -86,8 +87,8 @@ namespace Okex.Net
         protected const string Endpoints_V5_SubAccount_ResetApiKey = "api/v5/users/subaccount/modify-apikey";
         protected const string Endpoints_V5_SubAccount_TradingBalances = "api/v5/account/subaccount/balances";
         protected const string Endpoints_V5_SubAccount_FundingBalances = "api/v5/asset/subaccount/balances";
-        protected const string Endpoints_V5_SubAccount_Bills = "api/v5/users/subaccount/bills";
-        protected const string Endpoints_V5_SubAccount_Transfer = "api/v5/users/subaccount/transfer";
+        protected const string Endpoints_V5_SubAccount_Bills = "api/v5/asset/subaccount/bills";
+        protected const string Endpoints_V5_SubAccount_Transfer = "api/v5/asset/subaccount/transfer";
         #endregion
 
         #region Market Data

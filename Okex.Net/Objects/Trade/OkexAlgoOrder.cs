@@ -92,6 +92,6 @@ namespace Okex.Net.Objects.Trade
         public OkexAlgoOrderState State { get; set; }
 
         [JsonProperty("actualSide"), JsonConverter(typeof(AlgoActualSideConverter))]
-        public OkexAlgoActualSide ActualSide { get; set; }
+        public OkexAlgoActualSide? ActualSide { get; set; }
     }
 }

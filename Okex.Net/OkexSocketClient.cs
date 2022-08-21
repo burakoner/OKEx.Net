@@ -165,7 +165,7 @@ namespace Okex.Net
 
             // Check for Error
             // 30040: {0} Channel : {1} doesn't exist
-            if (message["event"] != null && (string)message["event"]! == "error" && message["errorCode"] != null && (string)message["errorCode"]! == "30040")
+            if (message.HasValues && message["event"] != null && (string)message["event"]! == "error" && message["errorCode"] != null && (string)message["errorCode"]! == "30040")
             {
                 log.Write(LogLevel.Warning, "Subscription failed: " + (string)message["message"]!);
                 callResult = new CallResult<object>(new ServerError($"{(string)message["errorCode"]!}, {(string)message["message"]!}"));
@@ -173,7 +173,7 @@ namespace Okex.Net
             }
 
             // Check for Success
-            if (message["event"] != null && (string)message["event"]! == "subscribe" && message["arg"]["channel"] != null)
+            if (message.HasValues && message["event"] != null && (string)message["event"]! == "subscribe" && message["arg"]["channel"] != null)
             {
                 if (request is OkexSocketRequest socRequest)
                 {

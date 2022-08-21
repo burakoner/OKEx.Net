@@ -446,7 +446,37 @@ namespace Okex.Net
             return result.As(result.Data.Data.FirstOrDefault());
         }
 
-        // TODO: Cancel withdrawal
+        /// <summary>
+        /// Cancel withdrawal
+        /// You can cancel normal withdrawal requests, but you cannot cancel withdrawal requests on Lightning.
+        /// Rate Limit: 6 requests per second
+        /// </summary>
+        /// <param name="withdrawalId">Withdrawal ID</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual WebCallResult<OkexWithdrawalId> CancelWithdrawal(string withdrawalId, CancellationToken ct = default)
+            => CancelWithdrawalAsync( withdrawalId, ct).Result;
+
+        /// <summary>
+        /// Cancel withdrawal
+        /// You can cancel normal withdrawal requests, but you cannot cancel withdrawal requests on Lightning.
+        /// Rate Limit: 6 requests per second
+        /// </summary>
+        /// <param name="withdrawalId">Withdrawal ID</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        public virtual async Task<WebCallResult<OkexWithdrawalId>> CancelWithdrawalAsync(string withdrawalId, CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object> {
+                { "wdId",withdrawalId},
+            };
+
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalId>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_WithdrawalCancel), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<OkexWithdrawalId>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<OkexWithdrawalId>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+            return result.As(result.Data.Data.FirstOrDefault());
+        }
 
         /// <summary>
         /// Retrieve the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.

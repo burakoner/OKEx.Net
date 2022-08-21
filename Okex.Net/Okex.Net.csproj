@@ -6,10 +6,10 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>5.2.4</Version>
-    <FileVersion>5.2.4</FileVersion>
-    <PackageVersion>5.2.4</PackageVersion>
-    <AssemblyVersion>5.2.4</AssemblyVersion>
+    <Version>5.2.5</Version>
+    <FileVersion>5.2.5</FileVersion>
+    <PackageVersion>5.2.5</PackageVersion>
+    <AssemblyVersion>5.2.5</AssemblyVersion>
     <Description>OKEx.Net is a .Net wrapper for the OKX API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -18,6 +18,10 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
+		Version 5.2.5 - 21 Aug 2022
+		* Added CancelWithdrawal CancelWithdrawalAsync methods
+		* Corrected some deprecated endpoints
+		
 		Version 5.2.4 - 21 Aug 2022
 		* Synced with CryptoExchange.Net v5.2.4
 		* Removed "_" (underscore) from async method names (Dummy_Async() => DummyAsync())

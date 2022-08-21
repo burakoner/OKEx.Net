@@ -1,4 +1,8 @@
 ﻿## Release Notes
+* Version 5.2.5 - 21 Aug 2022
+    * Added CancelWithdrawal CancelWithdrawalAsync methods
+    * Corrected some deprecated endpoints
+
 * Version 5.2.4 - 21 Aug 2022
     * Synced with CryptoExchange.Net v5.2.4
     * Removed "_" (underscore) from async method names (Dummy_Async() => DummyAsync())
