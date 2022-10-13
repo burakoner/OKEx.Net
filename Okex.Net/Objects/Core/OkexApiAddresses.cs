@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Okex.Net.Objects.Core
+﻿namespace Okex.Net.Objects.Core
 {
     public class OkexApiAddresses
     {

@@ -14,6 +14,7 @@ namespace Okex.Net.Converters
             new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.Conditional, "conditional"),
             new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.OCO, "oco"),
             new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.Trigger, "trigger"),
+            new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.TrailingOrder, "move_order_stop"),
             new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.Iceberg, "iceberg"),
             new KeyValuePair<OkexAlgoOrderType, string>(OkexAlgoOrderType.TWAP, "twap"),
         };

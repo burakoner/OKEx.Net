@@ -183,7 +183,7 @@ OKEx.Net provides two clients to interact with the OKEx API. The  `OkexClient`  
 
 ## Rest Api Examples
 **Public Endpoints (Unsigned)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 var public_01 = api.GetInstruments(OkexInstrumentType.Spot);
 var public_02 = api.GetInstruments(OkexInstrumentType.Margin);
@@ -215,7 +215,7 @@ var public_27 = api.UnitConvert( OkexConvertType.CurrencyToContract, instrumentI
 ```
 
 **Market Endpoints (Unsigned)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 var market_01 = api.GetTickers(OkexInstrumentType.Spot);
 var market_02 = api.GetTicker("BTC-USDT");
@@ -239,7 +239,7 @@ var market_19 = api.GetBlockTrades("BTC-USDT");
 ```
 
 **Trading Endpoints (Unsigned)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 var rubik_01 = api.GetRubikSupportCoin();
 var rubik_02 = api.GetRubikTakerVolume("BTC", OkexInstrumentType.Spot);
@@ -254,7 +254,7 @@ var rubik_10 = api.GetRubikTakerFlow("BTC", OkexPeriod.OneDay);
 ```
 
 **Account Endpoints (Signed)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var account_01 = api.GetAccountBalance();
@@ -279,7 +279,7 @@ var account_19 = api.GetMaximumWithdrawals();
 ```
 
 **SubAccount Endpoints (Signed)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var subaccount_01 = api.GetSubAccounts();
@@ -291,7 +291,7 @@ var subaccount_06 = api.TransferBetweenSubAccounts("BTC", 0.5m, OkexAccount.Fund
 ```
 
 **Funding Endpoints (Signed)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var funding_01 = api.GetCurrencies();
@@ -310,7 +310,7 @@ var funding_13 = api.SavingPurchaseRedemption("USDT", 10.0m, OkexSavingActionSid
 ```
 
 **Trade Endpoints (Signed)**
-```C#
+```csharp
 OkexClient api = new OkexClient();
 api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
 var trade_01 = api.PlaceOrder("BTC-USDT", OkexTradeMode.Cash, OkexOrderSide.Buy, OkexPositionSide.Long, OkexOrderType.MarketOrder, 0.1m);
@@ -337,7 +337,7 @@ var trade_18 = api.GetAlgoOrderHistory( OkexAlgoOrderType.Conditional);
 The OKEx.Net socket client provides several socket endpoint to which can be subscribed.
 
 **Public Feeds**
-```C#
+```csharp
 /* OKEx Socket Client */
 var ws = new OkexSocketClient();
 
@@ -352,7 +352,7 @@ ws.SubscribeToInstruments(OkexInstrumentType.Spot, (data) =>
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -363,7 +363,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
     subs.Add(subscription.Data);
@@ -382,7 +382,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -394,7 +394,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -406,7 +406,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -418,7 +418,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -430,7 +430,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -442,7 +442,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -454,7 +454,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -466,7 +466,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -476,7 +476,7 @@ ws.SubscribeToOptionSummary("USD", (data) =>
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -487,7 +487,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -499,7 +499,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -511,7 +511,7 @@ foreach (var pair in sample_pairs)
     {
         if (data != null)
         {
-            // ... Your logic is here
+            // ... Your logic here
         }
     });
 }
@@ -521,13 +521,13 @@ ws.SubscribeToSystemStatus((data) =>
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 ```
 
 **Private Feeds**
-```C#
+```csharp
 /* OKEx Socket Client */
 var ws = new OkexSocketClient();
 ws.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
@@ -537,7 +537,7 @@ ws.SubscribeToAccountUpdates((data) =>
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -546,7 +546,7 @@ ws.SubscribeToPositionUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLY
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -555,7 +555,7 @@ ws.SubscribeToBalanceAndPositionUpdates((data) =>
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -564,7 +564,7 @@ ws.SubscribeToOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERLYING
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -573,7 +573,7 @@ ws.SubscribeToAlgoOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", "UNDERL
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 
@@ -582,7 +582,7 @@ ws.SubscribeToAdvanceAlgoOrderUpdates(OkexInstrumentType.Futures, "INSTRUMENT", 
 {
     if (data != null)
     {
-        // ... Your logic is here
+        // ... Your logic here
     }
 });
 ```

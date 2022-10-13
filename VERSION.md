@@ -1,4 +1,8 @@
 ﻿## Release Notes
+* Version 5.2.6 - 13 Oct 2022
+	* Fixed some issues on Github
+	* Fixed minor bugs
+
 * Version 5.2.5 - 21 Aug 2022
     * Added CancelWithdrawal CancelWithdrawalAsync methods
     * Corrected some deprecated endpoints

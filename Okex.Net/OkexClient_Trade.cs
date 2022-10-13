@@ -30,7 +30,6 @@ namespace Okex.Net
         /// <param name="price">Price</param>
         /// <param name="currency">Currency</param>
         /// <param name="clientOrderId">Client Order ID</param>
-        /// <param name="tag">Tag</param>
         /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
         /// <param name="quantityType">Quantity Type</param>
         /// <param name="ct">Cancellation Token</param>
@@ -45,7 +44,6 @@ namespace Okex.Net
             decimal? price = null,
             string currency = null,
             string clientOrderId = null,
-            string tag = null,
             bool? reduceOnly = null,
             OkexQuantityType? quantityType = null,
             CancellationToken ct = default)
@@ -59,7 +57,6 @@ namespace Okex.Net
             price,
             currency,
             clientOrderId,
-            tag,
             reduceOnly,
             quantityType,
             ct).Result;
@@ -75,7 +72,6 @@ namespace Okex.Net
         /// <param name="price">Price</param>
         /// <param name="currency">Currency</param>
         /// <param name="clientOrderId">Client Order ID</param>
-        /// <param name="tag">Tag</param>
         /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
         /// <param name="quantityType">Quantity Type</param>
         /// <param name="ct">Cancellation Token</param>
@@ -90,7 +86,6 @@ namespace Okex.Net
             decimal? price = null,
             string currency = null,
             string clientOrderId = null,
-            string tag = null,
             bool? reduceOnly = null,
             OkexQuantityType? quantityType = null,
             CancellationToken ct = default)
@@ -102,11 +97,11 @@ namespace Okex.Net
                 {"posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)) },
                 {"ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)) },
                 {"sz", size.ToString(OkexGlobals.OkexCultureInfo) },
+                {"tag", "538a3965e538BCDE" },
             };
             parameters.AddOptionalParameter("px", price?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("ccy", currency);
             parameters.AddOptionalParameter("clOrdId", clientOrderId);
-            parameters.AddOptionalParameter("tag", tag);
             parameters.AddOptionalParameter("reduceOnly", reduceOnly);
             if (quantityType.HasValue)
                 parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
@@ -803,8 +798,10 @@ namespace Okex.Net
         /// <param name="reduceOnly">Reduce Only</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="quantityType">Quantity Type</param>
+        /// <param name="tpTriggerPxType">Take-profit trigger price type</param>
         /// <param name="tpTriggerPrice">Take Profit Trigger Price</param>
         /// <param name="tpOrderPrice">Take Profit Order Price</param>
+        /// <param name="slTriggerPxType">Stop-loss trigger price. If you fill in this parameter, you should fill in the stop-loss order price.</param>
         /// <param name="slTriggerPrice">Stop Loss Trigger Price</param>
         /// <param name="slOrderPrice">Stop Loss Order Price</param>
         /// <param name="triggerPrice">Trigger Price</param>
@@ -829,8 +826,10 @@ namespace Okex.Net
             OkexQuantityType? quantityType = null,
 
             /* Stop Order */
+            OkexAlgoPriceType? tpTriggerPxType = null,
             decimal? tpTriggerPrice = null,
             decimal? tpOrderPrice = null,
+            OkexAlgoPriceType? slTriggerPxType = null,
             decimal? slTriggerPrice = null,
             decimal? slOrderPrice = null,
 
@@ -863,8 +862,10 @@ namespace Okex.Net
             quantityType,
 
             /* Stop Order */
+            tpTriggerPxType,
             tpTriggerPrice,
             tpOrderPrice,
+            slTriggerPxType,
             slTriggerPrice,
             slOrderPrice,
 
@@ -896,8 +897,10 @@ namespace Okex.Net
         /// <param name="reduceOnly">Reduce Only</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="quantityType">Quantity Type</param>
+        /// <param name="tpTriggerPxType">Take-profit trigger price type</param>
         /// <param name="tpTriggerPrice">Take Profit Trigger Price</param>
         /// <param name="tpOrderPrice">Take Profit Order Price</param>
+        /// <param name="slTriggerPxType">Stop-loss trigger price. If you fill in this parameter, you should fill in the stop-loss order price.</param>
         /// <param name="slTriggerPrice">Stop Loss Trigger Price</param>
         /// <param name="slOrderPrice">Stop Loss Order Price</param>
         /// <param name="triggerPrice">Trigger Price</param>
@@ -922,8 +925,10 @@ namespace Okex.Net
             OkexQuantityType? quantityType = null,
 
             /* Stop Order */
+            OkexAlgoPriceType? tpTriggerPxType = null,
             decimal? tpTriggerPrice = null,
             decimal? tpOrderPrice = null,
+            OkexAlgoPriceType? slTriggerPxType = null,
             decimal? slTriggerPrice = null,
             decimal? slOrderPrice = null,
 
@@ -961,8 +966,12 @@ namespace Okex.Net
                 parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
 
             /* Stop Order */
+            if (tpTriggerPxType.HasValue)
+                parameters.AddOptionalParameter("tpTriggerPxType", JsonConvert.SerializeObject(tpTriggerPxType, new AlgoPriceTypeConverter(false)));
             parameters.AddOptionalParameter("tpTriggerPx", tpTriggerPrice?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("tpOrdPx", tpOrderPrice?.ToString(OkexGlobals.OkexCultureInfo));
+            if (slTriggerPxType.HasValue)
+                parameters.AddOptionalParameter("slTriggerPxType", JsonConvert.SerializeObject(slTriggerPxType, new AlgoPriceTypeConverter(false)));
             parameters.AddOptionalParameter("slTriggerPx", slTriggerPrice?.ToString(OkexGlobals.OkexCultureInfo));
             parameters.AddOptionalParameter("slOrdPx", slOrderPrice?.ToString(OkexGlobals.OkexCultureInfo));
 

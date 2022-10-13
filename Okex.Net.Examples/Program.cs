@@ -176,7 +176,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                     Console.WriteLine($"Instrument {data.Instrument} BaseCurrency:{data.BaseCurrency} Category:{data.Category}");
                 }
             });
@@ -190,7 +190,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                         Console.WriteLine($"Ticker {data.Instrument} Ask:{data.AskPrice} Bid:{data.BidPrice}");
                     }
                 });
@@ -214,7 +214,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -228,7 +228,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -242,7 +242,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -256,7 +256,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -270,7 +270,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -284,7 +284,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -298,7 +298,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -312,7 +312,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null && data.Asks != null && data.Asks.Count() > 0 && data.Bids != null && data.Bids.Count() > 0)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -324,7 +324,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -337,7 +337,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -351,7 +351,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -365,7 +365,7 @@ namespace Okex.Net.Examples
                 {
                     if (data != null)
                     {
-                        // ... Your logic is here
+                        // ... Your logic here
                     }
                 });
             }
@@ -377,7 +377,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -388,7 +388,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -399,7 +399,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -410,7 +410,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -421,7 +421,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -432,7 +432,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif
@@ -443,7 +443,7 @@ namespace Okex.Net.Examples
             {
                 if (data != null)
                 {
-                    // ... Your logic is here
+                    // ... Your logic here
                 }
             });
 #endif

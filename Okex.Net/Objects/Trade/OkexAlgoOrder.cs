@@ -86,7 +86,7 @@ namespace Okex.Net.Objects.Trade
         public long? TimeInterval { get; set; }
 
         [JsonProperty("tgtCcy"), JsonConverter(typeof(QuantityTypeConverter))]
-        public OkexQuantityType QuantityType { get; set; }
+        public OkexQuantityType? QuantityType { get; set; }
 
         [JsonProperty("state"), JsonConverter(typeof(AlgoOrderStateConverter))]
         public OkexAlgoOrderState State { get; set; }

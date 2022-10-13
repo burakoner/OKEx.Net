@@ -5,6 +5,7 @@
         Conditional,
         OCO,
         Trigger,
+        TrailingOrder,
         Iceberg,
         TWAP,
     }
