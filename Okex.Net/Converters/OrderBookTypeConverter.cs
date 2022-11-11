@@ -15,6 +15,7 @@ namespace Okex.Net.Converters
             new KeyValuePair<OkexOrderBookType, string>(OkexOrderBookType.OrderBook_5, "books5"),
             new KeyValuePair<OkexOrderBookType, string>(OkexOrderBookType.OrderBook_50_l2_TBT, "books50-l2-tbt"),
             new KeyValuePair<OkexOrderBookType, string>(OkexOrderBookType.OrderBook_l2_TBT, "books-l2-tbt"),
+            new KeyValuePair<OkexOrderBookType, string>(OkexOrderBookType.BBO_TBT, "bbo-tbt"),
         };
     }
 }
