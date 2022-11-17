@@ -64,6 +64,7 @@ namespace Okex.Net
         #region Account Endpoints
         protected const string Endpoints_V5_Account_Balance = "api/v5/account/balance";
         protected const string Endpoints_V5_Account_Positions = "api/v5/account/positions";
+        protected const string Endpoints_V5_Account_PositionsHistory = "api/v5/account/positions-history";
         protected const string Endpoints_V5_Account_PositionRisk = "api/v5/account/account-position-risk";
         protected const string Endpoints_V5_Account_Bills = "api/v5/account/bills";
         protected const string Endpoints_V5_Account_BillsArchive = "api/v5/account/bills-archive";

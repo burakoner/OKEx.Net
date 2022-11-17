@@ -85,9 +85,75 @@ namespace Okex.Net
             return result.As(result.Data.Data);
         }
 
+        /// <summary>
+        /// Retrieve the updated position data for the last 3 months. Return in reverse chronological order using utime.
+        /// </summary>
+        /// <param name="instrumentType">Instrument type</param>
+        /// <param name="instrumentId">Instrument ID</param>
+        /// <param name="marginMode">Margin mode</param>
+        /// <param name="type">The type of closing position. It is the latest type if there are several types for the same position.</param>
+        /// <param name="positionId">Position ID</param>
+        /// <param name="after">Pagination of data to return records earlier than the requested uTime, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+        /// <param name="before">Pagination of data to return records earlier than the requested uTime, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+        /// <param name="limit">Number of results per request. The maximum is 100. The default is 100.</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual WebCallResult<IEnumerable<OkexClosingPosition>> GetAccountPositionsHistory(
+            OkexInstrumentType? instrumentType = null,
+            string instrumentId = null,
+            OkexMarginMode? marginMode = null,
+            OkexClosingPositionType? type = null,
+            string positionId = null,
+            long? after = null,
+            long? before = null,
+            int limit = 100,
+            CancellationToken ct = default)
+            => GetAccountPositionsHistory_Async(instrumentType, instrumentId, marginMode, type, positionId, after, before, limit, ct).Result;
 
-        // TODO: Get positions history
+        /// <summary>
+        /// Retrieve the updated position data for the last 3 months. Return in reverse chronological order using utime.
+        /// </summary>
+        /// <param name="instrumentType">Instrument type</param>
+        /// <param name="instrumentId">Instrument ID</param>
+        /// <param name="marginMode">Margin mode</param>
+        /// <param name="type">The type of closing position. It is the latest type if there are several types for the same position.</param>
+        /// <param name="positionId">Position ID</param>
+        /// <param name="after">Pagination of data to return records earlier than the requested uTime, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+        /// <param name="before">Pagination of data to return records earlier than the requested uTime, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+        /// <param name="limit">Number of results per request. The maximum is 100. The default is 100.</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual async Task<WebCallResult<IEnumerable<OkexClosingPosition>>> GetAccountPositionsHistory_Async(
+            OkexInstrumentType? instrumentType = null,
+            string instrumentId = null,
+            OkexMarginMode? marginMode = null,
+            OkexClosingPositionType? type = null,
+            string positionId = null,
+            long? after = null,
+            long? before = null,
+            int limit = 100,
+            CancellationToken ct = default)
+        {
+            var parameters = new Dictionary<string, object>();
+            if (instrumentType.HasValue)
+                parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+            parameters.AddOptionalParameter("instId", instrumentId);
+            if (marginMode != null)
+                parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
+            if (type != null)
+                parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ClosingPositionTypeConverter(false)));
+            parameters.AddOptionalParameter("after", after?.ToString());
+            parameters.AddOptionalParameter("before", before?.ToString());
+            parameters.AddOptionalParameter("limit", limit.ToString());
 
+            var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexClosingPosition>>>(UnifiedApi.GetUri(Endpoints_V5_Account_PositionsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+            if (!result.Success) return result.AsError<IEnumerable<OkexClosingPosition>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+            if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexClosingPosition>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+            return result.As(result.Data.Data);
+        }
 
         /// <summary>
         /// Get account and position risk
