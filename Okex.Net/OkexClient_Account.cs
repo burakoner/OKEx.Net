@@ -144,6 +144,7 @@ namespace Okex.Net
                 parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
             if (type != null)
                 parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ClosingPositionTypeConverter(false)));
+            parameters.AddOptionalParameter("posId", positionId);
             parameters.AddOptionalParameter("after", after?.ToString());
             parameters.AddOptionalParameter("before", before?.ToString());
             parameters.AddOptionalParameter("limit", limit.ToString());
