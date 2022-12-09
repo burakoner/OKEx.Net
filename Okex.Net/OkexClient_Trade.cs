@@ -297,6 +297,7 @@ namespace Okex.Net
         /// <param name="marginMode">Margin Mode</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="currency">Currency</param>
+        /// <param name="autoCxl">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual WebCallResult<OkexClosePositionResponse> ClosePosition(
@@ -304,8 +305,9 @@ namespace Okex.Net
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
             string currency = null,
+            bool? autoCxl = null,
             CancellationToken ct = default)
-            => ClosePositionAsync(instrumentId, marginMode, positionSide, currency, ct).Result;
+            => ClosePositionAsync(instrumentId, marginMode, positionSide, currency, autoCxl, ct).Result;
         /// <summary>
         /// Close all positions of an instrument via a market order.
         /// </summary>
@@ -313,6 +315,7 @@ namespace Okex.Net
         /// <param name="marginMode">Margin Mode</param>
         /// <param name="positionSide">Position Side</param>
         /// <param name="currency">Currency</param>
+        /// <param name="autoCxl">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
         /// <param name="ct">Cancellation Token</param>
         /// <returns></returns>
         public virtual async Task<WebCallResult<OkexClosePositionResponse>> ClosePositionAsync(
@@ -320,6 +323,7 @@ namespace Okex.Net
             OkexMarginMode marginMode,
             OkexPositionSide? positionSide = null,
             string currency = null,
+            bool? autoCxl = null,
             CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object> {
@@ -329,6 +333,9 @@ namespace Okex.Net
             if (positionSide.HasValue)
                 parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
             parameters.AddOptionalParameter("ccy", currency);
+
+            if (autoCxl.HasValue)
+                parameters.AddOptionalParameter("autoCxl", autoCxl);
 
             var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexClosePositionResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
             if (!result.Success) return result.AsError<OkexClosePositionResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
