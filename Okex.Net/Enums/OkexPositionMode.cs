@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexPositionMode
 {
-    public enum OkexPositionMode
-    {
-        LongShortMode,
-        NetMode,
-    }
+    LongShortMode,
+    NetMode,
 }

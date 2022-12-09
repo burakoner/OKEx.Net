@@ -1,16 +1,12 @@
-﻿using CryptoExchange.Net.Converters;
-using Okex.Net.Enums;
-using System.Collections.Generic;
+﻿namespace Okex.Net.Converters;
 
-namespace Okex.Net.Converters
+internal class AccountBillSubTypeConverter : BaseConverter<OkexAccountBillSubType>
 {
-    internal class AccountBillSubTypeConverter : BaseConverter<OkexAccountBillSubType>
-    {
-        public AccountBillSubTypeConverter() : this(true) { }
-        public AccountBillSubTypeConverter(bool quotes) : base(quotes) { }
+    public AccountBillSubTypeConverter() : this(true) { }
+    public AccountBillSubTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<OkexAccountBillSubType, string>> Mapping => new List<KeyValuePair<OkexAccountBillSubType, string>>
-        {
+    protected override List<KeyValuePair<OkexAccountBillSubType, string>> Mapping => new()
+    {
             new KeyValuePair<OkexAccountBillSubType, string>(OkexAccountBillSubType.Buy, "1"),
             new KeyValuePair<OkexAccountBillSubType, string>(OkexAccountBillSubType.Sell, "2"),
             new KeyValuePair<OkexAccountBillSubType, string>(OkexAccountBillSubType.OpenLong, "3"),
@@ -54,5 +50,4 @@ namespace Okex.Net.Converters
             new KeyValuePair<OkexAccountBillSubType, string>(OkexAccountBillSubType.SystemTransferOut, "202"),
             new KeyValuePair<OkexAccountBillSubType, string>(OkexAccountBillSubType.ManuallyTransferOut, "203"),
         };
-    }
 }

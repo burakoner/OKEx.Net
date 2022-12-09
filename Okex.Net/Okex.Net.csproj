@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>5.2.6</Version>
-    <FileVersion>5.2.6</FileVersion>
-    <PackageVersion>5.2.6</PackageVersion>
-    <AssemblyVersion>5.2.6</AssemblyVersion>
-    <Description>OKEx.Net is a .Net wrapper for the OKX API. It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
+    <Version>5.3.0</Version>
+    <FileVersion>5.3.0</FileVersion>
+    <PackageVersion>5.3.0</PackageVersion>
+    <AssemblyVersion>5.3.0</AssemblyVersion>
+    <Description>OKEx.Net is a .Net wrapper for the OKX API (https://www.okx.com). It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKX OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,6 +18,14 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
+		Version 5.3.0 - 09 Dec 2022
+		* Synced with CryptoExchange.Net v5.3.1
+		* Merged pull request on Github (https://github.com/burakoner/OKEx.Net/pull/77)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/83)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/82)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/75)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/68)
+
 		Version 5.2.6 - 13 Oct 2022
 		* Fixed some issues on Github
 		* Fixed minor bugs
@@ -30,33 +38,33 @@
 
 		Version 5.2.4 - 21 Aug 2022
 		* Synced with CryptoExchange.Net v5.2.4
-		* Removed "_" (underscore) from async method names (Dummy_Async() => DummyAsync())
+		* Removed "_" (underscore) from async method names (Dummy_Async() =&gt; DummyAsync())
 		* Okex.Net.CoreObjects namespace changed as Okex.Net.Objects.Core
 		* Okex.Net.RestObjects.* namespace changed as Okex.Net.Objects.*
 		* Added: Okex.Net.Objects.Core.OkexApiAddresses Class
 		* Added: Okex.Net.Objects.Core.OkexApiCredentials Class
 		* Added/Changed some Core Objects according to new version of CryptoExchange.Net
-		* Added: Public => GetVIPInterestRates GetVIPInterestRatesAsync methods
-		* Added: Public => GetInsuranceFund GetInsuranceFundAsync methods
-		* Added: Public => UnitConvert UnitConvertAsync methods
-		* Added: Market => GetTradesHistory GetTradesHistoryAsync methods
-		* Added: Market => GetBlockTickers GetBlockTickersAsync methods
-		* Added: Market => GetBlockTicker GetBlockTickerAsync methods
-		* Added: Market => GetBlockTrades GetBlockTradesAsync methods
-		* Added: SubAccount => ResetSubAccountApiKey ResetSubAccountApiKeyAsync methods
-		* Added: SubAccount => GetSubAccountTradingBalances GetSubAccountTradingBalancesAsync methods
-		* Added: SubAccount => GetSubAccountFundingBalances GetSubAccountFundingBalancesAsync methods
-		* Added: Funding => GetSavingBalances GetSavingBalancesAsync methods
-		* Removed: SubAccount => CreateSubAccountApiKey CreateSubAccountApiKey_Async methods
-		* Removed: SubAccount => GetSubAccountApiKey GetSubAccountApiKey_Async methods
-		* Removed: SubAccount => ModifySubAccountApiKey ModifySubAccountApiKey_Async methods
-		* Removed: SubAccount => DeleteSubAccountApiKey DeleteSubAccountApiKey_Async methods
-		* Removed: SubAccount => GetSubAccountBalance GetSubAccountBalance_Async methods
-		* Removed: Funding => PiggyBankAction PiggyBankAction_Async methods
-		* Removed: Funding => PiggyBankBalance PiggyBankBalance_Async methods
-		* Renamed: Okex.Net.RestObjects.Account.OkexPositionMode => Okex.Net.Objects.Account.OkexAccountPositionMode
-		* Renamed: Okex.Net.RestObjects.Account.OkexGreeksType => Okex.Net.Objects.Account.OkexAccountGreeksType
-		* Renamed: Okex.Net.RestObjects.Account.OkexConfiguration => Okex.Net.Objects.Account.OkexAccountConfiguration
+		* Added: Public =&gt; GetVIPInterestRates GetVIPInterestRatesAsync methods
+		* Added: Public =&gt; GetInsuranceFund GetInsuranceFundAsync methods
+		* Added: Public =&gt; UnitConvert UnitConvertAsync methods
+		* Added: Market =&gt; GetTradesHistory GetTradesHistoryAsync methods
+		* Added: Market =&gt; GetBlockTickers GetBlockTickersAsync methods
+		* Added: Market =&gt; GetBlockTicker GetBlockTickerAsync methods
+		* Added: Market =&gt; GetBlockTrades GetBlockTradesAsync methods
+		* Added: SubAccount =&gt; ResetSubAccountApiKey ResetSubAccountApiKeyAsync methods
+		* Added: SubAccount =&gt; GetSubAccountTradingBalances GetSubAccountTradingBalancesAsync methods
+		* Added: SubAccount =&gt; GetSubAccountFundingBalances GetSubAccountFundingBalancesAsync methods
+		* Added: Funding =&gt; GetSavingBalances GetSavingBalancesAsync methods
+		* Removed: SubAccount =&gt; CreateSubAccountApiKey CreateSubAccountApiKey_Async methods
+		* Removed: SubAccount =&gt; GetSubAccountApiKey GetSubAccountApiKey_Async methods
+		* Removed: SubAccount =&gt; ModifySubAccountApiKey ModifySubAccountApiKey_Async methods
+		* Removed: SubAccount =&gt; DeleteSubAccountApiKey DeleteSubAccountApiKey_Async methods
+		* Removed: SubAccount =&gt; GetSubAccountBalance GetSubAccountBalance_Async methods
+		* Removed: Funding =&gt; PiggyBankAction PiggyBankAction_Async methods
+		* Removed: Funding =&gt; PiggyBankBalance PiggyBankBalance_Async methods
+		* Renamed: Okex.Net.RestObjects.Account.OkexPositionMode =&gt; Okex.Net.Objects.Account.OkexAccountPositionMode
+		* Renamed: Okex.Net.RestObjects.Account.OkexGreeksType =&gt; Okex.Net.Objects.Account.OkexAccountGreeksType
+		* Renamed: Okex.Net.RestObjects.Account.OkexConfiguration =&gt; Okex.Net.Objects.Account.OkexAccountConfiguration
 		* Added/Changed/Fixed many models (added some extra models for new methods, added missing fields, removed some fields, fixed minor bugs for existing models)
 		* Notes: CryptoExchange.Net v5 library is very different from version 4. I tried to keep main structure in OKEx.Net, but I had to make some changes. I know CryptoExchange.Net v5 is has different usage algorithm, but there are many developers using OKEx.Net. So I decided not to change main structure considering those developers. I can build a different wrapper for CryptoExchange.Net v5 later. I'm not sure...
 	</PackageReleaseNotes>
@@ -69,6 +77,6 @@
 	  <None Include="Icon\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="5.2.4" />
+    <PackageReference Include="CryptoExchange.Net" Version="5.3.1" />
   </ItemGroup>
 </Project>

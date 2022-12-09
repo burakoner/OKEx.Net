@@ -1,35 +1,28 @@
-﻿using Newtonsoft.Json;
-using Okex.Net.Converters;
-using Okex.Net.Enums;
-using System;
-using System.Collections.Generic;
+﻿namespace Okex.Net.Objects.Public;
 
-namespace Okex.Net.Objects.Public
+public class OkexInsuranceFund
 {
-    public class OkexInsuranceFund
-    {
-        [JsonProperty("total")]
-        public decimal Total { get; set; }
+    [JsonProperty("total")]
+    public decimal Total { get; set; }
 
-        [JsonProperty("details")]
-        public IEnumerable< OkexInsuranceFundDetail> Details { get; set; }
-    }
+    [JsonProperty("details")]
+    public IEnumerable<OkexInsuranceFundDetail> Details { get; set; }
+}
 
-    public class OkexInsuranceFundDetail
-    {
-        [JsonProperty("amt")]
-        public decimal Amount { get; set; }
+public class OkexInsuranceFundDetail
+{
+    [JsonProperty("amt")]
+    public decimal Amount { get; set; }
 
-        [JsonProperty("balance")]
-        public decimal Balance { get; set; }
-        
-        [JsonProperty("ccy")]
-        public string Currency { get; set; }
+    [JsonProperty("balance")]
+    public decimal Balance { get; set; }
 
-        [JsonProperty("type"), JsonConverter(typeof(InsuranceTypeConverter))]
-        public OkexInsuranceType Type { get; set; }
+    [JsonProperty("ccy")]
+    public string Currency { get; set; }
 
-        [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
-        public DateTime Timestamp { get; set; }
-    }
+    [JsonProperty("type"), JsonConverter(typeof(InsuranceTypeConverter))]
+    public OkexInsuranceType Type { get; set; }
+
+    [JsonProperty("ts"), JsonConverter(typeof(OkexTimestampConverter))]
+    public DateTime Timestamp { get; set; }
 }

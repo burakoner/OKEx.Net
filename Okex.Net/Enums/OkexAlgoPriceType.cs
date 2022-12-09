@@ -1,9 +1,8 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexAlgoPriceType
 {
-    public enum OkexAlgoPriceType
-    {
-        Last,
-        Index,
-        Mark,
-    }
+    Last,
+    Index,
+    Mark,
 }

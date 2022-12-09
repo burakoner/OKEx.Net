@@ -1,18 +1,13 @@
-﻿using CryptoExchange.Net.Converters;
-using Okex.Net.Enums;
-using System.Collections.Generic;
+﻿namespace Okex.Net.Converters;
 
-namespace Okex.Net.Converters
+internal class ConvertUnitConverter : BaseConverter<OkexConvertUnit>
 {
-    internal class ConvertUnitConverter : BaseConverter<OkexConvertUnit>
-    {
-        public ConvertUnitConverter() : this(true) { }
-        public ConvertUnitConverter(bool quotes) : base(quotes) { }
+    public ConvertUnitConverter() : this(true) { }
+    public ConvertUnitConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<OkexConvertUnit, string>> Mapping => new List<KeyValuePair<OkexConvertUnit, string>>
-        {
-            new KeyValuePair<OkexConvertUnit, string>(OkexConvertUnit.Coin, "coin"),
-            new KeyValuePair<OkexConvertUnit, string>(OkexConvertUnit.Usdt, "usdt"),
-        };
-    }
+    protected override List<KeyValuePair<OkexConvertUnit, string>> Mapping => new List<KeyValuePair<OkexConvertUnit, string>>
+    {
+        new KeyValuePair<OkexConvertUnit, string>(OkexConvertUnit.Coin, "coin"),
+        new KeyValuePair<OkexConvertUnit, string>(OkexConvertUnit.Usdt, "usdt"),
+    };
 }

@@ -13,7 +13,7 @@ namespace Okex.Net.Examples
         {
             #region Rest Api Client
             // OKEx Rest Api Client
-            OkexClient api = new OkexClient(new OkexClientOptions { LogLevel = LogLevel.Debug, OutputOriginalData=true });
+            OkexClient api = new OkexClient(new OkexClientOptions { LogLevel = LogLevel.Debug });
             api.SetApiCredentials("XXXXXXXX-API-KEY-XXXXXXXX", "XXXXXXXX-API-SECRET-XXXXXXXX", "XXXXXXXX-API-PASSPHRASE-XXXXXXXX");
             var market_05 = api.GetCandlesticks("BTC-USDT", OkexPeriod.OneHour);
             var a = 0;

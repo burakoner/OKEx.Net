@@ -1,10 +1,9 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexInsuranceType
 {
-    public enum OkexInsuranceType
-    {
-        All,
-        LiquidationBalanceDeposit,
-        BankruptcyLoss,
-        PlatformRevenue,
-    }
+    All,
+    LiquidationBalanceDeposit,
+    BankruptcyLoss,
+    PlatformRevenue,
 }

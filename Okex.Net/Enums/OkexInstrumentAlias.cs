@@ -1,10 +1,9 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexInstrumentAlias
 {
-    public enum OkexInstrumentAlias
-    {
-        ThisWeek,
-        NextWeek,
-        Quarter,
-        NextQuarter,
-    }
+    ThisWeek,
+    NextWeek,
+    Quarter,
+    NextQuarter,
 }

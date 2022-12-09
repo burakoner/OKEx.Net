@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.Account;
 
-namespace Okex.Net.Objects.Account
+public class OkexWithdrawalAmount
 {
-    public class OkexWithdrawalAmount
-    {
-        [JsonProperty("ccy")]
-        public string Currency { get; set; }
+    [JsonProperty("ccy")]
+    public string Currency { get; set; }
 
-        [JsonProperty("maxWd")]
-        public decimal? MaximumWithdrawal { get; set; }
-    }
+    [JsonProperty("maxWd")]
+    public decimal? MaximumWithdrawal { get; set; }
 }

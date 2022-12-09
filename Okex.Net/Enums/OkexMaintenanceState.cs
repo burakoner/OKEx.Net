@@ -1,10 +1,9 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexMaintenanceState
 {
-    public enum OkexMaintenanceState
-    {
-        Scheduled,
-        Ongoing,
-        Completed,
-        Canceled,
-    }
+    Scheduled,
+    Ongoing,
+    Completed,
+    Canceled,
 }

@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexTradeHistoryPaginationType
 {
-    public enum OkexTradeHistoryPaginationType
-    {
-        TradeId,
-        Timestamp,
-    }
+    TradeId,
+    Timestamp,
 }

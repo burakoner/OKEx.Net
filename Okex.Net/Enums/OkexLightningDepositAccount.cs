@@ -1,9 +1,7 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexLightningDepositAccount
-    {
-        Spot,
-        Funding,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexLightningDepositAccount
+{
+    Spot,
+    Funding,
 }

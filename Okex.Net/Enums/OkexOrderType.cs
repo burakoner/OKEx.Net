@@ -1,12 +1,11 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexOrderType
 {
-    public enum OkexOrderType
-    {
-        MarketOrder,
-        LimitOrder,
-        PostOnly,
-        FillOrKill,
-        ImmediateOrCancel,
-        OptimalLimitOrder,
-    }
+    MarketOrder,
+    LimitOrder,
+    PostOnly,
+    FillOrKill,
+    ImmediateOrCancel,
+    OptimalLimitOrder,
 }

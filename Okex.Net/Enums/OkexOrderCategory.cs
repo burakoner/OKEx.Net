@@ -1,12 +1,10 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexOrderCategory
-    {
-        TWAP,
-        ADL,
-        FullLiquidation,
-        PartialLiquidation,
-        Delivery,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexOrderCategory
+{
+    TWAP,
+    ADL,
+    FullLiquidation,
+    PartialLiquidation,
+    Delivery,
 }

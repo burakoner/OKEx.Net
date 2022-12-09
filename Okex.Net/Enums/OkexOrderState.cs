@@ -1,11 +1,9 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexOrderState
-    {
-        Live,
-        Canceled,
-        PartiallyFilled,
-        Filled,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexOrderState
+{
+    Live,
+    Canceled,
+    PartiallyFilled,
+    Filled,
 }

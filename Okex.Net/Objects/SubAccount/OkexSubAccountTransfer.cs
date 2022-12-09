@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.SubAccount;
 
-namespace Okex.Net.Objects.SubAccount
+public class OkexSubAccountTransfer
 {
-    public class OkexSubAccountTransfer
-    {
-        [JsonProperty("transId")]
-        public long? TransferId { get; set; }
-    }
+    [JsonProperty("transId")]
+    public long? TransferId { get; set; }
 }

@@ -1,4 +1,12 @@
 ﻿## Release Notes
+* Version 5.3.0 - 09 Dec 2022
+    * Synced with CryptoExchange.Net v5.3.1
+    * Merged pull request on Github (https://github.com/burakoner/OKEx.Net/pull/77)
+    * Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/83)
+    * Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/82)
+    * Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/75)
+    * Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/68)
+
 * Version 5.2.6 - 13 Oct 2022
 	* Fixed some issues on Github
 	* Fixed minor bugs

@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexMarginAddReduce
 {
-    public enum OkexMarginAddReduce
-    {
-        Add,
-        Reduce,
-    }
+    Add,
+    Reduce,
 }

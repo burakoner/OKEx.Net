@@ -1,13 +1,12 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexInstrumentType
 {
-    public enum OkexInstrumentType
-    {
-        Any,
-        Spot,
-        Margin,
-        Swap,
-        Futures,
-        Option,
-        Contracts,
-    }
+    Any,
+    Spot,
+    Margin,
+    Swap,
+    Futures,
+    Option,
+    Contracts,
 }

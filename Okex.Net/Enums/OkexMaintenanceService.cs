@@ -1,12 +1,11 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexMaintenanceService
 {
-    public enum OkexMaintenanceService
-    {
-        WebSocket,
-        SpotMargin,
-        Futures,
-        Perpetual,
-        Options,
-        Trading,
-    }
+    WebSocket,
+    SpotMargin,
+    Futures,
+    Perpetual,
+    Options,
+    Trading,
 }

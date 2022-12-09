@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexTradeSide
 {
-    public enum OkexTradeSide
-    {
-        Buy,
-        Sell,
-    }
+    Buy,
+    Sell,
 }

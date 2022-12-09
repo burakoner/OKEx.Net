@@ -1,18 +1,13 @@
-﻿using CryptoExchange.Net.Converters;
-using Okex.Net.Enums;
-using System.Collections.Generic;
+﻿namespace Okex.Net.Converters;
 
-namespace Okex.Net.Converters
+internal class GreeksTypeConverter : BaseConverter<OkexGreeksType>
 {
-    internal class GreeksTypeConverter : BaseConverter<OkexGreeksType>
-    {
-        public GreeksTypeConverter() : this(true) { }
-        public GreeksTypeConverter(bool quotes) : base(quotes) { }
+    public GreeksTypeConverter() : this(true) { }
+    public GreeksTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<OkexGreeksType, string>> Mapping => new List<KeyValuePair<OkexGreeksType, string>>
-        {
-            new KeyValuePair<OkexGreeksType, string>(OkexGreeksType.GreeksInCoins, "PA"),
-            new KeyValuePair<OkexGreeksType, string>(OkexGreeksType.BlackScholesGreeksInDollars, "BS"),
-        };
-    }
+    protected override List<KeyValuePair<OkexGreeksType, string>> Mapping => new List<KeyValuePair<OkexGreeksType, string>>
+    {
+        new KeyValuePair<OkexGreeksType, string>(OkexGreeksType.GreeksInCoins, "PA"),
+        new KeyValuePair<OkexGreeksType, string>(OkexGreeksType.BlackScholesGreeksInDollars, "BS"),
+    };
 }

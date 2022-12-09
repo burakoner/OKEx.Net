@@ -1,12 +1,11 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexAlgoOrderType
 {
-    public enum OkexAlgoOrderType
-    {
-        Conditional,
-        OCO,
-        Trigger,
-        TrailingOrder,
-        Iceberg,
-        TWAP,
-    }
+    Conditional,
+    OCO,
+    Trigger,
+    TrailingOrder,
+    Iceberg,
+    TWAP,
 }

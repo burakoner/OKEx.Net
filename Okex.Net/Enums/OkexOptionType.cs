@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexOptionType
 {
-    public enum OkexOptionType
-    {
-        Call,
-        Put,
-    }
+    Call,
+    Put,
 }

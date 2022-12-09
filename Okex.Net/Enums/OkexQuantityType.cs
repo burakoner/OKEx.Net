@@ -1,9 +1,7 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexQuantityType
-    {
-        BaseCurrency,
-        QuoteCurrency,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexQuantityType
+{
+    BaseCurrency,
+    QuoteCurrency,
 }

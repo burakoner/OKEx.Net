@@ -1,17 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
-using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.Trade;
 
-namespace Okex.Net.Objects.Trade
+public class OkexOrderCancelRequest
 {
-    public class OkexOrderCancelRequest
-    {
-        [JsonProperty("instId")]
-        public string InstrumentId { get; set; }
+    [JsonProperty("instId")]
+    public string InstrumentId { get; set; }
 
-        [JsonProperty("ordId", NullValueHandling = NullValueHandling.Ignore)]
-        public long? OrderId { get; set; }
+    [JsonProperty("ordId", NullValueHandling = NullValueHandling.Ignore)]
+    public long? OrderId { get; set; }
 
-        [JsonProperty("clOrdId", NullValueHandling = NullValueHandling.Ignore)]
-        public string ClientOrderId { get; set; }
-    }
+    [JsonProperty("clOrdId", NullValueHandling = NullValueHandling.Ignore)]
+    public string ClientOrderId { get; set; }
 }

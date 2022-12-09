@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexConvertType
 {
-    public enum OkexConvertType
-    {
-        CurrencyToContract,
-        ContractToCurrency,
-    }
+    CurrencyToContract,
+    ContractToCurrency,
 }

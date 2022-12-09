@@ -1,9 +1,8 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexPositionSide
 {
-    public enum OkexPositionSide
-    {
-        Long,
-        Short,
-        Net,
-    }
+    Long,
+    Short,
+    Net,
 }

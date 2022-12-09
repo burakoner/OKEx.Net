@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexApiPermission
 {
-    public enum OkexApiPermission
-    {
-        ReadOnly,
-        Trade,
-    }
+    ReadOnly,
+    Trade,
 }

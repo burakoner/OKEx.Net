@@ -1,10 +1,9 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexFeeRateCategory
 {
-    public enum OkexFeeRateCategory
-    {
-        ClassA,
-        ClassB,
-        ClassC,
-        ClassD,
-    }
+    ClassA,
+    ClassB,
+    ClassC,
+    ClassD,
 }

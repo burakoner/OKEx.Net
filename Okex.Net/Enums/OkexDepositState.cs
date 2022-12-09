@@ -1,10 +1,9 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexDepositState
 {
-    public enum OkexDepositState
-    {
-        WaitingForConfirmation,
-        Credited,
-        Successful,
-        Pending,
-    }
+    WaitingForConfirmation,
+    Credited,
+    Successful,
+    Pending,
 }

@@ -1,9 +1,8 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexTradeMode
 {
-    public enum OkexTradeMode
-    {
-        Cash,
-        Cross,
-        Isolated,
-    }
+    Cash,
+    Cross,
+    Isolated,
 }

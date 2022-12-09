@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.SubAccount;
 
-namespace Okex.Net.Objects.SubAccount
+public class OkexSubAccountName
 {
-    public class OkexSubAccountName
-    {
-        [JsonProperty("subAcct")]
-        public string SubAccountName { get; set; }
-    }
+    [JsonProperty("subAcct")]
+    public string SubAccountName { get; set; }
 }

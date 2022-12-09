@@ -1,12 +1,11 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexAlgoOrderState
 {
-    public enum OkexAlgoOrderState
-    {
-        Live,
-        Pause,
-        Effective,
-        PartiallyEffective,
-        Canceled,
-        Failed,
-    }
+    Live,
+    Pause,
+    Effective,
+    PartiallyEffective,
+    Canceled,
+    Failed,
 }

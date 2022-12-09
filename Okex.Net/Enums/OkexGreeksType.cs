@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexGreeksType
 {
-    public enum OkexGreeksType
-    {
-        GreeksInCoins,
-        BlackScholesGreeksInDollars,
-    }
+    GreeksInCoins,
+    BlackScholesGreeksInDollars,
 }

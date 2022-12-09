@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexLiquidationState
 {
-    public enum OkexLiquidationState
-    {
-        Unfilled,
-        Filled,
-    }
+    Unfilled,
+    Filled,
 }

@@ -1,18 +1,17 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexAccountBillType
 {
-    public enum OkexAccountBillType
-    {
-        Transfer,
-        Trade,
-        Delivery,
-        AutoTokenConversion,
-        Liquidation,
-        MarginTransfer,
-        InterestDeduction,
-        FundingFee,
-        ADL,
-        Clawback,
-        SystemTokenConversion,
-        StrategyTransfer,
-    }
+    Transfer,
+    Trade,
+    Delivery,
+    AutoTokenConversion,
+    Liquidation,
+    MarginTransfer,
+    InterestDeduction,
+    FundingFee,
+    ADL,
+    Clawback,
+    SystemTokenConversion,
+    StrategyTransfer,
 }

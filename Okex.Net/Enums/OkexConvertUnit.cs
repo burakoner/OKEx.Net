@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexConvertUnit
 {
-    public enum OkexConvertUnit
-    {
-        Coin,
-        Usdt,
-    }
+    Coin,
+    Usdt,
 }

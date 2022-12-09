@@ -1,9 +1,7 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexSubAccountType
-    {
-        Standard,
-        Custody,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexSubAccountType
+{
+    Standard,
+    Custody,
 }

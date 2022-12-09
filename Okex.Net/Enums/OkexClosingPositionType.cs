@@ -1,11 +1,10 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexClosingPositionType
 {
-    public enum OkexClosingPositionType
-    {
-        ClosePartially,
-        CloseAll,
-        Liquidation,
-        PartialLiquidation,
-        ADL
-    }
+    ClosePartially,
+    CloseAll,
+    Liquidation,
+    PartialLiquidation,
+    ADL
 }

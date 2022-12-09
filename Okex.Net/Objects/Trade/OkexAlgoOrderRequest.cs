@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.Trade;
 
-namespace Okex.Net.Objects.Trade
+public class OkexAlgoOrderRequest
 {
-    public class OkexAlgoOrderRequest
-    {
-        [JsonProperty("algoId")]
-        public long AlgoOrderId { get; set; }
+    [JsonProperty("algoId")]
+    public long AlgoOrderId { get; set; }
 
-        [JsonProperty("instId")]
-        public string Instrument { get; set; }
-    }
+    [JsonProperty("instId")]
+    public string Instrument { get; set; }
 }

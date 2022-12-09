@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexMarginTransferMode
 {
-    public enum OkexMarginTransferMode
-    {
-        AutoTransfer,
-        ManualTransfer,
-    }
+    AutoTransfer,
+    ManualTransfer,
 }

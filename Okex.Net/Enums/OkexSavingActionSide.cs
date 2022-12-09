@@ -1,9 +1,7 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexSavingActionSide
-    {
-        Purchase,
-        Redempt,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexSavingActionSide
+{
+    Purchase,
+    Redempt,
 }

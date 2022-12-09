@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexContractType
 {
-    public enum OkexContractType
-    {
-        Linear,
-        Inverse,
-    }
+    Linear,
+    Inverse,
 }

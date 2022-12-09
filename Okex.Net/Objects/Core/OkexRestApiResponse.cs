@@ -1,17 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
-using Newtonsoft.Json;
+﻿namespace Okex.Net.Objects.Core;
 
-namespace Okex.Net.Objects.Core
+public class OkexRestApiResponse<T>
 {
-    public class OkexRestApiResponse<T>
-    {
-        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
-        public int ErrorCode { get; set; }
+    [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
+    public int ErrorCode { get; set; }
 
-        [JsonProperty("msg", NullValueHandling = NullValueHandling.Ignore)]
-        public string ErrorMessage { get; set; }
+    [JsonProperty("msg", NullValueHandling = NullValueHandling.Ignore)]
+    public string ErrorMessage { get; set; }
 
-        [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-        public T Data { get; set; }
-    }
+    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
+    public T Data { get; set; }
 }

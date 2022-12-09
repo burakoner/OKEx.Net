@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexMarginMode
 {
-    public enum OkexMarginMode
-    {
-        Isolated,
-        Cross,
-    }
+    Isolated,
+    Cross,
 }

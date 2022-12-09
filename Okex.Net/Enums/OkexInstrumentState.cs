@@ -1,9 +1,8 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexInstrumentState
 {
-    public enum OkexInstrumentState
-    {
-        Live,
-        Suspend,
-        PreOpen,
-    }
+    Live,
+    Suspend,
+    PreOpen,
 }

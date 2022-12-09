@@ -1,10 +1,8 @@
-﻿namespace Okex.Net.Enums
-{
-    public enum OkexDeliveryExerciseHistoryType
-    {
-        Delivery,
-        Exercised,
-        ExpiredOtm,
-    }
+﻿namespace Okex.Net.Enums;
 
+public enum OkexDeliveryExerciseHistoryType
+{
+    Delivery,
+    Exercised,
+    ExpiredOtm,
 }

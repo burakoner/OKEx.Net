@@ -1,8 +1,7 @@
-﻿namespace Okex.Net.Enums
+﻿namespace Okex.Net.Enums;
+
+public enum OkexAlgoActualSide
 {
-    public enum OkexAlgoActualSide
-    {
-        StopLoss,
-        TakeProfit,
-    }
+    StopLoss,
+    TakeProfit,
 }
