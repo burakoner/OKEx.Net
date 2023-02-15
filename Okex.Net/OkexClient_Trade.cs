@@ -635,8 +635,10 @@ public partial class OkexClient
     /// <param name="instrumentId">Instrument ID</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
-    /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-    /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="begin">Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="end">Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="after">Pagination of data to return records earlier than the requested billId</param>
+    /// <param name="before">Pagination of data to return records newer than the requested billId</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -645,6 +647,8 @@ public partial class OkexClient
         string instrumentId = null,
         string underlying = null,
         long? orderId = null,
+        DateTime? begin = null,
+        DateTime? end = null,
         long? after = null,
         long? before = null,
         int limit = 100,
@@ -654,6 +658,8 @@ public partial class OkexClient
         instrumentId,
         underlying,
         orderId,
+        begin,
+        end,
         after,
         before,
         limit,
@@ -665,8 +671,10 @@ public partial class OkexClient
     /// <param name="instrumentId">Instrument ID</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
-    /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-    /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="begin">Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="end">Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="after">Pagination of data to return records earlier than the requested billId</param>
+    /// <param name="before">Pagination of data to return records newer than the requested billId</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -675,6 +683,8 @@ public partial class OkexClient
         string instrumentId = null,
         string underlying = null,
         long? orderId = null,
+        DateTime? begin = null,
+        DateTime? end = null,
         long? after = null,
         long? before = null,
         int limit = 100,
@@ -689,6 +699,8 @@ public partial class OkexClient
         parameters.AddOptionalParameter("instId", instrumentId);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
+        parameters.AddOptionalParameter("begin", begin?.ToUnixTimeMilliSeconds().ToString());
+        parameters.AddOptionalParameter("end", end?.ToUnixTimeMilliSeconds().ToString());
         parameters.AddOptionalParameter("after", after?.ToString());
         parameters.AddOptionalParameter("before", before?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
@@ -707,8 +719,10 @@ public partial class OkexClient
     /// <param name="instrumentId">Instrument ID</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
-    /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-    /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="begin">Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="end">Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="after">Pagination of data to return records earlier than the requested billId</param>
+    /// <param name="before">Pagination of data to return records newer than the requested billId</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -717,6 +731,8 @@ public partial class OkexClient
         string instrumentId = null,
         string underlying = null,
         long? orderId = null,
+        DateTime? begin = null,
+        DateTime? end = null,
         long? after = null,
         long? before = null,
         int limit = 100,
@@ -726,6 +742,8 @@ public partial class OkexClient
         instrumentId,
         underlying,
         orderId,
+        begin,
+        end,
         after,
         before,
         limit,
@@ -737,8 +755,10 @@ public partial class OkexClient
     /// <param name="instrumentId">Instrument ID</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
-    /// <param name="after">Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
-    /// <param name="before">Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="begin">Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="end">Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. 1597026383085</param>
+    /// <param name="after">Pagination of data to return records earlier than the requested billId</param>
+    /// <param name="before">Pagination of data to return records newer than the requested billId</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -747,6 +767,8 @@ public partial class OkexClient
         string instrumentId = null,
         string underlying = null,
         long? orderId = null,
+        DateTime? begin = null,
+        DateTime? end = null,
         long? after = null,
         long? before = null,
         int limit = 100,
@@ -760,6 +782,8 @@ public partial class OkexClient
         parameters.AddOptionalParameter("instId", instrumentId);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
+        parameters.AddOptionalParameter("begin", begin?.ToUnixTimeMilliSeconds().ToString());
+        parameters.AddOptionalParameter("end", end?.ToUnixTimeMilliSeconds().ToString());
         parameters.AddOptionalParameter("after", after?.ToString());
         parameters.AddOptionalParameter("before", before?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
