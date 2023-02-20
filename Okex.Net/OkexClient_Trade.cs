@@ -2,6 +2,8 @@
 
 public partial class OkexClient
 {
+    private const string BROKER_ID = "538a3965e538BCDE";
+
     #region Trade API Endpoints
     /// <summary>
     /// You can place an order only if you have sufficient funds.
@@ -76,13 +78,13 @@ public partial class OkexClient
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
+            {"tag", BROKER_ID },
             {"instId", instrumentId },
             {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
             {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },
             {"posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)) },
             {"ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)) },
             {"sz", size.ToString(OkexGlobals.OkexCultureInfo) },
-            {"tag", "538a3965e538BCDE" },
         };
         parameters.AddOptionalParameter("px", price?.ToString(OkexGlobals.OkexCultureInfo));
         parameters.AddOptionalParameter("ccy", currency);
@@ -114,6 +116,7 @@ public partial class OkexClient
     /// <returns></returns>
     public virtual async Task<WebCallResult<IEnumerable<OkexOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OkexOrderPlaceRequest> orders, CancellationToken ct = default)
     {
+        foreach (var order in orders) order.Tag = BROKER_ID;
         var parameters = new Dictionary<string, object>
         {
             { BodyParameterKey, orders },
@@ -232,6 +235,7 @@ public partial class OkexClient
     {
         var parameters = new Dictionary<string, object>
         {
+            //{ "tag", BROKER_ID },
             { "instId", instrumentId },
         };
         parameters.AddOptionalParameter("ordId", orderId?.ToString(OkexGlobals.OkexCultureInfo));
@@ -264,6 +268,7 @@ public partial class OkexClient
     /// <returns></returns>
     public virtual async Task<WebCallResult<IEnumerable<OkexOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OkexOrderAmendRequest> orders, CancellationToken ct = default)
     {
+        // foreach (var order in orders) order.Tag = BROKER_ID;
         var parameters = new Dictionary<string, object> {
             { BodyParameterKey, orders },
         };
@@ -936,6 +941,7 @@ public partial class OkexClient
     {
         /* Common */
         var parameters = new Dictionary<string, object> {
+            {"tag", BROKER_ID },
             {"instId", instrumentId },
             {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
             {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },

@@ -90,6 +90,7 @@ public partial class OkexClient : BaseRestClient
     protected const string Endpoints_V5_Market_TradesHistory = "api/v5/market/history-trades";
     protected const string Endpoints_V5_Market_Platform24Volume = "api/v5/market/platform-24-volume";
     protected const string Endpoints_V5_Market_OpenOracle = "api/v5/market/open-oracle";
+    protected const string Endpoints_V5_Market_ExchangeRate = "api/v5/market/exchange-rate";
     protected const string Endpoints_V5_Market_IndexComponents = "api/v5/market/index-components";
     protected const string Endpoints_V5_Market_BlockTickers = "api/v5/market/block-tickers";
     protected const string Endpoints_V5_Market_BlockTicker = "api/v5/market/block-ticker";
@@ -229,7 +230,7 @@ public class OkexClientUnifiedApi : RestApiClient
     public override TimeSyncInfo GetTimeSyncInfo()
         => new TimeSyncInfo(_log, _options.UnifiedApiOptions.AutoTimestamp, _options.UnifiedApiOptions.TimestampRecalculationInterval, TimeSyncState);
 
-    public override TimeSpan GetTimeOffset()
+    public override TimeSpan? GetTimeOffset()
         => TimeSyncState.TimeOffset;
 
     protected override void WriteParamBody(IRequest request, SortedDictionary<string, object> parameters, string contentType)

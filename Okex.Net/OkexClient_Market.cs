@@ -428,6 +428,27 @@ public partial class OkexClient
     }
 
     /// <summary>
+    /// This interface provides the average exchange rate data for 2 weeks
+    /// </summary>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    public virtual WebCallResult<IEnumerable<OkexExchangeRate>> GetExchangeRates(CancellationToken ct = default)
+        => GetExchangeRatesAsync(ct).Result;
+    /// <summary>
+    /// This interface provides the average exchange rate data for 2 weeks
+    /// </summary>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    public virtual async Task<WebCallResult<IEnumerable<OkexExchangeRate>>> GetExchangeRatesAsync(CancellationToken ct = default)
+    {
+        var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexExchangeRate>>>(UnifiedApi.GetUri(Endpoints_V5_Market_ExchangeRate), HttpMethod.Get, ct).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<IEnumerable<OkexExchangeRate>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
+        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OkexExchangeRate>>(new OkexRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage, null));
+
+        return  result.As(result.Data.Data);
+    }
+
+    /// <summary>
     /// Get the index component information data on the market
     /// </summary>
     /// <param name="index"></param>
