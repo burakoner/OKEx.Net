@@ -119,8 +119,6 @@ public class OkexSocketClientUnifiedSocket : SocketApiClient
         return response.Error != null ? new CallResult<OkexSocketPingPong>(response.Error) : new CallResult<OkexSocketPingPong>(result);
     }
 
-
-
     protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
     {
         // Check Point

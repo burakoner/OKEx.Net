@@ -1,4 +1,12 @@
-﻿# ![Icon!](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true "OKEx.Net") OKEx.Net
+﻿# Critical Announcement
+It's highly recommended to migrate to OKX.Api in order to get next updates and avoid from CryptoExchange.Net based errors. It's available on both Github and Nuget
+
+Github Repository: https://github.com/burakoner/OKX.Api
+
+Nuget Package: https://www.nuget.org/packages/OKX.Api
+ 
+ 
+ # ![Icon!](https://github.com/burakoner/OKEx.Net/blob/master/Okex.Net/Icon/icon.png?raw=true "OKEx.Net") OKEx.Net
 
 A .Net wrapper for the OKEx API as described on [OKEx](https://www.okx.com/docs-v5/en/), including all features the API provides using clear and readable objects.
 

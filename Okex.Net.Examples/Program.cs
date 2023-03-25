@@ -454,7 +454,6 @@ namespace Okex.Net.Examples
 
             // Stop Here
             Console.ReadLine();
-            return;
         }
     }
 }
