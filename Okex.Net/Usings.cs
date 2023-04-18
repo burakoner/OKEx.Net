@@ -9,7 +9,6 @@ global using Microsoft.Extensions.Logging;
 global using Newtonsoft.Json;
 global using Newtonsoft.Json.Linq;
 global using Newtonsoft.Json.Serialization;
-global using Okex.Net.Attributes;
 global using Okex.Net.Converters;
 global using Okex.Net.Enums;
 global using Okex.Net.Helpers;

@@ -1,5 +1,5 @@
 ﻿# Critical Announcement
-It's highly recommended to migrate to OKX.Api in order to get next updates and avoid from CryptoExchange.Net based errors. It's available on both Github and Nuget
+It's highly recommended to migrate to OKX.Api in order to get next updates and avoid from CryptoExchange.Net derived errors. It's available on both Github and Nuget
 
 Github Repository: https://github.com/burakoner/OKX.Api
 

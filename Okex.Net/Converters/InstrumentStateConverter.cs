@@ -10,5 +10,6 @@ internal class InstrumentStateConverter : BaseConverter<OkexInstrumentState>
         new KeyValuePair<OkexInstrumentState, string>(OkexInstrumentState.Live, "live"),
         new KeyValuePair<OkexInstrumentState, string>(OkexInstrumentState.Suspend, "suspend"),
         new KeyValuePair<OkexInstrumentState, string>(OkexInstrumentState.PreOpen, "preopen"),
+        new KeyValuePair<OkexInstrumentState, string>(OkexInstrumentState.Test, "test"),
     };
 }

@@ -22,7 +22,7 @@ public class OkexAuthenticationProvider : AuthenticationProvider
         var baseClient = ((OkexClientUnifiedApi)apiClient)._baseClient;
 
         // Check Point
-        if (!(auth || baseClient.Options.SignPublicRequests))
+        if (!auth && !baseClient.Options.SignPublicRequests)
             return;
 
         // Check Point

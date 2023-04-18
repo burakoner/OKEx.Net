@@ -6,10 +6,10 @@
   <PropertyGroup>
     <PackageId>OKEx.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>5.3.1</Version>
-    <FileVersion>5.3.1</FileVersion>
-    <PackageVersion>5.3.1</PackageVersion>
-    <AssemblyVersion>5.3.1</AssemblyVersion>
+    <Version>5.3.3</Version>
+    <FileVersion>5.3.3</FileVersion>
+    <PackageVersion>5.3.3</PackageVersion>
+    <AssemblyVersion>5.3.3</AssemblyVersion>
     <Description>OKEx.Net is a .Net wrapper for the OKX API (https://www.okx.com). It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>OKX OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
@@ -18,9 +18,15 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
+		Version 5.3.2 - 17 Apr 2023
+		* Synced with CryptoExchange.Net v5.4.3
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/92)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/94)
+		* Fixed issue on Github (https://github.com/burakoner/OKEx.Net/issues/95)
+
 		Version 5.3.1 - 20 Feb 2023
 		* Synced with CryptoExchange.Net v5.4.0
-		
+
 		Version 5.3.0 - 09 Dec 2022
 		* Synced with CryptoExchange.Net v5.3.1
 		* Merged pull request on Github (https://github.com/burakoner/OKEx.Net/pull/77)
@@ -80,6 +86,6 @@
 	  <None Include="Icon\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="5.4.0" />
+    <PackageReference Include="CryptoExchange.Net" Version="5.4.3" />
   </ItemGroup>
 </Project>

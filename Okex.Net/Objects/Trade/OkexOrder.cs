@@ -59,8 +59,8 @@ public class OkexOrder
     [JsonProperty("pnl")]
     public decimal? ProfitAndLoss { get; set; }
 
-    [JsonProperty("tag")]
-    public string Tag { get; set; }
+    //[JsonProperty("tag")]
+    //public string Tag { get; set; }
 
     [JsonProperty("category")]
     public string Category { get; set; }
@@ -97,4 +97,32 @@ public class OkexOrder
 
     [JsonProperty("rebate")]
     public decimal? Rebate { get; set; }
+
+    [JsonProperty("algoId")]
+    public long? AlgoOrderId { get; set; }
+
+    [JsonProperty("algoClOrdId")]
+    public string AlgoClientOrderId { get; set; }
+
+    [JsonProperty("lever")]
+    public int? Leverage { get; set; }
+
+    [JsonProperty("cancelSource")]
+    public string CancelSource { get; set; }
+
+    [JsonProperty("cancelSourceReason")]
+    public string CancelSourceReason { get; set; }
+
+    [JsonProperty("reduceOnly")]
+    public bool? ReduceOnly { get; set; }
+
+    [JsonProperty("tpTriggerPxType"), JsonConverter(typeof(AlgoPriceTypeConverter))]
+    public OkexAlgoPriceType? TakeProfitTriggerPriceType { get; set; }
+
+    [JsonProperty("slTriggerPxType"), JsonConverter(typeof(AlgoPriceTypeConverter))]
+    public OkexAlgoPriceType? StopLossTriggerPriceType { get; set; }
+
+    [JsonProperty("quickMgnType"), JsonConverter(typeof(QuickMarginTypeConverter))]
+    public OkexQuickMarginType? QuickMarginType { get; set; }
+
 }

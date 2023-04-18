@@ -33,6 +33,16 @@ public partial class OkexClient
         string clientOrderId = null,
         bool? reduceOnly = null,
         OkexQuantityType? quantityType = null,
+        OkexQuickMarginType? quickMgnType = null,
+        bool? banAmend = null,
+
+        OkexAlgoPriceType? tpTriggerPxType = null,
+        decimal? tpTriggerPx = null,
+        decimal? tpOrdPx = null,
+
+        OkexAlgoPriceType? slTriggerPxType = null,
+        decimal? slTriggerPx = null,
+        decimal? slOrdPx = null,
         CancellationToken ct = default)
         => PlaceOrderAsync(
         instrumentId,
@@ -46,6 +56,17 @@ public partial class OkexClient
         clientOrderId,
         reduceOnly,
         quantityType,
+        quickMgnType,
+        banAmend,
+
+        tpTriggerPxType,
+        tpTriggerPx,
+        tpOrdPx,
+
+        slTriggerPxType,
+        slTriggerPx,
+        slOrdPx,
+
         ct).Result;
     /// <summary>
     /// You can place an order only if you have sufficient funds.
@@ -75,6 +96,18 @@ public partial class OkexClient
         string clientOrderId = null,
         bool? reduceOnly = null,
         OkexQuantityType? quantityType = null,
+
+        OkexQuickMarginType? quickMgnType = null,
+        bool? banAmend = null,
+
+        OkexAlgoPriceType? tpTriggerPxType = null,
+        decimal? tpTriggerPx = null,
+        decimal? tpOrdPx = null,
+
+        OkexAlgoPriceType? slTriggerPxType = null,
+        decimal? slTriggerPx = null,
+        decimal? slOrdPx = null,
+
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -90,8 +123,17 @@ public partial class OkexClient
         parameters.AddOptionalParameter("ccy", currency);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
-        if (quantityType.HasValue)
-            parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
+        if (quantityType.HasValue) parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
+        if (quickMgnType.HasValue) parameters.AddOptionalParameter("quickMgnType", JsonConvert.SerializeObject(quickMgnType, new QuickMarginTypeConverter(false)));
+        parameters.AddOptionalParameter("banAmend", banAmend);
+
+        if (quickMgnType.HasValue) parameters.AddOptionalParameter("tpTriggerPxType", JsonConvert.SerializeObject(tpTriggerPxType, new AlgoPriceTypeConverter(false)));
+        if (tpTriggerPx.HasValue) parameters.AddOptionalParameter("tpTriggerPx", tpTriggerPx.Value.ToString(OkexGlobals.OkexCultureInfo));
+        if (tpOrdPx.HasValue) parameters.AddOptionalParameter("tpOrdPx", tpOrdPx.Value.ToString(OkexGlobals.OkexCultureInfo));
+
+        if (slTriggerPxType.HasValue) parameters.AddOptionalParameter("slTriggerPxType", JsonConvert.SerializeObject(slTriggerPxType, new AlgoPriceTypeConverter(false)));
+        if (slTriggerPx.HasValue) parameters.AddOptionalParameter("slTriggerPx", slTriggerPx.Value.ToString(OkexGlobals.OkexCultureInfo));
+        if (slOrdPx.HasValue) parameters.AddOptionalParameter("slOrdPx", slOrdPx.Value.ToString(OkexGlobals.OkexCultureInfo));
 
         var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexOrderPlaceResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OkexOrderPlaceResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));
