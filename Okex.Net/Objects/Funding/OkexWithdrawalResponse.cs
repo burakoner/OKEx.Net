@@ -13,4 +13,7 @@ public class OkexWithdrawalResponse
 
     [JsonProperty("wdId")]
     public string WithdrawalId { get; set; }
+
+    [JsonProperty("clientId")]
+    public string ClientOrderId { get; set; }
 }

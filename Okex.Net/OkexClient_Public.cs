@@ -1,4 +1,6 @@
-﻿namespace Okex.Net;
+﻿using System;
+
+namespace Okex.Net;
 
 public partial class OkexClient
 {
@@ -9,19 +11,21 @@ public partial class OkexClient
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="instrumentId">Instrument ID</param>
+    /// <param name="instrumentFamily">Instrument family. Only applicable to FUTURES/SWAP/OPTION.If instType is OPTION, either uly or instFamily is required.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    public virtual WebCallResult<IEnumerable<OkexInstrument>> GetInstruments(OkexInstrumentType instrumentType, string underlying = null, string instrumentId = null, CancellationToken ct = default)
-        => GetInstrumentsAsync(instrumentType, underlying, instrumentId, ct).Result;
+    public virtual WebCallResult<IEnumerable<OkexInstrument>> GetInstruments(OkexInstrumentType instrumentType, string underlying = null, string instrumentId = null, string instrumentFamily = null, CancellationToken ct = default)
+        => GetInstrumentsAsync(instrumentType, underlying, instrumentId, instrumentFamily, ct).Result;
     /// <summary>
     /// Retrieve a list of instruments with open contracts.
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="instrumentId">Instrument ID</param>
+    /// <param name="instrumentFamily">Instrument family. Only applicable to FUTURES/SWAP/OPTION.If instType is OPTION, either uly or instFamily is required.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    public virtual async Task<WebCallResult<IEnumerable<OkexInstrument>>> GetInstrumentsAsync(OkexInstrumentType instrumentType, string underlying = null, string instrumentId = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OkexInstrument>>> GetInstrumentsAsync(OkexInstrumentType instrumentType, string underlying = null, string instrumentId = null, string instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
         {
@@ -29,6 +33,7 @@ public partial class OkexClient
         };
         if (!string.IsNullOrEmpty(underlying)) parameters.AddOptionalParameter("uly", underlying);
         if (!string.IsNullOrEmpty(instrumentId)) parameters.AddOptionalParameter("instId", instrumentId);
+        if (!string.IsNullOrEmpty(instrumentFamily)) parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexInstrument>>>(UnifiedApi.GetUri(Endpoints_V5_Public_Instruments), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OkexInstrument>>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));

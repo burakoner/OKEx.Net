@@ -328,6 +328,8 @@ public partial class OkexClient
     /// <param name="password">Trade password</param>
     /// <param name="fee">Transaction fee</param>
     /// <param name="chain">Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.</param>
+    /// <param name="areaCode">Area code for the phone number. If toAddr is a phone number, this parameter is required.</param>
+    /// <param name="clientOrderId">Client-supplied ID. A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     public virtual WebCallResult<OkexWithdrawalResponse> Withdraw(
@@ -338,15 +340,18 @@ public partial class OkexClient
         string password,
         decimal fee,
         string chain = null,
+        string areaCode = null,
+        string clientOrderId = null,
         CancellationToken ct = default)
         => WithdrawAsync(
         currency,
         amount,
         destination,
         toAddress,
-        password,
         fee,
         chain,
+        areaCode,
+        clientOrderId,
         ct).Result;
     /// <summary>
     /// Withdrawal of tokens.
@@ -355,9 +360,10 @@ public partial class OkexClient
     /// <param name="amount">Amount</param>
     /// <param name="destination">Withdrawal destination address</param>
     /// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F:123456'</param>
-    /// <param name="password">Trade password</param>
     /// <param name="fee">Transaction fee</param>
     /// <param name="chain">Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.</param>
+    /// <param name="areaCode">Area code for the phone number. If toAddr is a phone number, this parameter is required.</param>
+    /// <param name="clientOrderId">Client-supplied ID. A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     public virtual async Task<WebCallResult<OkexWithdrawalResponse>> WithdrawAsync(
@@ -365,20 +371,22 @@ public partial class OkexClient
         decimal amount,
         OkexWithdrawalDestination destination,
         string toAddress,
-        string password,
         decimal fee,
         string chain = null,
+        string areaCode = null,
+        string clientOrderId = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
             { "ccy",currency},
             { "amt",amount.ToString(OkexGlobals.OkexCultureInfo)},
             { "dest", JsonConvert.SerializeObject(destination, new WithdrawalDestinationConverter(false)) },
-            { "toAddr",toAddress},
-            { "pwd",password},
-            { "fee",fee   .ToString(OkexGlobals.OkexCultureInfo)},
+            { "toAddr", toAddress},
+            { "fee",fee.ToString(OkexGlobals.OkexCultureInfo)},
         };
         parameters.AddOptionalParameter("chain", chain);
+        parameters.AddOptionalParameter("areaCode", areaCode);
+        parameters.AddOptionalParameter("clientId", clientOrderId);
 
         var result = await UnifiedApi.ExecuteAsync<OkexRestApiResponse<IEnumerable<OkexWithdrawalResponse>>>(UnifiedApi.GetUri(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OkexWithdrawalResponse>(new OkexRestApiError(result.Error.Code, result.Error.Message, result.Error.Data));

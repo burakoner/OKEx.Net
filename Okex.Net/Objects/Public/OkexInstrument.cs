@@ -14,6 +14,9 @@ public class OkexInstrument
     [JsonProperty("instId")]
     public string Instrument { get; set; }
 
+    [JsonProperty("instFamily")]
+    public string InstrumentFamily { get; set; }
+
     /// <summary>
     /// Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
@@ -54,7 +57,7 @@ public class OkexInstrument
     public DateTime? ExpiryTime { get; set; }
 
     [JsonProperty("lever")]
-    public int? MaximumLeverage { get; set; }
+    public decimal? MaximumLeverage { get; set; }
 
     [JsonProperty("tickSz")]
     public decimal TickSize { get; set; }
@@ -73,4 +76,22 @@ public class OkexInstrument
 
     [JsonProperty("state"), JsonConverter(typeof(InstrumentStateConverter))]
     public OkexInstrumentState state { get; set; }
+
+    [JsonProperty("maxLmtSz")]
+    public decimal? MaximumLimitOrderSize { get; set; }
+    
+    [JsonProperty("maxMktSz")]
+    public decimal? MaximumMarketOrderSize { get; set; }
+    
+    [JsonProperty("maxTwapSz")]
+    public decimal? MaximumTwapOrderSize { get; set; }
+    
+    [JsonProperty("maxIcebergSz")]
+    public decimal? MaximumIcebergOrderSize { get; set; }
+    
+    [JsonProperty("maxTriggerSz")]
+    public decimal? MaximumTriggerOrderSize { get; set; }
+
+    [JsonProperty("maxStopSz")]
+    public decimal? MaximumStopMarketSize { get; set; }
 }
